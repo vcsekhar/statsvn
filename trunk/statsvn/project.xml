@@ -1,0 +1,168 @@
+<?xml version="1.0"?>
+<project>
+  <pomVersion>3</pomVersion>
+  <name>statcvs</name>
+  <id>statcvs</id>
+  <currentVersion>${statcvs.version}</currentVersion>
+
+  <organization>
+    <name>StatCVS Sourceforge Development Group</name>
+    <url>http://statcvs.sourceforge.net/</url>
+    <logo>http://sourceforge.net/sflogo.php?group_id=57558&amp;type=5</logo>
+  </organization>
+
+  <inceptionYear>2003</inceptionYear>
+  <package>net.sf.statcvs</package>
+
+  <logo>/images/statcvs.gif</logo>
+  <shortDescription>StatCVS, stat your repository</shortDescription>
+  <description>
+    StatCVS retrieves information from a CVS repository and generates various 
+    tables and charts describing the project development, e.g. timeline for 
+    the lines of code, contribution of each developer etc. The current version 
+    of StatCVS generates a static suite of HTML documents containing tables 
+    and chart images. StatCVS is opens source software, released under the 
+    terms oft the LGPL.
+
+    StatCVS uses JFreeChart to generate charts.
+  </description>
+
+  <url>http://statcvs.sourceforge.net/</url>
+  <issueTrackingUrl>http://sourceforge.net/tracker/?group_id=57558</issueTrackingUrl>
+  <siteAddress>statcvs.sourceforge.net</siteAddress>
+  <siteDirectory>/home/groups/s/st/statcvs/htdocs/maven</siteDirectory>
+
+  <repository>
+    <connection>scm:cvs:pserver:anonymous@cvs.sourceforge.net:/cvsroot/statcvs:statcvs</connection>
+    <url>http://cvs.sourceforge.net/viewcvs.py/statcvs/statcvs/</url>
+  </repository>
+
+  <mailingLists>
+    <mailingList>
+      <name>statcvs-announce</name>
+      <subscribe>http://lists.sourceforge.net/mailman/listinfo/statcvs-announce</subscribe>
+      <unsubscribe>http://lists.sourceforge.net/mailman/listinfo/statcvs-announce</unsubscribe>
+      <archive>http://sourceforge.net/mailarchive/forum.php?forum_id=11306</archive>
+    </mailingList>
+
+    <mailingList>
+      <name>statcvs-devel</name>
+      <subscribe>http://lists.sourceforge.net/mailman/listinfo/statcvs-devel</subscribe>
+      <unsubscribe>http://lists.sourceforge.net/mailman/listinfo/statcvs-devel</unsubscribe>
+      <archive>http://sourceforge.net/mailarchive/forum.php?forum_id=10390</archive>
+    </mailingList>    
+
+    <mailingList>
+      <name>statcvs-users</name>
+      <subscribe>http://lists.sourceforge.net/mailman/listinfo/statcvs-users</subscribe>
+      <unsubscribe>http://lists.sourceforge.net/mailman/listinfo/statcvs-users</unsubscribe>
+      <archive>http://sourceforge.net/mailarchive/forum.php?forum_id=11441</archive>
+    </mailingList>
+  </mailingLists>
+
+  <developers>
+
+    <developer>
+      <name>Manuel Schulze</name>
+      <id>manschu</id>
+    </developer>
+
+    <developer>
+      <name>Lukasz Pekacki</name>
+      <id>lukasz</id>
+    </developer>
+
+    <developer>
+      <name>Richard Cyganiak</name>
+      <id>cyganiak</id>
+    </developer>
+
+    <developer>
+      <name>Anja Jentzsch</name>
+      <id>jentzsch</id>
+    </developer>
+
+    <developer>
+      <name>Steffen Pingel</name>
+      <id>squig</id>
+    </developer>
+  </developers>
+  
+  <dependencies>
+  
+    <dependency>
+      <id>jfreechart</id>
+      <version>0.9.21</version>    
+    </dependency>
+
+    <dependency>
+      <id>jcommon</id>
+      <version>0.9.6</version>
+    </dependency>
+
+    <dependency>
+      <id>ant</id>
+      <version>1.6</version>     
+    </dependency>
+
+    <dependency>
+      <id>jdom</id>
+      <version>0.7</version>     
+    </dependency>
+
+    <dependency>
+      <id>junit</id>
+      <version>3.8.1</version>
+      <url>http://www.junit.org/</url>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+
+    <sourceDirectory>src</sourceDirectory>
+    <unitTestSourceDirectory>tests-src</unitTestSourceDirectory>
+
+    <!-- Unit test classes -->
+    <unitTest>
+      <includes>
+        <include>**/*Test.java</include>
+      </includes>
+    </unitTest>
+
+  	<resources>
+      <resource>
+        <directory>src</directory>
+      	<targetPath>net/sf/statcvs</targetPath>
+		<includes>
+			<include>*.properties</include>
+            <include>**/web-files/**</include>
+		</includes>
+      </resource>
+      <resource>
+        <directory>${basedir}/tests-src/net/sf/statcvs/input</directory>
+      	<targetPath>net/sf/statcvs/input</targetPath>
+		<includes>
+			<include>*.log</include>
+            <include>*.log2</include>
+		</includes>
+      </resource>
+    </resources>
+
+  </build>
+  
+  <reports>
+    <report>maven-javadoc-plugin</report>
+    <report>maven-jxr-plugin</report>
+    <report>maven-changelog-plugin</report>
+    <report>maven-junit-report-plugin</report>
+    <report>maven-statcvs-plugin</report>
+    <report>maven-pmd-plugin</report>
+    <report>maven-simian-plugin</report>
+    <report>maven-jcoverage-plugin</report>        
+    <report>maven-license-plugin</report>
+    <report>maven-file-activity-plugin</report>
+<!--    <report>maven-checkstyle-plugin</report>  -->
+  </reports>
+
+</project>
