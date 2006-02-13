@@ -3,10 +3,10 @@
 <project name="statcvs" default="all" basedir=".">
 
 	<property file="project.properties"/>
-	<property name="project" value="statcvs"/>
+	<property name="project" value="statsvn"/>
 	<property name="project.path" value="net/sf/statcvs"/>
 	<property name="project.package" value="net.sf.statcvs"/>
-	<property name="project.jar" value="statcvs.jar"/>
+	<property name="project.jar" value="statsvn.jar"/>
 	<property name="src" value="src"/>
 	<property name="src.tests" value="tests-src"/>
 	<property name="src.filtered" value="src-temp"/>
