@@ -170,7 +170,7 @@ public class Main {
 
 		initLogManager(ConfigurationOptions.getLoggingProperties());
 
-		logger.info("Parsing CVS log '"
+		logger.info("Parsing SVN log '"
 				+ ConfigurationOptions.getLogFileName() + "'");
 
 		Reader logReader = new FileReader(ConfigurationOptions.getLogFileName());
