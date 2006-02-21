@@ -26,7 +26,7 @@ package net.sf.statcvs.output;
 import java.io.IOException;
 
 import net.sf.statcvs.Messages;
-import net.sf.statcvs.model.CvsContent;
+import net.sf.statcvs.model.Repository;
 import net.sf.statcvs.renderer.TableRenderer;
 import net.sf.statcvs.reportmodel.Table;
 import net.sf.statcvs.reports.DirectoriesTableReport;
@@ -41,9 +41,9 @@ import net.sf.statcvs.reports.TableReport;
 public class DirectorySizesPage extends HTMLPage {
 
 	/**
-	 * @see net.sf.statcvs.output.HTMLPage#HTMLPage(CvsContent)
+	 * @see net.sf.statcvs.output.HTMLPage#HTMLPage(Repository)
 	 */
-	public DirectorySizesPage(CvsContent content) throws IOException {
+	public DirectorySizesPage(Repository content) throws IOException {
 		super(content);
 		setFileName("dir_sizes.html");
 		setPageName(Messages.getString("DIRECTORY_SIZES_TITLE"));

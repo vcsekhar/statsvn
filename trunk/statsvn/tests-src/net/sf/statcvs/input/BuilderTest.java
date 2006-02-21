@@ -30,9 +30,9 @@ import java.util.Set;
 
 import junit.framework.TestCase;
 import net.sf.statcvs.model.Author;
-import net.sf.statcvs.model.CvsContent;
-import net.sf.statcvs.model.CvsFile;
-import net.sf.statcvs.model.CvsRevision;
+import net.sf.statcvs.model.Repository;
+import net.sf.statcvs.model.VersionedFile;
+import net.sf.statcvs.model.Revision;
 import net.sf.statcvs.model.Directory;
 import net.sf.statcvs.util.FilePatternMatcher;
 
@@ -152,12 +152,12 @@ public class BuilderTest extends TestCase {
 	}
 	
 	/**
-	 * test {@link Builder.addFile(CvsFile)} and {@link Builder.getFiles()}
+	 * test {@link Builder.addFile(VersionedFile)} and {@link Builder.getFiles()}
 	 */
 	public void testFilesEmpty() throws Exception {
 		Builder builder1 = new Builder(null, null, null);
 		try {
-			builder1.createCvsContent();
+			builder1.createRepository();
 			fail("should have thrown EmptyRepositoryException");
 		} catch (EmptyRepositoryException expected) {
 			// is expected
@@ -165,35 +165,35 @@ public class BuilderTest extends TestCase {
 	}
 	
 	/**
-	 * test {@link Builder.addFile(CvsFile)} and {@link Builder.getFiles()}
+	 * test {@link Builder.addFile(VersionedFile)} and {@link Builder.getFiles()}
 	 */
 	public void testFilesOneFile() throws Exception {
 		builder.buildFile("file1", false, false, new HashMap());
 		builder.buildRevision(rev1);
-		CvsContent content = builder.createCvsContent();
+		Repository content = builder.createRepository();
 	
 		assertNotNull(content.getFiles());
 		assertEquals(1, content.getFiles().size());
-		CvsFile file1 = (CvsFile) content.getFiles().first();
+		VersionedFile file1 = (VersionedFile) content.getFiles().first();
 		assertEquals("file1", file1.getFilenameWithPath());
 		assertEquals(builder.getDirectory(""), file1.getDirectory());
 		assertEquals(1, file1.getRevisions().size());
 	}
 	
 	/**
-	 * test {@link Builder.addFile(CvsFile)} and {@link Builder.getFiles()}
+	 * test {@link Builder.addFile(VersionedFile)} and {@link Builder.getFiles()}
 	 */
 	public void testFileTwoFiles() throws Exception {
 		builder.buildFile("file2", false, false, new HashMap());
 		builder.buildRevision(rev1);
 		builder.buildFile("file3", false, false, new HashMap());
 		builder.buildRevision(rev2);
-		CvsContent content = builder.createCvsContent();
+		Repository content = builder.createRepository();
 
 		assertNotNull(content.getFiles());
 		assertEquals(2, content.getFiles().size());
-		CvsFile file2 = (CvsFile) content.getFiles().first();
-		CvsFile file3 = (CvsFile) content.getFiles().last();
+		VersionedFile file2 = (VersionedFile) content.getFiles().first();
+		VersionedFile file3 = (VersionedFile) content.getFiles().last();
 		assertEquals("file2", file2.getFilenameWithPath());
 		assertEquals("file3", file3.getFilenameWithPath());
 	}
@@ -206,16 +206,16 @@ public class BuilderTest extends TestCase {
 		builder.buildRevision(rev3);
 		builder.buildRevision(rev2);
 		builder.buildRevision(rev1);
-		CvsContent content = builder.createCvsContent();
+		Repository content = builder.createRepository();
 		
-		CvsFile file = (CvsFile) content.getFiles().first();
+		VersionedFile file = (VersionedFile) content.getFiles().first();
 		Iterator it = file.getRevisions().iterator();
 		assertTrue(it.hasNext());
-		CvsRevision r1 = (CvsRevision) it.next();
+		Revision r1 = (Revision) it.next();
 		assertTrue(it.hasNext());
-		CvsRevision r2 = (CvsRevision) it.next();
+		Revision r2 = (Revision) it.next();
 		assertTrue(it.hasNext());
-		CvsRevision r3 = (CvsRevision) it.next();
+		Revision r3 = (Revision) it.next();
 		assertTrue(!it.hasNext());
 		
 		assertEquals("1.1", r1.getRevisionNumber());
@@ -249,9 +249,9 @@ public class BuilderTest extends TestCase {
 		builder.buildRevision(rev1);
 		builder.buildFile("partial_logged_file", true, false, new HashMap());
 		builder.buildRevision(rev4);
-		CvsContent content = builder.createCvsContent();
+		Repository content = builder.createRepository();
 		
-		CvsFile file = (CvsFile) content.getRoot().getFiles().iterator().next();
+		VersionedFile file = (VersionedFile) content.getRoot().getFiles().iterator().next();
 		assertTrue(file.getInitialRevision().isBeginOfLog());
 		Date beforeRev1 = new Date(rev1.getDate().getTime() - 60000);
 		assertEquals(beforeRev1, file.getInitialRevision().getDate());

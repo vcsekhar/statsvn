@@ -23,7 +23,7 @@
 package net.sf.statcvs.reports;
 
 import net.sf.statcvs.Messages;
-import net.sf.statcvs.model.CvsContent;
+import net.sf.statcvs.model.Repository;
 import net.sf.statcvs.reportmodel.AuthorColumn;
 import net.sf.statcvs.reportmodel.Table;
 
@@ -47,7 +47,7 @@ public class AuthorsTableReport extends AbstractLocTableReport
 	 * @param content the version control source data
 	 * @param sortedBy a SORT_XXXX constant
 	 */
-	public AuthorsTableReport(CvsContent content, int sortedBy) {
+	public AuthorsTableReport(Repository content, int sortedBy) {
 		super(content);
 		this.sortedBy = sortedBy;
 	}

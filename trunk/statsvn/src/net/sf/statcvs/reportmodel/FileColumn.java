@@ -23,7 +23,7 @@
 package net.sf.statcvs.reportmodel;
 
 import net.sf.statcvs.Messages;
-import net.sf.statcvs.model.CvsFile;
+import net.sf.statcvs.model.VersionedFile;
 import net.sf.statcvs.renderer.TableCellRenderer;
 
 /**
@@ -46,7 +46,7 @@ public class FileColumn extends GenericColumn {
 	 * @see net.sf.statcvs.reportmodel.Column#renderCell
 	 */
 	public void renderCell(int rowIndex, TableCellRenderer renderer) {
-		renderer.renderFileCell((CvsFile) getValue(rowIndex), withIcon);
+		renderer.renderFileCell((VersionedFile) getValue(rowIndex), withIcon);
 	}
 
 	/**

@@ -23,7 +23,7 @@
 package net.sf.statcvs.renderer;
 
 import net.sf.statcvs.model.Author;
-import net.sf.statcvs.model.CvsFile;
+import net.sf.statcvs.model.VersionedFile;
 import net.sf.statcvs.model.Directory;
 
 /**
@@ -85,5 +85,5 @@ public interface TableCellRenderer {
 	 * @param file the file
 	 * @param withIcon display an icon in front of the filename?
 	 */
-	void renderFileCell(CvsFile file, boolean withIcon);
+	void renderFileCell(VersionedFile file, boolean withIcon);
 }

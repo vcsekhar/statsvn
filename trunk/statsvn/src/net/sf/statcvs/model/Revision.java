@@ -17,7 +17,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
     
-	$RCSfile: CvsRevision.java,v $ 
+	$RCSfile: Revision.java,v $ 
 	Created on $Date: 2004/12/14 13:38:13 $ 
 */
 package net.sf.statcvs.model;
@@ -27,20 +27,20 @@ import java.util.Iterator;
 import java.util.SortedSet;
 
 /**
- * One revision of a {@link CvsFile}. That can be an initial revision
+ * One revision of a {@link VersionedFile}. That can be an initial revision
  * (checkin), a change, a deletion, or a re-add. Revisions are created
- * using the methods {@link CvsFile#addInitialRevision},
- * {@link CvsFile#addChangeRevision} and
- * {@link CvsFile#addDeletionRevision}.
+ * using the methods {@link VersionedFile#addInitialRevision},
+ * {@link VersionedFile#addChangeRevision} and
+ * {@link VersionedFile#addDeletionRevision}.
  *
  * TODO: Replace type code with hierarchy
- * TODO: Rename class to Revision, getAuthor() to getLogin(), isDead() to isDeletion()
+ * TODO: Rename getAuthor() to getLogin(), isDead() to isDeletion()
  * 
  * @author Manuel Schulze
  * @author Richard Cyganiak <richard@cyganiak.de>
- * @version $Id: CvsRevision.java,v 1.54 2004/12/14 13:38:13 squig Exp $
+ * @version $Id: Revision.java,v 1.54 2004/12/14 13:38:13 squig Exp $
  */
-public class CvsRevision implements Comparable {
+public class Revision implements Comparable {
 
 	/**
 	 * Marks a revision that creates a new file. The file did not exist
@@ -69,7 +69,7 @@ public class CvsRevision implements Comparable {
 	 */
 	public static final int TYPE_BEGIN_OF_LOG = 5;
 
-	private final CvsFile file;
+	private final VersionedFile file;
 	private final String revisionNumber;
 	private final int type;
 	private final Author author;
@@ -84,9 +84,9 @@ public class CvsRevision implements Comparable {
 	/**
 	 * Creates a new revision of a file with the
 	 * specified revision number. Should not be called directly. Instead,
-	 * {@link CvsFile#addInitialRevision} and its sister methods should
+	 * {@link VersionedFile#addInitialRevision} and its sister methods should
 	 * be used.
-	 * @param file CvsFile that belongs to this revision
+	 * @param file VersionedFile that belongs to this revision
 	 * @param revisionNumber revision number, for example "1.1"
 	 * @param type a <tt>TYPE_XXX</tt> constant
 	 * @param author the author of the revision
@@ -97,7 +97,7 @@ public class CvsRevision implements Comparable {
 	 * @param linesReplaced How many lines were removed and replaced by other lines, without the delta changing?
 	 * @param symbolicNames list of symbolic names for this revision or null if this revision has no symbolic names	 
  	 */
-	CvsRevision(CvsFile file, String revisionNumber, int type,
+	Revision(VersionedFile file, String revisionNumber, int type,
 			Author author, Date date, String comment, int lines, int linesDelta, int linesReplaced, SortedSet symbolicNames) {
 		this.file = file;
 		this.revisionNumber = revisionNumber;
@@ -259,7 +259,7 @@ public class CvsRevision implements Comparable {
 	 * Returns the file which was changed by this revision.
 	 * @return the file
 	 */
-	public CvsFile getFile() {
+	public VersionedFile getFile() {
 		return file;
 	}
 
@@ -268,7 +268,7 @@ public class CvsRevision implements Comparable {
 	 * is the first revision for the file.
 	 * @return the predecessor of this revision
 	 */
-	public CvsRevision getPreviousRevision() {
+	public Revision getPreviousRevision() {
 		return file.getPreviousRevision(this);
 	}
 	
@@ -293,7 +293,7 @@ public class CvsRevision implements Comparable {
 		if (this == other) {
 			return 0;
 		}
-		CvsRevision otherRevision = (CvsRevision) other;
+		Revision otherRevision = (Revision) other;
 		int result = date.compareTo(otherRevision.getDate());
 		if (result != 0) {
 			return result;

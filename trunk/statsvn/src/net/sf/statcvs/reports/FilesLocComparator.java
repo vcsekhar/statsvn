@@ -24,7 +24,7 @@ package net.sf.statcvs.reports;
 
 import java.util.Comparator;
 
-import net.sf.statcvs.model.CvsFile;
+import net.sf.statcvs.model.VersionedFile;
 
 /**
  * Compares two files according to their lines of code
@@ -38,8 +38,8 @@ public class FilesLocComparator implements Comparator {
 	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 	 */
 	public int compare(Object o1, Object o2) {
-		CvsFile file1 = (CvsFile) o1;
-		CvsFile file2 = (CvsFile) o2;
+		VersionedFile file1 = (VersionedFile) o1;
+		VersionedFile file2 = (VersionedFile) o2;
 		if (file1.getCurrentLinesOfCode() < file2.getCurrentLinesOfCode()) {
 			return 1;
 		} else if (file1.getCurrentLinesOfCode() == file2.getCurrentLinesOfCode()) {

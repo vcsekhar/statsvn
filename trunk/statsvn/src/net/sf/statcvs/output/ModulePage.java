@@ -33,9 +33,9 @@ import java.util.Map;
 
 import net.sf.statcvs.Messages;
 import net.sf.statcvs.model.Commit;
-import net.sf.statcvs.model.CvsContent;
-import net.sf.statcvs.model.CvsFile;
-import net.sf.statcvs.model.CvsRevision;
+import net.sf.statcvs.model.Repository;
+import net.sf.statcvs.model.VersionedFile;
+import net.sf.statcvs.model.Revision;
 import net.sf.statcvs.model.Directory;
 import net.sf.statcvs.renderer.CommitLogRenderer;
 import net.sf.statcvs.renderer.TableRenderer;
@@ -58,7 +58,7 @@ public class ModulePage extends HTMLPage {
 	 * @param locImageCreated <tt>true</tt> if a LOC image is available for this module
 	 * @throws IOException on error
 	 */
-	public ModulePage(CvsContent content, Directory directory,
+	public ModulePage(Repository content, Directory directory,
 			boolean locImageCreated) throws IOException {
 		super(content);
 		setFileName(HTMLOutput.getDirectoryPageFilename(directory));
@@ -67,7 +67,7 @@ public class ModulePage extends HTMLPage {
 		this.locImageCreated = locImageCreated;
 		Iterator it = directory.getFiles().iterator();
 		while (it.hasNext()) {
-			CvsFile file = (CvsFile) it.next();
+			VersionedFile file = (VersionedFile) it.next();
 			locInModule += file.getCurrentLinesOfCode();
 		}
 		createPage();
@@ -88,8 +88,8 @@ public class ModulePage extends HTMLPage {
 		if (directory.getRevisions().isEmpty()) {
 			return "";
 		}
-		CvsRevision firstRev = (CvsRevision) directory.getRevisions().first();
-		CvsRevision lastRev = (CvsRevision) directory.getRevisions().last();
+		Revision firstRev = (Revision) directory.getRevisions().first();
+		Revision lastRev = (Revision) directory.getRevisions().last();
 		return HTMLTagger.getSummaryPeriod(
 				firstRev.getDate(),
 				lastRev.getDate());
@@ -168,7 +168,7 @@ public class ModulePage extends HTMLPage {
 		return result;
 	}
 	
-	private Commit getCommit(CvsRevision rev) {
+	private Commit getCommit(Revision rev) {
 		Iterator it = getContent().getCommits().iterator();
 		while (it.hasNext()) {
 			Commit commit = (Commit) it.next();
@@ -183,7 +183,7 @@ public class ModulePage extends HTMLPage {
 		Map commitsToFilteredCommits = new HashMap();
 		Iterator it = this.directory.getRevisions().iterator();
 		while (it.hasNext()) {
-			CvsRevision rev = (CvsRevision) it.next();
+			Revision rev = (Revision) it.next();
 			Commit commit = getCommit(rev);
 			if (commit == null) {
 				continue;

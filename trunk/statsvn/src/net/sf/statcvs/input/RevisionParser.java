@@ -17,7 +17,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
     
-	$RCSfile: CvsRevisionParser.java,v $ 
+	$RCSfile: RevisionParser.java,v $ 
 	Created on $Date: 2004/10/15 20:31:01 $ 
 */
 
@@ -38,12 +38,12 @@ import net.sf.statcvs.util.LookaheadReader;
  * 
  * @author Anja Jentzsch
  * @author Richard Cyganiak
- * @version $Id: CvsRevisionParser.java,v 1.40 2004/10/15 20:31:01 cyganiak Exp $
+ * @version $Id: RevisionParser.java,v 1.40 2004/10/15 20:31:01 cyganiak Exp $
  */
-public class CvsRevisionParser {
+public class RevisionParser {
 
 	private static Logger logger
-			= Logger.getLogger(CvsRevisionParser.class.getName());
+			= Logger.getLogger(RevisionParser.class.getName());
 
 	/**
 	 * Revision Delimiter in CVS log file
@@ -67,16 +67,16 @@ public class CvsRevisionParser {
 	private static SimpleDateFormat newLogTimeFormat =
 		new SimpleDateFormat(NEW_LOG_TIMESTAMP_FORMAT, LOG_TIMESTAMP_LOCALE);
 	private LookaheadReader logReader;
-	private CvsLogBuilder builder;
+	private SvnLogBuilder builder;
 	private boolean fileDone = false;
 	private RevisionData revision;
 
 	/**
-	 * Default Constructor CvsRevisionParser.
+	 * Default Constructor RevisionParser.
 	 * @param logReader the reader
 	 * @param builder a <tt>Builder</tt> for the creation process
 	 */
-	public CvsRevisionParser(LookaheadReader logReader, CvsLogBuilder builder) {
+	public RevisionParser(LookaheadReader logReader, SvnLogBuilder builder) {
 		this.logReader = logReader;
 		this.builder = builder;
 	}

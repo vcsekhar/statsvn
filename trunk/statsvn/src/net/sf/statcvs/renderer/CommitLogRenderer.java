@@ -31,7 +31,7 @@ import java.util.List;
 
 import net.sf.statcvs.Messages;
 import net.sf.statcvs.model.Commit;
-import net.sf.statcvs.model.CvsRevision;
+import net.sf.statcvs.model.Revision;
 import net.sf.statcvs.output.ConfigurationOptions;
 import net.sf.statcvs.output.HTMLTagger;
 import net.sf.statcvs.output.WebRepositoryIntegration;
@@ -217,14 +217,14 @@ public class CommitLogRenderer {
 		Iterator it = commit.getRevisions().iterator();
 		int locSum = 0;
 		while (it.hasNext()) {
-			CvsRevision each = (CvsRevision) it.next();
+			Revision each = (Revision) it.next();
 			locSum += each.getNewLines();
-			saveCvsRevision(each);
+			saveRevision(each);
 		}
 		return Integer.toString(locSum);
 	}
 
-	private void saveCvsRevision(CvsRevision revision) {
+	private void saveRevision(Revision revision) {
 		commitHashMap.put(revision.getFile().getFilenameWithPath(), revision);
 	}
 	
@@ -250,10 +250,10 @@ public class CommitLogRenderer {
 				}
 				fileList += "        ";
 				String file = (String) files.next();
-				CvsRevision revision =
-						(CvsRevision) commitHashMap.get(directory + file);
+				Revision revision =
+						(Revision) commitHashMap.get(directory + file);
 				if (webRepository != null) {
-					CvsRevision previous = revision.getPreviousRevision();
+					Revision previous = revision.getPreviousRevision();
 					String url; 
 					if (previous == null || revision.isInitialRevision()) {
 						url = webRepository.getFileViewUrl(revision);

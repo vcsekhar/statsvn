@@ -36,18 +36,18 @@ import java.util.TreeSet;
 import java.util.logging.Logger;
 
 import net.sf.statcvs.model.Author;
-import net.sf.statcvs.model.CvsContent;
-import net.sf.statcvs.model.CvsFile;
+import net.sf.statcvs.model.Repository;
+import net.sf.statcvs.model.VersionedFile;
 import net.sf.statcvs.model.Directory;
 import net.sf.statcvs.model.SymbolicName;
 import net.sf.statcvs.util.FilePatternMatcher;
 import net.sf.statcvs.util.FileUtils;
 
 /**
- * <p>Helps building the {@link net.sf.statcvs.model.CvsContent} from a CVS
+ * <p>Helps building the {@link net.sf.statcvs.model.Repository} from a CVS
  * log. The <tt>Builder</tt> is fed by some CVS history data source, for
- * example a CVS log parser. The <tt>CvsContent</tt> can be retrieved
- * using the {@link #createCvsContent} method.</p>
+ * example a CVS log parser. The <tt>Repository</tt> can be retrieved
+ * using the {@link #createRepository} method.</p>
  * 
  * <p>The class also takes care of the creation of <tt>Author</tt> and 
  * </tt>Directory</tt> objects and makes sure that there's only one of these
@@ -56,7 +56,7 @@ import net.sf.statcvs.util.FileUtils;
  * @author Richard Cyganiak <richard@cyganiak.de>
  * @version $Id: Builder.java,v 1.29 2004/12/14 13:38:13 squig Exp $
  */
-public class Builder implements CvsLogBuilder {
+public class Builder implements SvnLogBuilder {
 	private static Logger logger = Logger.getLogger(Builder.class.getName());
 
 	private final RepositoryFileManager repositoryFileManager;
@@ -136,14 +136,14 @@ public class Builder implements CvsLogBuilder {
 	}
 
 	/**
-	 * Returns a CvsContent object of all files.
+	 * Returns a Repository object of all files.
 	 * 
 	 * @param filesHaveInitialRevision set to true if files in working directory all have 1.1 revision; otherwise files are expected to match the latest revision
-	 * @return CvsContent a CvsContent object
+	 * @return Repository a Repository object
 	 * @throws EmptyRepositoryException if no adequate files were found in the
 	 * log.
 	 */
-	public CvsContent createCvsContent() throws EmptyRepositoryException {
+	public Repository createRepository() throws EmptyRepositoryException {
 		if (currentFileBuilder != null) {
 			fileBuilders.add(currentFileBuilder);
 			currentFileBuilder = null;
@@ -152,11 +152,11 @@ public class Builder implements CvsLogBuilder {
 			throw new EmptyRepositoryException();
 		}
 
-		CvsContent result = new CvsContent();
+		Repository result = new Repository();
 		Iterator it = fileBuilders.iterator();
 		while (it.hasNext()) {
 			FileBuilder fileBuilder = (FileBuilder) it.next();
-			CvsFile file = fileBuilder.createFile(startDate);
+			VersionedFile file = fileBuilder.createFile(startDate);
 			if (file == null) {
 				continue;
 			}

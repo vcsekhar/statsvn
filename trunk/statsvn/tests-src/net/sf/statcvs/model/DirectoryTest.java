@@ -105,12 +105,12 @@ public class DirectoryTest extends TestCase {
 	 * tests {@link Directory.getRevisions()}
 	 */
 	public void testRevisions() {
-		CvsFile file1 = new CvsFile("src/net/sf/statcvs/Main.java", rootSrcNetSfStatcvs);
-		CvsRevision rev11 = file1.addInitialRevision("1.1", author, date1, null, 0, null);
-		CvsRevision rev12 = file1.addChangeRevision("1.2", author, date3, null, 0, 0, 0, null);
-		CvsFile file2 = new CvsFile("src/net/sf/statcvs/README", rootSrcNetSfStatcvs);
-		CvsRevision rev21 = file2.addInitialRevision("2.1", author, date2, null, 0, null);
-		CvsFile file3 = new CvsFile("fileInRoot", root);
+		VersionedFile file1 = new VersionedFile("src/net/sf/statcvs/Main.java", rootSrcNetSfStatcvs);
+		Revision rev11 = file1.addInitialRevision("1.1", author, date1, null, 0, null);
+		Revision rev12 = file1.addChangeRevision("1.2", author, date3, null, 0, 0, 0, null);
+		VersionedFile file2 = new VersionedFile("src/net/sf/statcvs/README", rootSrcNetSfStatcvs);
+		Revision rev21 = file2.addInitialRevision("2.1", author, date2, null, 0, null);
+		VersionedFile file3 = new VersionedFile("fileInRoot", root);
 		file3.addInitialRevision("3.1", author, date4, null, 0, null);
 		Iterator revIt = rootSrcNetSfStatcvs.getRevisions().iterator();
 		assertTrue(revIt.hasNext());
@@ -172,7 +172,7 @@ public class DirectoryTest extends TestCase {
 	}
 	
 	public void testNonEmptyRepository() {
-		CvsFile file1 = new CvsFile("src/README", rootSrc);
+		VersionedFile file1 = new VersionedFile("src/README", rootSrc);
 		file1.addInitialRevision("1.1", author, date1, null, 100, null);
 		assertTrue(!root.isEmpty());
 		assertTrue(!rootSrc.isEmpty());
@@ -186,7 +186,7 @@ public class DirectoryTest extends TestCase {
 	}
 
 	public void testEmptyRepositoryWithDeletedFile() {
-		CvsFile file1 = new CvsFile("src/README", rootSrc);
+		VersionedFile file1 = new VersionedFile("src/README", rootSrc);
 		file1.addInitialRevision("1.1", author, date1, null, 100, null);
 		file1.addDeletionRevision("1.2", author, date2, null, 100, null);
 		assertTrue(root.isEmpty());
@@ -197,13 +197,13 @@ public class DirectoryTest extends TestCase {
 	}
 
 	public void testNonEmptyRepositoryWithDeletedFile() {
-		CvsFile file1 = new CvsFile("src/README", rootSrc);
+		VersionedFile file1 = new VersionedFile("src/README", rootSrc);
 		file1.addInitialRevision("1.1", author, date1, null, 100, null);
-		CvsFile file2 = new CvsFile("src/README2", rootSrc);
+		VersionedFile file2 = new VersionedFile("src/README2", rootSrc);
 		file2.addInitialRevision("1.1", author, date1, null, 100, null);
-		CvsFile file3 = new CvsFile("fileInRoot", root);
+		VersionedFile file3 = new VersionedFile("fileInRoot", root);
 		file3.addInitialRevision("1.1", author, date1, null, 100, null);
-		CvsFile file4 = new CvsFile("src/deleted", rootSrc);
+		VersionedFile file4 = new VersionedFile("src/deleted", rootSrc);
 		file4.addInitialRevision("1.1", author, date1, null, 100, null);
 		file4.addDeletionRevision("1.2", author, date2, null, 100, null);
 		assertTrue(!root.isEmpty());

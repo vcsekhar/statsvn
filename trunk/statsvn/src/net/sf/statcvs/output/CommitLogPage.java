@@ -25,7 +25,7 @@ package net.sf.statcvs.output;
 import java.io.IOException;
 
 import net.sf.statcvs.Messages;
-import net.sf.statcvs.model.CvsContent;
+import net.sf.statcvs.model.Repository;
 import net.sf.statcvs.renderer.CommitLogRenderer;
 
 /**
@@ -43,7 +43,7 @@ public class CommitLogPage extends HTMLPage {
 	 * @param totalPages total number of log pages
 	 * @throws IOException on IOError
 	 */
-	public CommitLogPage(CvsContent content, CommitLogRenderer logRenderer,
+	public CommitLogPage(Repository content, CommitLogRenderer logRenderer,
 			int pageNr, int totalPages) throws IOException {
 		super(content);
 		this.logRenderer = logRenderer;

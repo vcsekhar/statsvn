@@ -17,7 +17,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
     
-	$RCSfile: CvsLogfileParser.java,v $ 
+	$RCSfile: SvnLogfileParser.java,v $ 
 	Created on $Date: 2004/10/10 11:29:07 $ 
 */
 
@@ -35,22 +35,22 @@ import net.sf.statcvs.util.LookaheadReader;
  * 
  * @author Anja Jentzsch
  * @author Richard Cyganiak
- * @version $Id: CvsLogfileParser.java,v 1.15 2004/10/10 11:29:07 cyganiak Exp $
+ * @version $Id: SvnLogfileParser.java,v 1.15 2004/10/10 11:29:07 cyganiak Exp $
  */
-public class CvsLogfileParser {
+public class SvnLogfileParser {
 
 	private static Logger logger
-			= Logger.getLogger(CvsLogfileParser.class.getName());
+			= Logger.getLogger(SvnLogfileParser.class.getName());
 
 	private LookaheadReader logReader;
-	private CvsLogBuilder builder;
+	private SvnLogBuilder builder;
 
 	/**
 	 * Default Constructor
 	 * @param logReader a <tt>Reader</tt> containing the CVS logfile
 	 * @param builder the builder that will process the log information
 	 */
-	public CvsLogfileParser(Reader logReader, CvsLogBuilder builder) {
+	public SvnLogfileParser(Reader logReader, SvnLogBuilder builder) {
 		this.logReader = new LookaheadReader(logReader);
 		this.builder = builder;
 	}
@@ -78,7 +78,7 @@ public class CvsLogfileParser {
 //		boolean isLogWithoutSymbolicNames = false;
 		boolean isFirstFile = true;
 		do {
-			CvsFileBlockParser parser = new CvsFileBlockParser(
+			FileBlockParser parser = new FileBlockParser(
 					this.logReader, this.builder, isFirstFile);
 			parser.parse();
 			isFirstFile = false;

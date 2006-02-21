@@ -23,7 +23,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 /**
- * Represents an author of one or more {@link CvsRevision}s in a repository.
+ * Represents an author of one or more {@link Revision}s in a repository.
  * 
  * TODO: Rename to <tt>Login</tt>
  * 
@@ -44,10 +44,10 @@ public class Author implements Comparable {
 	}
 
 	/**
-	 * Adds a revision for this author; called by {@link CvsRevision} constructor
+	 * Adds a revision for this author; called by {@link Revision} constructor
 	 * @param revision a revision committed by this author
 	 */
-	protected void addRevision(CvsRevision revision) {
+	protected void addRevision(Revision revision) {
 		revisions.add(revision);
 		directories.add(revision.getFile().getDirectory());
 	}
@@ -61,7 +61,7 @@ public class Author implements Comparable {
 	}
 	
 	/**
-	 * Returns all {@link CvsRevision}s of this author, sorted from oldest
+	 * Returns all {@link Revision}s of this author, sorted from oldest
 	 * to most recent.
 	 * @return all revisions of this author
 	 */

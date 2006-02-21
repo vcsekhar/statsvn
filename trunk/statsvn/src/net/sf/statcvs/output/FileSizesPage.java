@@ -27,8 +27,8 @@ import java.io.IOException;
 import java.util.Iterator;
 
 import net.sf.statcvs.Messages;
-import net.sf.statcvs.model.CvsContent;
-import net.sf.statcvs.model.CvsFile;
+import net.sf.statcvs.model.Repository;
+import net.sf.statcvs.model.VersionedFile;
 import net.sf.statcvs.renderer.TableRenderer;
 import net.sf.statcvs.reports.FilesWithMostRevisionsTableReport;
 import net.sf.statcvs.reports.LargestFilesTableReport;
@@ -45,9 +45,9 @@ public class FileSizesPage extends HTMLPage {
 	private static final int MAX_FILES_WITH_MOST_REVISIONS = 20;
 
 	/**
-	 * @see net.sf.statcvs.output.HTMLPage#HTMLPage(CvsContent)
+	 * @see net.sf.statcvs.output.HTMLPage#HTMLPage(Repository)
 	 */
-	public FileSizesPage(CvsContent content) throws IOException {
+	public FileSizesPage(Repository content) throws IOException {
 		super(content);
 		setFileName("file_sizes.html");
 		setPageName(Messages.getString("FILE_SIZES_TITLE"));
@@ -102,7 +102,7 @@ public class FileSizesPage extends HTMLPage {
 		int result = 0;
 		Iterator fileIt = getContent().getFiles().iterator();
 		while (fileIt.hasNext()) {
-			CvsFile file = (CvsFile) fileIt.next();
+			VersionedFile file = (VersionedFile) fileIt.next();
 			if (!file.isDead()) {
 				result++;
 			}

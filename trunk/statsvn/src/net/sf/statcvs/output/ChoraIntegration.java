@@ -25,8 +25,8 @@ package net.sf.statcvs.output;
 import java.util.HashSet;
 import java.util.Set;
 
-import net.sf.statcvs.model.CvsFile;
-import net.sf.statcvs.model.CvsRevision;
+import net.sf.statcvs.model.VersionedFile;
+import net.sf.statcvs.model.Revision;
 import net.sf.statcvs.model.Directory;
 
 /**
@@ -67,7 +67,7 @@ public class ChoraIntegration implements WebRepositoryIntegration {
 	/**
 	 * @see net.sf.statcvs.output.WebRepositoryIntegration#getFileHistoryUrl
 	 */
-	public String getFileHistoryUrl(CvsFile file) {
+	public String getFileHistoryUrl(VersionedFile file) {
 		if (isInAttic(file)) {
 			String path = file.getDirectory().getPath();
 			String filename = file.getFilename();
@@ -77,16 +77,16 @@ public class ChoraIntegration implements WebRepositoryIntegration {
 	}
 
 	/**
-	 * @see net.sf.statcvs.output.WebRepositoryIntegration#getFileViewUrl(CvsFile)
+	 * @see net.sf.statcvs.output.WebRepositoryIntegration#getFileViewUrl(VersionedFile)
 	 */
-	public String getFileViewUrl(CvsFile file) {
+	public String getFileViewUrl(VersionedFile file) {
 		return getFileHistoryUrl(file) + "?r=HEAD";
 	}
 
 	/**
-	 * @see net.sf.statcvs.output.WebRepositoryIntegration#getFileViewUrl(CvsFile)
+	 * @see net.sf.statcvs.output.WebRepositoryIntegration#getFileViewUrl(VersionedFile)
 	 */
-	public String getFileViewUrl(CvsRevision revision) {
+	public String getFileViewUrl(Revision revision) {
 		return getFileHistoryUrl(revision.getFile()) + "?r="
 				+ revision.getRevisionNumber();
 	}
@@ -94,7 +94,7 @@ public class ChoraIntegration implements WebRepositoryIntegration {
 	/**
 	 * @see net.sf.statcvs.output.WebRepositoryIntegration#getDiffUrl
 	 */
-	public String getDiffUrl(CvsRevision oldRevision, CvsRevision newRevision) {
+	public String getDiffUrl(Revision oldRevision, Revision newRevision) {
 		if (!oldRevision.getFile().equals(newRevision.getFile())) {
 			throw new IllegalArgumentException("revisions must be of the same file");
 		}
@@ -110,7 +110,7 @@ public class ChoraIntegration implements WebRepositoryIntegration {
 		this.atticFileNames = atticFileNames;
 	}
 
-	private boolean isInAttic(CvsFile file) {
+	private boolean isInAttic(VersionedFile file) {
 		return atticFileNames.contains(file.getFilenameWithPath());
 	}
 }

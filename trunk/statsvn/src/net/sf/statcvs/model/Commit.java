@@ -25,25 +25,25 @@ import java.util.Iterator;
 import java.util.Set;
 
 /**
- * Represents a commit, which may consist of several {@link CvsRevision}
+ * Represents a commit, which may consist of several {@link Revision}
  * objects. A commit means that several files were committed at once by the
  * same author with the same message.
  * 
- * TODO: Rename getAuthor() to getLogin(), getAffectedFiles() to getAffectedFileNames() (or change to return CvsFiles?)
+ * TODO: Rename getAuthor() to getLogin(), getAffectedFiles() to getAffectedFileNames() (or change to return VersionedFiles?)
  * 
  * @author Richard Cyganiak <richard@cyganiak.de>
  * @version $Id: Commit.java,v 1.14 2004/02/20 01:33:29 cyganiak Exp $
  */
 public class Commit implements Comparable {
 	private final Set revisions = new HashSet();
-	private final CvsRevision aRevision;
+	private final Revision aRevision;
 	
 	/**
 	 * Creates a new instance which consists of the given revision.
 	 * @param revision the single revision out of which the commit will
 	 * 				   be created
 	 */
-	public Commit(CvsRevision revision) {
+	public Commit(Revision revision) {
 		revisions.add(revision);
 		aRevision = revision;
 	}
@@ -52,16 +52,16 @@ public class Commit implements Comparable {
 	 * Adds a revision to the commit. The revision must be part of the
 	 * commit, that is, it must have the same date, author and message
 	 * as all other revisions in the commit.
-	 * @param revision the <code>CvsRevision</code> to add.
+	 * @param revision the <code>Revision</code> to add.
 	 */
-	public void addRevision(CvsRevision revision) {
+	public void addRevision(Revision revision) {
 		revisions.add(revision);
 	}
 
 	/**
-	 * Returns the {@link CvsRevision} objects that make up this commit.
+	 * Returns the {@link Revision} objects that make up this commit.
 	 * 
-	 * @return a set of <tt>CvsRevision</tt> instances
+	 * @return a set of <tt>Revision</tt> instances
 	 */
 	public Set getRevisions() {
 		return revisions;
@@ -101,7 +101,7 @@ public class Commit implements Comparable {
 		Set result = new HashSet();
 		Iterator it = revisions.iterator();
 		while (it.hasNext()) {
-			CvsRevision element = (CvsRevision) it.next();
+			Revision element = (Revision) it.next();
 			result.add(element.getFile().getFilenameWithPath());
 		}
 		return result;

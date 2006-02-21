@@ -17,7 +17,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
     
-	$RCSfile: CvsFileBlockParser.java,v $ 
+	$RCSfile: FileBlockParser.java,v $ 
 	Created on $Date: 2004/12/14 13:38:13 $ 
 */
 
@@ -41,23 +41,23 @@ import net.sf.statcvs.util.LookaheadReader;
  * @author Anja Jentzsch
  * @author Richard Cyganiak
  * @author Tammo van Lessen
- * @version $Id: CvsFileBlockParser.java,v 1.46 2004/12/14 13:38:13 squig Exp $
+ * @version $Id: FileBlockParser.java,v 1.46 2004/12/14 13:38:13 squig Exp $
  */
-public class CvsFileBlockParser {
-	private static Logger logger = Logger.getLogger(CvsFileBlockParser.class.getName());
+public class FileBlockParser {
+	private static Logger logger = Logger.getLogger(FileBlockParser.class.getName());
 	private LookaheadReader logReader;
-	private CvsLogBuilder builder;
+	private SvnLogBuilder builder;
 	private boolean isLogWithoutSymbolicNames = false;
 	private boolean isFirstFile;
     private Map revBySymNames = new HashMap();
 
 	/**
-	 * Default Constructor CvsFileBlockParser.
+	 * Default Constructor FileBlockParser.
 	 * @param logReader reader
 	 * @param builder a <tt>Builder</tt> for the creation process
 	 * @param isFirstFile Is this the first file of the log?
 	 */
-	public CvsFileBlockParser(LookaheadReader logReader, CvsLogBuilder builder,
+	public FileBlockParser(LookaheadReader logReader, SvnLogBuilder builder,
 							  boolean isFirstFile) {
 		this.logReader = logReader;
 		this.builder = builder;
@@ -94,8 +94,8 @@ public class CvsFileBlockParser {
 			this.builder.buildModule(CvsLogUtils.getModuleName(rcsFile, workingFile));
 		}
 		this.builder.buildFile(workingFile, isBinary, isInAttic, this.revBySymNames);
-		if (!CvsRevisionParser.FILE_DELIMITER.equals(this.logReader.getCurrentLine())) {
-			new CvsRevisionParser(this.logReader, this.builder).parse();
+		if (!RevisionParser.FILE_DELIMITER.equals(this.logReader.getCurrentLine())) {
+			new RevisionParser(this.logReader, this.builder).parse();
 		}
 	}
 
@@ -162,7 +162,7 @@ public class CvsFileBlockParser {
 
 	private void parseDescription() throws LogSyntaxException, IOException {
 		String line = this.logReader.nextLine();
-		if (line.equals(CvsRevisionParser.FILE_DELIMITER)) {
+		if (line.equals(RevisionParser.FILE_DELIMITER)) {
 			throw new LogSyntaxException("line " +
 					this.logReader.getLineNumber() +
 					": missing description; please don't use the -h switch of 'cvs log'!");
@@ -174,7 +174,7 @@ public class CvsFileBlockParser {
 	}
 	
 	private boolean isDescriptionDelimiter(String line) {
-		return CvsRevisionParser.REVISION_DELIMITER.equals(line)
-				|| CvsRevisionParser.FILE_DELIMITER.equals(line);
+		return RevisionParser.REVISION_DELIMITER.equals(line)
+				|| RevisionParser.FILE_DELIMITER.equals(line);
 	}
 }

@@ -39,8 +39,8 @@ import java.util.regex.Pattern;
 import net.sf.statcvs.Main;
 import net.sf.statcvs.Messages;
 import net.sf.statcvs.model.Author;
-import net.sf.statcvs.model.CvsContent;
-import net.sf.statcvs.model.CvsRevision;
+import net.sf.statcvs.model.Repository;
+import net.sf.statcvs.model.Revision;
 import net.sf.statcvs.model.Directory;
 import net.sf.statcvs.model.SymbolicName;
 import net.sf.statcvs.renderer.BarChart;
@@ -147,14 +147,14 @@ public class HTMLOutput {
 	private String[] categoryNamesDays = new String[] { "Sunday", "Monday", "Tuesday", "Wednesday", 
 		"Thursday", "Friday", "Saturday" };
 	
-	private CvsContent content;
+	private Repository content;
 
 	/**
 	 * Creates a new <tt>HTMLOutput</tt> object for the given
 	 * repository
 	 * @param content the repository
 	 */
-	public HTMLOutput(CvsContent content) {
+	public HTMLOutput(Repository content) {
 		this.content = content;
 	}
 
@@ -323,7 +323,7 @@ public class HTMLOutput {
 		TimeSeries series_all = new TimeSeries("Test", Second.class);
 		Date lastDate_all = new Date();
 		while (it_all.hasNext()) {
-			CvsRevision rev = (CvsRevision) it_all.next();
+			Revision rev = (Revision) it_all.next();
 			if (lastDate_all != null) {
 				Calendar cal = Calendar.getInstance();
 				cal.setTime(lastDate_all);
@@ -354,7 +354,7 @@ public class HTMLOutput {
 			TimeSeries series = new TimeSeries("Test", Second.class);
 			Date lastDate = new Date();
 			while (it.hasNext()) {
-				CvsRevision rev = (CvsRevision) it.next();
+				Revision rev = (Revision) it.next();
 				if (lastDate != null) {
 					Calendar cal = Calendar.getInstance();
 					cal.setTime(lastDate);
@@ -432,7 +432,7 @@ public class HTMLOutput {
 		Iterator it = revisions.iterator();
 		LOCSeriesBuilder locCounter = new LOCSeriesBuilder(title, true);
 		while (it.hasNext()) {
-			locCounter.addRevision((CvsRevision) it.next());
+			locCounter.addRevision((Revision) it.next());
 		}
 		return locCounter.getTimeSeries();
 	}
@@ -470,7 +470,7 @@ public class HTMLOutput {
 		}
 		Iterator allRevs = content.getRevisions().iterator();
 		while (allRevs.hasNext()) {
-			CvsRevision rev = (CvsRevision) allRevs.next();
+			Revision rev = (Revision) allRevs.next();
 			if (rev.isBeginOfLog()) {
 				continue;
 			}
@@ -503,7 +503,7 @@ public class HTMLOutput {
 		Iterator it = author.getRevisions().iterator();
 		int totalLinesOfCode = 0;
 		while (it.hasNext()) {
-			CvsRevision rev = (CvsRevision) it.next();
+			Revision rev = (Revision) it.next();
 			totalLinesOfCode += rev.getNewLines();
 		}
 		if (totalLinesOfCode == 0) {

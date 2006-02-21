@@ -24,7 +24,7 @@ package net.sf.statcvs.reports;
 
 import net.sf.statcvs.Messages;
 import net.sf.statcvs.model.Author;
-import net.sf.statcvs.model.CvsContent;
+import net.sf.statcvs.model.Repository;
 import net.sf.statcvs.reportmodel.DirectoryColumn;
 import net.sf.statcvs.reportmodel.Table;
 
@@ -49,7 +49,7 @@ public class DirectoriesForAuthorTableReport extends AbstractLocTableReport
 	 * @param content the version control source data
 	 * @param author an author
 	 */
-	public DirectoriesForAuthorTableReport(CvsContent content,
+	public DirectoriesForAuthorTableReport(Repository content,
 			Author author) {
 		super(content);
 		this.author = author;

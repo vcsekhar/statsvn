@@ -23,7 +23,7 @@
 package net.sf.statcvs.renderer;
 
 import net.sf.statcvs.model.Author;
-import net.sf.statcvs.model.CvsFile;
+import net.sf.statcvs.model.VersionedFile;
 import net.sf.statcvs.model.Directory;
 import net.sf.statcvs.output.HTMLOutput;
 import net.sf.statcvs.output.HTMLTagger;
@@ -103,7 +103,7 @@ public class HTMLTableCellRenderer implements TableCellRenderer {
 	 * @param file the file
 	 * @param withIcon display an icon in front of the filename?
 	 */
-	public void renderFileCell(CvsFile file, boolean withIcon) {
+	public void renderFileCell(VersionedFile file, boolean withIcon) {
 		html = HTMLTagger.getFileLink(file);
 		if (withIcon) {
 			if (file.isDead()) {

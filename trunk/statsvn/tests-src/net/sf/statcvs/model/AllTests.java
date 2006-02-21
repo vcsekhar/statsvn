@@ -43,8 +43,8 @@ public class AllTests {
 		suite.addTestSuite(CommitTest.class);
 		suite.addTestSuite(AuthorTest.class);
 		suite.addTestSuite(DirectoryTest.class);
-		suite.addTestSuite(CvsFileTest.class);
-		suite.addTestSuite(CvsContentTest.class);
+		suite.addTestSuite(VersionedFileTest.class);
+		suite.addTestSuite(RepositoryTest.class);
 		suite.addTestSuite(RevisionTest.class);
 		//$JUnit-END$
 		return suite;

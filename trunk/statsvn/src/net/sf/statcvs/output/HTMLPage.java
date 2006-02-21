@@ -28,7 +28,7 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 import net.sf.statcvs.Messages;
-import net.sf.statcvs.model.CvsContent;
+import net.sf.statcvs.model.Repository;
 import net.sf.statcvs.model.Directory;
 
 /**
@@ -40,7 +40,7 @@ public abstract class HTMLPage {
 
 	protected static final int SPACE_COUNT = 4;
 	private FileWriter htmlFileWriter;
-	private CvsContent content;
+	private Repository content;
 	private String fileName;
 	private String pageName;
 
@@ -48,7 +48,7 @@ public abstract class HTMLPage {
 	 * Method HTMLPage.
 	 * @param content of the Page
 	 */
-	public HTMLPage(CvsContent content) {
+	public HTMLPage(Repository content) {
 		this.content = content;
 	}
 
@@ -230,7 +230,7 @@ public abstract class HTMLPage {
 		return logger;
 	}
 
-	protected CvsContent getContent() {
+	protected Repository getContent() {
 		return content;
 	}
 

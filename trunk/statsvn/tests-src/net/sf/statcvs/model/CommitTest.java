@@ -35,18 +35,18 @@ public class CommitTest extends TestCase {
 
 	private static final int DATE = 10000000;
 
-	private CvsFile file1;
-	private CvsFile file2;
-	private CvsFile file3;
-	private CvsFile file4;
-	private CvsFile file5;
-	private CvsRevision rev1;
-	private CvsRevision rev2;
-	private CvsRevision rev4;
-	private CvsRevision rev5;
-	private CvsRevision rev6;
-	private CvsRevision rev7;
-	private CvsRevision rev8;
+	private VersionedFile file1;
+	private VersionedFile file2;
+	private VersionedFile file3;
+	private VersionedFile file4;
+	private VersionedFile file5;
+	private Revision rev1;
+	private Revision rev2;
+	private Revision rev4;
+	private Revision rev5;
+	private Revision rev6;
+	private Revision rev7;
+	private Revision rev8;
 	private Commit commit;
 	private Author author1;
 	private Author author2;
@@ -67,11 +67,11 @@ public class CommitTest extends TestCase {
 		author1 = new Author("author1");
 		author2 = new Author("author2");
 		Directory root = Directory.createRoot();
-		file1 = new CvsFile("file1", root);
-		file2 = new CvsFile("file2", root);
-		file3 = new CvsFile("file3", root);
-		file4 = new CvsFile("file4", root);
-		file5 = new CvsFile("file5", root);
+		file1 = new VersionedFile("file1", root);
+		file2 = new VersionedFile("file2", root);
+		file3 = new VersionedFile("file3", root);
+		file4 = new VersionedFile("file4", root);
+		file5 = new VersionedFile("file5", root);
 		rev1 = createRevision(file1, "rev1", DATE, author1, "message1");
 		rev2 = createRevision(file5, "rev2", DATE + 100, author2, "message1");
 		rev4 = createRevision(file2, "rev4", DATE + 100000, author1, "message1");
@@ -149,7 +149,7 @@ public class CommitTest extends TestCase {
 		assertTrue(commit3.compareTo(commit1) > 0);
 	}
 
-	private CvsRevision createRevision(CvsFile file, String revision, long time, Author author, String message) {
-		return new CvsRevision(file, revision, CvsRevision.TYPE_CHANGE, author, new Date(time), message, 0, 0, 0, null);
+	private Revision createRevision(VersionedFile file, String revision, long time, Author author, String message) {
+		return new Revision(file, revision, Revision.TYPE_CHANGE, author, new Date(time), message, 0, 0, 0, null);
 	}
 }

@@ -22,7 +22,7 @@
 */
 package net.sf.statcvs.output;
 
-import net.sf.statcvs.model.CvsRevision;
+import net.sf.statcvs.model.Revision;
 
 import org.jfree.data.time.Minute;
 import org.jfree.data.time.TimeSeries;
@@ -64,7 +64,7 @@ public class LOCSeriesBuilder {
 	 * be at a later date than all previously added revisions.
 	 * @param revision the revision to add to the series
 	 */
-	public void addRevision(CvsRevision revision) {
+	public void addRevision(Revision revision) {
 		if (finished) {
 			throw new IllegalStateException("can't add more revisions after getTimeSeries()");
 		}

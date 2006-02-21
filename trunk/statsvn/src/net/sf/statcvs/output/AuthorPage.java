@@ -33,8 +33,8 @@ import java.util.logging.Logger;
 import net.sf.statcvs.Messages;
 import net.sf.statcvs.model.Author;
 import net.sf.statcvs.model.Commit;
-import net.sf.statcvs.model.CvsContent;
-import net.sf.statcvs.model.CvsRevision;
+import net.sf.statcvs.model.Repository;
+import net.sf.statcvs.model.Revision;
 import net.sf.statcvs.renderer.CommitLogRenderer;
 import net.sf.statcvs.renderer.TableRenderer;
 import net.sf.statcvs.reportmodel.Table;
@@ -61,7 +61,7 @@ public class AuthorPage extends HTMLPage {
 	 *                                     pie chart was created
 	 * @throws IOException on error
 	 */
-	public AuthorPage(CvsContent content, Author author,
+	public AuthorPage(Repository content, Author author,
 			boolean codeDistributionChartCreated) throws IOException {
 		super(content);
 		this.author = author;
@@ -83,7 +83,7 @@ public class AuthorPage extends HTMLPage {
 		int result = 0;
 		Iterator it = revisions.iterator();
 		while (it.hasNext()) {
-			CvsRevision element = (CvsRevision) it.next();
+			Revision element = (Revision) it.next();
 			result += element.getNewLines();
 		}
 		return result;
@@ -112,8 +112,8 @@ public class AuthorPage extends HTMLPage {
 	}
 
 	private String getAuthorInfo() {
-		CvsRevision firstRev = (CvsRevision) author.getRevisions().first();
-		CvsRevision lastRev = (CvsRevision) author.getRevisions().last();
+		Revision firstRev = (Revision) author.getRevisions().first();
+		Revision lastRev = (Revision) author.getRevisions().last();
 		return HTMLTagger.getSummaryPeriod(
 				firstRev.getDate(),
 				lastRev.getDate());

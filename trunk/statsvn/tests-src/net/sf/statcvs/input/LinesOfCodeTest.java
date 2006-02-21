@@ -31,8 +31,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import junit.framework.TestCase;
-import net.sf.statcvs.model.CvsFile;
-import net.sf.statcvs.model.CvsRevision;
+import net.sf.statcvs.model.VersionedFile;
+import net.sf.statcvs.model.Revision;
 
 /**
  * Test cases for {@link Builder}, covering LOC calculations.
@@ -46,17 +46,17 @@ import net.sf.statcvs.model.CvsRevision;
  */
 public class LinesOfCodeTest extends TestCase {
 	private Builder builder;
-	private CvsFile file;
+	private VersionedFile file;
 	private Date date11;
 	private Date date12;
 	private Date date13;
 	private Date date14;
 	private Date date15;
-	private CvsRevision rev0;
-	private CvsRevision rev1;
-	private CvsRevision rev2;
-	private CvsRevision rev3;
-	private CvsRevision rev4;
+	private Revision rev0;
+	private Revision rev1;
+	private Revision rev2;
+	private Revision rev3;
+	private Revision rev4;
 	private DummyRepositoryFileManager fileman;
 
 	/**
@@ -133,7 +133,7 @@ public class LinesOfCodeTest extends TestCase {
 	/**
 	 * Test a file whose initial revision is dead (this means it was
 	 * added on another branch). The builder should filter this file,
-	 * so the CvsContent should be empty.
+	 * so the Repository should be empty.
 	 */
 	public void testLinesOfCodeDeadInitial() throws Exception {
 		buildRevisionDead("1.1", date11);
@@ -182,9 +182,9 @@ public class LinesOfCodeTest extends TestCase {
 		finishBuilder();
 
 		// get "binaryfile"
-		file = (CvsFile) builder.createCvsContent().getFiles().first();
+		file = (VersionedFile) builder.createRepository().getFiles().first();
 		assertEquals(0, file.getCurrentLinesOfCode());
-		rev0 = (CvsRevision) file.getRevisions().first();
+		rev0 = (Revision) file.getRevisions().first();
 		assertRevisionLines(rev0, 0, 0, 0);
 	}
 
@@ -302,9 +302,9 @@ public class LinesOfCodeTest extends TestCase {
 	}
 
 	private void finishBuilder() throws EmptyRepositoryException {
-		Iterator it = builder.createCvsContent().getFiles().iterator();
+		Iterator it = builder.createRepository().getFiles().iterator();
 		while (it.hasNext()) {
-			CvsFile f = (CvsFile) it.next();
+			VersionedFile f = (VersionedFile) it.next();
 			if (f.getFilename().equals("file")) {
 				file = f;
 			}
@@ -315,17 +315,17 @@ public class LinesOfCodeTest extends TestCase {
 		List revisions = new ArrayList(file.getRevisions());
 		Collections.reverse(revisions);
 		try {
-			rev0 = (CvsRevision) revisions.get(0);
-			rev1 = (CvsRevision) revisions.get(1);
-			rev2 = (CvsRevision) revisions.get(2);
-			rev3 = (CvsRevision) revisions.get(3);
-			rev4 = (CvsRevision) revisions.get(4);
+			rev0 = (Revision) revisions.get(0);
+			rev1 = (Revision) revisions.get(1);
+			rev2 = (Revision) revisions.get(2);
+			rev3 = (Revision) revisions.get(3);
+			rev4 = (Revision) revisions.get(4);
 		} catch (IndexOutOfBoundsException mightHappen) {
 			// do nothing
 		}
 	}
 	
-	private void assertRevisionLines(CvsRevision revision, 
+	private void assertRevisionLines(Revision revision, 
 			int effectiveLinesOfCode, int locChange, int lineValue) {
 		assertEquals("effective lines of code", effectiveLinesOfCode,
 				revision.getLines());

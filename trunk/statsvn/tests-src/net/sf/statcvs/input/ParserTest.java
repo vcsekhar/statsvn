@@ -31,7 +31,7 @@ import junit.framework.TestCase;
 import net.sf.statcvs.util.LookaheadReader;
 
 /**
- * Tests for {@link CvsLogfileParser} and {@link CvsFileBlockParser}. Most
+ * Tests for {@link SvnLogfileParser} and {@link FileBlockParser}. Most
  * tests run the parser class on a logfile loaded from the file system and
  * use a {@link MockBuilder} to verify the results.
  * 
@@ -168,7 +168,7 @@ public class ParserTest extends TestCase {
 	 */
 	public void testEmptyLog() throws Exception {
 		Reader reader = new StringReader("");
-		CvsLogfileParser parser = new CvsLogfileParser(reader, mock);
+		SvnLogfileParser parser = new SvnLogfileParser(reader, mock);
 		try {
 			parser.parse();
 			fail("should have thrown LogSyntaxException");
@@ -183,7 +183,7 @@ public class ParserTest extends TestCase {
 	 */
 	public void testBogusLog() throws Exception {
 		Reader reader = new StringReader("foo\nbar");
-		CvsLogfileParser parser = new CvsLogfileParser(reader, mock);
+		SvnLogfileParser parser = new SvnLogfileParser(reader, mock);
 		try {
 			parser.parse();
 			fail("should have thrown LogSyntaxException");
@@ -193,7 +193,7 @@ public class ParserTest extends TestCase {
 	}
 
 	/**
-	 * Tests the CvsFileBlockParser for a first file
+	 * Tests the FileBlockParser for a first file
 	 * @throws Exception
 	 */
 	public void testFirstFile() throws Exception {
@@ -203,12 +203,12 @@ public class ParserTest extends TestCase {
 		Reader reader = new InputStreamReader(getClass().getResourceAsStream("simple.log2"));
 		LookaheadReader lookahead = new LookaheadReader(reader);
 		lookahead.nextLine();
-		new CvsFileBlockParser(lookahead, mock, true).parse();
+		new FileBlockParser(lookahead, mock, true).parse();
 		mock.verify();
 	}
 
 	/**
-	 * Tests the CvsFileBlockParser for a non-first file
+	 * Tests the FileBlockParser for a non-first file
 	 * @throws Exception
 	 */
 	public void testNonFirstFile() throws Exception {
@@ -219,7 +219,7 @@ public class ParserTest extends TestCase {
 	}
 
 	/**
-	 * Tests the CvsFileBlockParser for a file with description
+	 * Tests the FileBlockParser for a file with description
 	 * @throws Exception
 	 */
 	public void testDescription() throws Exception {
@@ -241,7 +241,7 @@ public class ParserTest extends TestCase {
 	}
 
 	/**
-	 * Tests the CvsFileBlockParser for a file with access list
+	 * Tests the FileBlockParser for a file with access list
 	 * @throws Exception on error
 	 */
 	public void testAccessList() throws Exception {
@@ -294,7 +294,7 @@ public class ParserTest extends TestCase {
 	}
 
 	/**
-	 * Tests the CvsFileBlockParser for a binary file
+	 * Tests the FileBlockParser for a binary file
 	 * @throws Exception
 	 */
 	public void testBinary() throws Exception {
@@ -326,14 +326,14 @@ public class ParserTest extends TestCase {
 	}
 	private void parseLog(String name) throws Exception {
 		Reader reader = new InputStreamReader(getClass().getResourceAsStream(name));
-		new CvsLogfileParser(reader, mock).parse();
+		new SvnLogfileParser(reader, mock).parse();
 	}
 
 	private void parseOneFile(String name) throws Exception {
 		Reader reader = new InputStreamReader(getClass().getResourceAsStream(name));
 		LookaheadReader lookahead = new LookaheadReader(reader);
 		lookahead.nextLine();
-		new CvsFileBlockParser(lookahead, mock, false).parse();
+		new FileBlockParser(lookahead, mock, false).parse();
 	}
 
 	private Date createDate(int year, int month, int day, int hour, int minute, int second) {

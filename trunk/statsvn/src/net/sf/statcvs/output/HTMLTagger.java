@@ -27,7 +27,7 @@ import java.util.Date;
 
 import net.sf.statcvs.Messages;
 import net.sf.statcvs.model.Author;
-import net.sf.statcvs.model.CvsFile;
+import net.sf.statcvs.model.VersionedFile;
 import net.sf.statcvs.model.Directory;
 import net.sf.statcvs.util.OutputUtils;
 
@@ -101,7 +101,7 @@ public class HTMLTagger {
 	 * @param file a file
 	 * @return HTML code for the file
 	 */
-	public static String getFileLink(CvsFile file) {
+	public static String getFileLink(VersionedFile file) {
 		WebRepositoryIntegration wri = ConfigurationOptions.getWebRepository();
 		if (wri == null) {
 			return file.getFilenameWithPath();

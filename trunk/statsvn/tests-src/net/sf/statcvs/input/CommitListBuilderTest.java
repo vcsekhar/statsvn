@@ -29,8 +29,8 @@ import java.util.TreeSet;
 import junit.framework.TestCase;
 import net.sf.statcvs.model.Author;
 import net.sf.statcvs.model.Commit;
-import net.sf.statcvs.model.CvsFile;
-import net.sf.statcvs.model.CvsRevision;
+import net.sf.statcvs.model.VersionedFile;
+import net.sf.statcvs.model.Revision;
 import net.sf.statcvs.model.Directory;
 
 /**
@@ -42,16 +42,16 @@ public class CommitListBuilderTest extends TestCase {
 
 	private static final int DATE = 10000000;
 
-	private CvsRevision rev1;
-	private CvsRevision rev2;
-	private CvsRevision rev3;
-	private CvsRevision rev4;
-	private CvsRevision rev4b;
-	private CvsRevision rev5;
-	private CvsRevision rev6;
-	private CvsRevision rev6b;
-	private CvsRevision rev7;
-	private CvsRevision rev8;
+	private Revision rev1;
+	private Revision rev2;
+	private Revision rev3;
+	private Revision rev4;
+	private Revision rev4b;
+	private Revision rev5;
+	private Revision rev6;
+	private Revision rev6b;
+	private Revision rev7;
+	private Revision rev8;
 	private List commits;
 	private Author author1;
 	private Author author2;
@@ -74,13 +74,13 @@ public class CommitListBuilderTest extends TestCase {
 		author2 = new Author("author2");
 		author3 = new Author("author3");
 		Directory root = Directory.createRoot();
-		CvsFile file1 = new CvsFile("file1", root);
-		CvsFile file2 = new CvsFile("file2", root);
-		CvsFile file3 = new CvsFile("file3", root);
-		CvsFile file4 = new CvsFile("file4", root);
-		CvsFile file4b = new CvsFile("file4b", root);
-		CvsFile file5 = new CvsFile("file5", root);
-		CvsFile file6 = new CvsFile("file6", root);
+		VersionedFile file1 = new VersionedFile("file1", root);
+		VersionedFile file2 = new VersionedFile("file2", root);
+		VersionedFile file3 = new VersionedFile("file3", root);
+		VersionedFile file4 = new VersionedFile("file4", root);
+		VersionedFile file4b = new VersionedFile("file4b", root);
+		VersionedFile file5 = new VersionedFile("file5", root);
+		VersionedFile file6 = new VersionedFile("file6", root);
 		rev1 = createRevision(file1, "rev1", DATE, author1, "message1");
 		rev2 = createRevision(file2, "rev2", DATE + 100, author2, "message1");
 		rev3 = createRevision(file3, "rev3", DATE + 200, author1, "message2");
@@ -105,7 +105,7 @@ public class CommitListBuilderTest extends TestCase {
 	 * Method testOneRevision.
 	 */
 	public void testOneRevision() {
-		CvsRevision[] revs = {rev1};
+		Revision[] revs = {rev1};
 		runBuilder(revs);
 		assertEquals(1, commits.size());
 		assertEquals(1, getCommit(0).getRevisions().size());
@@ -116,7 +116,7 @@ public class CommitListBuilderTest extends TestCase {
 	 * Method testOneCommitMultipleRevisions.
 	 */
 	public void testOneCommitMultipleRevisions() {
-		CvsRevision[] revs = {rev1, rev4b, rev5};
+		Revision[] revs = {rev1, rev4b, rev5};
 		runBuilder(revs);
 		assertEquals(1, commits.size());
 		assertEquals(3, getCommit(0).getRevisions().size());
@@ -129,7 +129,7 @@ public class CommitListBuilderTest extends TestCase {
 	 * Method testMultipleCommits.
 	 */
 	public void testMultipleCommits() {
-		CvsRevision[] revs = {rev1, rev2, rev3};
+		Revision[] revs = {rev1, rev2, rev3};
 		runBuilder(revs);
 		assertEquals(3, commits.size());
 		assertEquals(1, getCommit(0).getRevisions().size());
@@ -144,7 +144,7 @@ public class CommitListBuilderTest extends TestCase {
 	 * Method testSimultaneousCommits.
 	 */
 	public void testSimultaneousCommits() {
-		CvsRevision[] revs = {rev1, rev2, rev4, rev5, rev6};
+		Revision[] revs = {rev1, rev2, rev4, rev5, rev6};
 		runBuilder(revs);
 		assertEquals(3, commits.size());
 		assertEquals(2, getCommit(0).getRevisions().size());
@@ -182,11 +182,11 @@ public class CommitListBuilderTest extends TestCase {
 		return (Commit) commits.get(index);
 	}
 
-	private CvsRevision createRevision(CvsFile file, String revision, long time, Author author, String message) {
+	private Revision createRevision(VersionedFile file, String revision, long time, Author author, String message) {
 		return file.addChangeRevision(revision, author, new Date(time), message, 0, 0, 0, null);
 	}
 
-	private void runBuilder(CvsRevision[] revisions) {
+	private void runBuilder(Revision[] revisions) {
 		TreeSet revList = new TreeSet();
 		if (revisions != null) {
 			for (int i = 0; i < revisions.length; i++) {

@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.SortedSet;
 
 import net.sf.statcvs.Messages;
-import net.sf.statcvs.model.CvsFile;
+import net.sf.statcvs.model.VersionedFile;
 import net.sf.statcvs.reportmodel.FileColumn;
 import net.sf.statcvs.reportmodel.IntegerColumn;
 import net.sf.statcvs.reportmodel.Table;
@@ -48,7 +48,7 @@ public class LargestFilesTableReport implements TableReport {
 	/**
 	 * Creates a table containing the largest files from a file list
 	 * @param files a <tt>SortedSet</tt> of
-	 *              {@link net.sf.statcvs.model.CvsFile}s
+	 *              {@link net.sf.statcvs.model.VersionedFile}s
 	 * @param maxRows the maximum number of files displayed in the table 
 	 */
 	public LargestFilesTableReport(SortedSet files, int maxRows) {
@@ -71,7 +71,7 @@ public class LargestFilesTableReport implements TableReport {
 		int lines = 0;
 		Iterator it = files.iterator();
 		while (it.hasNext() && lines < maxRows) {
-			CvsFile file = (CvsFile) it.next();
+			VersionedFile file = (VersionedFile) it.next();
 			if (file.isDead()) {
 				continue;
 			}

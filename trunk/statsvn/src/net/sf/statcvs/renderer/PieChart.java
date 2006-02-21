@@ -31,9 +31,9 @@ import java.util.List;
 
 import net.sf.statcvs.Messages;
 import net.sf.statcvs.model.Author;
-import net.sf.statcvs.model.CvsContent;
-import net.sf.statcvs.model.CvsFile;
-import net.sf.statcvs.model.CvsRevision;
+import net.sf.statcvs.model.Repository;
+import net.sf.statcvs.model.VersionedFile;
+import net.sf.statcvs.model.Revision;
 import net.sf.statcvs.model.Directory;
 import net.sf.statcvs.output.ConfigurationOptions;
 import net.sf.statcvs.output.HTMLOutput;
@@ -63,14 +63,14 @@ public class PieChart extends Chart {
 
 	/**
 	 * creates an 3D Pie Chart
-	 * @param content CvsContent
+	 * @param content Repository
 	 * @param title chart title
 	 * @param fileName fileName for chart
 	 * @param author author for this pie chart 
 	 * @param filter filter options (users / whole repository)
 	 */
 	public PieChart(
-		CvsContent content,
+		Repository content,
 		String title,
 		String fileName,
 		Author author,
@@ -147,7 +147,7 @@ public class PieChart extends Chart {
 		int result = 0;
 		Iterator it = dir.getRevisions().iterator();
 		while (it.hasNext()) {
-			CvsRevision rev = (CvsRevision) it.next();
+			Revision rev = (Revision) it.next();
 			if (!author.equals(rev.getAuthor())) {
 				continue;
 			}
@@ -160,7 +160,7 @@ public class PieChart extends Chart {
 		int result = 0;
 		Iterator fileIt = dir.getFiles().iterator();
 		while (fileIt.hasNext()) {
-			CvsFile element = (CvsFile) fileIt.next();
+			VersionedFile element = (VersionedFile) fileIt.next();
 			result += element.getCurrentLinesOfCode();
 		}
 		return result;

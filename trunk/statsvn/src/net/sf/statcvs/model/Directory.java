@@ -24,8 +24,8 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 /**
- * Represents a directory in the {@link CvsContent Repository}, a
- * container for {@link CvsFile}s and sub<tt>Directory</tt>s.
+ * Represents a directory in the {@link Repository Repository}, a
+ * container for {@link VersionedFile}s and sub<tt>Directory</tt>s.
  * A new root directory is created by {@link #createRoot}.
  * The {@link #createSubdirectory} method creates new subdirectories.
  * 
@@ -91,7 +91,7 @@ public abstract class Directory implements Comparable {
 	public abstract int getDepth();
 
 	/**
-	 * Returns all {@link CvsFile} objects in this directory, ordered
+	 * Returns all {@link VersionedFile} objects in this directory, ordered
 	 * by filename. Files in subdirectories are not included.
 	 * @return the files in this directory
 	 */
@@ -100,7 +100,7 @@ public abstract class Directory implements Comparable {
 	}
 	
 	/**
-	 * Returns all {@link CvsRevision}s to files in
+	 * Returns all {@link Revision}s to files in
 	 * this directory, in order from oldest to most recent.
 	 * @return list of <tt>CvsRevision</tt>s for this directory
 	 */
@@ -108,7 +108,7 @@ public abstract class Directory implements Comparable {
 		SortedSet result = new TreeSet();
 		Iterator iterator = files.iterator();
 		while (iterator.hasNext()) {
-			CvsFile file = (CvsFile) iterator.next();
+			VersionedFile file = (VersionedFile) iterator.next();
 			result.addAll(file.getRevisions());
 		}
 		return result;
@@ -149,7 +149,7 @@ public abstract class Directory implements Comparable {
 		int result = 0;
 		Iterator it = files.iterator();
 		while (it.hasNext()) {
-			CvsFile file = (CvsFile) it.next();
+			VersionedFile file = (VersionedFile) it.next();
 			result += file.getCurrentLinesOfCode();
 		}
 		return result;
@@ -164,7 +164,7 @@ public abstract class Directory implements Comparable {
 		int result = 0;
 		Iterator it = files.iterator();
 		while (it.hasNext()) {
-			CvsFile file = (CvsFile) it.next();
+			VersionedFile file = (VersionedFile) it.next();
 			if (!file.isDead()) {
 				result++;
 			}
@@ -181,7 +181,7 @@ public abstract class Directory implements Comparable {
 	public boolean isEmpty() {
 		Iterator it = files.iterator();
 		while (it.hasNext()) {
-			CvsFile file = (CvsFile) it.next();
+			VersionedFile file = (VersionedFile) it.next();
 			if (!file.isDead()) {
 				return false;
 			}
@@ -208,7 +208,7 @@ public abstract class Directory implements Comparable {
 	 * Adds a file to this directory.
 	 * @param file a file in this directory
 	 */
-	void addFile(CvsFile file) {
+	void addFile(VersionedFile file) {
 		files.add(file);
 	}
 }

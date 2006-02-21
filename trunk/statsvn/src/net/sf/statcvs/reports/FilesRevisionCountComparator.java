@@ -25,8 +25,8 @@ package net.sf.statcvs.reports;
 import java.util.Comparator;
 import java.util.Iterator;
 
-import net.sf.statcvs.model.CvsFile;
-import net.sf.statcvs.model.CvsRevision;
+import net.sf.statcvs.model.VersionedFile;
+import net.sf.statcvs.model.Revision;
 
 /**
  * Compares two files according to their number of changes (revisions).
@@ -42,8 +42,8 @@ public class FilesRevisionCountComparator implements Comparator {
 	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 	 */
 	public int compare(Object o1, Object o2) {
-		CvsFile file1 = (CvsFile) o1;
-		CvsFile file2 = (CvsFile) o2;
+		VersionedFile file1 = (VersionedFile) o1;
+		VersionedFile file2 = (VersionedFile) o2;
 		if (file1.getRevisions().size() < file2.getRevisions().size()) {
 			return 2;
 		} else if (file1.getRevisions().size() > file2.getRevisions().size()) {
@@ -52,13 +52,13 @@ public class FilesRevisionCountComparator implements Comparator {
 			int lines1 = 0;
 			Iterator it = file1.getRevisions().iterator();
 			while (it.hasNext()) {
-				CvsRevision rev = (CvsRevision) it.next();
+				Revision rev = (Revision) it.next();
 				lines1 += rev.getNewLines();
 			}
 			int lines2 = 0;
 			it = file2.getRevisions().iterator();
 			while (it.hasNext()) {
-				CvsRevision rev = (CvsRevision) it.next();
+				Revision rev = (Revision) it.next();
 				lines2 += rev.getNewLines();
 			}
 			if (lines1 < lines2) {
