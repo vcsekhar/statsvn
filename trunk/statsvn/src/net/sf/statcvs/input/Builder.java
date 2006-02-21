@@ -67,7 +67,7 @@ public class Builder implements SvnLogBuilder {
 	private final Map directories = new HashMap();
     private final Map symbolicNames = new HashMap(); 
     
-	private final List fileBuilders = new ArrayList();
+	private final Set fileBuilders = new HashSet();
 	private final Set atticFileNames = new HashSet();
 
 	private FileBuilder currentFileBuilder = null;

@@ -22,17 +22,16 @@
 */
 package net.sf.statcvs;
 
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.Reader;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import net.sf.statcvs.input.Builder;
-import net.sf.statcvs.input.SvnLogfileParser;
 import net.sf.statcvs.input.EmptyRepositoryException;
 import net.sf.statcvs.input.LogSyntaxException;
 import net.sf.statcvs.input.RepositoryFileManager;
+import net.sf.statcvs.input.SvnLogfileParser;
 import net.sf.statcvs.model.Repository;
 import net.sf.statcvs.output.CommandLineParser;
 import net.sf.statcvs.output.ConfigurationException;
@@ -173,12 +172,12 @@ public class Main {
 		logger.info("Parsing SVN log '"
 				+ ConfigurationOptions.getLogFileName() + "'");
 
-		Reader logReader = new FileReader(ConfigurationOptions.getLogFileName());
+		FileInputStream logFile = new FileInputStream(ConfigurationOptions.getLogFileName());
 		RepositoryFileManager repFileMan =
 				new RepositoryFileManager(ConfigurationOptions.getCheckedOutDirectory());
 		Builder builder = new Builder(repFileMan, ConfigurationOptions.getIncludePattern(),
 				ConfigurationOptions.getExcludePattern());
-		new SvnLogfileParser(logReader, builder).parse();
+		new SvnLogfileParser(logFile, builder).parse();
 		if (ConfigurationOptions.getProjectName() == null) {
 			ConfigurationOptions.setProjectName(builder.getProjectName());
 		}

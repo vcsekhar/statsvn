@@ -19,9 +19,10 @@
 */
 package net.sf.statcvs.input;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.StringReader;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.NoSuchElementException;
@@ -167,8 +168,8 @@ public class ParserTest extends TestCase {
 	 * @throws Exception
 	 */
 	public void testEmptyLog() throws Exception {
-		Reader reader = new StringReader("");
-		SvnLogfileParser parser = new SvnLogfileParser(reader, mock);
+		ByteArrayInputStream stream = new ByteArrayInputStream("".getBytes());
+		SvnLogfileParser parser = new SvnLogfileParser(stream, mock);
 		try {
 			parser.parse();
 			fail("should have thrown LogSyntaxException");
@@ -182,8 +183,8 @@ public class ParserTest extends TestCase {
 	 * @throws Exception
 	 */
 	public void testBogusLog() throws Exception {
-		Reader reader = new StringReader("foo\nbar");
-		SvnLogfileParser parser = new SvnLogfileParser(reader, mock);
+		ByteArrayInputStream stream = new ByteArrayInputStream("foo\nbar".getBytes());
+		SvnLogfileParser parser = new SvnLogfileParser(stream, mock);
 		try {
 			parser.parse();
 			fail("should have thrown LogSyntaxException");
@@ -325,8 +326,8 @@ public class ParserTest extends TestCase {
 		}
 	}
 	private void parseLog(String name) throws Exception {
-		Reader reader = new InputStreamReader(getClass().getResourceAsStream(name));
-		new SvnLogfileParser(reader, mock).parse();
+		InputStream stream = getClass().getResourceAsStream(name);
+		new SvnLogfileParser(stream, mock).parse();
 	}
 
 	private void parseOneFile(String name) throws Exception {
