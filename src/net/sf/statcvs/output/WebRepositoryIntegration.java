@@ -24,8 +24,8 @@ package net.sf.statcvs.output;
 
 import java.util.Set;
 
-import net.sf.statcvs.model.CvsFile;
-import net.sf.statcvs.model.CvsRevision;
+import net.sf.statcvs.model.VersionedFile;
+import net.sf.statcvs.model.Revision;
 import net.sf.statcvs.model.Directory;
 
 /**
@@ -58,7 +58,7 @@ public interface WebRepositoryIntegration {
 	 * @param file the file
 	 * @return a URL to the file in the web repository browser
 	 */
-	String getFileHistoryUrl(CvsFile file);
+	String getFileHistoryUrl(VersionedFile file);
 
 	/**
 	 * Returns a URL to a file in the web repository browser. The
@@ -66,7 +66,7 @@ public interface WebRepositoryIntegration {
 	 * @param file the file
 	 * @return a URL to the file in the web repository browser
 	 */
-	String getFileViewUrl(CvsFile file);
+	String getFileViewUrl(VersionedFile file);
 
 	/**
 	 * Returns a URL to a file in the web repository browser. The
@@ -75,16 +75,16 @@ public interface WebRepositoryIntegration {
 	 * @param revision the revision
 	 * @return a URL to the revision in the web repository browser
 	 */
-	String getFileViewUrl(CvsRevision revision);
+	String getFileViewUrl(Revision revision);
 
 	/**
 	 * Returns a URL to a diff in the web repository browser. Both revisions
-	 * must belong to the same <tt>CvsFile</tt>.
+	 * must belong to the same <tt>VersionedFile</tt>.
 	 * @param oldRevision the old revision
 	 * @param newRevision the new revision
 	 * @return a URL to a diff
 	 */
-	String getDiffUrl(CvsRevision oldRevision, CvsRevision newRevision);
+	String getDiffUrl(Revision oldRevision, Revision newRevision);
 	
 	/**
 	 * Sets the files that are "in the attic", in the CVS sense. See

@@ -28,12 +28,12 @@ import java.util.Iterator;
 import junit.framework.TestCase;
 
 /**
- * Test cases for {@link CvsFile}
+ * Test cases for {@link VersionedFile}
  * 
  * @author Richard Cyganiak
- * @version $Id: CvsFileTest.java,v 1.8 2002/12/07 04:50:20 lukasz Exp $
+ * @version $Id: VersionedFileTest.java,v 1.8 2002/12/07 04:50:20 lukasz Exp $
  */
-public class CvsFileTest extends TestCase {
+public class VersionedFileTest extends TestCase {
 	private Directory dirRoot;
 	private Directory dirTest;
 	private Date date1 = new Date(1100000000);
@@ -42,10 +42,10 @@ public class CvsFileTest extends TestCase {
 	private Author author;
 	
 	/**
-	 * Constructor for CvsFileTest.
+	 * Constructor for VersionedFileTest.
 	 * @param arg0 input
 	 */
-	public CvsFileTest(String arg0) {
+	public VersionedFileTest(String arg0) {
 		super(arg0);
 	}
 
@@ -63,8 +63,8 @@ public class CvsFileTest extends TestCase {
 	 * Method testCreation.
 	 */
 	public void testCreation() {
-		CvsFile file = new CvsFile("file", dirRoot);
-		CvsRevision rev1 = file.addInitialRevision("1.1", author, date1, "message", 0, null);
+		VersionedFile file = new VersionedFile("file", dirRoot);
+		Revision rev1 = file.addInitialRevision("1.1", author, date1, "message", 0, null);
 		assertEquals("file", file.getFilenameWithPath());
 		assertEquals(1, file.getRevisions().size());
 		assertSame(rev1, file.getLatestRevision());
@@ -77,10 +77,10 @@ public class CvsFileTest extends TestCase {
 	 * Method testMultipleRevisions.
 	 */
 	public void testMultipleRevisions() {
-		CvsFile file = new CvsFile("file", dirRoot);
-		CvsRevision rev1 = file.addInitialRevision("1.1", author, date1, "message1", 0, null);
-		CvsRevision rev2 = file.addChangeRevision("1.2", author, date2, "message2", 0, 0, 0, null);
-		CvsRevision rev3 = file.addChangeRevision("1.3", author, date3, "message3", 0, 0, 0, null);
+		VersionedFile file = new VersionedFile("file", dirRoot);
+		Revision rev1 = file.addInitialRevision("1.1", author, date1, "message1", 0, null);
+		Revision rev2 = file.addChangeRevision("1.2", author, date2, "message2", 0, 0, 0, null);
+		Revision rev3 = file.addChangeRevision("1.3", author, date3, "message3", 0, 0, 0, null);
 		Iterator revIt = file.getRevisions().iterator();
 		assertEquals(rev1, revIt.next());
 		assertEquals(rev2, revIt.next());
@@ -98,10 +98,10 @@ public class CvsFileTest extends TestCase {
 	 * Test the assertion that revisions can be added to a file in any order.
 	 */
 	public void testMultipleRevisionsAnyOrder() {
-		CvsFile file = new CvsFile("file", dirRoot);
-		CvsRevision rev2 = file.addChangeRevision("1.2", author, date2, null, 0, 0, 0, null);
-		CvsRevision rev3 = file.addDeletionRevision("1.3", author, date3, null, 0, null);
-		CvsRevision rev1 = file.addInitialRevision("1.1", author, date1, null, 0, null);
+		VersionedFile file = new VersionedFile("file", dirRoot);
+		Revision rev2 = file.addChangeRevision("1.2", author, date2, null, 0, 0, 0, null);
+		Revision rev3 = file.addDeletionRevision("1.3", author, date3, null, 0, null);
+		Revision rev1 = file.addInitialRevision("1.1", author, date1, null, 0, null);
 		Iterator revIt = file.getRevisions().iterator();
 		assertEquals(rev1, revIt.next());
 		assertEquals(rev2, revIt.next());
@@ -113,9 +113,9 @@ public class CvsFileTest extends TestCase {
 	 * Method testModuleName.
 	 */
 	public void testDirectories() {
-		CvsFile file1 = new CvsFile("rootfile.file", dirRoot);
+		VersionedFile file1 = new VersionedFile("rootfile.file", dirRoot);
 		file1.addInitialRevision("1.1", author, date1, null, 0, null);
-		CvsFile file2 = new CvsFile("test/file.file", dirTest);
+		VersionedFile file2 = new VersionedFile("test/file.file", dirTest);
 		assertEquals(dirRoot, file1.getDirectory());
 		assertEquals(dirTest, file2.getDirectory());
 	}
@@ -125,11 +125,11 @@ public class CvsFileTest extends TestCase {
 	 * 
 	 */
 	public void testGetFilename() {
-		CvsFile file = new CvsFile("TestFile.java", dirRoot);
+		VersionedFile file = new VersionedFile("TestFile.java", dirRoot);
 		assertEquals("TestFile.java", file.getFilename());
-		file = new CvsFile("", dirRoot);
+		file = new VersionedFile("", dirRoot);
 		assertEquals("", file.getFilename());
-		file = new CvsFile("/", dirRoot);
+		file = new VersionedFile("/", dirRoot);
 		assertEquals("", file.getFilename());
 	}
 
@@ -137,10 +137,10 @@ public class CvsFileTest extends TestCase {
 	 * test getPreviousRevision()
 	 */
 	public void testGetPreviousRevision() {
-		CvsFile file = new CvsFile("file", dirRoot);
-		CvsRevision rev1 = file.addInitialRevision("1.1", author, date1, "message1", 0, null);
-		CvsRevision rev2 = file.addChangeRevision("1.2", author, date2, "message2", 0, 0, 0, null);
-		CvsRevision rev3 = file.addChangeRevision("1.3", author, date3, "message3", 0, 0, 0, null);
+		VersionedFile file = new VersionedFile("file", dirRoot);
+		Revision rev1 = file.addInitialRevision("1.1", author, date1, "message1", 0, null);
+		Revision rev2 = file.addChangeRevision("1.2", author, date2, "message2", 0, 0, 0, null);
+		Revision rev3 = file.addChangeRevision("1.3", author, date3, "message3", 0, 0, 0, null);
 		assertNull(rev1.getPreviousRevision());
 		assertNull(file.getPreviousRevision(rev1));
 		assertEquals(rev1, rev2.getPreviousRevision());
@@ -148,7 +148,7 @@ public class CvsFileTest extends TestCase {
 		assertEquals(rev2, rev3.getPreviousRevision());
 		assertEquals(rev2, file.getPreviousRevision(rev3));
 		try {
-			file.getPreviousRevision(new CvsRevision(new CvsFile("foo", dirRoot), "1.1", CvsRevision.TYPE_CHANGE, null, date3, null, 0, 0, 0, null));
+			file.getPreviousRevision(new Revision(new VersionedFile("foo", dirRoot), "1.1", Revision.TYPE_CHANGE, null, date3, null, 0, 0, 0, null));
 			fail("should have thrown IllegalArgumentException");
 		} catch (IllegalArgumentException expected) {
 			// expected
@@ -159,7 +159,7 @@ public class CvsFileTest extends TestCase {
 	 * Test if files are added to their directory's file list
 	 */
 	public void testLinkToDirectory() {
-		CvsFile file = new CvsFile("test/file", dirTest);
+		VersionedFile file = new VersionedFile("test/file", dirTest);
 		file.addInitialRevision("1.1", author, date1, "message1", 0, null);
 		assertEquals(dirTest, file.getDirectory());		
 		assertTrue(dirTest.getFiles().contains(file));		
@@ -170,16 +170,16 @@ public class CvsFileTest extends TestCase {
 	 * in the authors list
 	 */
 	public void testIgnoreNullAuthor() {
-		CvsFile file = new CvsFile("file", dirRoot);
-		new CvsRevision(file, "1.5", CvsRevision.TYPE_CHANGE, new Author("author"),
+		VersionedFile file = new VersionedFile("file", dirRoot);
+		new Revision(file, "1.5", Revision.TYPE_CHANGE, new Author("author"),
 				new Date(200000000), null, 0, 0, 0, null);
-		new CvsRevision(file, "0.0", CvsRevision.TYPE_BEGIN_OF_LOG, null,
+		new Revision(file, "0.0", Revision.TYPE_BEGIN_OF_LOG, null,
 				new Date(100000000), null, 0, 0, 0, null);
 
 		assertTrue(!file.hasAuthor(null));
 	}
 	
 	public void testCompareTo() {
-		assertTrue(new CvsFile("file1", dirRoot).compareTo(new CvsFile("file2", dirRoot)) < 0);
+		assertTrue(new VersionedFile("file1", dirRoot).compareTo(new VersionedFile("file2", dirRoot)) < 0);
 	}
 }

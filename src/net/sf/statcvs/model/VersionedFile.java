@@ -26,30 +26,30 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 /**
- * Represents one versioned file in the {@link CvsContent Repository},
- * including its name, {@link Directory} and {@link CvsRevision} list.
+ * Represents one versioned file in the {@link Repository Repository},
+ * including its name, {@link Directory} and {@link Revision} list.
  * Revisions can be created using the <tt>addXXXRevision</tt> factory
  * methods. Revisions can be created in any order.
  * 
- * TODO: Rename class to something like VersionedFile, getCurrentLinesOfCode() to getCurrentLines(), maybe getFilenameXXX, isDead() to isDeleted()
+ * TODO: Rename getCurrentLinesOfCode() to getCurrentLines(), maybe getFilenameXXX, isDead() to isDeleted()
  *  
  * @author Manuel Schulze
  * @author Richard Cyganiak <richard@cyganiak.de>
- * @version $Id: CvsFile.java,v 1.48 2004/12/14 13:38:13 squig Exp $
+ * @version $Id: VersionedFile.java,v 1.48 2004/12/14 13:38:13 squig Exp $
  */
-public class CvsFile implements Comparable {
+public class VersionedFile implements Comparable {
 	private final String filename;
 	private final SortedSet revisions = new TreeSet();
 	private final Directory directory;
 	private final Set authors = new HashSet();
 
 	/**
-	 * Creates a CvsFile object.
+	 * Creates a VersionedFile object.
 	 * 
 	 * @param name The full name of the file
 	 * @param directory the directory where the file resides
 	 */
-	public CvsFile(String name, Directory directory) {
+	public VersionedFile(String name, Directory directory) {
 		this.filename = name;
 		this.directory = directory;
 		if (directory != null) {
@@ -95,22 +95,22 @@ public class CvsFile implements Comparable {
 	 * Gets the latest revision of this file.
 	 * @return the latest revision of this file
 	 */
-	public CvsRevision getLatestRevision() {
-		return (CvsRevision) this.revisions.last();
+	public Revision getLatestRevision() {
+		return (Revision) this.revisions.last();
 	}
 
 	/**
 	 * Gets the earliest revision of this file.
 	 * @return the earliest revision of this file
 	 */
-	public CvsRevision getInitialRevision() {
-		return (CvsRevision) this.revisions.first();
+	public Revision getInitialRevision() {
+		return (Revision) this.revisions.first();
 	}
 
 	/**
-	 * Returns the list of {@link CvsRevision}s of this file,
+	 * Returns the list of {@link Revision}s of this file,
 	 * sorted from earliest to most recent.
-	 * @return a <tt>SortedSet</tt> of {@link CvsRevision}s
+	 * @return a <tt>SortedSet</tt> of {@link Revision}s
 	 */
 	public SortedSet getRevisions() {
 		return this.revisions;
@@ -151,7 +151,7 @@ public class CvsFile implements Comparable {
 	 * @param revision a revision of this file
 	 * @return this revision's predecessor
 	 */
-	public CvsRevision getPreviousRevision(CvsRevision revision) {
+	public Revision getPreviousRevision(Revision revision) {
 		if (!revisions.contains(revision)) {
 			throw new IllegalArgumentException("revision not containted in file");
 		}
@@ -159,7 +159,7 @@ public class CvsFile implements Comparable {
 		if (headSet.isEmpty()) {
 			return null;
 		}
-		return (CvsRevision) headSet.last();
+		return (Revision) headSet.last();
 	}
 
 	/**
@@ -174,7 +174,7 @@ public class CvsFile implements Comparable {
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
 	public int compareTo(Object other) {
-		return filename.compareTo(((CvsFile) other).filename);
+		return filename.compareTo(((VersionedFile) other).filename);
 	}
 
 	/**
@@ -187,10 +187,10 @@ public class CvsFile implements Comparable {
 	 * @param comment the commit message
 	 * @param lines the number of lines of the new file
 	 */
-	public CvsRevision addInitialRevision(String revisionNumber, Author author,
+	public Revision addInitialRevision(String revisionNumber, Author author,
 									Date date, String comment, int lines, SortedSet symbolicNames) {
-		CvsRevision result = new CvsRevision(this, revisionNumber,
-				CvsRevision.TYPE_CREATION, author, date, comment,
+		Revision result = new Revision(this, revisionNumber,
+				Revision.TYPE_CREATION, author, date, comment,
 				lines, lines, 0, symbolicNames);
 		addRevision(result);
 		return result;
@@ -206,11 +206,11 @@ public class CvsFile implements Comparable {
 	 * @param linesDelta the change in the number of lines
 	 * @param replacedLines number of lines that were removed and replaced by others
 	 */
-	public CvsRevision addChangeRevision(String revisionNumber, Author author,
+	public Revision addChangeRevision(String revisionNumber, Author author,
 								  Date date, String comment, int lines,
 								  int linesDelta, int replacedLines, SortedSet symbolicNames) {
-		CvsRevision result = new CvsRevision(this, revisionNumber,
-				CvsRevision.TYPE_CHANGE, author, date, comment,
+		Revision result = new Revision(this, revisionNumber,
+				Revision.TYPE_CHANGE, author, date, comment,
 				lines, linesDelta, replacedLines, symbolicNames);
 		addRevision(result);
 		return result;
@@ -224,10 +224,10 @@ public class CvsFile implements Comparable {
 	 * @param comment the commit message
 	 * @param lines the number of lines in the file before it was deleted
 	 */
-	public CvsRevision addDeletionRevision(String revisionNumber, Author author,
+	public Revision addDeletionRevision(String revisionNumber, Author author,
 									Date date, String comment, int lines, SortedSet symbolicNames) {
-		CvsRevision result = new CvsRevision(this, revisionNumber,
-				CvsRevision.TYPE_DELETION, author, date, comment,
+		Revision result = new Revision(this, revisionNumber,
+				Revision.TYPE_DELETION, author, date, comment,
 				0, -lines, 0, symbolicNames);
 		addRevision(result);
 		return result;
@@ -241,15 +241,15 @@ public class CvsFile implements Comparable {
 	 * @param date the begin of the log
 	 * @param lines the number of lines in the file at that time
 	 */
-	public CvsRevision addBeginOfLogRevision(Date date, int lines, SortedSet symbolicNames) {
-		CvsRevision result = new CvsRevision(this, "0.0",
-				CvsRevision.TYPE_BEGIN_OF_LOG, null, date, null,
+	public Revision addBeginOfLogRevision(Date date, int lines, SortedSet symbolicNames) {
+		Revision result = new Revision(this, "0.0",
+				Revision.TYPE_BEGIN_OF_LOG, null, date, null,
 				lines, 0, 0, symbolicNames);
 		addRevision(result);
 		return result;
 	}
 
-	private void addRevision(CvsRevision revision) {
+	private void addRevision(Revision revision) {
 		revisions.add(revision);
 		if (revision.getAuthor() != null) {
 			authors.add(revision.getAuthor());

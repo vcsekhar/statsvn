@@ -23,7 +23,7 @@
 package net.sf.statcvs.reports;
 
 import net.sf.statcvs.Messages;
-import net.sf.statcvs.model.CvsContent;
+import net.sf.statcvs.model.Repository;
 import net.sf.statcvs.reportmodel.DirectoryColumn;
 import net.sf.statcvs.reportmodel.Table;
 
@@ -44,7 +44,7 @@ public class DirectoriesTableReport extends AbstractLocTableReport
 	 * respective number of changes and LOC.
 	 * @param content the version control source data
 	 */
-	public DirectoriesTableReport(CvsContent content) {
+	public DirectoriesTableReport(Repository content) {
 		super(content);
 	}
 	

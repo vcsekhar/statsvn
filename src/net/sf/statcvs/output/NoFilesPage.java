@@ -25,7 +25,7 @@ package net.sf.statcvs.output;
 
 import java.io.IOException;
 
-import net.sf.statcvs.model.CvsContent;
+import net.sf.statcvs.model.Repository;
 
 /**
  * Generated if and only if there are no files in the repository
@@ -34,9 +34,9 @@ import net.sf.statcvs.model.CvsContent;
 public class NoFilesPage extends HTMLPage {
 
 	/**
-	 * @see net.sf.statcvs.output.HTMLPage#HTMLPage(CvsContent)
+	 * @see net.sf.statcvs.output.HTMLPage#HTMLPage(Repository)
 	 */
-	public NoFilesPage(CvsContent content) throws IOException {
+	public NoFilesPage(Repository content) throws IOException {
 		super(content);
 		setFileName("index.html");
 		setPageName("Development statistics for " + ConfigurationOptions.getProjectName());

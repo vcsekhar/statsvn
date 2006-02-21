@@ -32,22 +32,22 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.logging.Logger;
 
-import net.sf.statcvs.model.CvsFile;
-import net.sf.statcvs.model.CvsRevision;
+import net.sf.statcvs.model.VersionedFile;
+import net.sf.statcvs.model.Revision;
 
 /**
- * <p>Builds a {@link CvsFile} with {@link CvsRevision}s from logging data.
+ * <p>Builds a {@link VersionedFile} with {@link Revision}s from logging data.
  * This class is responsible for deciding if a file or revisions will be
  * included in the report, for translating from CVS logfile data structures
  * to the data structures in the <tt>net.sf.statcvs.model</tt> package, and
  * for calculating the LOC history for the file.</p>
  * 
- * <p>A main goal of this class is to delay the creation of the <tt>CvsFile</tt>
+ * <p>A main goal of this class is to delay the creation of the <tt>VersionedFile</tt>
  * object until all revisions of the file have been collected from the log.
- * We could simply create <tt>CvsFile</tt> and <tt>CvsRevision</tt>s on the fly
+ * We could simply create <tt>VersionedFile</tt> and <tt>Revision</tt>s on the fly
  * as we parse through the log, but this creates a problem if we decide not
  * to include the file after reading several revisions. The creation of a
- * <tt>CvsFile</tt> or <tt>CvsRevision</tt> can cause many more objects to
+ * <tt>VersionedFile</tt> or <tt>Revision</tt> can cause many more objects to
  * be created (<tt>Author</tt>, <tt>Directory</tt>, <tt>Commit</tt>), and
  * it would be very hard to get rid of them if we don't want the file. This
  * problem is solved by first collecting all information about one file in
@@ -108,15 +108,15 @@ public class FileBuilder {
 	}
 	
 	/**
-	 * Creates and returns a {@link CvsFile} representation of the file.
+	 * Creates and returns a {@link VersionedFile} representation of the file.
 	 * <tt>null</tt> is returned if the file does not meet certain criteria,
 	 * for example if its filename meets an exclude filter or if it was dead
 	 * during the entire logging timespan.
 	 * 
 	 * @param beginOfLogDate the date of the begin of the log
-	 * @return a <tt>CvsFile</tt> representation of the file.
+	 * @return a <tt>VersionedFile</tt> representation of the file.
 	 */
-	public CvsFile createFile(Date beginOfLogDate) {
+	public VersionedFile createFile(Date beginOfLogDate) {
 		if (isFilteredFile() || !fileExistsInLogPeriod()) {
 			return null;
 		}
@@ -124,7 +124,7 @@ public class FileBuilder {
 			return null;
 		}
 
-		CvsFile file = new CvsFile(name, builder.getDirectory(name));
+		VersionedFile file = new VersionedFile(name, builder.getDirectory(name));
 
 		if (revisions.isEmpty()) {
 			buildBeginOfLogRevision(file, beginOfLogDate, getFinalLOC(), null);
@@ -275,13 +275,13 @@ public class FileBuilder {
 		return data.getLinesAdded() - data.getLinesRemoved();
 	}
 
-	private void buildCreationRevision(CvsFile file, RevisionData data, int loc, SortedSet symbolicNames) {
+	private void buildCreationRevision(VersionedFile file, RevisionData data, int loc, SortedSet symbolicNames) {
 		file.addInitialRevision(data.getRevisionNumber(),
 				builder.getAuthor(data.getLoginName()), data.getDate(),
 				data.getComment(), loc, symbolicNames);
 	}
 
-	private void buildChangeRevision(CvsFile file, RevisionData data, int loc, SortedSet symbolicNames) {
+	private void buildChangeRevision(VersionedFile file, RevisionData data, int loc, SortedSet symbolicNames) {
 		file.addChangeRevision(data.getRevisionNumber(),
 				builder.getAuthor(data.getLoginName()), data.getDate(),
 				data.getComment(), loc,
@@ -289,13 +289,13 @@ public class FileBuilder {
 				Math.min(data.getLinesAdded(), data.getLinesRemoved()), symbolicNames);	
 	}
 
-	private void buildDeletionRevision(CvsFile file, RevisionData data, int loc, SortedSet symbolicNames) {
+	private void buildDeletionRevision(VersionedFile file, RevisionData data, int loc, SortedSet symbolicNames) {
 		file.addDeletionRevision(data.getRevisionNumber(),
 				builder.getAuthor(data.getLoginName()), data.getDate(),
 				data.getComment(), loc, symbolicNames);
 	}
 
-	private void buildBeginOfLogRevision(CvsFile file, Date beginOfLogDate, int loc, SortedSet symbolicNames) {
+	private void buildBeginOfLogRevision(VersionedFile file, Date beginOfLogDate, int loc, SortedSet symbolicNames) {
 		Date date = new Date(beginOfLogDate.getTime() - 60000);
 		file.addBeginOfLogRevision(date, loc, symbolicNames);
 	}

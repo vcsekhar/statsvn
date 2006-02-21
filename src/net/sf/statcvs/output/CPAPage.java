@@ -26,7 +26,7 @@ package net.sf.statcvs.output;
 import java.io.IOException;
 
 import net.sf.statcvs.Messages;
-import net.sf.statcvs.model.CvsContent;
+import net.sf.statcvs.model.Repository;
 import net.sf.statcvs.renderer.TableRenderer;
 import net.sf.statcvs.reportmodel.Table;
 import net.sf.statcvs.reports.AuthorsTableReport;
@@ -47,7 +47,7 @@ public class CPAPage extends HTMLPage {
 	 * @param withImage <tt>true</tt> if the LOC per Author image was generated
 	 * @throws IOException on error
 	 */
-	public CPAPage(CvsContent content, int sortType, boolean withImage)
+	public CPAPage(Repository content, int sortType, boolean withImage)
 			throws IOException {
 
 		super(content);

@@ -32,8 +32,8 @@ import java.util.Set;
 
 import net.sf.statcvs.model.Author;
 import net.sf.statcvs.model.Commit;
-import net.sf.statcvs.model.CvsContent;
-import net.sf.statcvs.model.CvsRevision;
+import net.sf.statcvs.model.Repository;
+import net.sf.statcvs.model.Revision;
 import net.sf.statcvs.output.ConfigurationOptions;
 
 import org.jfree.chart.ChartFactory;
@@ -53,17 +53,17 @@ import org.jfree.data.category.DefaultCategoryDataset;
 public class StackedBarChart extends Chart {
 	private static final int MODIFYING = 0;
 	private static final int ADDING = 1;
-	private CvsContent content;
+	private Repository content;
 	private double[][] categories;
 	private ArrayList categoryNames = new ArrayList();
 	
 	/**
 	 * creates an Stacked Bar Chart
-	 * @param content CvsContent
+	 * @param content Repository
 	 * @param title chart title
 	 * @param fileName fileName for chart
 	 */
-	public StackedBarChart(CvsContent content, String title, String fileName) {
+	public StackedBarChart(Repository content, String title, String fileName) {
 		super(title, fileName);
 		this.content = content;
 		Collection authors = content.getAuthors();
@@ -93,7 +93,7 @@ public class StackedBarChart extends Chart {
 			int linesAdded = 0;
 			int linesRemoved = 0;
 			while (commitRevIt.hasNext()) {
-				CvsRevision revision = (CvsRevision) commitRevIt.next();
+				Revision revision = (Revision) commitRevIt.next();
 				if (revision.getLinesDelta() > 0) {
 					linesAdded += revision.getLinesDelta() + revision.getReplacedLines();
 					linesRemoved += revision.getReplacedLines();

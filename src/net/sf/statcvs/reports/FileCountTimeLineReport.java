@@ -26,8 +26,8 @@ import java.util.Iterator;
 import java.util.SortedSet;
 
 import net.sf.statcvs.Messages;
-import net.sf.statcvs.model.CvsFile;
-import net.sf.statcvs.model.CvsRevision;
+import net.sf.statcvs.model.VersionedFile;
+import net.sf.statcvs.model.Revision;
 import net.sf.statcvs.reportmodel.TimeLine;
 
 /**
@@ -41,7 +41,7 @@ public class FileCountTimeLineReport {
 
 	/**
 	 * Creates a new file count time line for a specified list of files.
-	 * @param files a list of {@link net.sf.statcvs.model.CvsFile}s
+	 * @param files a list of {@link net.sf.statcvs.model.VersionedFile}s
 	 */
 	public FileCountTimeLineReport(SortedSet files) {
 		timeLine = new TimeLine(Messages.getString("FILE_COUNT_TITLE"),
@@ -49,7 +49,7 @@ public class FileCountTimeLineReport {
 		timeLine.setInitialValue(0);
 		Iterator filesIt = files.iterator();
 		while (filesIt.hasNext()) {
-			CvsFile file = (CvsFile) filesIt.next();
+			VersionedFile file = (VersionedFile) filesIt.next();
 			addRevisions(file);
 		}
 	}
@@ -62,10 +62,10 @@ public class FileCountTimeLineReport {
 		return timeLine;
 	}
 
-	private void addRevisions(CvsFile file) {
+	private void addRevisions(VersionedFile file) {
 		Iterator it = file.getRevisions().iterator();
 		while (it.hasNext()) {
-			CvsRevision revision = (CvsRevision) it.next();
+			Revision revision = (Revision) it.next();
 			if (revision.getFileCountDelta() != 0 || !it.hasNext()) {
 				this.timeLine.addChange(
 				        revision.getDate(), revision.getFileCountDelta());

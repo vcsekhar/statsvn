@@ -27,9 +27,9 @@ import java.io.IOException;
 import java.io.StringReader;
 
 import junit.framework.TestCase;
-import net.sf.statcvs.model.CvsContent;
-import net.sf.statcvs.model.CvsFile;
-import net.sf.statcvs.model.CvsRevision;
+import net.sf.statcvs.model.Repository;
+import net.sf.statcvs.model.VersionedFile;
+import net.sf.statcvs.model.Revision;
 import net.sf.statcvs.util.LookaheadReader;
 
 /**
@@ -85,7 +85,7 @@ public class FileBlockParserTest extends TestCase {
 		log += "date: 2002/05/25 09:52:07;  author: ewender;  state: Exp;\n";
 		log += "comment text\n";
 		log += FILE_DELIMITER;
-		CvsFile file = parseString(log);
+		VersionedFile file = parseString(log);
 		assertNotNull("file was null", file);
 		assertTrue("rev 1.2 is no checkin", !file.getLatestRevision().isInitialRevision());
 		assertTrue("rev 1.1 is a checkin", file.getInitialRevision().isInitialRevision());
@@ -123,10 +123,10 @@ public class FileBlockParserTest extends TestCase {
 		Builder builder = new Builder(null, null, null);
 		LookaheadReader lookahead = new LookaheadReader(new StringReader(log));
 		lookahead.nextLine();
-		new CvsFileBlockParser(
+		new FileBlockParser(
 				lookahead, builder, false).parse();
 		try {
-			builder.createCvsContent();
+			builder.createRepository();
 			fail("should have thrown EmptyRepositoryException");
 		} catch (EmptyRepositoryException expected) {
 			// expected
@@ -164,20 +164,20 @@ public class FileBlockParserTest extends TestCase {
 		log += "date: 2002/06/04 13:48:00;  author: kdavis;  state: Exp;\n";
 		log += "Initial import.\n";
 		log += FILE_DELIMITER;		
-		CvsFile file = parseString(log);
-		CvsRevision rev = file.getLatestRevision();
+		VersionedFile file = parseString(log);
+		Revision rev = file.getLatestRevision();
 		assertEquals(2, rev.getReplacedLines());
 		assertEquals(1, rev.getLinesDelta());
 		assertEquals(2, file.getRevisions().size());
 	}
 
-	private CvsFile parseString(String log) throws LogSyntaxException, IOException, EmptyRepositoryException {
+	private VersionedFile parseString(String log) throws LogSyntaxException, IOException, EmptyRepositoryException {
 		Builder builder = new Builder(null, null, null);
 		LookaheadReader lookahead = new LookaheadReader(new StringReader(log));
 		lookahead.nextLine();
-		new CvsFileBlockParser(
+		new FileBlockParser(
 				lookahead, builder, false).parse();
-		CvsContent content = builder.createCvsContent();
-		return (CvsFile) content.getFiles().first();
+		Repository content = builder.createRepository();
+		return (VersionedFile) content.getFiles().first();
 	}
 }

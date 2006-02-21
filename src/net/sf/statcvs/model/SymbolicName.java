@@ -24,7 +24,7 @@ import java.util.TreeSet;
 
 /**
  * Represents a symbolic name (tags).
- * It is a container for {@link CvsRevision}s.
+ * It is a container for {@link Revision}s.
  * 
  * @author Tammo van Lessen
  * @version $Id: SymbolicName.java,v 1.1 2004/12/14 13:38:13 squig Exp $
@@ -59,13 +59,13 @@ public class SymbolicName implements Comparable{
 	 * 
 	 * @param rev the revision
 	 */
-	protected void addRevision(CvsRevision rev)
+	protected void addRevision(Revision rev)
 	{
 		revisions.add(rev);
 	}
 
 	/**
-	 * Returns a set of {@link CvsRevision}s contained in this symbolic name.
+	 * Returns a set of {@link Revision}s contained in this symbolic name.
 	 * 
 	 * @return the revisions
 	 */
@@ -87,7 +87,7 @@ public class SymbolicName implements Comparable{
         if (revisions.isEmpty()) {
             return null;
         }
-		return ((CvsRevision)revisions.last()).getDate();
+		return ((Revision)revisions.last()).getDate();
 	}
 
 	/**

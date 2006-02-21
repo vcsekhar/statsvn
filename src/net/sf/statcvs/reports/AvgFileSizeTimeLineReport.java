@@ -29,8 +29,8 @@ import java.util.List;
 import java.util.SortedSet;
 
 import net.sf.statcvs.Messages;
-import net.sf.statcvs.model.CvsFile;
-import net.sf.statcvs.model.CvsRevision;
+import net.sf.statcvs.model.VersionedFile;
+import net.sf.statcvs.model.Revision;
 import net.sf.statcvs.reportmodel.TimeLine;
 
 /**
@@ -44,7 +44,7 @@ public class AvgFileSizeTimeLineReport {
 
 	/**
 	 * Creates a new file count time line for a specified list of files.
-	 * @param files a list of {@link net.sf.statcvs.model.CvsFile}s
+	 * @param files a list of {@link net.sf.statcvs.model.VersionedFile}s
 	 */
 	public AvgFileSizeTimeLineReport(SortedSet files) {
 		timeLine = new TimeLine(Messages.getString("AVERAGE_FILE_SIZE_TITLE"),
@@ -52,7 +52,7 @@ public class AvgFileSizeTimeLineReport {
 		List revisions = new ArrayList();
 		Iterator filesIt = files.iterator();
 		while (filesIt.hasNext()) {
-			CvsFile file = (CvsFile) filesIt.next();
+			VersionedFile file = (VersionedFile) filesIt.next();
 			revisions.addAll(file.getRevisions());
 		}
 		Collections.sort(revisions);
@@ -60,7 +60,7 @@ public class AvgFileSizeTimeLineReport {
 		int loc = 0;
 		int fileCount = 0;
 		while (it.hasNext()) {
-			CvsRevision rev = (CvsRevision) it.next();
+			Revision rev = (Revision) it.next();
 			loc += rev.getLinesDelta();
 			fileCount += rev.getFileCountDelta();
 			int ratio = (fileCount == 0) ? 0 : loc / fileCount;

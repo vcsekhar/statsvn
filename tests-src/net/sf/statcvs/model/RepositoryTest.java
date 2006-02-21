@@ -29,9 +29,9 @@ import junit.framework.TestCase;
 
 /**
  * @author Richard Cyganiak
- * @version $Id: CvsContentTest.java,v 1.3 2002/08/17 21:24:55 cyganiak Exp $
+ * @version $Id: RepositoryTest.java,v 1.3 2002/08/17 21:24:55 cyganiak Exp $
  */
-public class CvsContentTest extends TestCase {
+public class RepositoryTest extends TestCase {
 	private Author tester1;
 	private Author tester2;
 	private Author tester3;
@@ -42,10 +42,10 @@ public class CvsContentTest extends TestCase {
 	private Date date = new Date(100000000);
 
 	/**
-	 * Constructor for CvsContentTest.
+	 * Constructor for RepositoryTest.
 	 * @param arg0 input
 	 */
-	public CvsContentTest(String arg0) {
+	public RepositoryTest(String arg0) {
 		super(arg0);
 	}
 
@@ -67,14 +67,14 @@ public class CvsContentTest extends TestCase {
 	 * Method testGetDirectories.
 	 */
 	public void testGetDirectories() {
-		CvsFile file1 = new CvsFile("test/test1.java", dirTest);
-		CvsFile file2 = new CvsFile("test2.java", dirRoot);
-		CvsFile file3 = new CvsFile("test1/test3.java", dirTest1);
-		CvsFile file4 = new CvsFile("test/test2.java", dirTest);
-		CvsFile file5 = new CvsFile("test1/test1.java", dirTest1);
-		CvsFile file6 = new CvsFile("test/test3.java", dirTest);
+		VersionedFile file1 = new VersionedFile("test/test1.java", dirTest);
+		VersionedFile file2 = new VersionedFile("test2.java", dirRoot);
+		VersionedFile file3 = new VersionedFile("test1/test3.java", dirTest1);
+		VersionedFile file4 = new VersionedFile("test/test2.java", dirTest);
+		VersionedFile file5 = new VersionedFile("test1/test1.java", dirTest1);
+		VersionedFile file6 = new VersionedFile("test/test3.java", dirTest);
 
-		CvsContent content = new CvsContent();
+		Repository content = new Repository();
 		content.addFile(file1);
 		content.addFile(file2);
 		content.addFile(file3);
@@ -94,27 +94,27 @@ public class CvsContentTest extends TestCase {
 	 * Method testGetDirectoriesPerUser.
 	 */
 	public void testGetDirectoriesPerUser() {
-		CvsFile file1 = new CvsFile("test/test1.java", dirTest);
+		VersionedFile file1 = new VersionedFile("test/test1.java", dirTest);
 		file1.addChangeRevision("1.2", tester1, date, null, 0, 0, 0, null);
 		file1.addInitialRevision("1.1", tester2, date, null, 0, null);
-		CvsFile file2 = new CvsFile("test2.java", dirRoot);
+		VersionedFile file2 = new VersionedFile("test2.java", dirRoot);
 		file2.addChangeRevision("2.3", tester1, date, null, 0, 0, 0, null);
 		file2.addChangeRevision("2.2", tester1, date, null, 0, 0, 0, null);
 		file2.addInitialRevision("2.1", tester3, date, null, 0, null);
-		CvsFile file3 = new CvsFile("test1/test3.java", dirTest1);
+		VersionedFile file3 = new VersionedFile("test1/test3.java", dirTest1);
 		file3.addInitialRevision("3.1", tester2, date, null, 0, null);
-		CvsFile file4 = new CvsFile("test/test2.java", dirTest);
+		VersionedFile file4 = new VersionedFile("test/test2.java", dirTest);
 		file4.addInitialRevision("4.1", tester2, date, null, 0, null);
-		CvsFile file5 = new CvsFile("test1/test1.java", dirTest1);
+		VersionedFile file5 = new VersionedFile("test1/test1.java", dirTest1);
 		file5.addChangeRevision("5.3", tester2, date, null, 0, 0, 0, null);
 		file5.addChangeRevision("5.2", tester2, date, null, 0, 0, 0, null);
 		file5.addInitialRevision("5.1", tester2, date, null, 0, null);
-		CvsFile file6 = new CvsFile("test/test3.java", dirTest);
+		VersionedFile file6 = new VersionedFile("test/test3.java", dirTest);
 		file6.addChangeRevision("6.2", tester1, date, null, 0, 0, 0, null);
 		file6.addInitialRevision("6.1", tester3, date, null, 0, null);
 
 
-		CvsContent content = new CvsContent();
+		Repository content = new Repository();
 		content.addFile(file1);
 		content.addFile(file2);
 		content.addFile(file3);
@@ -142,19 +142,19 @@ public class CvsContentTest extends TestCase {
 	 * Method testUserNames.
 	 */
 	public void testUserNames() {
-		CvsFile file1 = new CvsFile("test/Burg.java", dirTest);
+		VersionedFile file1 = new VersionedFile("test/Burg.java", dirTest);
 		file1.addChangeRevision("1.3", tester1, date, null, 0, 0, 0, null);
 		file1.addChangeRevision("1.2", tester2, date, null, 0, 0, 0, null);
 		file1.addInitialRevision("1.1", tester1, date, null, 0, null);
-		CvsFile file2 = new CvsFile("test/History.java", dirTest);
+		VersionedFile file2 = new VersionedFile("test/History.java", dirTest);
 		file2.addChangeRevision("2.2", tester3, date, null, 0, 0, 0, null);
 		file2.addInitialRevision("2.1", tester4, date, null, 0, null);
-		CvsFile file3 = new CvsFile("test/Spieler.java", dirTest);
+		VersionedFile file3 = new VersionedFile("test/Spieler.java", dirTest);
 		file3.addChangeRevision("3.4", tester2, date, null, 0, 0, 0, null);
 		file3.addChangeRevision("3.3", tester4, date, null, 0, 0, 0, null);
 		file3.addChangeRevision("3.2", tester1, date, null, 0, 0, 0, null);
 		file3.addInitialRevision("3.1", tester2, date, null, 0, null);
-		CvsContent content = new CvsContent();
+		Repository content = new Repository();
 		content.addFile(file1);
 		content.addFile(file2);
 		content.addFile(file3);
@@ -167,9 +167,9 @@ public class CvsContentTest extends TestCase {
 	 * in the authors list
 	 */
 	public void testIgnoreNullAuthor() {
-		CvsFile file = new CvsFile("test/file", dirTest);
+		VersionedFile file = new VersionedFile("test/file", dirTest);
 		file.addInitialRevision("0.0", null, date, null, 0, null);
-		CvsContent content = new CvsContent();
+		Repository content = new Repository();
 		content.addFile(file);
 
 		assertTrue(content.getAuthors().isEmpty());

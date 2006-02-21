@@ -29,11 +29,11 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import net.sf.statcvs.input.Builder;
-import net.sf.statcvs.input.CvsLogfileParser;
+import net.sf.statcvs.input.SvnLogfileParser;
 import net.sf.statcvs.input.EmptyRepositoryException;
 import net.sf.statcvs.input.LogSyntaxException;
 import net.sf.statcvs.input.RepositoryFileManager;
-import net.sf.statcvs.model.CvsContent;
+import net.sf.statcvs.model.Repository;
 import net.sf.statcvs.output.CommandLineParser;
 import net.sf.statcvs.output.ConfigurationException;
 import net.sf.statcvs.output.ConfigurationOptions;
@@ -178,7 +178,7 @@ public class Main {
 				new RepositoryFileManager(ConfigurationOptions.getCheckedOutDirectory());
 		Builder builder = new Builder(repFileMan, ConfigurationOptions.getIncludePattern(),
 				ConfigurationOptions.getExcludePattern());
-		new CvsLogfileParser(logReader, builder).parse();
+		new SvnLogfileParser(logReader, builder).parse();
 		if (ConfigurationOptions.getProjectName() == null) {
 			ConfigurationOptions.setProjectName(builder.getProjectName());
 		}
@@ -189,7 +189,7 @@ public class Main {
 		logger.info("Generating report for " + ConfigurationOptions.getProjectName()
 				+ " into " + ConfigurationOptions.getOutputDir());
 		logger.info("Using " + ConfigurationOptions.getCssHandler());
-		CvsContent content = builder.createCvsContent();
+		Repository content = builder.createRepository();
 		new HTMLOutput(content).createHTMLSuite();
 		
 		long endTime = System.currentTimeMillis();

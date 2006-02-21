@@ -23,7 +23,7 @@ import java.util.Map;
 
 /**
  * <p>Interface for defining a Builder that constructs a data structure from
- * a CVS logfile. {@link CvsLogfileParser} takes an instance of this
+ * a CVS logfile. {@link SvnLogfileParser} takes an instance of this
  * interface and will call methods on the interface for every piece of
  * data it encounters in the log.</p>
  * 
@@ -39,9 +39,9 @@ import java.util.Map;
  * 
  * @author Richard Cyganiak <richard@cyganiak.de>
  * @author Tammo van Lessen
- * @version $Id: CvsLogBuilder.java,v 1.2 2004/12/14 13:38:13 squig Exp $
+ * @version $Id: SvnLogBuilder.java,v 1.2 2004/12/14 13:38:13 squig Exp $
  */
-public interface CvsLogBuilder {
+public interface SvnLogBuilder {
 	
 	/**
 	 * Starts building a module.

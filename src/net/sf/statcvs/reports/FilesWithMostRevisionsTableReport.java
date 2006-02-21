@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.SortedSet;
 
 import net.sf.statcvs.Messages;
-import net.sf.statcvs.model.CvsFile;
+import net.sf.statcvs.model.VersionedFile;
 import net.sf.statcvs.reportmodel.FileColumn;
 import net.sf.statcvs.reportmodel.IntegerColumn;
 import net.sf.statcvs.reportmodel.Table;
@@ -48,7 +48,7 @@ public class FilesWithMostRevisionsTableReport implements TableReport {
 	/**
 	 * Creates a table containing the files with most changes from a file list
 	 * @param files a <tt>SortedSet</tt> of
-	 *              {@link net.sf.statcvs.model.CvsFile}s
+	 *              {@link net.sf.statcvs.model.VersionedFile}s
 	 * @param maxRows the maximum number of files displayed in the table 
 	 */
 	public FilesWithMostRevisionsTableReport(SortedSet files, int maxRows) {
@@ -72,7 +72,7 @@ public class FilesWithMostRevisionsTableReport implements TableReport {
 		int lines = 0;
 		Iterator it = files.iterator();
 		while (it.hasNext() && lines < maxRows) {
-			CvsFile file = (CvsFile) it.next();
+			VersionedFile file = (VersionedFile) it.next();
 			filesCol.addValue(file);
 			locCol.addValue(file.getRevisions().size());
 			lines++;

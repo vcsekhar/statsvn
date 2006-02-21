@@ -23,8 +23,8 @@ import java.util.Date;
 import java.util.HashMap;
 
 import junit.framework.TestCase;
-import net.sf.statcvs.model.CvsFile;
-import net.sf.statcvs.model.CvsRevision;
+import net.sf.statcvs.model.VersionedFile;
+import net.sf.statcvs.model.Revision;
 
 /**
  * Tests for {@link FileBuilder}
@@ -87,7 +87,7 @@ public class FileBuilderTest extends TestCase {
 	public void testSimple() throws Exception {
 		initBuilder("file", false);
 		fb.addRevisionData(rev1);
-		CvsFile file = fb.createFile(date1);
+		VersionedFile file = fb.createFile(date1);
 		assertNotNull(file);
 		assertEquals("file", file.getFilenameWithPath());
 		assertEquals(builder.getDirectory("file"), file.getDirectory());
@@ -96,7 +96,7 @@ public class FileBuilderTest extends TestCase {
 
 	public void testFileWithoutRevs() throws Exception {
 		initBuilder("file", false);
-		CvsFile file = fb.createFile(date1);
+		VersionedFile file = fb.createFile(date1);
 		assertNotNull(file);
 		assertEquals(1, file.getRevisions().size());
 		assertTrue(file.getInitialRevision().isBeginOfLog());
@@ -107,9 +107,9 @@ public class FileBuilderTest extends TestCase {
 	public void testOneRev() throws Exception {
 		initBuilder("file", false);
 		fb.addRevisionData(rev1);
-		CvsFile file = fb.createFile(date1);
+		VersionedFile file = fb.createFile(date1);
 		assertEquals(1, file.getRevisions().size());
-		CvsRevision rev = file.getInitialRevision();
+		Revision rev = file.getInitialRevision();
 		assertEquals(date1, rev.getDate());
 		assertEquals("1.1", rev.getRevisionNumber());
 		assertEquals(builder.getAuthor("author1"), rev.getAuthor());
@@ -127,7 +127,7 @@ public class FileBuilderTest extends TestCase {
 		initBuilder("nolinecount", false);
 		fb.addRevisionData(rev1dead);
 		fb.addRevisionData(rev1branch);
-		CvsFile file = fb.createFile(date1);
+		VersionedFile file = fb.createFile(date1);
 		assertNull(file);
 	}
 	
@@ -135,7 +135,7 @@ public class FileBuilderTest extends TestCase {
 		initBuilder("file", false);
 		fb.addRevisionData(rev1);
 		fb.addRevisionData(rev1branch);
-		CvsFile file = fb.createFile(date1);
+		VersionedFile file = fb.createFile(date1);
 		assertEquals(1, file.getRevisions().size());
 		assertEquals("1.1", file.getInitialRevision().getRevisionNumber());
 	}

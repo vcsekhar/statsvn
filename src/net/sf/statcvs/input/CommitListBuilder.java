@@ -31,7 +31,7 @@ import java.util.Map;
 import java.util.SortedSet;
 
 import net.sf.statcvs.model.Commit;
-import net.sf.statcvs.model.CvsRevision;
+import net.sf.statcvs.model.Revision;
 
 /**
  * Takes a set of revisions, and builds a <code>List</code> of 
@@ -51,10 +51,10 @@ public class CommitListBuilder {
 	private List commits;
 
 	/**
-	 * Creates a new instance using the given set of {@link CvsRevision}s.
+	 * Creates a new instance using the given set of {@link Revision}s.
 	 * The set must be sorted by date, oldest first.
 	 * 
-	 * @param revisions a set of {@link CvsRevision}s
+	 * @param revisions a set of {@link Revision}s
 	 */
 	public CommitListBuilder(SortedSet revisions) {
 		this(revisions.iterator());
@@ -78,12 +78,12 @@ public class CommitListBuilder {
 		
 		commits = new LinkedList();
 		while (revisions.hasNext()) {
-			processRevision((CvsRevision)revisions.next());
+			processRevision((Revision)revisions.next());
 		}
 		return commits;
 	}
 	
-	protected void processRevision(CvsRevision rev) {
+	protected void processRevision(Revision rev) {
 		if (rev.getAuthor() == null) {
 			return;
 		}
@@ -95,13 +95,13 @@ public class CommitListBuilder {
 		}
 	}
 	
-	protected void addNewCommit(CvsRevision rev) {
+	protected void addNewCommit(Revision rev) {
 		Commit newCommit = new Commit(rev);
 		currentCommits.put(rev.getAuthor(), newCommit);
 		commits.add(newCommit);
 	}
 	
-	protected void addRevToCommit(Commit commit, CvsRevision rev) {
+	protected void addRevToCommit(Commit commit, Revision rev) {
 		commit.addRevision(rev);
 	}
 
@@ -114,7 +114,7 @@ public class CommitListBuilder {
 	 * @param rev the revision to check against this commit
 	 * @return <code>true</code> if change is part of this commit
 	 */
-	public static boolean isSameCommit(Commit commit, CvsRevision rev) {
+	public static boolean isSameCommit(Commit commit, Revision rev) {
 		return commit.getAuthor().equals(rev.getAuthor())
 				&& commit.getComment().equals(rev.getComment())
 				&& isInTimeFrame(commit, rev.getDate());

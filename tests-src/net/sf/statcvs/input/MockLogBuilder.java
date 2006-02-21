@@ -26,17 +26,17 @@ import java.util.Map;
 import junit.framework.Assert;
 
 /**
- * Mock Object implementing {@link CvsLogBuilder}
+ * Mock Object implementing {@link SvnLogBuilder}
  * 
  * @author Richard Cyganiak <richard@cyganiak.de>
  * @version $Id: MockLogBuilder.java,v 1.4 2004/12/14 13:38:13 squig Exp $
  */
-public class MockLogBuilder implements CvsLogBuilder {
+public class MockLogBuilder implements SvnLogBuilder {
 	private LinkedList expectedMethods = new LinkedList();
 	private LinkedList expectedData = new LinkedList();
 
 	/* (non-Javadoc)
-	 * @see net.sf.statcvs.input.CvsLogBuilder#buildModule(java.lang.String)
+	 * @see net.sf.statcvs.input.SvnLogBuilder#buildModule(java.lang.String)
 	 */
 	public void buildModule(String moduleName) {
 		Assert.assertEquals(expectedMethods.removeFirst(), "buildModule");
@@ -44,7 +44,7 @@ public class MockLogBuilder implements CvsLogBuilder {
 	}
 
 	/* (non-Javadoc)
-	 * @see net.sf.statcvs.input.CvsLogBuilder#buildFile(java.lang.String, boolean, boolean)
+	 * @see net.sf.statcvs.input.SvnLogBuilder#buildFile(java.lang.String, boolean, boolean)
 	 */
 	public void buildFile(String filename, boolean isBinary, boolean isInAttic, Map revBySymnames) {
 		Assert.assertEquals(expectedMethods.removeFirst(), "buildFile");
@@ -54,7 +54,7 @@ public class MockLogBuilder implements CvsLogBuilder {
 	}
 
 	/* (non-Javadoc)
-	 * @see net.sf.statcvs.input.CvsLogBuilder#buildRevision(net.sf.statcvs.input.RevisionData)
+	 * @see net.sf.statcvs.input.SvnLogBuilder#buildRevision(net.sf.statcvs.input.RevisionData)
 	 */
 	public void buildRevision(RevisionData data) {
 		if (expectedMethods.isEmpty()) {

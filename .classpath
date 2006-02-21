@@ -7,5 +7,6 @@
 	<classpathentry kind="lib" path="lib/jcommon-0.9.6.jar"/>
 	<classpathentry kind="lib" path="lib/jfreechart-0.9.21.jar"/>
 	<classpathentry kind="lib" path="lib/junit.jar"/>
+	<classpathentry kind="lib" path="lib/jdom.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -26,7 +26,7 @@ import java.util.Iterator;
 
 import net.sf.statcvs.Messages;
 import net.sf.statcvs.model.Author;
-import net.sf.statcvs.model.CvsContent;
+import net.sf.statcvs.model.Repository;
 import net.sf.statcvs.reportmodel.AuthorColumn;
 import net.sf.statcvs.reportmodel.IntegerColumn;
 import net.sf.statcvs.reportmodel.Table;
@@ -48,7 +48,7 @@ public class TopAuthorsTableReport extends AbstractLocTableReport
 	 * LOC contributions
 	 * @param content the version control source data
 	 */
-	public TopAuthorsTableReport(CvsContent content) {
+	public TopAuthorsTableReport(Repository content) {
 		super(content);
 	}
 	

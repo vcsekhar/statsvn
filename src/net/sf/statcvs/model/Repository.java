@@ -26,19 +26,19 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 /**
- * Represents a CVS Repository and provides access to the {@link CvsFile}s,
- * {@link Directory}s, {@link CvsRevision}s and {@link Author}s recorded
+ * Represents a CVS Repository and provides access to the {@link VersionedFile}s,
+ * {@link Directory}s, {@link Revision}s and {@link Author}s recorded
  * in the repository's history. 
  * 
- * TODO: Rename class to Repository, getCurrentLOC to getCurrentLines, getAuthors to getLogins
+ * TODO: Rename getCurrentLOC to getCurrentLines, getAuthors to getLogins
  * TODO: Change getCommits to SortedSet
  * 
  * @author Manuel Schulze
  * @author Tammo van Lessen
  * @author Richard Cyganiak <richard@cyganiak.de>
- * @version $Id: CvsContent.java,v 1.67 2004/12/14 13:38:13 squig Exp $
+ * @version $Id: Repository.java,v 1.67 2004/12/14 13:38:13 squig Exp $
  */
-public class CvsContent {
+public class Repository {
 	private final SortedSet files = new TreeSet();
 	private final SortedSet authors = new TreeSet();
 	private final SortedSet revisions = new TreeSet();
@@ -52,11 +52,11 @@ public class CvsContent {
 	 * Adds one file to the repository.
 	 * @param file the file
 	 */
-	public void addFile(CvsFile file) {
+	public void addFile(VersionedFile file) {
 		files.add(file);
 		Iterator it = file.getRevisions().iterator();
 		while (it.hasNext()) {
-			CvsRevision revision = (CvsRevision) it.next();
+			Revision revision = (Revision) it.next();
 			revisions.add(revision);
 			if (revision.getAuthor() != null) {
 				authors.add(revision.getAuthor());
@@ -117,15 +117,15 @@ public class CvsContent {
 		int result = 0;
 		Iterator it = files.iterator();
 		while (it.hasNext()) {
-			CvsFile file = (CvsFile) it.next();
+			VersionedFile file = (VersionedFile) it.next();
 			result += file.getCurrentLinesOfCode();
 		}
 		return result;
 	}
 
 	/**
-	 * Returns a list of all {@link CvsFile}s, ordered by full name
-	 * @return a list of all {@link CvsFile}s
+	 * Returns a list of all {@link VersionedFile}s, ordered by full name
+	 * @return a list of all {@link VersionedFile}s
 	 */
 	public SortedSet getFiles() {
 		return files;
@@ -140,7 +140,7 @@ public class CvsContent {
 	}
 
 	/**
-	 * Returns a <tt>SortedSet</tt> of {@link CvsRevision}s
+	 * Returns a <tt>SortedSet</tt> of {@link Revision}s
 	 * in the repository, sorted from oldest to most recent.
 	 * 
 	 * @return all revisions in the repository.
@@ -168,7 +168,7 @@ public class CvsContent {
 	}
 
 	/**
-	 * Sets the list of symbolic names contained in this CvsContent.
+	 * Sets the list of symbolic names contained in this Repository.
 	 * @param symbolicNames
 	 */
 	public void setSymbolicNames(SortedSet symbolicNames)
@@ -191,9 +191,9 @@ public class CvsContent {
 	public String toString() {
 		String result = "";
 		Iterator it = files.iterator();
-		CvsFile cf = null;
+		VersionedFile cf = null;
 		while (it.hasNext()) {
-			cf = (CvsFile) it.next();
+			cf = (VersionedFile) it.next();
 			result += cf.toString() + "\n";
 		}
 		return result;
@@ -212,7 +212,7 @@ public class CvsContent {
 		if (files.isEmpty()) {
 			return;
 		}
-		CvsFile file = (CvsFile) files.first();
+		VersionedFile file = (VersionedFile) files.first();
 		Directory dir = file.getDirectory();
 		while (!dir.isRoot()) {
 			dir = dir.getParent();

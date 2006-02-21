@@ -30,7 +30,7 @@ import java.util.Iterator;
 
 import net.sf.statcvs.Messages;
 import net.sf.statcvs.model.Author;
-import net.sf.statcvs.model.CvsContent;
+import net.sf.statcvs.model.Repository;
 import net.sf.statcvs.model.Directory;
 import net.sf.statcvs.renderer.CommitLogRenderer;
 import net.sf.statcvs.renderer.TableRenderer;
@@ -50,9 +50,9 @@ public class IndexPage extends HTMLPage {
 	private boolean authorsPageCreated;
 
 	/**
-	 * @see net.sf.statcvs.output.HTMLPage#HTMLPage(CvsContent)
+	 * @see net.sf.statcvs.output.HTMLPage#HTMLPage(Repository)
 	 */
-	public IndexPage(CvsContent content, boolean locImageCreated, boolean commitScatterImageCreated,
+	public IndexPage(Repository content, boolean locImageCreated, boolean commitScatterImageCreated,
 			boolean authorsPageCreated) throws IOException {
 		super(content);
 		this.locImageCreated = locImageCreated;

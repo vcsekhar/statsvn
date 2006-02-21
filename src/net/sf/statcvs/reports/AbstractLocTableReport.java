@@ -26,8 +26,8 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import net.sf.statcvs.Messages;
-import net.sf.statcvs.model.CvsContent;
-import net.sf.statcvs.model.CvsRevision;
+import net.sf.statcvs.model.Repository;
+import net.sf.statcvs.model.Revision;
 import net.sf.statcvs.model.Directory;
 import net.sf.statcvs.reportmodel.GenericColumn;
 import net.sf.statcvs.reportmodel.IntegerColumn;
@@ -53,7 +53,7 @@ public abstract class AbstractLocTableReport {
 	 * */
 	public static final int SORT_BY_LINES = 1;
 
-	private CvsContent content;
+	private Repository content;
 
 	private IntegerMap changesMap = new IntegerMap();
 	private IntegerMap linesMap = new IntegerMap();
@@ -62,14 +62,14 @@ public abstract class AbstractLocTableReport {
      * Constructor
 	 * @param content render table on specified content
 	 */
-	public AbstractLocTableReport(CvsContent content) {
+	public AbstractLocTableReport(Repository content) {
 		this.content = content;
 	}
 
 	protected void calculateChangesAndLinesPerAuthor(Collection revs) {
 		Iterator it = revs.iterator();
 		while (it.hasNext()) {
-			CvsRevision rev = (CvsRevision) it.next();
+			Revision rev = (Revision) it.next();
 			if (rev.getAuthor() == null) {
 				continue;
 			}
@@ -81,7 +81,7 @@ public abstract class AbstractLocTableReport {
 	protected void calculateChangesAndLinesPerDirectory(Collection revisions) {
 		Iterator it = revisions.iterator();
 		while (it.hasNext()) {
-			CvsRevision rev = (CvsRevision) it.next();
+			Revision rev = (Revision) it.next();
 			Directory dir = rev.getFile().getDirectory();
 			changesMap.addInt(dir, 1);
 			linesMap.addInt(dir, rev.getNewLines()); 
@@ -127,7 +127,7 @@ public abstract class AbstractLocTableReport {
 		return result;
 	}
 
-	protected CvsContent getContent() {
+	protected Repository getContent() {
 		return content;
 	}
 

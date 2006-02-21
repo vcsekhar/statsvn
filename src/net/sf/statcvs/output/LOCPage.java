@@ -26,7 +26,7 @@ package net.sf.statcvs.output;
 import java.io.IOException;
 
 import net.sf.statcvs.Messages;
-import net.sf.statcvs.model.CvsContent;
+import net.sf.statcvs.model.Repository;
 
 /**
  * @author anja
@@ -35,9 +35,9 @@ public class LOCPage extends HTMLPage {
 
 	private boolean locImageCreated;
 	/**
-	 * @see net.sf.statcvs.output.HTMLPage#HTMLPage(CvsContent)
+	 * @see net.sf.statcvs.output.HTMLPage#HTMLPage(Repository)
 	 */
-	public LOCPage(CvsContent content, boolean locImageCreated) throws IOException {
+	public LOCPage(Repository content, boolean locImageCreated) throws IOException {
 		super(content);
 		this.locImageCreated = locImageCreated;
 		setFileName("loc.html");

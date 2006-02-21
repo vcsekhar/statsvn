@@ -29,7 +29,7 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.SortedSet;
 
-import net.sf.statcvs.model.CvsRevision;
+import net.sf.statcvs.model.Revision;
 import net.sf.statcvs.output.ConfigurationOptions;
 import net.sf.statcvs.output.HTMLOutput;
 
@@ -50,7 +50,7 @@ public class BarChart extends Chart {
 	
 	/**
 	 * creates a Bar Chart
-	 * @param revisions a set of {@link CvsRevision}s
+	 * @param revisions a set of {@link Revision}s
 	 * @param title chart title
 	 * @param fileName fileName for chart
 	 * @param categoryCount number of catgories
@@ -72,7 +72,7 @@ public class BarChart extends Chart {
 
 		Iterator it = revisions.iterator();
  		while (it.hasNext()) {
-			CvsRevision rev = (CvsRevision) it.next();
+			Revision rev = (Revision) it.next();
 			Date date = rev.getDate();
 			Calendar cal = new GregorianCalendar();
 			cal.setTime(date);
