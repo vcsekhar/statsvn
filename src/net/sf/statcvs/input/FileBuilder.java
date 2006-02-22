@@ -86,6 +86,10 @@ public class FileBuilder {
         
 		logger.fine("logging " + name);
 	}
+	
+	public String getName() {
+		return name;
+	}
 
 	/**
 	 * Adds a revision to the file. The revisions must be added in the

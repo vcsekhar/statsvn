@@ -35,7 +35,6 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
         if (currentElement.equals(AUTHOR)) {
             currentRevisionData.setLoginName(s);
         } else if (currentElement.equals(DATE)) {
-
             Date dt;
             try {
                 dt = XMLUtil.parseXsdDateTime(s);
@@ -46,7 +45,11 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
         } else if (currentElement.equals(MSG)) {
             currentRevisionData.setComment(s);
         } else if (currentElement.equals(PATH)) {
-//            builder.buildFile(s, false, false, null);
+        	// should it be ...,...,true,... if action is D?
+        	// the next line makes sure that the currentBuildFile is set, so
+        	// that the revision can be added to the correct file
+        	//builder.buildFile(s, false, false, null);
+        	//builder.buildRevision(currentRevisionData);
         }
 
     }
