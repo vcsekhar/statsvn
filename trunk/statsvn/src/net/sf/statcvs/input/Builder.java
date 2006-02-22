@@ -112,14 +112,31 @@ public class Builder implements SvnLogBuilder {
 	 */
 	public void buildFile(String filename, boolean isBinary, 
                            boolean isInAttic, Map revBySymnames) {
-		if (currentFileBuilder != null) {
+//		if (currentFileBuilder != null) {
+//			fileBuilders.add(currentFileBuilder);
+//		}
+//		currentFileBuilder = new FileBuilder(this, filename, isBinary, 
+//                                             revBySymnames);
+		FileBuilder tempFileBuilder = findFileBuilder(filename);
+		if (tempFileBuilder == null) {
+			currentFileBuilder = new FileBuilder(this, filename, isBinary, revBySymnames);
 			fileBuilders.add(currentFileBuilder);
 		}
-		currentFileBuilder = new FileBuilder(this, filename, isBinary, 
-                                             revBySymnames);
+		else
+			currentFileBuilder = tempFileBuilder;
 		if (isInAttic) {
 			atticFileNames.add(filename);
 		}
+	}
+	
+	private FileBuilder findFileBuilder(String filename) {
+		FileBuilder found = null;
+		for (Iterator iter = fileBuilders.iterator(); (iter.hasNext() && found == null); ) {
+			FileBuilder fileBuilder = (FileBuilder)iter.next();
+			if (fileBuilder.getName().equals(filename))
+				found = fileBuilder;
+		}
+		return found;
 	}
 
 	/**
