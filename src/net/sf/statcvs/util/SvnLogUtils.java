@@ -17,7 +17,7 @@
 	License along with this library; if not, write to the Free Software
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
     
-	$RCSfile: CvsLogUtils.java,v $
+	$RCSfile: SvnLogUtils.java,v $
 	$Date: 2003/12/16 15:12:50 $
 */
 package net.sf.statcvs.util;
@@ -27,9 +27,9 @@ package net.sf.statcvs.util;
  * Utility class containing various methods related to CVS logfile parsing
  * 
  * @author Richard Cyganiak <rcyg@gmx.de>
- * @version $Id: CvsLogUtils.java,v 1.4 2003/12/16 15:12:50 cyganiak Exp $
+ * @version $Id: SvnLogUtils.java,v 1.4 2003/12/16 15:12:50 cyganiak Exp $
  */
-public class CvsLogUtils {
+public class SvnLogUtils {
 
 	/**
 	 * <p>Determines if a file is in the attic by comparing the location of
@@ -88,7 +88,7 @@ public class CvsLogUtils {
 	 */
 	public static String getModuleName(String rcsFilename, String workingFilename) {
 		int localLenght = workingFilename.length() + ",v".length();
-		if (CvsLogUtils.isInAttic(rcsFilename, workingFilename)) {
+		if (SvnLogUtils.isInAttic(rcsFilename, workingFilename)) {
 			localLenght += "/Attic".length();
 		}
 		String cvsroot = rcsFilename.substring(0,

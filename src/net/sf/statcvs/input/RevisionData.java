@@ -24,7 +24,7 @@ package net.sf.statcvs.input;
 
 import java.util.Date;
 
-import net.sf.statcvs.util.CvsLogUtils;
+import net.sf.statcvs.util.SvnLogUtils;
 
 /**
  * Container for all information contained in one CVS revisionNumber
@@ -195,7 +195,7 @@ public class RevisionData {
 	 * @return <tt>true</tt> if this revisionNumber is on the main branch.
 	 */
 	public boolean isOnTrunk() {
-		return CvsLogUtils.isOnMainBranch(revisionNumber);
+		return SvnLogUtils.isOnMainBranch(revisionNumber);
 	}
 	
 	/**
