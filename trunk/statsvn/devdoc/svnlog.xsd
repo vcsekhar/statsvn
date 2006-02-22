@@ -79,7 +79,7 @@
 		A: Added
 		D: Deleted
 		M: Modified
-		R: Replaced: As of now, it seems like subversion doesn't use this. It is intended to mean a deletion then addition where files have different histories. 
+		R: Replaced
 	-->
 	<xs:simpleType name="actionType">
 		<xs:restriction base="xs:string">
