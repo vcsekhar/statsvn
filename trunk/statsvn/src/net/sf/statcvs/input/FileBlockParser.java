@@ -28,7 +28,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import net.sf.statcvs.util.CvsLogUtils;
+import net.sf.statcvs.util.SvnLogUtils;
 import net.sf.statcvs.util.LookaheadReader;
 
 /**
@@ -73,7 +73,7 @@ public class FileBlockParser {
 	public void parse() throws LogSyntaxException, IOException {
 		String rcsFile = parseSingleLine(this.logReader.getCurrentLine(), "RCS file: ");
 		String workingFile = parseSingleLine(this.logReader.nextLine(), "Working file: ");
-		boolean isInAttic = CvsLogUtils.isInAttic(rcsFile, workingFile);
+		boolean isInAttic = SvnLogUtils.isInAttic(rcsFile, workingFile);
 		requireLine(this.logReader.nextLine(), "head:");
 		requireLine(this.logReader.nextLine(), "branch:");
 		requireLine(this.logReader.nextLine(), "locks:");
@@ -83,7 +83,7 @@ public class FileBlockParser {
 				"keyword substitution: ");
 		boolean isBinary = false;
 		try {
-			isBinary = CvsLogUtils.isBinaryKeywordSubst(keywordSubst);
+			isBinary = SvnLogUtils.isBinaryKeywordSubst(keywordSubst);
 		} catch (IllegalArgumentException unknownKeywordSubst) {
 			logger.warning("unknown keyword substitution '" + keywordSubst
 					+ "' in line " + this.logReader.getLineNumber());
@@ -91,7 +91,7 @@ public class FileBlockParser {
 		requireLine(this.logReader.nextLine(), "total revisions:");
 		parseDescription();
 		if (this.isFirstFile) {
-			this.builder.buildModule(CvsLogUtils.getModuleName(rcsFile, workingFile));
+			this.builder.buildModule(SvnLogUtils.getModuleName(rcsFile, workingFile));
 		}
 		this.builder.buildFile(workingFile, isBinary, isInAttic, this.revBySymNames);
 		if (!RevisionParser.FILE_DELIMITER.equals(this.logReader.getCurrentLine())) {

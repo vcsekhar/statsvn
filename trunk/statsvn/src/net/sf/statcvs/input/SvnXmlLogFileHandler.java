@@ -26,6 +26,7 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
 
     private String lastElement = "";
     private String currentElement = "";
+    private String pathAction = "";
 
     public void characters(char[] ch, int start, int length) throws SAXException {
         super.characters(ch, start, length);
@@ -42,6 +43,10 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
             } catch (ParseException e) {
                 warning("Invalid date specified.");
             }
+        } else if (currentElement.equals(MSG)) {
+            currentRevisionData.setComment(s);
+        } else if (currentElement.equals(PATH)) {
+//            builder.buildFile(s, false, false, null);
         }
 
     }
@@ -160,6 +165,12 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
             if (!lastElement.equals(PATHS)) {
                 fatalError("Invalid SVN log file.");
             }
+
+            if (attributes != null && attributes.getValue("action") != null)
+                pathAction = attributes.getValue("action");
+            else
+                fatalError("Invalid SVN log file.");
+
         } else {
             fatalError("Invalid SVN log file.");
         }

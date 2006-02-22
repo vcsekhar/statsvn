@@ -25,7 +25,7 @@ package net.sf.statcvs.util;
 import junit.framework.TestCase;
 
 /**
- * Test cases for {link net.sf.statcvs.util.CvsLogUtils}
+ * Test cases for {link net.sf.statcvs.util.SvnLogUtils}
  * 
  * @author Richard Cyganiak
  * @version $Id: CvsLogUtilsTest.java,v 1.3 2003/06/04 21:50:36 cyganiak Exp $
@@ -44,15 +44,15 @@ public class CvsLogUtilsTest extends TestCase {
 	 * Tests {@link CvsLogUtil#isInAttic}
 	 */
 	public void testIsInAttic() {
-		assertTrue(!CvsLogUtils.isInAttic(
+		assertTrue(!SvnLogUtils.isInAttic(
 				"/cvsroot/module/file,v", "file"));
-		assertTrue(CvsLogUtils.isInAttic(
+		assertTrue(SvnLogUtils.isInAttic(
 				"/cvsroot/module/Attic/file,v", "file"));
-		assertTrue(!CvsLogUtils.isInAttic(
+		assertTrue(!SvnLogUtils.isInAttic(
 				"/cvsroot/module/path/file,v", "path/file"));
-		assertTrue(CvsLogUtils.isInAttic(
+		assertTrue(SvnLogUtils.isInAttic(
 				"/cvsroot/module/path/Attic/file,v", "path/file"));
-		assertTrue(!CvsLogUtils.isInAttic(
+		assertTrue(!SvnLogUtils.isInAttic(
 				"/cvsroot/module/attic/file,v", "attic/file"));
 	}
 
@@ -60,11 +60,11 @@ public class CvsLogUtilsTest extends TestCase {
 	 * test {@link CvsLogUtil#isOnMainBranch(String)}
 	 */
 	public void testMainBranchRevisions() {
-		assertTrue(CvsLogUtils.isOnMainBranch("1.1"));
-		assertTrue(CvsLogUtils.isOnMainBranch("5.12"));
-		assertTrue(!CvsLogUtils.isOnMainBranch("1.1.1.1"));
-		assertTrue(!CvsLogUtils.isOnMainBranch("5.12.2.4"));
-		assertTrue(!CvsLogUtils.isOnMainBranch("5.12.2.4.4.11"));
+		assertTrue(SvnLogUtils.isOnMainBranch("1.1"));
+		assertTrue(SvnLogUtils.isOnMainBranch("5.12"));
+		assertTrue(!SvnLogUtils.isOnMainBranch("1.1.1.1"));
+		assertTrue(!SvnLogUtils.isOnMainBranch("5.12.2.4"));
+		assertTrue(!SvnLogUtils.isOnMainBranch("5.12.2.4.4.11"));
 	}
 	
 	/**
@@ -72,15 +72,15 @@ public class CvsLogUtilsTest extends TestCase {
 	 */
 	public void testGetModuleName() {
 		assertEquals("cvsroot",
-				CvsLogUtils.getModuleName("/cvsroot/module/file,v",
+				SvnLogUtils.getModuleName("/cvsroot/module/file,v",
 						"module/file"));
 		assertEquals("cvsroot",
-				CvsLogUtils.getModuleName("/cvsroot/module/Attic/file,v",
+				SvnLogUtils.getModuleName("/cvsroot/module/Attic/file,v",
 						"module/file"));
 		assertEquals("module",
-				CvsLogUtils.getModuleName("/cvsroot/module/file,v", "file"));
+				SvnLogUtils.getModuleName("/cvsroot/module/file,v", "file"));
 		assertEquals("module",
-				CvsLogUtils.getModuleName("/cvsroot/module/Attic/file,v", "file"));
-		assertEquals("", CvsLogUtils.getModuleName("/file,v", "file"));
+				SvnLogUtils.getModuleName("/cvsroot/module/Attic/file,v", "file"));
+		assertEquals("", SvnLogUtils.getModuleName("/file,v", "file"));
 	}
 }
