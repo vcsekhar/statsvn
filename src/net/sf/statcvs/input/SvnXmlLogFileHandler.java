@@ -109,9 +109,8 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
                 currentRevisionData.setLines(0, 0);
             }
 
-            if (!filename.endsWith("/")) {
-
-                builder.buildFile(filename, false, false, new HashMap());
+            if (!filename.endsWith("/") && filename.length() > 0) {
+                builder.buildFile(filename.substring(1), false, false, new HashMap());
                 builder.buildRevision(currentRevisionData);
             }
 
