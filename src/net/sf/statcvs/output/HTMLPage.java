@@ -105,7 +105,7 @@ public abstract class HTMLPage {
 			+ a(
 				"http://statcvs.sf.net",
 				Messages.getString("PROJECT_SHORTNAME"))
-			+ " @VERSION@");
+			+ " v0.1");
 		print("</div>\n");
 		print("</body>\n");
 		print("</html>");
