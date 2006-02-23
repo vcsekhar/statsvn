@@ -86,10 +86,6 @@ public class FileBuilder {
         logger.fine("logging " + name);
     }
 
-    public String getName() {
-        return name;
-    }
-
     /**
      * Adds a revision to the file. The revisions must be added in the same order as they appear in the CVS logfile, that is, most recent first.
      * 
@@ -237,6 +233,13 @@ public class FileBuilder {
         return ((RevisionData) revisions.get(0)).isDeletion();
     }
 
+    public boolean existRevision() {
+    	if (revisions.isEmpty())
+    		return false;
+    	else
+    		return true;
+    }
+    
     /**
      * Approximates the LOC count for files that are not present in the local checkout. If a file was deleted at some point in history, then we can't count its
      * final lines of code. This algorithm calculates a lower bound for the file's LOC prior to deletion by following the ups and downs of the revisions.
