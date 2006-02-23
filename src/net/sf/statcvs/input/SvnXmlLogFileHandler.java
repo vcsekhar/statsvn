@@ -2,8 +2,10 @@ package net.sf.statcvs.input;
 
 import java.text.ParseException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.logging.Logger;
 
+import net.sf.statcvs.util.SvnLogUtils;
 import net.sf.statcvs.util.XMLUtil;
 
 import org.xml.sax.Attributes;
@@ -27,30 +29,11 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
     private String lastElement = "";
     private String currentElement = "";
     private String pathAction = "";
+    private String stringData = "";
 
     public void characters(char[] ch, int start, int length) throws SAXException {
         super.characters(ch, start, length);
-        String s = new String(ch, start, length);
-
-        if (currentElement.equals(AUTHOR)) {
-            currentRevisionData.setLoginName(s);
-        } else if (currentElement.equals(DATE)) {
-            Date dt;
-            try {
-                dt = XMLUtil.parseXsdDateTime(s);
-                currentRevisionData.setDate(dt);
-            } catch (ParseException e) {
-                warning("Invalid date specified.");
-            }
-        } else if (currentElement.equals(MSG)) {
-            currentRevisionData.setComment(s);
-        } else if (currentElement.equals(PATH)) {
-        	// should it be ...,...,true,... if action is D?
-        	// the next line makes sure that the currentBuildFile is set, so
-        	// that the revision can be added to the correct file
-        	//builder.buildFile(s, false, false, null);
-        	//builder.buildRevision(currentRevisionData);
-        }
+        stringData += new String(ch, start, length);
 
     }
 
@@ -85,7 +68,21 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
             if (!lastElement.equals(LOGENTRY)) {
                 fatalError("Invalid SVN log file.");
             }
-            currentElement = LOGENTRY;
+            if (currentElement.equals(AUTHOR)) {
+                currentRevisionData.setLoginName(stringData);
+            } else if (currentElement.equals(DATE)) {
+                Date dt;
+                try {
+                    dt = XMLUtil.parseXsdDateTime(stringData);
+                    currentRevisionData.setDate(dt);
+                } catch (ParseException e) {
+                    warning("Invalid date specified.");
+                }
+            } else if (currentElement.equals(MSG)) {
+                currentRevisionData.setComment(stringData);
+            } else
+
+                currentElement = LOGENTRY;
         } else if (eName.equals(PATHS)) {
             if (!lastElement.equals(PATHS)) {
                 fatalError("Invalid SVN log file.");
@@ -96,6 +93,28 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
             if (!lastElement.equals(PATHS)) {
                 fatalError("Invalid SVN log file.");
             }
+
+            // should it be ...,...,true,... if action is D?
+            // the next line makes sure that the currentBuildFile is set, so
+            // that the revision can be added to the correct file
+
+            String filename = SvnLogUtils.getRelativeFileName(stringData);
+            if (!pathAction.equals("D")) {
+                currentRevisionData.setStateExp();
+            } else {
+                currentRevisionData.setStateDead();
+            }
+
+            if (pathAction.equals("M")) {
+                currentRevisionData.setLines(0, 0);
+            }
+
+            if (!filename.endsWith("/")) {
+
+                builder.buildFile(filename, false, false, new HashMap());
+                builder.buildRevision(currentRevisionData);
+            }
+
             currentElement = PATHS;
         } else {
             fatalError("Invalid SVN log file.");
@@ -123,6 +142,8 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         // TODO Auto-generated method stub
         super.startElement(uri, localName, qName, attributes);
+        stringData = "";
+
         String eName = localName; // element name
         if ("".equals(eName))
             eName = qName; // namespaceAware = false
@@ -140,7 +161,7 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
             }
             lastElement = LOG;
 
-            builder.buildModule("TODO: Path in repository of working folder");
+            builder.buildModule(SvnLogUtils.getModuleName());
 
         } else if (eName.equals(LOGENTRY)) {
             if (!lastElement.equals(LOG)) {

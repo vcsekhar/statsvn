@@ -90,9 +90,9 @@ public class FileBlockParser {
 		}
 		requireLine(this.logReader.nextLine(), "total revisions:");
 		parseDescription();
-		if (this.isFirstFile) {
-			this.builder.buildModule(SvnLogUtils.getModuleName(rcsFile, workingFile));
-		}
+//		if (this.isFirstFile) {
+//			this.builder.buildModule(SvnLogUtils.getModuleName(rcsFile, workingFile));
+//		}
 		this.builder.buildFile(workingFile, isBinary, isInAttic, this.revBySymNames);
 		if (!RevisionParser.FILE_DELIMITER.equals(this.logReader.getCurrentLine())) {
 			new RevisionParser(this.logReader, this.builder).parse();

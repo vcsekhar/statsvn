@@ -267,7 +267,7 @@ public class ParserTest extends TestCase {
 	/**
 	 * Tests if attic files are correctly identified. 
 	 * @throws Exception on error
-	 * @see net.sf.statcvs.util.CvsLogUtilsTest.testIsInAttic
+	 * @see net.sf.statcvs.util.SvnLogUtilsTest.testIsInAttic
 	 */
 	public void testIsInAttic() throws Exception {
 		mock.expectBuildFile("LICENSE", false, true);

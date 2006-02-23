@@ -24,8 +24,6 @@ package net.sf.statcvs.input;
 
 import java.util.Date;
 
-import net.sf.statcvs.util.SvnLogUtils;
-
 /**
  * Container for all information contained in one CVS revisionNumber
  * 
@@ -190,12 +188,14 @@ public class RevisionData {
 	}
 
 	/**
-	 * Returns <tt>true</tt> if this revisionNumber is on the main branch.
+	 * Returns <tt>true</tt> if this revisionNumber is on the main branch. 
+     * 
+     * In Subversion, branches are just copies so will assume everything is on the main branch. 
 	 * 
 	 * @return <tt>true</tt> if this revisionNumber is on the main branch.
 	 */
 	public boolean isOnTrunk() {
-		return SvnLogUtils.isOnMainBranch(revisionNumber);
+		return true;
 	}
 	
 	/**
