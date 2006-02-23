@@ -187,8 +187,8 @@ public class SvnLogUtils {
                     + FileUtils.getDirSeparator() + "entries";
         else {
             shortFileName = filename.substring(baseDir.length());
-            entries = FileUtils.getPathWithoutEndingSlash(ConfigurationOptions.getCheckedOutDirectory()) + baseDir + ".svn" + FileUtils.getDirSeparator()
-                    + "entries";
+            entries = FileUtils.getPathWithoutEndingSlash(ConfigurationOptions.getCheckedOutDirectory()) + FileUtils.getDirSeparator() + baseDir + ".svn"
+                    + FileUtils.getDirSeparator() + "entries";
 
         }
 
