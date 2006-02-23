@@ -103,7 +103,7 @@ public abstract class HTMLPage {
 			Messages.getString("PAGE_GENERATED_BY")
 			+ " "
 			+ a(
-				"http://statcvs.sf.net",
+				"http://www.statsvn.org",
 				Messages.getString("PROJECT_SHORTNAME"))
 			+ " v0.1");
 		print("</div>\n");
