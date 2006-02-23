@@ -44,263 +44,296 @@ import net.sf.statcvs.util.FileUtils;
 
 /**
  * <p>
- * Helps building the {@link net.sf.statcvs.model.Repository} from a CVS log. The <tt>Builder</tt> is fed by some CVS history data source, for example a CVS
- * log parser. The <tt>Repository</tt> can be retrieved using the {@link #createRepository} method.
+ * Helps building the {@link net.sf.statcvs.model.Repository} from a CVS log.
+ * The <tt>Builder</tt> is fed by some CVS history data source, for example a
+ * CVS log parser. The <tt>Repository</tt> can be retrieved using the
+ * {@link #createRepository} method.
  * </p>
  * 
  * <p>
- * The class also takes care of the creation of <tt>Author</tt> and </tt>Directory</tt> objects and makes sure that there's only one of these for each
- * author name and path. It also provides LOC count services.
+ * The class also takes care of the creation of <tt>Author</tt> and </tt>Directory</tt>
+ * objects and makes sure that there's only one of these for each author name
+ * and path. It also provides LOC count services.
  * </p>
  * 
  * @author Richard Cyganiak <richard@cyganiak.de>
  * @version $Id: Builder.java,v 1.29 2004/12/14 13:38:13 squig Exp $
  */
 public class Builder implements SvnLogBuilder {
-    private static Logger logger = Logger.getLogger(Builder.class.getName());
+	private static Logger logger = Logger.getLogger(Builder.class.getName());
 
-    private final RepositoryFileManager repositoryFileManager;
-    private final FilePatternMatcher includePattern;
-    private final FilePatternMatcher excludePattern;
+	private final RepositoryFileManager repositoryFileManager;
 
-    private final Map authors = new HashMap();
-    private final Map directories = new HashMap();
-    private final Map symbolicNames = new HashMap();
+	private final FilePatternMatcher includePattern;
 
-    private final Map fileBuilders = new HashMap();
-    private final Set atticFileNames = new HashSet();
+	private final FilePatternMatcher excludePattern;
 
-    private FileBuilder currentFileBuilder = null;
-    private Date startDate = null;
-    private String projectName = null;
+	private final Map authors = new HashMap();
 
-    /**
-     * Creates a new <tt>Builder</tt>
-     * 
-     * @param repositoryFileManager
-     *            the {@link RepositoryFileManager} that can be used to retrieve LOC counts for the files that this builder will create
-     * @param includePattern
-     *            a list of Ant-style wildcard patterns, seperated by : or ;
-     * @param excludePattern
-     *            a list of Ant-style wildcard patterns, seperated by : or ;
-     */
-    public Builder(RepositoryFileManager repositoryFileManager, FilePatternMatcher includePattern, FilePatternMatcher excludePattern) {
-        this.repositoryFileManager = repositoryFileManager;
-        this.includePattern = includePattern;
-        this.excludePattern = excludePattern;
-        directories.put("", Directory.createRoot());
-    }
+	private final Map directories = new HashMap();
 
-    /**
-     * Starts building the module.
-     * 
-     * @param moduleName
-     *            name of the module
-     */
-    public void buildModule(String moduleName) {
-        this.projectName = moduleName;
-    }
+	private final Map symbolicNames = new HashMap();
 
-    /**
-     * Starts building a new file. The files are not expected to be created in any particular order.
-     * 
-     * @param filename
-     *            the file's name with path, for example "path/file.txt"
-     * @param isBinary
-     *            <tt>true</tt> if it's a binary file
-     * @param isInAttic
-     *            <tt>true</tt> if the file is dead on the main branch
-     * @param revBySymnames
-     *            maps revision (string) by symbolic name (string)
-     */
-    public void buildFile(String filename, boolean isBinary, boolean isInAttic, Map revBySymnames) {
-        // if (currentFileBuilder != null) {
-        // fileBuilders.add(currentFileBuilder);
-        // }
-        // currentFileBuilder = new FileBuilder(this, filename, isBinary,
-        // revBySymnames);
+	private final Map fileBuilders = new HashMap();
 
-        if (fileBuilders.containsKey(filename))
-            currentFileBuilder = (FileBuilder) fileBuilders.get(filename);
-        else {
-            currentFileBuilder = new FileBuilder(this, filename, isBinary, revBySymnames);
-            fileBuilders.put(filename, currentFileBuilder);
-        }
+	private final Set atticFileNames = new HashSet();
 
-        if (isInAttic) {
-            atticFileNames.add(filename);
-        }
-    }
+	private FileBuilder currentFileBuilder = null;
 
-    /**
-     * Adds a revision to the current file. The revisions must be added in CVS logfile order, that is starting with the most recent one.
-     * 
-     * @param data
-     *            the revision
-     */
-    public void buildRevision(RevisionData data) {
-        currentFileBuilder.addRevisionData(data);
-        if (startDate == null || startDate.compareTo(data.getDate()) > 0) {
-            startDate = data.getDate();
-        }
-    }
+	private Date startDate = null;
 
-    /**
-     * Returns a Repository object of all files.
-     * 
-     * @param filesHaveInitialRevision
-     *            set to true if files in working directory all have 1.1 revision; otherwise files are expected to match the latest revision
-     * @return Repository a Repository object
-     * @throws EmptyRepositoryException
-     *             if no adequate files were found in the log.
-     */
-    public Repository createRepository() throws EmptyRepositoryException {
-        // if (currentFileBuilder != null) {
-        // fileBuilders.add(currentFileBuilder);
-        // currentFileBuilder = null;
-        // }
-        if (startDate == null) {
-            throw new EmptyRepositoryException();
-        }
+	private String projectName = null;
 
-        Repository result = new Repository();
-        Iterator it = fileBuilders.values().iterator();
-        while (it.hasNext()) {
-            FileBuilder fileBuilder = (FileBuilder) it.next();
-            VersionedFile file = fileBuilder.createFile(startDate);
-            if (file == null) {
-                continue;
-            }
-            result.addFile(file);
-            logger.finer("adding " + file.getFilenameWithPath() + " (" + file.getRevisions().size() + " revisions)");
-        }
+	/**
+	 * Creates a new <tt>Builder</tt>
+	 * 
+	 * @param repositoryFileManager
+	 *            the {@link RepositoryFileManager} that can be used to retrieve
+	 *            LOC counts for the files that this builder will create
+	 * @param includePattern
+	 *            a list of Ant-style wildcard patterns, seperated by : or ;
+	 * @param excludePattern
+	 *            a list of Ant-style wildcard patterns, seperated by : or ;
+	 */
+	public Builder(RepositoryFileManager repositoryFileManager,
+			FilePatternMatcher includePattern, FilePatternMatcher excludePattern) {
+		this.repositoryFileManager = repositoryFileManager;
+		this.includePattern = includePattern;
+		this.excludePattern = excludePattern;
+		directories.put("", Directory.createRoot());
+	}
 
-        if (result.isEmpty()) {
-            throw new EmptyRepositoryException();
-        }
+	/**
+	 * Starts building the module.
+	 * 
+	 * @param moduleName
+	 *            name of the module
+	 */
+	public void buildModule(String moduleName) {
+		this.projectName = moduleName;
+	}
 
-        // Uh oh...
-        SortedSet revisions = result.getRevisions();
-        List commits = new CommitListBuilder(revisions).createCommitList();
-        result.setCommits(commits);
+	/**
+	 * Starts building a new file. The files are not expected to be created in
+	 * any particular order.
+	 * 
+	 * @param filename
+	 *            the file's name with path, for example "path/file.txt"
+	 * @param isBinary
+	 *            <tt>true</tt> if it's a binary file
+	 * @param isInAttic
+	 *            <tt>true</tt> if the file is dead on the main branch
+	 * @param revBySymnames
+	 *            maps revision (string) by symbolic name (string)
+	 */
+	public void buildFile(String filename, boolean isBinary, boolean isInAttic,
+			Map revBySymnames) {
+		// if (currentFileBuilder != null) {
+		// fileBuilders.add(currentFileBuilder);
+		// }
+		// currentFileBuilder = new FileBuilder(this, filename, isBinary,
+		// revBySymnames);
 
-        result.setSymbolicNames(new TreeSet(symbolicNames.values()));
+		if (fileBuilders.containsKey(filename))
+			currentFileBuilder = (FileBuilder) fileBuilders.get(filename);
+		else {
+			currentFileBuilder = new FileBuilder(this, filename, isBinary,
+					revBySymnames);
+			fileBuilders.put(filename, currentFileBuilder);
 
-        return result;
-    }
+			if (isInAttic) {
+				atticFileNames.add(filename);
+			}
 
-    public String getProjectName() {
-        return projectName;
-    }
+		}
 
-    /**
-     * Returns the <tt>Set</tt> of filenames that are "in the attic".
-     * 
-     * @return a <tt>Set</tt> of <tt>String</tt>s
-     */
-    public Set getAtticFileNames() {
-        return atticFileNames;
-    }
+	}
 
-    /**
-     * returns the <tt>Author</tt> of the given name or creates it if it does not yet exist. Author names are handled as case-insensitive.
-     * 
-     * @param name
-     *            the author's name
-     * @return a corresponding <tt>Author</tt> object
-     */
-    public Author getAuthor(String name) {
-        if (this.authors.containsKey(name.toLowerCase())) {
-            return (Author) this.authors.get(name.toLowerCase());
-        }
-        Author newAuthor = new Author(name);
-        this.authors.put(name.toLowerCase(), newAuthor);
-        return newAuthor;
-    }
+	/**
+	 * Adds a revision to the current file. The revisions must be added in CVS
+	 * logfile order, that is starting with the most recent one.
+	 * 
+	 * @param data
+	 *            the revision
+	 */
+	public void buildRevision(RevisionData data) {
+		// if (currentFileBuilder.existRevision()) {
+		// // only the last revision is exposed
+		// data.unSetStateExp();
+		// }
+		currentFileBuilder.addRevisionData(data);
+		if (startDate == null || startDate.compareTo(data.getDate()) > 0) {
+			startDate = data.getDate();
+		}
+	}
 
-    /**
-     * Returns the <tt>Directory</tt> of the given filename or creates it if it does not yet exist.
-     * 
-     * @param filename
-     *            the name and path of a file, for example "src/Main.java"
-     * @return a corresponding <tt>Directory</tt> object
-     */
-    public Directory getDirectory(String filename) {
-        int lastSlash = filename.lastIndexOf('/');
-        if (lastSlash == -1) {
-            return getDirectoryForPath("");
-        }
-        return getDirectoryForPath(filename.substring(0, lastSlash + 1));
-    }
+	/**
+	 * Returns a Repository object of all files.
+	 * 
+	 * @param filesHaveInitialRevision
+	 *            set to true if files in working directory all have 1.1
+	 *            revision; otherwise files are expected to match the latest
+	 *            revision
+	 * @return Repository a Repository object
+	 * @throws EmptyRepositoryException
+	 *             if no adequate files were found in the log.
+	 */
+	public Repository createRepository() throws EmptyRepositoryException {
+		// if (currentFileBuilder != null) {
+		// fileBuilders.add(currentFileBuilder);
+		// currentFileBuilder = null;
+		// }
+		if (startDate == null) {
+			throw new EmptyRepositoryException();
+		}
 
-    /**
-     * Returns the {@link SymbolicName} with the given name or creates it if it does not yet exist.
-     * 
-     * @param name
-     *            the symbolic name's name
-     * @return the corresponding symbolic name object
-     */
-    public SymbolicName getSymbolicName(String name) {
-        SymbolicName sym = (SymbolicName) symbolicNames.get(name);
+		Repository result = new Repository();
+		Iterator it = fileBuilders.values().iterator();
+		while (it.hasNext()) {
+			FileBuilder fileBuilder = (FileBuilder) it.next();
+			VersionedFile file = fileBuilder.createFile(startDate);
+			if (file == null) {
+				continue;
+			}
+			result.addFile(file);
+			logger.finer("adding " + file.getFilenameWithPath() + " ("
+					+ file.getRevisions().size() + " revisions)");
+		}
 
-        if (sym != null) {
-            return sym;
-        } else {
-            sym = new SymbolicName(name);
-            symbolicNames.put(name, sym);
+		if (result.isEmpty()) {
+			throw new EmptyRepositoryException();
+		}
 
-            return sym;
-        }
-    }
+		// Uh oh...
+		SortedSet revisions = result.getRevisions();
+		List commits = new CommitListBuilder(revisions).createCommitList();
+		result.setCommits(commits);
 
-    public int getLOC(String filename) throws NoLineCountException {
-        if (repositoryFileManager == null) {
-            throw new NoLineCountException("no RepositoryFileManager");
-        }
-        return repositoryFileManager.getLinesOfCode(filename);
-    }
+		result.setSymbolicNames(new TreeSet(symbolicNames.values()));
 
-    /**
-     * @see RepositoryFilemanager.getRevision(String)
-     */
-    public String getRevision(String filename) throws IOException {
-        if (repositoryFileManager == null) {
-            throw new IOException("no RepositoryFileManager");
-        }
-        return repositoryFileManager.getRevision(filename);
-    }
+		return result;
+	}
 
-    /**
-     * Matches a filename against the include and exclude patterns. If no include pattern was specified, all files will be included. If no exclude pattern was
-     * specified, no files will be excluded.
-     * 
-     * @param filename
-     *            a filename
-     * @return <tt>true</tt> if the filename matches one of the include patterns and does not match any of the exclude patterns. If it matches an include and
-     *         an exclude pattern, <tt>false</tt> will be returned.
-     */
-    public boolean matchesPatterns(String filename) {
-        if (excludePattern != null && excludePattern.matches(filename)) {
-            return false;
-        }
-        if (includePattern != null) {
-            return includePattern.matches(filename);
-        }
-        return true;
-    }
+	public String getProjectName() {
+		return projectName;
+	}
 
-    /**
-     * @param path
-     *            for example "src/net/sf/statcvs/"
-     * @return the <tt>Directory</tt> corresponding to <tt>statcvs</tt>
-     */
-    private Directory getDirectoryForPath(String path) {
-        if (directories.containsKey(path)) {
-            return (Directory) directories.get(path);
-        }
-        Directory parent = getDirectoryForPath(FileUtils.getParentDirectoryPath(path));
-        Directory newDirectory = parent.createSubdirectory(FileUtils.getDirectoryName(path));
-        directories.put(path, newDirectory);
-        return newDirectory;
-    }
+	/**
+	 * Returns the <tt>Set</tt> of filenames that are "in the attic".
+	 * 
+	 * @return a <tt>Set</tt> of <tt>String</tt>s
+	 */
+	public Set getAtticFileNames() {
+		return atticFileNames;
+	}
+
+	/**
+	 * returns the <tt>Author</tt> of the given name or creates it if it does
+	 * not yet exist. Author names are handled as case-insensitive.
+	 * 
+	 * @param name
+	 *            the author's name
+	 * @return a corresponding <tt>Author</tt> object
+	 */
+	public Author getAuthor(String name) {
+		if (this.authors.containsKey(name.toLowerCase())) {
+			return (Author) this.authors.get(name.toLowerCase());
+		}
+		Author newAuthor = new Author(name);
+		this.authors.put(name.toLowerCase(), newAuthor);
+		return newAuthor;
+	}
+
+	/**
+	 * Returns the <tt>Directory</tt> of the given filename or creates it if
+	 * it does not yet exist.
+	 * 
+	 * @param filename
+	 *            the name and path of a file, for example "src/Main.java"
+	 * @return a corresponding <tt>Directory</tt> object
+	 */
+	public Directory getDirectory(String filename) {
+		int lastSlash = filename.lastIndexOf('/');
+		if (lastSlash == -1) {
+			return getDirectoryForPath("");
+		}
+		return getDirectoryForPath(filename.substring(0, lastSlash + 1));
+	}
+
+	/**
+	 * Returns the {@link SymbolicName} with the given name or creates it if it
+	 * does not yet exist.
+	 * 
+	 * @param name
+	 *            the symbolic name's name
+	 * @return the corresponding symbolic name object
+	 */
+	public SymbolicName getSymbolicName(String name) {
+		SymbolicName sym = (SymbolicName) symbolicNames.get(name);
+
+		if (sym != null) {
+			return sym;
+		} else {
+			sym = new SymbolicName(name);
+			symbolicNames.put(name, sym);
+
+			return sym;
+		}
+	}
+
+	public int getLOC(String filename) throws NoLineCountException {
+		if (repositoryFileManager == null) {
+			throw new NoLineCountException("no RepositoryFileManager");
+		}
+		return repositoryFileManager.getLinesOfCode(filename);
+	}
+
+	/**
+	 * @see RepositoryFilemanager.getRevision(String)
+	 */
+	public String getRevision(String filename) throws IOException {
+		if (repositoryFileManager == null) {
+			throw new IOException("no RepositoryFileManager");
+		}
+		return repositoryFileManager.getRevision(filename);
+	}
+
+	/**
+	 * Matches a filename against the include and exclude patterns. If no
+	 * include pattern was specified, all files will be included. If no exclude
+	 * pattern was specified, no files will be excluded.
+	 * 
+	 * @param filename
+	 *            a filename
+	 * @return <tt>true</tt> if the filename matches one of the include
+	 *         patterns and does not match any of the exclude patterns. If it
+	 *         matches an include and an exclude pattern, <tt>false</tt> will
+	 *         be returned.
+	 */
+	public boolean matchesPatterns(String filename) {
+		if (excludePattern != null && excludePattern.matches(filename)) {
+			return false;
+		}
+		if (includePattern != null) {
+			return includePattern.matches(filename);
+		}
+		return true;
+	}
+
+	/**
+	 * @param path
+	 *            for example "src/net/sf/statcvs/"
+	 * @return the <tt>Directory</tt> corresponding to <tt>statcvs</tt>
+	 */
+	private Directory getDirectoryForPath(String path) {
+		if (directories.containsKey(path)) {
+			return (Directory) directories.get(path);
+		}
+		Directory parent = getDirectoryForPath(FileUtils
+				.getParentDirectoryPath(path));
+		Directory newDirectory = parent.createSubdirectory(FileUtils
+				.getDirectoryName(path));
+		directories.put(path, newDirectory);
+		return newDirectory;
+	}
 }
