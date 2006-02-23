@@ -1,35 +1,35 @@
 <?xml version="1.0"?>
 <project>
   <pomVersion>3</pomVersion>
-  <name>statcvs</name>
-  <id>statcvs</id>
-  <currentVersion>${statcvs.version}</currentVersion>
+  <name>statsvn</name>
+  <id>statsvn</id>
+  <currentVersion>${statsvn.version}</currentVersion>
 
   <organization>
-    <name>StatCVS Sourceforge Development Group</name>
-    <url>http://statcvs.sourceforge.net/</url>
+    <name>StatSVN Sourceforge Development Group</name>
+    <url>http://statsvn.sourceforge.net/</url>
     <logo>http://sourceforge.net/sflogo.php?group_id=57558&amp;type=5</logo>
   </organization>
 
   <inceptionYear>2003</inceptionYear>
   <package>net.sf.statcvs</package>
 
-  <logo>/images/statcvs.gif</logo>
-  <shortDescription>StatCVS, stat your repository</shortDescription>
+  <logo>/images/statsvn.gif</logo>
+  <shortDescription>StatSVN, stat your repository</shortDescription>
   <description>
-    StatCVS retrieves information from a CVS repository and generates various 
+    StatSVN retrieves information from a Subversion repository and generates various 
     tables and charts describing the project development, e.g. timeline for 
     the lines of code, contribution of each developer etc. The current version 
-    of StatCVS generates a static suite of HTML documents containing tables 
-    and chart images. StatCVS is opens source software, released under the 
-    terms oft the LGPL.
+    of StatSVN generates a static suite of HTML documents containing tables 
+    and chart images. StatSVN is open source software, released under the 
+    terms of the LGPL, based on StatCVS.
 
-    StatCVS uses JFreeChart to generate charts.
+    StatSVN uses JFreeChart to generate charts.
   </description>
 
-  <url>http://statcvs.sourceforge.net/</url>
-  <issueTrackingUrl>http://sourceforge.net/tracker/?group_id=57558</issueTrackingUrl>
-  <siteAddress>statcvs.sourceforge.net</siteAddress>
+  <url>http://www.statsvn.org</url>
+  <issueTrackingUrl>http://www.statsvn.org</issueTrackingUrl>
+  <siteAddress>http://www.statsvn.org</siteAddress>
   <siteDirectory>/home/groups/s/st/statcvs/htdocs/maven</siteDirectory>
 
   <repository>

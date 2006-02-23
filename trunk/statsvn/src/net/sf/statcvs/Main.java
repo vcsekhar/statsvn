@@ -120,7 +120,7 @@ public class Main {
 	}
 
 	private static void printVersionAndExit() {
-		System.out.println("Version @VERSION@");
+		System.out.println("Version 1.0.0");
 		System.exit(1);
 	}
 

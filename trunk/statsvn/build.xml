@@ -51,7 +51,7 @@
 		<copy todir="${src.filtered}">
 			<fileset dir="${src}" excludes="**/*.png" />
 			<filterset>
-				<filter token="VERSION" value="${statcvs.version}" />
+				<filter token="VERSION" value="${statsvn.version}" />
 			</filterset>
 		</copy>
 		<copy todir="${src.filtered}">
