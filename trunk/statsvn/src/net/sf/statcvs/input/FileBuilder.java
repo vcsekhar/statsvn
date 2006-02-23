@@ -342,4 +342,12 @@ public class FileBuilder {
 
         return symbolicNames;
     }
+
+	public String getName() {
+		return name;
+	}
+
+	public List getRevisions() {
+		return revisions;
+	}
 }

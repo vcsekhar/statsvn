@@ -70,4 +70,6 @@ public interface SvnLogBuilder {
 	 * @param data the revision
 	 */
 	public abstract void buildRevision(RevisionData data);
+	
+	public abstract Map getFileBuilders();
 }

@@ -1,29 +1,31 @@
 /*
-    StatCvs - CVS statistics generation 
-    Copyright (C) 2002  Lukasz Pekacki <lukasz@pekacki.de>
-    http://statcvs.sf.net/
-    
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Lesser General Public
-    License as published by the Free Software Foundation; either
-    version 2.1 of the License, or (at your option) any later version.
+ StatCvs - CVS statistics generation 
+ Copyright (C) 2002  Lukasz Pekacki <lukasz@pekacki.de>
+ http://statcvs.sf.net/
+ 
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
 
-    This library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Lesser General Public License for more details.
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
 
-    You should have received a copy of the GNU Lesser General Public
-    License along with this library; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-    
-	$RCSfile: Main.java,v $ 
-	Created on $Date: 2005/03/20 19:12:25 $ 
-*/
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ 
+ $RCSfile: Main.java,v $ 
+ Created on $Date: 2005/03/20 19:12:25 $ 
+ */
 package net.sf.statcvs;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
@@ -37,10 +39,14 @@ import net.sf.statcvs.output.CommandLineParser;
 import net.sf.statcvs.output.ConfigurationException;
 import net.sf.statcvs.output.ConfigurationOptions;
 import net.sf.statcvs.output.HTMLOutput;
+import net.sf.statcvs.util.LookaheadReader;
+import net.sf.statcvs.util.SvnDiffUtils;
+import net.sf.statcvs.util.SvnLogUtils;
 
 /**
  * StatCvs Main Class; it starts the application and controls command-line
  * related stuff
+ * 
  * @author Lukasz Pekacki
  * @author Richard Cyganiak
  * @version $Id: Main.java,v 1.47 2005/03/20 19:12:25 squig Exp $
@@ -51,12 +57,13 @@ public class Main {
 
 	/**
 	 * Main method of StatCvs
-	 * @param args command line options
+	 * 
+	 * @param args
+	 *            command line options
 	 */
 	public static void main(String[] args) {
-		System.out.println(Messages.getString("PROJECT_NAME")
-				+ Messages.NL);
-		
+		System.out.println(Messages.getString("PROJECT_NAME") + Messages.NL);
+
 		if (args.length == 0) {
 			printProperUsageAndExit();
 		}
@@ -74,7 +81,7 @@ public class Main {
 			generateDefaultHTMLSuite();
 		} catch (ConfigurationException cex) {
 			System.err.println(cex.getMessage());
-            System.exit(1);
+			System.exit(1);
 		} catch (LogSyntaxException lex) {
 			printLogErrorMessageAndExit(lex.getMessage());
 		} catch (IOException ioex) {
@@ -97,25 +104,17 @@ public class Main {
 
 	private static void printProperUsageAndExit() {
 		System.out.println(
-		//max. 80 chars
-		//         12345678901234567890123456789012345678901234567890123456789012345678901234567890
-				  "Usage: java -jar statcvs.jar [options] <logfile> <directory>\n"
-				+ "\n"
-				+ "Required parameters:\n"
-				+ "  <logfile>          path to the cvs logfile of the module\n"
-				+ "  <directory>        path to the directory of the checked out module\n"
-				+ "\n"
-				+ "Some options:\n"
-				+ "  -version           print the version information and exit\n"
-				+ "  -output-dir <dir>  directory where HTML suite will be saved\n"
-				+ "  -include <pattern> include only files matching pattern, e.g. **/*.c;**/*.h\n"
-				+ "  -exclude <pattern> exclude matching files, e.g. tests/**;docs/**\n"
-				+ "  -tags <regexp>     show matching tags in lines of code chart, e.g. version-.*\n"
-				+ "  -title <title>     Project title to be used in reports\n"
-				+ "  -viewcvs <url>     integrate with ViewCVS installation at <url>\n"
-				+ "  -verbose           print extra progress information\n"
-				+ "\n"
-				+ "Full options list: http://statcvs.sf.net/manual");
+		// max. 80 chars
+				// 12345678901234567890123456789012345678901234567890123456789012345678901234567890
+				"Usage: java -jar statcvs.jar [options] <logfile> <directory>\n" + "\n" + "Required parameters:\n"
+						+ "  <logfile>          path to the cvs logfile of the module\n"
+						+ "  <directory>        path to the directory of the checked out module\n" + "\n" + "Some options:\n"
+						+ "  -version           print the version information and exit\n" + "  -output-dir <dir>  directory where HTML suite will be saved\n"
+						+ "  -include <pattern> include only files matching pattern, e.g. **/*.c;**/*.h\n"
+						+ "  -exclude <pattern> exclude matching files, e.g. tests/**;docs/**\n"
+						+ "  -tags <regexp>     show matching tags in lines of code chart, e.g. version-.*\n"
+						+ "  -title <title>     Project title to be used in reports\n" + "  -viewcvs <url>     integrate with ViewCVS installation at <url>\n"
+						+ "  -verbose           print extra progress information\n" + "\n" + "Full options list: http://statcvs.sf.net/manual");
 		System.exit(1);
 	}
 
@@ -149,13 +148,15 @@ public class Main {
 	/**
 	 * Generates HTML report. {@link net.sf.statcvs.output.ConfigurationOptions}
 	 * must be initialized before calling this method.
-	 * @throws LogSyntaxException if the logfile contains unexpected syntax
-	 * @throws IOException if some file can't be read or written
-	 * @throws ConfigurationException if a required ConfigurationOption was not set 
+	 * 
+	 * @throws LogSyntaxException
+	 *             if the logfile contains unexpected syntax
+	 * @throws IOException
+	 *             if some file can't be read or written
+	 * @throws ConfigurationException
+	 *             if a required ConfigurationOption was not set
 	 */
-	public static void generateDefaultHTMLSuite()
-			throws LogSyntaxException, IOException, ConfigurationException,
-					EmptyRepositoryException {
+	public static void generateDefaultHTMLSuite() throws LogSyntaxException, IOException, ConfigurationException, EmptyRepositoryException {
 
 		if (ConfigurationOptions.getLogFileName() == null) {
 			throw new ConfigurationException("Missing logfile name");
@@ -169,15 +170,29 @@ public class Main {
 
 		initLogManager(ConfigurationOptions.getLoggingProperties());
 
-		logger.info("Parsing SVN log '"
-				+ ConfigurationOptions.getLogFileName() + "'");
+		logger.info("Parsing SVN log '" + ConfigurationOptions.getLogFileName() + "'");
 
 		FileInputStream logFile = new FileInputStream(ConfigurationOptions.getLogFileName());
-		RepositoryFileManager repFileMan =
-				new RepositoryFileManager(ConfigurationOptions.getCheckedOutDirectory());
-		Builder builder = new Builder(repFileMan, ConfigurationOptions.getIncludePattern(),
-				ConfigurationOptions.getExcludePattern());
+		RepositoryFileManager repFileMan = new RepositoryFileManager(ConfigurationOptions.getCheckedOutDirectory());
+		Builder builder = new Builder(repFileMan, ConfigurationOptions.getIncludePattern(), ConfigurationOptions.getExcludePattern());
 		new SvnLogfileParser(logFile, builder).parse();
+
+		String repositoryRevision = SvnLogUtils.getRevisionNumber(".");
+
+		if (repositoryRevision == null)
+			throw new LogSyntaxException("Unable to find working directory's revision number");
+
+//		int revision = Integer.parseInt(repositoryRevision);
+//		for (int i = 1; i < revision; i++) {
+//			System.out.println("revs " + Integer.toString(i));
+//			InputStream diffStream = SvnDiffUtils.callSvnDiff(Integer.toString(i), Integer.toString(i + 1));
+//			LookaheadReader diffReader = new LookaheadReader(new InputStreamReader(diffStream));
+//			while (diffReader.hasNextLine()) {
+//				diffReader.nextLine();
+//	//			System.out.println(diffReader.getCurrentLine());
+//			}
+//		}
+
 		if (ConfigurationOptions.getProjectName() == null) {
 			ConfigurationOptions.setProjectName(builder.getProjectName());
 		}
@@ -185,17 +200,15 @@ public class Main {
 			ConfigurationOptions.getWebRepository().setAtticFileNames(builder.getAtticFileNames());
 		}
 
-		logger.info("Generating report for " + ConfigurationOptions.getProjectName()
-				+ " into " + ConfigurationOptions.getOutputDir());
+		logger.info("Generating report for " + ConfigurationOptions.getProjectName() + " into " + ConfigurationOptions.getOutputDir());
 		logger.info("Using " + ConfigurationOptions.getCssHandler());
 		Repository content = builder.createRepository();
 		new HTMLOutput(content).createHTMLSuite();
-		
+
 		long endTime = System.currentTimeMillis();
 		long memoryUsedOnEnd = Runtime.getRuntime().totalMemory();
 
 		logger.info("runtime: " + (((double) endTime - startTime) / 1000) + " seconds");
-		logger.info("memory usage: "
-				+ (((double) memoryUsedOnEnd - memoryUsedOnStart) / 1024) + " kb");
+		logger.info("memory usage: " + (((double) memoryUsedOnEnd - memoryUsedOnStart) / 1024) + " kb");
 	}
 }

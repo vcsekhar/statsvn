@@ -61,27 +61,16 @@ import net.sf.statcvs.util.FileUtils;
  */
 public class Builder implements SvnLogBuilder {
 	private static Logger logger = Logger.getLogger(Builder.class.getName());
-
 	private final RepositoryFileManager repositoryFileManager;
-
 	private final FilePatternMatcher includePattern;
-
 	private final FilePatternMatcher excludePattern;
-
 	private final Map authors = new HashMap();
-
 	private final Map directories = new HashMap();
-
 	private final Map symbolicNames = new HashMap();
-
 	private final Map fileBuilders = new HashMap();
-
 	private final Set atticFileNames = new HashSet();
-
 	private FileBuilder currentFileBuilder = null;
-
 	private Date startDate = null;
-
 	private String projectName = null;
 
 	/**
@@ -335,5 +324,9 @@ public class Builder implements SvnLogBuilder {
 				.getDirectoryName(path));
 		directories.put(path, newDirectory);
 		return newDirectory;
+	}
+
+	public Map getFileBuilders() {
+		return fileBuilders;
 	}
 }
