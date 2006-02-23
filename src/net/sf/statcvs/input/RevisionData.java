@@ -32,22 +32,14 @@ import java.util.Date;
  */
 public class RevisionData {
 	private String revisionNumber;
-
 	private Date date;
-
 	private String loginName;
-
 	private boolean stateExp = false;
-
 	private boolean stateDead = false;
-
 	private boolean hasNoLines = true;
-
 	private int linesAdded;
-
 	private int linesRemoved;
-
-	private String comment="";
+	private String comment = "";
 
 	public RevisionData() {
 
@@ -253,14 +245,12 @@ public class RevisionData {
 	}
 
 	public Object clone() {
-		return new RevisionData(revisionNumber, date, loginName, stateExp,
-				stateDead, hasNoLines, linesAdded, linesRemoved, comment);
+		return new RevisionData(revisionNumber, date, loginName, stateExp, stateDead, hasNoLines, linesAdded, linesRemoved, comment);
 
 	}
 
-	private RevisionData(String revisionNumber, Date date, String loginName,
-			boolean stateExp, boolean stateDead, boolean hasNoLines,
-			int linesAdded, int linesRemoved, String comment) {
+	private RevisionData(String revisionNumber, Date date, String loginName, boolean stateExp, boolean stateDead, boolean hasNoLines, int linesAdded,
+			int linesRemoved, String comment) {
 		super();
 		this.revisionNumber = revisionNumber;
 		this.date = date;

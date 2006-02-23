@@ -172,4 +172,9 @@ public class MockLogBuilder implements SvnLogBuilder {
 			Assert.fail("expected " + expectedMethods.getFirst());
 		}
 	}
+
+	public Map getFileBuilders() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
