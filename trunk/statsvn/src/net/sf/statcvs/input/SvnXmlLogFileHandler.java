@@ -123,9 +123,9 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
             } else {
                 data.setStateDead();
             }
-            if (pathAction.equals("M")) {
-               // data.setLines(10, 50);
-            }
+//            if (pathAction.equals("M")) {
+//               data.setLines(10, 50);
+//            }
             // if (pathAction.equals("A")) {
             // data(0, 0);
             // }
