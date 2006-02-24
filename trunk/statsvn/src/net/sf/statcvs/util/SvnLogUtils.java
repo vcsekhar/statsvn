@@ -165,6 +165,8 @@ public class SvnLogUtils {
         if (sFileName.length() <= 1)
             return "/";
 
+        if (sFileName.indexOf('/', 1) < 0)
+            return sFileName;
         String prefix = sFileName.substring(0, sFileName.indexOf('/', 1));
 
         int size = getModuleName().length() - getModuleName().lastIndexOf(prefix);
