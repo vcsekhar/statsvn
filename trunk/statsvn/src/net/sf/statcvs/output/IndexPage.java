@@ -82,7 +82,7 @@ public class IndexPage extends HTMLPage {
 		String result = HTMLTagger.getSummaryPeriod(
 					getContent().getFirstDate(),
 					getContent().getLastDate(),
-					br() + "Generated: " + outputDateFormat.format(cal.getTime()));
+					"\nGenerated: " + outputDateFormat.format(cal.getTime()));
 		return result;
 	}
 
