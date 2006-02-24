@@ -24,8 +24,6 @@ package net.sf.statcvs;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
@@ -39,9 +37,6 @@ import net.sf.statcvs.output.CommandLineParser;
 import net.sf.statcvs.output.ConfigurationException;
 import net.sf.statcvs.output.ConfigurationOptions;
 import net.sf.statcvs.output.HTMLOutput;
-import net.sf.statcvs.util.LookaheadReader;
-import net.sf.statcvs.util.SvnDiffUtils;
-import net.sf.statcvs.util.SvnLogUtils;
 
 /**
  * StatCvs Main Class; it starts the application and controls command-line
@@ -177,11 +172,11 @@ public class Main {
 		Builder builder = new Builder(repFileMan, ConfigurationOptions.getIncludePattern(), ConfigurationOptions.getExcludePattern());
 		new SvnLogfileParser(logFile, builder).parse();
 
-		String repositoryRevision = SvnLogUtils.getRevisionNumber(".");
-
-		if (repositoryRevision == null)
-			throw new LogSyntaxException("Unable to find working directory's revision number");
-
+//		String repositoryRevision = SvnLogUtils.getRevisionNumber(".");
+//
+//		if (repositoryRevision == null)
+//			throw new LogSyntaxException("Unable to find working directory's revision number");
+//
 //		int revision = Integer.parseInt(repositoryRevision);
 //		for (int i = 1; i < revision; i++) {
 //			System.out.println("revs " + Integer.toString(i));

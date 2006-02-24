@@ -133,7 +133,6 @@ public class SvnLogfileParser {
                     int removed = -1;
                     while (diffReader.hasNextLine()) {
                         diffReader.nextLine();
-
                         // very simple algorithm
                         if (diffReader.getCurrentLine().charAt(0) == '+')
                             added++;
@@ -141,8 +140,11 @@ public class SvnLogfileParser {
                             removed++;
                         // System.out.println(diffReader.getCurrentLine());
                     }
-                    if (added!=-1 && removed!=-1)
-                        ((RevisionData) revisions.get(i + 1)).setLines(added, removed);
+                    // System.out.println(added + " " + removed);
+                    if (added!=-1 && removed!=-1) {
+                    	// condition is true only for deleted files
+                        ((RevisionData) revisions.get(i)).setLines(added, removed);                    	
+                    }
                 }
             }
         }
