@@ -350,4 +350,14 @@ public class FileBuilder {
 	public List getRevisions() {
 		return revisions;
 	}
+	
+	public RevisionData findRevision(String revisionNumber) {
+		for (int i = 0; i < revisions.size(); i++) {
+			RevisionData data = (RevisionData) revisions.get(i);
+			if (data.getRevisionNumber().equals(revisionNumber))
+				return data;	
+		}
+		return null;
+	}
+	
 }

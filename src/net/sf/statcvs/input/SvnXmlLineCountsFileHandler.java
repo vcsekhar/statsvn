@@ -1,14 +1,7 @@
 package net.sf.statcvs.input;
 
-import java.util.logging.Logger;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -16,19 +9,19 @@ import org.xml.sax.helpers.DefaultHandler;
 
 public class SvnXmlLineCountsFileHandler extends DefaultHandler {
 
+	private static final String REMOVED = "removed";
+	private static final String ADDED = "added";
+	private static final String NAME = "name";
+	private static final String NUMBER = "number";
 	private static final String FATAL_ERROR_MESSAGE = "Invalid StatSvn line count file.";
 	private static final String LINECOUNTS = "lineCounts";
-	private static Logger logger = Logger
-			.getLogger(SvnXmlLineCountsFileHandler.class.getName());
 	private static final String PATH = "path";
 	private static final String REVISION = "revision";
-	private Document document;
-	private Element lineCounts;
-	private Element currentPath;
 	private String lastElement = "";
+	private LineCountsBuilder lineCountsBuilder;
 
-	public SvnXmlLineCountsFileHandler(Document document) {
-		this.document = document;
+	public SvnXmlLineCountsFileHandler(LineCountsBuilder lineCountsBuilder) {
+		this.lineCountsBuilder = lineCountsBuilder;
 	}
 
 	public void endDocument() throws SAXException {
@@ -43,27 +36,34 @@ public class SvnXmlLineCountsFileHandler extends DefaultHandler {
 			eName = qName; // namespaceAware = false
 
 		if (eName.equals(LINECOUNTS)) {
-			if (!lastElement.equals(LINECOUNTS)) {
-				fatalError(FATAL_ERROR_MESSAGE);
-			}
-			lastElement = "";
+			endLineCounts();
 		} else if (eName.equals(PATH)) {
-			if (!lastElement.equals(PATH)) {
-				fatalError(FATAL_ERROR_MESSAGE);
-			}
-			lastElement = LINECOUNTS;
+			endPath();
 		} else if (eName.equals(REVISION)) {
-			if (!lastElement.equals(PATH)) {
-				fatalError(FATAL_ERROR_MESSAGE);
-			}
+			endRevision();
 		} else {
 			fatalError(FATAL_ERROR_MESSAGE);
 		}
 	}
 
-	public void error(SAXParseException e) throws SAXException {
-		// TODO Auto-generated method stub
-		super.error(e);
+	private void endRevision() throws SAXException {
+		checkLastElement(PATH);
+	}
+
+	private void checkLastElement(String last) throws SAXException {
+		if (!lastElement.equals(last)) {
+			fatalError(FATAL_ERROR_MESSAGE);
+		}
+	}
+
+	private void endPath() throws SAXException {
+		checkLastElement(PATH);
+		lastElement = LINECOUNTS;
+	}
+
+	private void endLineCounts() throws SAXException {
+		checkLastElement(LINECOUNTS);
+		lastElement = "";
 	}
 
 	public void fatalError(SAXParseException e) throws SAXException {
@@ -89,75 +89,49 @@ public class SvnXmlLineCountsFileHandler extends DefaultHandler {
 			eName = qName; // namespaceAware = false
 
 		if (eName.equals(LINECOUNTS)) {
-			if (!lastElement.equals("")) {
-				fatalError(FATAL_ERROR_MESSAGE);
-			}
-			lastElement = LINECOUNTS;
-			lineCounts = (Element) document.createElement("lineCounts");
-			document.appendChild(lineCounts);
+			startLineCounts();
 		} else if (eName.equals(PATH)) {
-			if (!lastElement.equals(LINECOUNTS)) {
-				fatalError(FATAL_ERROR_MESSAGE);
-			}
-			lastElement = PATH;
-			String name = "";
-			if (attributes != null && attributes.getValue("name") != null)
-				name = attributes.getValue("name");
-			else
-				fatalError(FATAL_ERROR_MESSAGE);
-			currentPath = (Element) document.createElement("path");
-			Attr attr = document.createAttribute("name");
-			attr.setTextContent(name);
-			currentPath.setAttributeNode(attr);
-			lineCounts.appendChild(currentPath);
+			startPath(attributes);
 		} else if (eName.equals(REVISION)) {
-			if (!lastElement.equals(PATH)) {
-				fatalError(FATAL_ERROR_MESSAGE);
-			}
-			boolean error = false;
-			String number = "";
-			String added = "";
-			String removed = "";
-			if (attributes != null) {
-				if (attributes.getValue("number") != null)
-					number = attributes.getValue("number");
-				else
-					error = true;
-				if (attributes.getValue("added") != null)
-					added = attributes.getValue("added");
-				else
-					error = true;
-				if (attributes.getValue("removed") != null)
-					removed = attributes.getValue("removed");
-				else
-					error = true;
-			} else
-				error = true;
-			if (error)
-				fatalError(FATAL_ERROR_MESSAGE);
-			Element revision = (Element) document.createElement("revision");
-			Attr attrRev1 = document.createAttribute("number");
-			attrRev1.setTextContent(number);
-			revision.setAttributeNode(attrRev1);
-			Attr attrRev2 = document.createAttribute("added");
-			attrRev2.setTextContent(added);
-			revision.setAttributeNode(attrRev2);
-			Attr attrRev3 = document.createAttribute("removed");
-			attrRev3.setTextContent(removed);
-			revision.setAttributeNode(attrRev3);
-			currentPath.appendChild(revision);
+			startRevision(attributes);
 		} else {
 			fatalError(FATAL_ERROR_MESSAGE);
 		}
 	}
 
-	public void warning(SAXParseException e) throws SAXException {
-		// TODO Auto-generated method stub
-		super.warning(e);
+	private void startRevision(Attributes attributes) throws SAXException {
+		checkLastElement(PATH);
+		if (attributes != null && attributes.getValue(NUMBER) != null
+				&& attributes.getValue(ADDED) != null
+				&& attributes.getValue(REMOVED) != null) {
+			String number = attributes.getValue(NUMBER);
+			String added = attributes.getValue(ADDED);
+			String removed = attributes.getValue(REMOVED);
+			lineCountsBuilder.buildRevision(number, added, removed);
+		} else
+			fatalError(FATAL_ERROR_MESSAGE);
 	}
 
-	private void warning(String message) throws SAXException {
-		warning(new SAXParseException(message, null));
+	private void startPath(Attributes attributes) throws SAXException {
+		checkLastElement(LINECOUNTS);
+		lastElement = PATH;
+		if (attributes != null && attributes.getValue(NAME) != null) {
+			String name = attributes.getValue(NAME);
+			lineCountsBuilder.buildPath(name);
+		} else
+			fatalError(FATAL_ERROR_MESSAGE);
 	}
+
+	private void startLineCounts() throws SAXException {
+		checkLastElement("");
+		lastElement = LINECOUNTS;
+		try {
+			lineCountsBuilder.buildRoot();
+		} catch (ParserConfigurationException e) {
+			fatalError(FATAL_ERROR_MESSAGE);
+		}
+	}
+
+
 
 }
