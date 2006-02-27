@@ -138,10 +138,6 @@ public class RevisionData {
 		stateExp = true;
 	}
 
-	public void unSetStateExp() {
-		stateExp = false;
-	}
-
 	/**
 	 * @return Returns the comment.
 	 */
