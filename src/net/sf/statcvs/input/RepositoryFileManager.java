@@ -25,12 +25,10 @@ package net.sf.statcvs.input;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Hashtable;
-import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
 import net.sf.statcvs.util.FileUtils;
-import net.sf.statcvs.util.SvnLogUtils;
+import net.sf.statcvs.util.SvnInfoUtils;
 
 /**
  * Manages a checked-out repository and provides access to line number counts for repository files.
@@ -42,7 +40,6 @@ import net.sf.statcvs.util.SvnLogUtils;
 public class RepositoryFileManager {
     private static Logger logger;
     private String path;
-    private Hashtable revByFilename = new Hashtable();
 
     /**
      * Creates a new instance with root at <code>pathName</code>.
@@ -94,55 +91,13 @@ public class RepositoryFileManager {
      * @return the revision of filename
      */
     public String getRevision(String filename) throws IOException {
-        String rev = (String) revByFilename.get(filename);
+        String rev = SvnInfoUtils.getRevisionNumber(filename);
         if (rev != null) {
             return rev;
-        }
-
-        rev = SvnLogUtils.getRevisionNumber(filename);
-        if (rev != null) {
-            revByFilename.put(filename, rev);
-            return rev;
-        } else if (!SvnLogUtils.isDirectory())
+        } else if (!SvnInfoUtils.isDirectory(filename))
             throw new IOException("File " + filename + " has no revision");
         else
             return null;
-
-        // String baseDir = FileUtils.getParentDirectoryPath(filename);
-        // String entriesFilename = baseDir + "CVS" + FileUtils.getDefaultDirSeparator() + "Entries";
-        // 
-        // // read CVS/Entries file
-        // String absoluteName = FileUtils.getAbsoluteName(this.path, entriesFilename);
-        // BufferedReader in = new BufferedReader(new FileReader(absoluteName));
-        // try {
-        // String line;
-        // while ((line = in.readLine()) != null) {
-        // if (line.startsWith("D")) {
-        // // ignore, directory entry
-        // }
-        // else {
-        // // cache all entries
-        // StringTokenizer t = new StringTokenizer(line, "/");
-        // if (t.countTokens() >= 2) {
-        // revByFilename.put(baseDir + t.nextToken(), t.nextToken());
-        // }
-        // else {
-        // // invalid entry
-        // }
-        // }
-        // }
-        // 			
-        // rev = (String)revByFilename.get(filename);
-        // if (rev != null) {
-        // return rev;
-        // }
-        // else {
-        // throw new IOException("File " + filename + " has no revision");
-        // }
-        // }
-        // finally {
-        // in.close();
-
     }
 
 }

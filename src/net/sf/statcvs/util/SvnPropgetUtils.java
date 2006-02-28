@@ -94,7 +94,7 @@ public class SvnPropgetUtils {
         if (line.endsWith(octetStream) || line.lastIndexOf(" - text/") < 0 && line.lastIndexOf(" - text/") == line.lastIndexOf(" - ")) {
             line = line.substring(0, line.lastIndexOf(" - "));
             if (removeRoot)
-                line = SvnLogUtils.getRelativeFileName(line);
+                line = SvnInfoUtils.absoluteToRelativePath(line);
             return line;
         }
 

@@ -193,8 +193,6 @@ public class FileBuilder {
         String revision = null;
         try {
             revision = builder.getRevision(name);
-            if (revision == null)
-                return 0; // is directory
         } catch (IOException e) {
             if (!finalRevisionIsDead()) {
                 logger.warning(e.getMessage());

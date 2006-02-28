@@ -37,6 +37,7 @@ public class SvnDiffUtils {
 		return istream;
 	}
 
+
 	public synchronized static InputStream callSvnDiff(String oldRevNr, String newRevNr, String filename) {
 		InputStream istream = null;
 		String svnDiffCommand = /*
@@ -65,4 +66,5 @@ public class SvnDiffUtils {
 		return istream;
 	}
 	
+
 }
