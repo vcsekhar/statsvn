@@ -77,7 +77,7 @@ public class LineCountsBuilder {
 		currentPath.appendChild(revision);
 	}
 
-	public void newRevison(String name, String number, String added,
+	public void newRevision(String name, String number, String added,
 			String removed) {
 		if (document == null) {
 			try {
