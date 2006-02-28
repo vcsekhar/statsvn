@@ -38,6 +38,7 @@ import javax.xml.parsers.SAXParserFactory;
 
 import net.sf.statcvs.util.LookaheadReader;
 import net.sf.statcvs.util.SvnDiffUtils;
+import net.sf.statcvs.util.SvnInfoUtils;
 import net.sf.statcvs.util.XMLUtil;
 
 import org.xml.sax.SAXException;
@@ -129,27 +130,12 @@ public class SvnLogfileParser {
 							.getRevisionNumber();
 					System.out.println(fileName + " " + revNrOld + " "
 							+ revNrNew);
-					InputStream diffStream = SvnDiffUtils.callSvnDiff(revNrOld,
+					int lineDiff[] = SvnDiffUtils.getLineDiff(revNrOld,
 							revNrNew, fileName);
-					LookaheadReader diffReader = new LookaheadReader(
-							new InputStreamReader(diffStream));
-					int added = -1;
-					int removed = -1;
-					while (diffReader.hasNextLine()) {
-						diffReader.nextLine();
-						// very simple algorithm
-						if (diffReader.getCurrentLine().charAt(0) == '+')
-							added++;
-						else if (diffReader.getCurrentLine().charAt(0) == '-')
-							removed++;
-						// System.out.println(diffReader.getCurrentLine());
-					}
-					System.out.println(added + " " + removed);
-					if (added != -1 && removed != -1) {
-						// condition is true only for deleted files
-						((RevisionData) revisions.get(i)).setLines(added,
-								removed);
-						lineCountsBuilder.newRevison(fileName, revNrNew, added + "", removed + "");
+					if (lineDiff[0] != -1 && lineDiff[1] != -1) {
+						((RevisionData) revisions.get(i)).setLines(lineDiff[0],
+								lineDiff[1]);
+						lineCountsBuilder.newRevision(fileName, revNrNew, lineDiff[0] + "", lineDiff[1] + "");
 					}
 				}
 			}
