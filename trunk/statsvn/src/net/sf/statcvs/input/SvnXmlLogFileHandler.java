@@ -1,13 +1,11 @@
 package net.sf.statcvs.input;
 
-import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
 import net.sf.statcvs.util.SvnInfoUtils;
-import net.sf.statcvs.util.SvnLogUtils;
 import net.sf.statcvs.util.SvnPropgetUtils;
 import net.sf.statcvs.util.XMLUtil;
 

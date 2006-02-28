@@ -31,6 +31,11 @@ package net.sf.statcvs.output;
 public class ConfigurationException extends Exception {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2686475559907385809L;
+
+	/**
 	 * Constructor
 	 * @param message error message
 	 */

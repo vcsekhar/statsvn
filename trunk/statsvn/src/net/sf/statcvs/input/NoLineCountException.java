@@ -1,33 +1,40 @@
 /*
-    StatCvs - CVS statistics generation 
-    Copyright (C) 2002  Lukasz Pekacki <lukasz@pekacki.de>
-    http://statcvs.sf.net/
-    
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Lesser General Public
-    License as published by the Free Software Foundation; either
-    version 2.1 of the License, or (at your option) any later version.
+ StatCvs - CVS statistics generation 
+ Copyright (C) 2002  Lukasz Pekacki <lukasz@pekacki.de>
+ http://statcvs.sf.net/
+ 
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
 
-    This library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Lesser General Public License for more details.
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
 
-    You should have received a copy of the GNU Lesser General Public
-    License along with this library; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-    
-	$Name:  $
-	Created on $Date: 2003/12/09 11:52:47 $ 
-*/
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ 
+ $Name:  $
+ Created on $Date: 2003/12/09 11:52:47 $ 
+ */
 package net.sf.statcvs.input;
 
 /**
  * Indicates that no LOC count could be obtained for a file
+ * 
  * @author Richard Cyganiak
- * @version $Id: NoLineCountException.java,v 1.1 2003/12/09 11:52:47 cyganiak Exp $
+ * @version $Id: NoLineCountException.java,v 1.1 2003/12/09 11:52:47 cyganiak
+ *          Exp $
  */
 public class NoLineCountException extends Exception {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2858589385629698925L;
 
 	/**
 	 * Constructor for NoLineCountException.
@@ -38,7 +45,9 @@ public class NoLineCountException extends Exception {
 
 	/**
 	 * Constructor for NoLineCountException.
-	 * @param message input message
+	 * 
+	 * @param message
+	 *            input message
 	 */
 	public NoLineCountException(String message) {
 		super(message);

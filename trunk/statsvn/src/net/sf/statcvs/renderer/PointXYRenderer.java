@@ -12,6 +12,11 @@ import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
  */
 public class PointXYRenderer extends StandardXYItemRenderer {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -353014143852731889L;
+
 	public PointXYRenderer(int type, XYToolTipGenerator toolTipGenerator) {
 		super(type, toolTipGenerator);
 	}
