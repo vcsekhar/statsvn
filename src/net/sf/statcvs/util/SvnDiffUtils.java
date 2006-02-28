@@ -1,7 +1,6 @@
 package net.sf.statcvs.util;
 
 import java.io.BufferedInputStream;
-import java.io.File;
 import java.io.InputStream;
 
 import net.sf.statcvs.output.ConfigurationOptions;
@@ -12,8 +11,7 @@ public class SvnDiffUtils {
         InputStream istream = null;
         String svnDiffCommand = "svn diff -r " + oldRevNr + ":" + newRevNr + " --no-diff-deleted";
         try {
-            Process p = Runtime.getRuntime().exec(svnDiffCommand, null,
-                    new File(FileUtils.getPathWithoutEndingSlash(ConfigurationOptions.getCheckedOutDirectory()) + FileUtils.getDirSeparator()));
+            Process p = Runtime.getRuntime().exec(svnDiffCommand, null, ConfigurationOptions.getCheckedOutDirectoryAsFile());
             istream = new BufferedInputStream(p.getInputStream());
         } catch (Exception e) {
             e.printStackTrace();
@@ -26,8 +24,7 @@ public class SvnDiffUtils {
         InputStream istream = null;
         String svnDiffCommand = "svn diff -r " + oldRevNr + ":" + newRevNr + " --no-diff-deleted " + filename;
         try {
-            Process p = Runtime.getRuntime().exec(svnDiffCommand, null,
-                    new File(FileUtils.getPathWithoutEndingSlash(ConfigurationOptions.getCheckedOutDirectory()) + FileUtils.getDirSeparator()));
+            Process p = Runtime.getRuntime().exec(svnDiffCommand, null, ConfigurationOptions.getCheckedOutDirectoryAsFile());
             istream = new BufferedInputStream(p.getInputStream());
         } catch (Exception e) {
             e.printStackTrace();

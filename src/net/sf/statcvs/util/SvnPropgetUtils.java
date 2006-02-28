@@ -32,8 +32,7 @@ public class SvnPropgetUtils {
             svnPropgetCommand += " -R ";
 
         try {
-            Process p = Runtime.getRuntime().exec(svnPropgetCommand, null,
-                    new File(FileUtils.getPathWithoutEndingSlash(ConfigurationOptions.getCheckedOutDirectory()) + FileUtils.getDirSeparator()));
+            Process p = Runtime.getRuntime().exec(svnPropgetCommand, null, ConfigurationOptions.getCheckedOutDirectoryAsFile());
             istream = new BufferedInputStream(p.getInputStream());
         } catch (Exception e) {
             e.printStackTrace();
