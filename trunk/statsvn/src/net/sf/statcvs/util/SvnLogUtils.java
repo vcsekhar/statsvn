@@ -38,52 +38,53 @@ import org.xml.sax.helpers.DefaultHandler;
  * 
  * @author Richard Cyganiak <rcyg@gmx.de>
  * @version $Id: SvnLogUtils.java,v 1.4 2003/12/16 15:12:50 cyganiak Exp $
+ * @deprecated no longer used; see SvnInfoUtils. what remains here is for CVS compatibility.
  */
 public class SvnLogUtils {
 
-    protected static String moduleName = null;
-    protected static String revisionNumber = null;
-    protected static boolean isDirectory = false;
+    // protected static String moduleName = null;
+    // protected static String revisionNumber = null;
+    // protected static boolean isDirectory = false;
 
-    protected static class SvnModuleNameFinder extends DefaultHandler {
-        public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-            String eName = localName; // element name
-            if ("".equals(eName))
-                eName = qName; // namespaceAware = false
-
-            if (eName.equals("entry")) {
-                // the root folder directory
-                if (attributes != null && attributes.getValue("name") != null && attributes.getValue("kind") != null && attributes.getValue("name").equals("")
-                        && attributes.getValue("kind").equals("dir")) {
-                    moduleName = attributes.getValue("url");
-                }
-            }
-        }
-    }
-
-    protected static class SvnCurrentRevisionFinder extends DefaultHandler {
-        String filename;
-
-        public SvnCurrentRevisionFinder(String filename) {
-            this.filename = filename;
-        }
-
-        public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-            String eName = localName; // element name
-            if ("".equals(eName))
-                eName = qName; // namespaceAware = false
-
-            if (eName.equals("entry")) {
-                // the root folder directory
-                if (attributes != null && attributes.getValue("name") != null && attributes.getValue("name").equals(filename))
-                    if (attributes.getValue("committed-rev") != null)
-                        revisionNumber = attributes.getValue("committed-rev");
-                    else if (attributes.getValue("kind") != null && attributes.getValue("kind").equals("dir"))
-                        isDirectory = true;
-            }
-        }
-
-    }
+    // protected static class SvnModuleNameFinder extends DefaultHandler {
+    // public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+    // String eName = localName; // element name
+    // if ("".equals(eName))
+    // eName = qName; // namespaceAware = false
+    //
+    // if (eName.equals("entry")) {
+    // // the root folder directory
+    // if (attributes != null && attributes.getValue("name") != null && attributes.getValue("kind") != null && attributes.getValue("name").equals("")
+    // && attributes.getValue("kind").equals("dir")) {
+    // moduleName = attributes.getValue("url");
+    // }
+    // }
+    // }
+    // }
+    //
+    // protected static class SvnCurrentRevisionFinder extends DefaultHandler {
+    // String filename;
+    //
+    // public SvnCurrentRevisionFinder(String filename) {
+    // this.filename = filename;
+    // }
+    //
+    // public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+    // String eName = localName; // element name
+    // if ("".equals(eName))
+    // eName = qName; // namespaceAware = false
+    //
+    // if (eName.equals("entry")) {
+    // // the root folder directory
+    // if (attributes != null && attributes.getValue("name") != null && attributes.getValue("name").equals(filename))
+    // if (attributes.getValue("committed-rev") != null)
+    // revisionNumber = attributes.getValue("committed-rev");
+    // else if (attributes.getValue("kind") != null && attributes.getValue("kind").equals("dir"))
+    // isDirectory = true;
+    // }
+    // }
+    //
+    // }
 
     /**
      * <p>
@@ -145,72 +146,70 @@ public class SvnLogUtils {
      * 
      * @return the module name
      */
-    public static String getModuleName() {
-        if (moduleName == null) {
-            String entries = FileUtils.getAbsoluteName(ConfigurationOptions.getCheckedOutDirectory(), ".svn" + FileUtils.getDirSeparator() + "entries");
-            SAXParserFactory factory = SAXParserFactory.newInstance();
-            try {
-                SAXParser parser = factory.newSAXParser();
-                parser.parse(entries, new SvnModuleNameFinder());
-            } catch (Exception e) {
-                moduleName = "";
-            }
-        }
-
-        return moduleName;
-    }
-
-    public static String getRelativeFileName(String sFileName) {
-
-        if (sFileName.length() <= 1)
-            return "/";
-
-        if (sFileName.indexOf('/', 1) < 0)
-            return sFileName;
-        String prefix = sFileName.substring(0, sFileName.indexOf('/', 1));
-
-        int size = getModuleName().length() - getModuleName().lastIndexOf(prefix);
-
-        if (size <= 0 || sFileName.length() <= size)
-            return sFileName = "/";
-        else {
-            return sFileName.substring(size);
-        }
-    }
-
-    public static String getRevisionNumber(String filename) throws IOException {
-
-        String entries;
-        String shortFileName = "";
-        String baseDir = FileUtils.getParentDirectoryPath(filename);
-
-        if (filename.length() <= 1 || baseDir.equals(FileUtils.getDirSeparator()))
-            entries = FileUtils.getPathWithoutEndingSlash(ConfigurationOptions.getCheckedOutDirectory()) + FileUtils.getDirSeparator() + ".svn"
-                    + FileUtils.getDirSeparator() + "entries";
-        else {
-            shortFileName = filename.substring(baseDir.length());
-            entries = FileUtils.getPathWithoutEndingSlash(ConfigurationOptions.getCheckedOutDirectory()) + FileUtils.getDirSeparator() + baseDir + ".svn"
-                    + FileUtils.getDirSeparator() + "entries";
-
-        }
-
-        entries = entries.replace('/', FileUtils.getDirSeparator().charAt(0));
-
-        revisionNumber = null;
-        isDirectory = false;
-        SAXParserFactory factory = SAXParserFactory.newInstance();
-        try {
-            SAXParser parser = factory.newSAXParser();
-            parser.parse(entries, new SvnCurrentRevisionFinder(shortFileName));
-        } catch (Exception e) {
-        }
-
-        if (revisionNumber == "")
-            return null;
-
-        return revisionNumber;
-    }
-
+    // public static String getModuleName() {
+    // if (moduleName == null) {
+    // String entries = FileUtils.getAbsoluteName(ConfigurationOptions.getCheckedOutDirectory(), ".svn" + FileUtils.getDirSeparator() + "entries");
+    // SAXParserFactory factory = SAXParserFactory.newInstance();
+    // try {
+    // SAXParser parser = factory.newSAXParser();
+    // parser.parse(entries, new SvnModuleNameFinder());
+    // } catch (Exception e) {
+    // moduleName = "";
+    // }
+    // }
+    //
+    // return moduleName;
+    // }
+    //
+    // public static String getRelativeFileName(String sFileName) {
+    //
+    // if (sFileName.length() <= 1)
+    // return "/";
+    //
+    // if (sFileName.indexOf('/', 1) < 0)
+    // return sFileName;
+    // String prefix = sFileName.substring(0, sFileName.indexOf('/', 1));
+    //
+    // int size = getModuleName().length() - getModuleName().lastIndexOf(prefix);
+    //
+    // if (size <= 0 || sFileName.length() <= size)
+    // return sFileName = "/";
+    // else {
+    // return sFileName.substring(size);
+    // }
+    // }
+    // public static String getRevisionNumber(String filename) throws IOException {
+    //
+    // String entries;
+    // String shortFileName = "";
+    // String baseDir = FileUtils.getParentDirectoryPath(filename);
+    //
+    // if (filename.length() <= 1 || baseDir.equals(FileUtils.getDirSeparator()))
+    // entries = FileUtils.getPathWithoutEndingSlash(ConfigurationOptions.getCheckedOutDirectory()) + FileUtils.getDirSeparator() + ".svn"
+    // + FileUtils.getDirSeparator() + "entries";
+    // else {
+    // shortFileName = filename.substring(baseDir.length());
+    // entries = FileUtils.getPathWithoutEndingSlash(ConfigurationOptions.getCheckedOutDirectory()) + FileUtils.getDirSeparator() + baseDir + ".svn"
+    // + FileUtils.getDirSeparator() + "entries";
+    //
+    // }
+    //
+    // entries = entries.replace('/', FileUtils.getDirSeparator().charAt(0));
+    //
+    // revisionNumber = null;
+    // isDirectory = false;
+    // SAXParserFactory factory = SAXParserFactory.newInstance();
+    // try {
+    // SAXParser parser = factory.newSAXParser();
+    // parser.parse(entries, new SvnCurrentRevisionFinder(shortFileName));
+    // } catch (Exception e) {
+    // }
+    //
+    // if (revisionNumber == "")
+    // return null;
+    //
+    // return revisionNumber;
+    // }
     /**
      * Returns <tt>true</tt> if files with a given keyword substitution should be treated as binary files. That is, they should be assumed to be 0 lines of
      * code. Possible values are the same as for the -kXXX option of CVS (for example, kv, kvl, b).
@@ -246,7 +245,7 @@ public class SvnLogUtils {
         throw new IllegalArgumentException("unknown keyword substitution: " + kws);
     }
 
-    public static boolean isDirectory() {
-        return isDirectory;
-    }
+    // public static boolean isDirectory() {
+    // return isDirectory;
+    // }
 }

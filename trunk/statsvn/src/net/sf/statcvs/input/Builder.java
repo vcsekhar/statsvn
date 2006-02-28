@@ -130,12 +130,11 @@ public class Builder implements SvnLogBuilder {
 					revBySymnames);
 			fileBuilders.put(filename, currentFileBuilder);
 
-			if (isInAttic) {
+			if (isInAttic && !atticFileNames.contains(filename)) {
 				atticFileNames.add(filename);
 			}
 
 		}
-
 	}
 
 	/**
