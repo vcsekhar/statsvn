@@ -1,7 +1,6 @@
 package net.sf.statcvs.util;
 
 import java.io.BufferedInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -21,7 +20,6 @@ public class SvnPropgetUtils {
     protected synchronized static InputStream getFileMimeTypes(String revision, String filename) {
         InputStream istream = null;
 
-        // "c:\\progra~1\\subversion\\bin\\svn
         String svnPropgetCommand = "svn propget svn:mime-type";
         if (revision != null && revision.length() > 0)
             svnPropgetCommand += " -r " + revision;

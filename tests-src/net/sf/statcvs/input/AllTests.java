@@ -42,11 +42,15 @@ public class AllTests {
 	public static Test suite() {
 		TestSuite suite = new TestSuite("Test for net.sf.statcvs.input");
 		//$JUnit-BEGIN$
+		
+		// CVS tests
+		/*
 		suite.addTestSuite(LinesOfCodeTest.class);
 		suite.addTestSuite(FileBlockParserTest.class);
 		suite.addTestSuite(BuilderTest.class);
 		suite.addTestSuite(ParserTest.class);
 		suite.addTestSuite(FileBuilderTest.class);
+		*/
 		//$JUnit-END$
 		return suite;
 	}

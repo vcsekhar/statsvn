@@ -42,6 +42,7 @@ import net.sf.statcvs.util.LookaheadReader;
  * @author Richard Cyganiak
  * @author Tammo van Lessen
  * @version $Id: FileBlockParser.java,v 1.46 2004/12/14 13:38:13 squig Exp $
+ * @deprecated leaving in for reference
  */
 public class FileBlockParser {
 	private static Logger logger = Logger.getLogger(FileBlockParser.class.getName());
