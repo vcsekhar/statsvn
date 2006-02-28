@@ -14,7 +14,7 @@ public class SvnDiffUtils {
 		String svnDiffCommand = /*
 								 * FileUtils.getPathWithoutEndingSlash(ConfigurationOptions.getCheckedOutDirectory()) +
 								 * FileUtils.getDirSeparator() +
-								 */"c:\\progra~1\\subversion\\bin\\svn diff -r " + oldRevNr + ":" + newRevNr + " --no-diff-deleted";
+								 */"svn diff -r " + oldRevNr + ":" + newRevNr + " --no-diff-deleted";
 		try {
 			Process p = Runtime.getRuntime().exec(svnDiffCommand, null,
 					new File(FileUtils.getPathWithoutEndingSlash(ConfigurationOptions.getCheckedOutDirectory()) + FileUtils.getDirSeparator()));
@@ -42,7 +42,7 @@ public class SvnDiffUtils {
 		String svnDiffCommand = /*
 								 * FileUtils.getPathWithoutEndingSlash(ConfigurationOptions.getCheckedOutDirectory()) +
 								 * FileUtils.getDirSeparator() +
-								 */"c:\\progra~1\\subversion\\bin\\svn diff -r " + oldRevNr + ":" + newRevNr + " --no-diff-deleted " + filename;
+								 */"svn diff -r " + oldRevNr + ":" + newRevNr + " --no-diff-deleted " + filename;
 		try {
 			Process p = Runtime.getRuntime().exec(svnDiffCommand, null,
 					new File(FileUtils.getPathWithoutEndingSlash(ConfigurationOptions.getCheckedOutDirectory()) + FileUtils.getDirSeparator()));
