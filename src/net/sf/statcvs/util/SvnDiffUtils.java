@@ -46,13 +46,13 @@ public class SvnDiffUtils {
 		InputStream diffStream = callSvnDiff(oldRevNr, newRevNr, filename, false);
 		LookaheadReader diffReader = new LookaheadReader(new InputStreamReader(diffStream));
 		int lineDiff[] = parseDiff(diffReader);
-//		if (lineDiff[0] == -1 || lineDiff[1] == -1) {
-//			// condition is true only for deleted files
-//			String urlFileName = SvnInfoUtils.relativePathToUrl(filename);
-//			InputStream diffStream2 = callSvnDiff(oldRevNr, newRevNr, urlFileName, true);
-//			LookaheadReader diffReader2 = new LookaheadReader(new InputStreamReader(diffStream2));
-//			lineDiff = parseDiff(diffReader2);
-//		}
+		if (lineDiff[0] == -1 || lineDiff[1] == -1) {
+			// condition is true only for deleted files
+			String urlFileName = SvnInfoUtils.relativePathToUrl(filename);
+			diffStream = callSvnDiff(oldRevNr, newRevNr, urlFileName, true);
+			diffReader = new LookaheadReader(new InputStreamReader(diffStream));
+			lineDiff = parseDiff(diffReader);
+		}
 		return lineDiff;
 	}
 
