@@ -123,7 +123,7 @@ public class SvnLogfileParser {
 			String fileName = fileBuilder.getName();
 			List revisions = fileBuilder.getRevisions();
 			for (int i = 0; i < revisions.size(); i++) {
-				if (i + 1 < revisions.size() && ((RevisionData) revisions.get(i)).hasNoLines()) {
+				if (i + 1 < revisions.size() && ((RevisionData) revisions.get(i)).hasNoLines() && !((RevisionData) revisions.get(i)).isDeletion()) {
 					String revNrNew = ((RevisionData) revisions.get(i))
 							.getRevisionNumber();
 					String revNrOld = ((RevisionData) revisions.get(i + 1))
