@@ -126,7 +126,7 @@
 		</java>
 	</target>
 
-	<target name="dist" depends="copyfiles">
+	<target name="dist" depends="compile,copyfiles">
 		<!-- Creates an executable jar file for the project -->
 		<unjar src="${lib}/${jfreechart.jar}" dest="${build}" />
 		<unjar src="${lib}/${jcommon.jar}" dest="${build}" />
