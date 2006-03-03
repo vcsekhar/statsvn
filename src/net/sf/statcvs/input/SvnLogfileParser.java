@@ -120,6 +120,8 @@ public class SvnLogfileParser {
 		Collection fileBuilders = builder.getFileBuilders().values();
 		for (Iterator iter = fileBuilders.iterator(); iter.hasNext();) {
 			FileBuilder fileBuilder = (FileBuilder) iter.next();
+            if (fileBuilder.isBinary()) continue;
+            
 			String fileName = fileBuilder.getName();
 			List revisions = fileBuilder.getRevisions();
 			for (int i = 0; i < revisions.size(); i++) {
@@ -136,7 +138,12 @@ public class SvnLogfileParser {
 						((RevisionData) revisions.get(i)).setLines(lineDiff[0],
 								lineDiff[1]);
 						lineCountsBuilder.newRevision(fileName, revNrNew, lineDiff[0] + "", lineDiff[1] + "");
-					}
+					} else
+                    {
+                        // file is binary and has been deleted
+                        fileBuilder.setBinary(true);
+                        break;
+                    }
 				}
 			}
 			if (c++ > limit)

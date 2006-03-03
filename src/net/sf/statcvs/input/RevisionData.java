@@ -138,7 +138,12 @@ public class RevisionData {
 		stateExp = true;
 	}
 
-	/**
+    public void unsetStateExp() {
+        stateExp = false;
+    }
+
+    
+    /**
 	 * @return Returns the comment.
 	 */
 	public String getComment() {

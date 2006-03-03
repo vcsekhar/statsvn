@@ -131,6 +131,7 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
     private void endLogEntry() throws SAXException {
         checkLastElement(LOGENTRY);
         lastElement = LOG;
+
         for (int i = 0; i < currentFilenames.size(); i++) {
             RevisionData revisionData = (RevisionData) currentRevisions.get(i);
             revisionData.setComment(currentRevisionData.getComment());
@@ -143,9 +144,10 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
             if (revisionData.isDeletion()) {
                 FileBuilder existingBuilder = (FileBuilder) builder.getFileBuilders().get(currentFilename);
                 // the deletion is the last revision of this file?
-                if (existingBuilder != null && !existingBuilder.existRevision())
+                if (existingBuilder==null || (existingBuilder != null && !existingBuilder.existRevision())) {
                     // query the history to know if it is binary
                     isBinary = SvnPropgetUtils.isBinaryFile(revisionData.getRevisionNumber(), currentFilename);
+                }
             }
             builder.buildFile(currentFilename, isBinary, revisionData.isDeletion(), new HashMap());
             builder.buildRevision(revisionData);
