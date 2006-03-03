@@ -22,10 +22,10 @@ public class SvnPropgetUtils {
 
         String svnPropgetCommand = "svn propget svn:mime-type";
         if (revision != null && revision.length() > 0)
-            svnPropgetCommand += " -r " + revision;
+            svnPropgetCommand += " -r " + revision; // won't work. 
 
         if (filename != null && filename.length() > 0)
-            svnPropgetCommand += " " + filename;
+            svnPropgetCommand += " " + SvnInfoUtils.relativePathToUrl(filename);
         else
             svnPropgetCommand += " -R ";
 
@@ -53,9 +53,17 @@ public class SvnPropgetUtils {
             } catch (IOException e) {
             }
         }
+
         return binaryFiles;
     }
 
+    /**
+     * Does not currently work.
+     *  
+     * @param revision
+     * @param filename
+     * @return
+     */
     public static boolean isBinaryFile(String revision, String filename) {
         LookaheadReader mimeReader = new LookaheadReader(new InputStreamReader(getFileMimeTypes(revision, filename)));
         try {
@@ -85,13 +93,16 @@ public class SvnPropgetUtils {
      */
     private static String getBinaryFilename(String currentLine, boolean removeRoot) {
         // want to make sure we only have / in end result.
-        String line = currentLine.replace(FileUtils.getDefaultDirSeparator(), "/");
+        String line = removeRoot ? currentLine : currentLine.replace("\\", "/");
+        
+        // HACK: See bug 18. if removeRoot==true, no - will be found because we are calling for one specific file. 
         String octetStream = " - application/octet-stream";
         // if is common binary file or identified as something other than text
         if (line.endsWith(octetStream) || line.lastIndexOf(" - text/") < 0 && line.lastIndexOf(" - text/") == line.lastIndexOf(" - ")) {
             line = line.substring(0, line.lastIndexOf(" - "));
             if (removeRoot)
-                line = SvnInfoUtils.absoluteToRelativePath(line);
+                line = SvnInfoUtils.urlToRelativePath(line);
+
             return line;
         }
 

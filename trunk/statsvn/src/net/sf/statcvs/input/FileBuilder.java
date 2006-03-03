@@ -32,8 +32,8 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.logging.Logger;
 
-import net.sf.statcvs.model.VersionedFile;
 import net.sf.statcvs.model.Revision;
+import net.sf.statcvs.model.VersionedFile;
 
 /**
  * <p>
@@ -144,7 +144,7 @@ public class FileBuilder {
             // symbolic names for previousData
             symbolicNames = createSymbolicNamesCollection(previousData);
 
-            if (previousData.isChangeOrRestore()) {
+            if (previousData.isChangeOrRestore() || isBinary()) {
                 if (currentData.isDeletion() || currentData.isAddOnSubbranch()) {
                     buildCreationRevision(file, previousData, previousLOC, symbolicNames);
                 } else {
@@ -224,7 +224,7 @@ public class FileBuilder {
      * 
      * @return <tt>true</tt> if the file is dead.
      */
-    private boolean finalRevisionIsDead() {
+    protected boolean finalRevisionIsDead() {
         if (revisions.isEmpty()) {
             return false;
         }
@@ -232,12 +232,12 @@ public class FileBuilder {
     }
 
     public boolean existRevision() {
-    	if (revisions.isEmpty())
-    		return false;
-    	else
-    		return true;
+        if (revisions.isEmpty())
+            return false;
+        else
+            return true;
     }
-    
+
     /**
      * Approximates the LOC count for files that are not present in the local checkout. If a file was deleted at some point in history, then we can't count its
      * final lines of code. This algorithm calculates a lower bound for the file's LOC prior to deletion by following the ups and downs of the revisions.
@@ -304,7 +304,7 @@ public class FileBuilder {
      * @return <tt>true</tt> if the file did exist at some point in the log period.
      */
     private boolean fileExistsInLogPeriod() {
-        if (revisions.size() > 0) {
+        if (revisions.size() > 0 || isBinary) {
             return true;
         }
         try {
@@ -341,21 +341,29 @@ public class FileBuilder {
         return symbolicNames;
     }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public List getRevisions() {
-		return revisions;
-	}
-	
-	public RevisionData findRevision(String revisionNumber) {
-		for (int i = 0; i < revisions.size(); i++) {
-			RevisionData data = (RevisionData) revisions.get(i);
-			if (data.getRevisionNumber().equals(revisionNumber))
-				return data;	
-		}
-		return null;
-	}
-	
+    public List getRevisions() {
+        return revisions;
+    }
+
+    public RevisionData findRevision(String revisionNumber) {
+        for (int i = 0; i < revisions.size(); i++) {
+            RevisionData data = (RevisionData) revisions.get(i);
+            if (data.getRevisionNumber().equals(revisionNumber))
+                return data;
+        }
+        return null;
+    }
+
+    public boolean isBinary() {
+        return isBinary;
+    }
+
+    public void setBinary(boolean isBinary) {
+        this.isBinary = isBinary;
+    }
+
 }
