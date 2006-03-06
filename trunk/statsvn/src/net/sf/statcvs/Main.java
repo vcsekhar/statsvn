@@ -37,6 +37,8 @@ import net.sf.statcvs.output.CommandLineParser;
 import net.sf.statcvs.output.ConfigurationException;
 import net.sf.statcvs.output.ConfigurationOptions;
 import net.sf.statcvs.output.HTMLOutput;
+import net.sf.statcvs.util.SvnStartupUtils;
+import net.sf.statcvs.util.SvnVersionMismatchException;
 
 /**
  * StatCvs Main Class; it starts the application and controls command-line
@@ -73,6 +75,7 @@ public class Main {
 
 		try {
 			new CommandLineParser(args).parse();
+			SvnStartupUtils.checkSvnVersionSufficient();
 			generateDefaultHTMLSuite();
 		} catch (ConfigurationException cex) {
 			System.err.println(cex.getMessage());
@@ -85,6 +88,8 @@ public class Main {
 			printOutOfMemMessageAndExit();
 		} catch (EmptyRepositoryException erex) {
 			printEmptyRepositoryMessageAndExit();
+		} catch (SvnVersionMismatchException ever) {
+			printErrorMessageAndExit(ever.getMessage());
 		}
 		System.exit(0);
 	}
@@ -137,6 +142,11 @@ public class Main {
 
 	private static void printEmptyRepositoryMessageAndExit() {
 		System.err.println("No revisions found in the log!");
+		System.exit(1);
+	}
+	
+	private static void printErrorMessageAndExit(String message) {
+		System.err.println(message);
 		System.exit(1);
 	}
 
