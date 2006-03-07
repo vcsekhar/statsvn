@@ -53,8 +53,7 @@ import org.xml.sax.SAXException;
  */
 public class SvnLogfileParser {
 
-	private static Logger logger = Logger.getLogger(SvnLogfileParser.class
-			.getName());
+	private static Logger logger = Logger.getLogger(SvnLogfileParser.class.getName());
 	private SvnLogBuilder builder;
 	private InputStream logFile;
 
@@ -94,56 +93,49 @@ public class SvnLogfileParser {
 			throw new LogSyntaxException(e.getMessage());
 		}
 
-		logger.fine("parsing svn log finished in "
-				+ (System.currentTimeMillis() - startTime) + " ms.");
+		logger.fine("parsing svn log finished in " + (System.currentTimeMillis() - startTime) + " ms.");
 		startTime = System.currentTimeMillis();
 
 		LineCountsBuilder lineCountsBuilder = new LineCountsBuilder(builder);
 		try {
-			FileInputStream lineCountsFile = new FileInputStream(
-					"lineCounts.xml");
+			FileInputStream lineCountsFile = new FileInputStream("lineCounts.xml");
 			SAXParser parser = factory.newSAXParser();
-			parser.parse(lineCountsFile, new SvnXmlLineCountsFileHandler(
-					lineCountsBuilder));
-//			XMLUtil.writeXmlFile(lineCountsBuilder.getDocument(),
-//					"lineCounts2.xml");
+			parser.parse(lineCountsFile, new SvnXmlLineCountsFileHandler(lineCountsBuilder));
+			// XMLUtil.writeXmlFile(lineCountsBuilder.getDocument(),
+			// "lineCounts2.xml");
 		} catch (ParserConfigurationException e) {
 		} catch (SAXException e) {
 		} catch (IOException e) {
 		}
-		logger.fine("parsing line counts finished in "
-				+ (System.currentTimeMillis() - startTime) + " ms.");
+		logger.fine("parsing line counts finished in " + (System.currentTimeMillis() - startTime) + " ms.");
 		startTime = System.currentTimeMillis();
-		
+
 		int limit = 20000;
 		int c = 0;
 		Collection fileBuilders = builder.getFileBuilders().values();
 		for (Iterator iter = fileBuilders.iterator(); iter.hasNext();) {
 			FileBuilder fileBuilder = (FileBuilder) iter.next();
-            if (fileBuilder.isBinary()) continue;
-            
+			if (fileBuilder.isBinary())
+				continue;
+
 			String fileName = fileBuilder.getName();
 			List revisions = fileBuilder.getRevisions();
 			for (int i = 0; i < revisions.size(); i++) {
 				if (i + 1 < revisions.size() && ((RevisionData) revisions.get(i)).hasNoLines() && !((RevisionData) revisions.get(i)).isDeletion()) {
-					String revNrNew = ((RevisionData) revisions.get(i))
-							.getRevisionNumber();
-					String revNrOld = ((RevisionData) revisions.get(i + 1))
-							.getRevisionNumber();
-					System.out.println(fileName + " " + revNrOld + " "
-							+ revNrNew);
-					int lineDiff[] = SvnDiffUtils.getLineDiff(revNrOld,
-							revNrNew, fileName);
+
+					String revNrNew = ((RevisionData) revisions.get(i)).getRevisionNumber();
+					String revNrOld = ((RevisionData) revisions.get(i + 1)).getRevisionNumber();
+					System.out.println(fileName + " " + revNrOld + " " + revNrNew);
+					int lineDiff[] = SvnDiffUtils.getLineDiff(revNrOld, revNrNew, fileName);
 					if (lineDiff[0] != -1 && lineDiff[1] != -1) {
-						((RevisionData) revisions.get(i)).setLines(lineDiff[0],
-								lineDiff[1]);
+						((RevisionData) revisions.get(i)).setLines(lineDiff[0], lineDiff[1]);
 						lineCountsBuilder.newRevision(fileName, revNrNew, lineDiff[0] + "", lineDiff[1] + "");
-					} else
-                    {
-                        // file is binary and has been deleted
-                        fileBuilder.setBinary(true);
-                        break;
-                    }
+					} else {
+						// file is binary and has been deleted
+						fileBuilder.setBinary(true);
+						break;
+					}
+
 				}
 			}
 			if (c++ > limit)
@@ -151,8 +143,7 @@ public class SvnLogfileParser {
 		}
 		XMLUtil.writeXmlFile(lineCountsBuilder.getDocument(), "lineCounts.xml");
 
-		logger.fine("parsing svn diff finished in "
-				+ (System.currentTimeMillis() - startTime) + " ms.");
+		logger.fine("parsing svn diff finished in " + (System.currentTimeMillis() - startTime) + " ms.");
 
 	}
 }

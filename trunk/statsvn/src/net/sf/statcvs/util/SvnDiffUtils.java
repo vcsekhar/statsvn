@@ -27,10 +27,9 @@ public class SvnDiffUtils {
 		InputStream istream = null;
 		String svnDiffCommand = null;
 		if (deleted) {
-			svnDiffCommand = "svn diff " + filename + "@" + oldRevNr + " " + filename + "@" + newRevNr;			
-		}
-		else {
-			svnDiffCommand = "svn diff -r " + oldRevNr + ":" + newRevNr + " --no-diff-deleted " + filename;			
+			svnDiffCommand = "svn diff  --old " + filename + "@" + oldRevNr + "  --new " + filename + "@" + newRevNr;
+		} else {
+			svnDiffCommand = "svn diff -r " + oldRevNr + ":" + newRevNr + " --no-diff-deleted " + filename;
 		}
 		try {
 			Process p = Runtime.getRuntime().exec(svnDiffCommand, null, ConfigurationOptions.getCheckedOutDirectoryAsFile());
@@ -60,12 +59,14 @@ public class SvnDiffUtils {
 		int lineDiff[] = { -1, -1 };
 		while (diffReader.hasNextLine()) {
 			diffReader.nextLine();
+			if (diffReader.getCurrentLine().length() == 0)
+				continue;
 			// very simple algorithm
 			if (diffReader.getCurrentLine().charAt(0) == '+')
 				lineDiff[0]++;
 			else if (diffReader.getCurrentLine().charAt(0) == '-')
 				lineDiff[1]++;
-			//System.out.println(diffReader.getCurrentLine());
+			// System.out.println(diffReader.getCurrentLine());
 		}
 		System.out.println(lineDiff[0] + " " + lineDiff[1]);
 		return lineDiff;
