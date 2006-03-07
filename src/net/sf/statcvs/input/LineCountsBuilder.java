@@ -33,8 +33,7 @@ public class LineCountsBuilder {
 	}
 
 	public void buildRoot() throws ParserConfigurationException {
-		DocumentBuilderFactory factoryDOM = DocumentBuilderFactory
-				.newInstance();
+		DocumentBuilderFactory factoryDOM = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builderDOM;
 		builderDOM = factoryDOM.newDocumentBuilder();
 		document = builderDOM.newDocument();
@@ -44,8 +43,11 @@ public class LineCountsBuilder {
 
 	public void buildPath(String name) {
 		addPath(name);
-		if (fileBuilders.containsKey(name))
-			currentFileBuilder = (FileBuilder) fileBuilders.get(name);
+
+		// get returns null if we have counts for files that don't (yet) exist
+		// in the svn log.
+		// or, we are operating on another project alltogether.
+		currentFileBuilder = (FileBuilder) fileBuilders.get(name);
 	}
 
 	private void addPath(String name) {
@@ -57,6 +59,9 @@ public class LineCountsBuilder {
 	}
 
 	public void buildRevision(String number, String added, String removed) {
+		// we read linecounts from file but they aren't in the current project.
+		if (currentFileBuilder == null)
+			return;
 		addRevision(number, added, removed);
 		RevisionData data = currentFileBuilder.findRevision(number);
 		if (data != null && !added.equals("-1") && !removed.equals("-1"))
@@ -77,8 +82,7 @@ public class LineCountsBuilder {
 		currentPath.appendChild(revision);
 	}
 
-	public void newRevision(String name, String number, String added,
-			String removed) {
+	public void newRevision(String name, String number, String added, String removed) {
 		if (document == null) {
 			try {
 				buildRoot();
