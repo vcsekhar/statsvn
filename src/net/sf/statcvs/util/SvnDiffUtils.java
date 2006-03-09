@@ -26,11 +26,13 @@ public class SvnDiffUtils {
 	private synchronized static InputStream callSvnDiff(String oldRevNr, String newRevNr, String filename, boolean deleted) {
 		InputStream istream = null;
 		String svnDiffCommand = null;
-		if (deleted) {
+		
+		filename = SvnInfoUtils.relativePathToUrl(filename);
+//		if (deleted) {
 			svnDiffCommand = "svn diff  --old " + filename + "@" + oldRevNr + "  --new " + filename + "@" + newRevNr;
-		} else {
-			svnDiffCommand = "svn diff -r " + oldRevNr + ":" + newRevNr + " --no-diff-deleted " + filename;
-		}
+//		} else {
+//			svnDiffCommand = "svn diff -r " + oldRevNr + ":" + newRevNr + " --no-diff-deleted " + filename;
+//		}
 		try {
 			Process p = Runtime.getRuntime().exec(svnDiffCommand, null, ConfigurationOptions.getCheckedOutDirectoryAsFile());
 			istream = new BufferedInputStream(p.getInputStream());
@@ -57,6 +59,12 @@ public class SvnDiffUtils {
 
 	private static int[] parseDiff(LookaheadReader diffReader) throws IOException {
 		int lineDiff[] = { -1, -1 };
+		if (!diffReader.hasNextLine()) {
+			// diff has no output because we modified properties or the changes are auto-generated ($id$ $author$ kind of thing)
+			// http://svnbook.red-bean.com/nightly/en/svn.advanced.props.html#svn.advanced.props.special.keywords
+			lineDiff[0]=0;
+			lineDiff[1]=0;
+		}
 		while (diffReader.hasNextLine()) {
 			diffReader.nextLine();
 			if (diffReader.getCurrentLine().length() == 0)
