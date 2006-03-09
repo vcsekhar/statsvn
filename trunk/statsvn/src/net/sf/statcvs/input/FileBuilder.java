@@ -144,7 +144,7 @@ public class FileBuilder {
             // symbolic names for previousData
             symbolicNames = createSymbolicNamesCollection(previousData);
 
-            if (previousData.isChangeOrRestore() || isBinary()) {
+            if (previousData.isCreation() || previousData.isChangeOrRestore() || isBinary()) {
                 if (currentData.isDeletion() || currentData.isAddOnSubbranch()) {
                     buildCreationRevision(file, previousData, previousLOC, symbolicNames);
                 } else {
