@@ -260,8 +260,8 @@ public class Builder implements SvnLogBuilder {
 
         // don't query dead or binary files.
         FileBuilder fb = (FileBuilder) getFileBuilders().get(filename);
-        if (fb.isBinary() || !fb.existRevision() || fb.finalRevisionIsDead())
-            return 0;
+//        if (fb.isBinary() || !fb.existRevision() || fb.finalRevisionIsDead())
+//            return 0;
 
         return repositoryFileManager.getLinesOfCode(filename);
     }
