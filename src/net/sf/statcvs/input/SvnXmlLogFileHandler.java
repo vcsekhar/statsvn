@@ -87,13 +87,17 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
         RevisionData data = (RevisionData) currentRevisionData.clone();
         if (!pathAction.equals("D")) {
             data.setStateExp();
+            if (pathAction.equals("A") || pathAction.equals("R"))
+                data.setStateAdded();
         } else {
             data.setStateDead();
         }
-        if (!SvnInfoUtils.isDirectory(filename)) {
+
+// must add directories because of implicit additions
+//        if (!SvnInfoUtils.isDirectory(filename)) {
             currentRevisions.add(data);
             currentFilenames.add(filename);
-        }
+  //      }
     }
 
     private void checkLastElement(String last) throws SAXException {
@@ -138,21 +142,21 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
             revisionData.setDate(currentRevisionData.getDate());
             revisionData.setLoginName(currentRevisionData.getLoginName());
             String currentFilename = currentFilenames.get(i).toString();
+
+			// if this file is not in the current working folder, discard it. 
+            if (SvnInfoUtils.getRevisionNumber(currentFilename) == null)
+                continue;
             // check to see if binary in local copy (cached)
             boolean isBinary = SvnPropgetUtils.getBinaryFiles().contains(currentFilename);
-            // is this a deletion?
-            if (revisionData.isDeletion()) {
-                FileBuilder existingBuilder = (FileBuilder) builder.getFileBuilders().get(currentFilename);
-                // the deletion is the last revision of this file?
-                if (existingBuilder==null || (existingBuilder != null && !existingBuilder.existRevision())) {
-                    // query the history to know if it is binary
-                    isBinary = SvnPropgetUtils.isBinaryFile(revisionData.getRevisionNumber(), currentFilename);
-                }
-            }
+
             builder.buildFile(currentFilename, isBinary, revisionData.isDeletion(), new HashMap());
-            builder.buildRevision(revisionData);
+            FileBuilder fileBuilder = (FileBuilder) builder.getFileBuilders().get(currentFilename);
+            if (!fileBuilder.existRevision() || (fileBuilder.existRevision() && !fileBuilder.getFirstRevision().isCreation())) {
+                builder.buildRevision(revisionData);
+            }
+
         }
-        
+
     }
 
     private void endLog() throws SAXException {

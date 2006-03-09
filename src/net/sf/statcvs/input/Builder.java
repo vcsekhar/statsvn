@@ -137,18 +137,8 @@ public class Builder implements SvnLogBuilder {
      *            the revision
      */
     public void buildRevision(RevisionData data) {
-        // if (currentFileBuilder.existRevision()) {
-        // // only the last revision is exposed
-        // data.unSetStateExp();
-        // }
+
         currentFileBuilder.addRevisionData(data);
-        if (currentFileBuilder.getRevisions().size() == 1 && !data.isDeletion()) {
-            // double check to see if it was deleted in a way we didn't account for.
-            if (SvnInfoUtils.getRevisionNumber(currentFileBuilder.getName()) == null) {
-                data.unsetStateExp();
-                data.setStateDead();
-            }
-        }
 
         if (startDate == null || startDate.compareTo(data.getDate()) > 0) {
             startDate = data.getDate();

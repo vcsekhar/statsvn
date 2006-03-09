@@ -31,237 +31,232 @@ import java.util.Date;
  * @version $Id: RevisionData.java,v 1.5 2004/10/12 07:22:42 cyganiak Exp $
  */
 public class RevisionData {
-	private String revisionNumber;
-	private Date date;
-	private String loginName;
-	private boolean stateExp = false;
-	private boolean stateDead = false;
-	private boolean hasNoLines = true;
-	private int linesAdded;
-	private int linesRemoved;
-	private String comment = "";
+    private String revisionNumber;
+    private Date date;
+    private String loginName;
+    private boolean stateExp = false;
+    private boolean stateDead = false;
+    private boolean stateAdded = false;
+    private boolean hasNoLines = true;
+    private int linesAdded;
+    private int linesRemoved;
+    private String comment = "";
 
-	public RevisionData() {
+    public RevisionData() {
 
-	}
+    }
 
-	/**
-	 * @return Returns the loginName.
-	 */
-	public String getLoginName() {
-		return loginName;
-	}
+    /**
+     * @return Returns the loginName.
+     */
+    public String getLoginName() {
+        return loginName;
+    }
 
-	/**
-	 * @param authorName
-	 *            The loginName to set.
-	 */
-	public void setLoginName(String authorName) {
-		this.loginName = authorName;
-	}
+    /**
+     * @param authorName
+     *            The loginName to set.
+     */
+    public void setLoginName(String authorName) {
+        this.loginName = authorName;
+    }
 
-	/**
-	 * @return Returns the date.
-	 */
-	public Date getDate() {
-		return date;
-	}
+    /**
+     * @return Returns the date.
+     */
+    public Date getDate() {
+        return date;
+    }
 
-	/**
-	 * @param date
-	 *            The date to set.
-	 */
-	public void setDate(Date date) {
-		this.date = date;
-	}
+    /**
+     * @param date
+     *            The date to set.
+     */
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
-	/**
-	 * @return Returns the linesAdded.
-	 */
-	public int getLinesAdded() {
-		return linesAdded;
-	}
+    /**
+     * @return Returns the linesAdded.
+     */
+    public int getLinesAdded() {
+        return linesAdded;
+    }
 
-	/**
-	 * @return Returns the linesRemoved.
-	 */
-	public int getLinesRemoved() {
-		return linesRemoved;
-	}
+    /**
+     * @return Returns the linesRemoved.
+     */
+    public int getLinesRemoved() {
+        return linesRemoved;
+    }
 
-	/**
-	 * Checks if the revision contains numbers for the added and removed lines.
-	 * 
-	 * @return true if the revision contains numbers for the added and removed
-	 *         lines
-	 */
-	public boolean hasNoLines() {
-		return hasNoLines;
-	}
+    /**
+     * Checks if the revision contains numbers for the added and removed lines.
+     * 
+     * @return true if the revision contains numbers for the added and removed lines
+     */
+    public boolean hasNoLines() {
+        return hasNoLines;
+    }
 
-	/**
-	 * Sets the number of added and removed lines.
-	 * 
-	 * @param added
-	 *            The number of added lines
-	 * @param removed
-	 *            The number of removed lines
-	 */
-	public void setLines(int added, int removed) {
-		this.linesAdded = added;
-		this.linesRemoved = removed;
-		hasNoLines = false;
-	}
+    /**
+     * Sets the number of added and removed lines.
+     * 
+     * @param added
+     *            The number of added lines
+     * @param removed
+     *            The number of removed lines
+     */
+    public void setLines(int added, int removed) {
+        this.linesAdded = added;
+        this.linesRemoved = removed;
+        hasNoLines = false;
+    }
 
-	/**
-	 * @return Returns the revisionNumber.
-	 */
-	public String getRevisionNumber() {
-		return revisionNumber;
-	}
+    /**
+     * @return Returns the revisionNumber.
+     */
+    public String getRevisionNumber() {
+        return revisionNumber;
+    }
 
-	/**
-	 * Sets the revision number.
-	 * 
-	 * @param revision
-	 *            The revision number
-	 */
-	public void setRevisionNumber(String revision) {
-		this.revisionNumber = revision;
-	}
+    /**
+     * Sets the revision number.
+     * 
+     * @param revision
+     *            The revision number
+     */
+    public void setRevisionNumber(String revision) {
+        this.revisionNumber = revision;
+    }
 
-	public void setStateDead() {
-		stateDead = true;
-	}
+    public void setStateDead() {
+        stateDead = true;
+    }
 
-	public void setStateExp() {
-		stateExp = true;
-	}
+    public void setStateExp() {
+        stateExp = true;
+    }
+
+    public void setStateAdded() {
+        stateAdded = true;
+    }
 
     public void unsetStateExp() {
         stateExp = false;
     }
 
-    
     /**
-	 * @return Returns the comment.
-	 */
-	public String getComment() {
-		return comment;
-	}
+     * @return Returns the comment.
+     */
+    public String getComment() {
+        return comment;
+    }
 
-	/**
-	 * @param comment
-	 *            The comment to set.
-	 */
-	public void setComment(String comment) {
-		this.comment = comment;
-	}
+    /**
+     * @param comment
+     *            The comment to set.
+     */
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 
-	/**
-	 * Returns <tt>true</tt> if this revisionNumber marks the adding of a new
-	 * file on a subbranch. CVS creates a dead 1.1 revisionNumber on the trunk
-	 * even if the file never gets merged into the trunk. If we evaluate the
-	 * trunk, and the file doesn't have any other revisions on the trunk, then
-	 * we ignore this revisionNumber.
-	 * 
-	 * @return <tt>true</tt> if this is the adding of a new file on a
-	 *         subbranch
-	 */
-	public boolean isAddOnSubbranch() {
-		return stateDead && revisionNumber.equals("1.1");
-	}
+    /**
+     * Returns <tt>true</tt> if this revisionNumber marks the adding of a new file on a subbranch. CVS creates a dead 1.1 revisionNumber on the trunk even if
+     * the file never gets merged into the trunk. If we evaluate the trunk, and the file doesn't have any other revisions on the trunk, then we ignore this
+     * revisionNumber.
+     * 
+     * @return <tt>true</tt> if this is the adding of a new file on a subbranch
+     */
+    public boolean isAddOnSubbranch() {
+        return stateDead && revisionNumber.equals("1.1");
+    }
 
-	/**
-	 * Returns <tt>true</tt> if this revisionNumber is the removal of a file.
-	 * Any dead revisionNumber means that the file was removed. The only
-	 * exception is a dead 1.1 revisionNumber, which is an add on a subbranch.
-	 * 
-	 * @return <tt>true</tt> if this revisionNumber deletes the file.
-	 * @see #isAddOnSubbranch
-	 */
-	public boolean isDeletion() {
-		// return stateDead && !revisionNumber.equals("1.1");
-		return stateDead;
-	}
+    /**
+     * Returns <tt>true</tt> if this revisionNumber is the removal of a file. Any dead revisionNumber means that the file was removed. The only exception is a
+     * dead 1.1 revisionNumber, which is an add on a subbranch.
+     * 
+     * @return <tt>true</tt> if this revisionNumber deletes the file.
+     * @see #isAddOnSubbranch
+     */
+    public boolean isDeletion() {
+        // return stateDead && !revisionNumber.equals("1.1");
+        return stateDead;
+    }
 
-	/**
-	 * Returns <tt>true</tt> if this revisionNumber is a normal change, or if
-	 * it restores a removed file. The distinction between these two cases can
-	 * be made by looking at the previous (in time, not log order)
-	 * revisionNumber. If it was a deletion, then this revisionNumber is a
-	 * restore.
-	 * 
-	 * @return <tt>true</tt> if this is a normal change or a restore.
-	 */
-	public boolean isChangeOrRestore() {
-		return stateExp && !hasNoLines;
-	}
+    /**
+     * Returns <tt>true</tt> if this revisionNumber is a normal change, or if it restores a removed file. The distinction between these two cases can be made
+     * by looking at the previous (in time, not log order) revisionNumber. If it was a deletion, then this revisionNumber is a restore.
+     * 
+     * @return <tt>true</tt> if this is a normal change or a restore.
+     */
+    public boolean isChangeOrRestore() {
+        // return stateExp && !hasNoLines;
+        return stateExp && !stateAdded;
+    }
 
-	/**
-	 * Returns <tt>true</tt> if this revisionNumber is the creation of a new
-	 * file.
-	 * 
-	 * @return <tt>true</tt> if this is the creation of a new file.
-	 */
-	public boolean isCreation() {
-		return stateExp && hasNoLines;
-	}
+    /**
+     * Returns <tt>true</tt> if this revisionNumber is the creation of a new file.
+     * 
+     * @return <tt>true</tt> if this is the creation of a new file.
+     */
+    public boolean isCreation() {
+        // return stateExp && hasNoLines;
+        return stateExp && stateAdded;
+    }
 
-	/**
-	 * Returns <tt>true</tt> if this revisionNumber is on the main branch.
-	 * 
-	 * In Subversion, branches are just copies so will assume everything is on
-	 * the main branch.
-	 * 
-	 * @return <tt>true</tt> if this revisionNumber is on the main branch.
-	 */
-	public boolean isOnTrunk() {
-		return true;
-	}
+    /**
+     * Returns <tt>true</tt> if this revisionNumber is on the main branch.
+     * 
+     * In Subversion, branches are just copies so will assume everything is on the main branch.
+     * 
+     * @return <tt>true</tt> if this revisionNumber is on the main branch.
+     */
+    public boolean isOnTrunk() {
+        return true;
+    }
 
-	/**
-	 * Returns <tt>true</tt> if this is an Exp ("exposed"?) revisionNumber.
-	 * This is CVS speak for any "live" revisionNumber, that is, if this is the
-	 * current revisionNumber, then a file exists in the working copy.
-	 * 
-	 * @return <tt>true</tt> if this is an Exp revisionNumber
-	 */
-	public boolean isStateExp() {
-		return stateExp;
-	}
+    /**
+     * Returns <tt>true</tt> if this is an Exp ("exposed"?) revisionNumber. This is CVS speak for any "live" revisionNumber, that is, if this is the current
+     * revisionNumber, then a file exists in the working copy.
+     * 
+     * @return <tt>true</tt> if this is an Exp revisionNumber
+     */
+    public boolean isStateExp() {
+        return stateExp;
+    }
 
-	/**
-	 * Returns <tt>true</tt> if this is a dead revisionNumber. If this is the
-	 * current revisionNumber, then the file does not exist in the working copy.
-	 * 
-	 * @return <tt>true</tt> if this is a dead revisionNumber
-	 */
-	public boolean isStateDead() {
-		return stateDead;
-	}
+    /**
+     * Returns <tt>true</tt> if this is a dead revisionNumber. If this is the current revisionNumber, then the file does not exist in the working copy.
+     * 
+     * @return <tt>true</tt> if this is a dead revisionNumber
+     */
+    public boolean isStateDead() {
+        return stateDead;
+    }
 
-	public String toString() {
-		return "RevisionData " + revisionNumber;
-	}
+    public String toString() {
+        return "RevisionData " + revisionNumber;
+    }
 
-	public Object clone() {
-		return new RevisionData(revisionNumber, date, loginName, stateExp, stateDead, hasNoLines, linesAdded, linesRemoved, comment);
+    public Object clone() {
+        return new RevisionData(revisionNumber, date, loginName, stateExp, stateDead, stateAdded, hasNoLines, linesAdded, linesRemoved, comment);
 
-	}
+    }
 
-	private RevisionData(String revisionNumber, Date date, String loginName, boolean stateExp, boolean stateDead, boolean hasNoLines, int linesAdded,
-			int linesRemoved, String comment) {
-		super();
-		this.revisionNumber = revisionNumber;
-		this.date = date;
-		this.loginName = loginName;
-		this.stateExp = stateExp;
-		this.stateDead = stateDead;
-		this.hasNoLines = hasNoLines;
-		this.linesAdded = linesAdded;
-		this.linesRemoved = linesRemoved;
-		this.comment = comment;
-	}
+    private RevisionData(String revisionNumber, Date date, String loginName, boolean stateExp, boolean stateDead, boolean stateAdded, boolean hasNoLines, int linesAdded,
+            int linesRemoved, String comment) {
+        super();
+        this.revisionNumber = revisionNumber;
+        this.date = date;
+        this.loginName = loginName;
+        this.stateExp = stateExp;
+        this.stateDead = stateDead;
+        this.hasNoLines = hasNoLines;
+        this.linesAdded = linesAdded;
+        this.linesRemoved = linesRemoved;
+        this.comment = comment;
+        this.stateAdded = stateAdded;
+    }
 
 }
