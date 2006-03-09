@@ -349,6 +349,20 @@ public class FileBuilder {
         return revisions;
     }
 
+    public RevisionData getFinalRevision() {
+        if (existRevision())
+            return (RevisionData) revisions.get(0);
+        else
+            return null;
+    }
+
+    public RevisionData getFirstRevision() {
+        if (existRevision())
+            return (RevisionData) revisions.get(revisions.size() - 1);
+        else
+            return null;
+    }
+
     public RevisionData findRevision(String revisionNumber) {
         for (int i = 0; i < revisions.size(); i++) {
             RevisionData data = (RevisionData) revisions.get(i);
