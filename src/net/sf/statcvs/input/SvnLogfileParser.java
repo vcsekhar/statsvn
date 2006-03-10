@@ -141,8 +141,7 @@ public class SvnLogfileParser {
 
         verifyImplicitActions();
 
-        // verifyAddition();
-
+        // must be after verifyImplicitActions();
         removeDirectories();
 
         handleLineCounts(factory);
