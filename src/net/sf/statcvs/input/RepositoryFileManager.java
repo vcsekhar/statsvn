@@ -35,7 +35,7 @@ import net.sf.statcvs.util.SvnInfoUtils;
  * 
  * @author Manuel Schulze
  * @author Steffen Pingel
- * @version $Id: RepositoryFileManager.java,v 1.24 2004/12/14 13:38:13 squig Exp $
+ * @version $Id$
  */
 public class RepositoryFileManager {
     private static Logger logger;
@@ -53,7 +53,7 @@ public class RepositoryFileManager {
     }
 
     /**
-     * Returns the lines of code for a repository file.
+     * Returns the lines of code for a repository file. (Currently checked out version)
      * 
      * @param filename
      *            a file in the repository

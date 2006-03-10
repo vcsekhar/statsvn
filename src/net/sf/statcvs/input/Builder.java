@@ -44,7 +44,7 @@ import net.sf.statcvs.util.FileUtils;
 
 /**
  * <p>
- * Helps building the {@link net.sf.statcvs.model.Repository} from a CVS log. The <tt>Builder</tt> is fed by some CVS history data source, for example a CVS
+ * Helps building the {@link net.sf.statcvs.model.Repository} from a SVN log. The <tt>Builder</tt> is fed by some SVN history data source, for example a SVN
  * log parser. The <tt>Repository</tt> can be retrieved using the {@link #createRepository} method.
  * </p>
  * 
@@ -53,8 +53,11 @@ import net.sf.statcvs.util.FileUtils;
  * author name and path. It also provides LOC count services.
  * </p>
  * 
- * @author Richard Cyganiak <richard@cyganiak.de>
- * @version $Id: Builder.java,v 1.29 2004/12/14 13:38:13 squig Exp $
+ * @author Richard Cyganiak <richard@cyganiak.de>, Jean-Philippe Daiglke <jpdaigle@softwareengineering.ca>, Jason Kealey <jkealey@shade.ca>, Gunter Mussbacher
+ *         <gunterm@site.uottawa.ca>
+ * 
+ * @version $Id$
+ * 
  */
 public class Builder implements SvnLogBuilder {
     private static Logger logger = Logger.getLogger(Builder.class.getName());
@@ -100,6 +103,10 @@ public class Builder implements SvnLogBuilder {
     /**
      * Starts building a new file. The files are not expected to be created in any particular order.
      * 
+     * Subsequent calls to (@link #buildRevision(RevisionData)) will add revisions to this file.
+     * 
+     * New in StatSVN: If the method has already been invoked with the same filename, the original file will be re-loaded and the other arguments are ignored.
+     * 
      * @param filename
      *            the file's name with path, for example "path/file.txt"
      * @param isBinary
@@ -107,15 +114,9 @@ public class Builder implements SvnLogBuilder {
      * @param isInAttic
      *            <tt>true</tt> if the file is dead on the main branch
      * @param revBySymnames
-     *            maps revision (string) by symbolic name (string)
+     *            maps revision (string) by symbolic name (string) (Not used in StatSVN; kept for compatibility with StatCVS)
      */
     public void buildFile(String filename, boolean isBinary, boolean isInAttic, Map revBySymnames) {
-        // if (currentFileBuilder != null) {
-        // fileBuilders.add(currentFileBuilder);
-        // }
-        // currentFileBuilder = new FileBuilder(this, filename, isBinary,
-        // revBySymnames);
-
         if (fileBuilders.containsKey(filename))
             currentFileBuilder = (FileBuilder) fileBuilders.get(filename);
         else {
@@ -125,12 +126,11 @@ public class Builder implements SvnLogBuilder {
             if (isInAttic && !atticFileNames.contains(filename)) {
                 atticFileNames.add(filename);
             }
-
         }
     }
 
     /**
-     * Adds a revision to the current file. The revisions must be added in CVS logfile order, that is starting with the most recent one.
+     * Adds a revision to the current file. The revisions must be added in SVN logfile order, that is starting with the most recent one.
      * 
      * @param data
      *            the revision
@@ -147,17 +147,12 @@ public class Builder implements SvnLogBuilder {
     /**
      * Returns a Repository object of all files.
      * 
-     * @param filesHaveInitialRevision
-     *            set to true if files in working directory all have 1.1 revision; otherwise files are expected to match the latest revision
      * @return Repository a Repository object
      * @throws EmptyRepositoryException
      *             if no adequate files were found in the log.
      */
     public Repository createRepository() throws EmptyRepositoryException {
-        // if (currentFileBuilder != null) {
-        // fileBuilders.add(currentFileBuilder);
-        // currentFileBuilder = null;
-        // }
+
         if (startDate == null) {
             throw new EmptyRepositoryException();
         }
@@ -252,6 +247,9 @@ public class Builder implements SvnLogBuilder {
         }
     }
 
+    /**
+     * @see RepositoryFilemanager.getLOC(String)
+     */
     public int getLOC(String filename) throws NoLineCountException {
         if (repositoryFileManager == null) {
             throw new NoLineCountException("no RepositoryFileManager");
@@ -304,6 +302,13 @@ public class Builder implements SvnLogBuilder {
         return newDirectory;
     }
 
+    /**
+     * New in StatSVN: We need to have access to FileBuilders after they have been created to populate them with version numbers later on.
+     * 
+     * TODO: Beef up this interface to better encapsulate the data structure.
+     * 
+     * @return this builder's contained (@link FileBuilder)s.
+     */
     public Map getFileBuilders() {
         return fileBuilders;
     }

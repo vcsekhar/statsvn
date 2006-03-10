@@ -26,7 +26,7 @@ package net.sf.statcvs.input;
  * Indicates that no LOC count could be obtained for a file
  * 
  * @author Richard Cyganiak
- * @version $Id: NoLineCountException.java,v 1.1 2003/12/09 11:52:47 cyganiak Exp $
+ * @version $Id$
  */
 public class NoLineCountException extends Exception {
 

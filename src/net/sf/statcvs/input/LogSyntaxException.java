@@ -26,7 +26,7 @@ package net.sf.statcvs.input;
 /**
  * @author Anja Jentzsch
  * @author Richard Cyganiak
- * @version $Id: LogSyntaxException.java,v 1.11 2003/03/18 10:33:57 lukasz Exp $
+ * @version $Id$
  */
 public class LogSyntaxException extends Exception {
 

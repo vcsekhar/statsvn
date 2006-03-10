@@ -39,7 +39,7 @@ import java.util.NoSuchElementException;
  * <tt>nextLine()</tt> must be called once to read the first line.</p>
  * 
  * @author Richard Cyganiak (richard@cyganiak.de)
- * @version $Id: LookaheadReader.java,v 1.3 2004/10/10 11:29:07 cyganiak Exp $
+ * @version $Id$
  */
 public class LookaheadReader {
 	private BufferedReader reader;

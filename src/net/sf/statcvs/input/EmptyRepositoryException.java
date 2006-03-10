@@ -26,7 +26,7 @@ package net.sf.statcvs.input;
  * Indicates that we can't generate a report because there are no files or revisions in the repository
  * 
  * @author Richard Cyganiak
- * @version $Id: EmptyRepositoryException.java,v 1.1 2003/12/09 11:52:47 cyganiak Exp $
+ * @version $Id$
  */
 public class EmptyRepositoryException extends Exception {
 

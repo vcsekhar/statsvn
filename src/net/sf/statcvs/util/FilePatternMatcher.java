@@ -43,7 +43,7 @@ import java.util.regex.Pattern;
  * candidate string.</p>
  *
  * @author Richard Cyganiak <rcyg@gmx.de>
- * @version $Id: FilePatternMatcher.java,v 1.1 2003/06/04 16:19:37 cyganiak Exp $
+ * @version $Id$
  */
 public class FilePatternMatcher {
 	private List patterns = new ArrayList();
