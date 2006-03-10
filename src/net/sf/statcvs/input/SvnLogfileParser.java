@@ -40,7 +40,6 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import net.sf.statcvs.util.FilenameComparator;
-import net.sf.statcvs.util.FileUtils;
 import net.sf.statcvs.util.SvnDiffUtils;
 import net.sf.statcvs.util.SvnInfoUtils;
 import net.sf.statcvs.util.XMLUtil;
@@ -48,8 +47,7 @@ import net.sf.statcvs.util.XMLUtil;
 import org.xml.sax.SAXException;
 
 /**
- * Parses a CVS logfile. A {@link Builder} must be specified which does the
- * construction work.
+ * Parses a CVS logfile. A {@link Builder} must be specified which does the construction work.
  * 
  * @author Anja Jentzsch
  * @author Richard Cyganiak
@@ -57,352 +55,254 @@ import org.xml.sax.SAXException;
  */
 public class SvnLogfileParser {
 
-	private static Logger logger = Logger.getLogger(SvnLogfileParser.class.getName());
-	private SvnLogBuilder builder;
-	private InputStream logFile;
+    private static Logger logger = Logger.getLogger(SvnLogfileParser.class.getName());
+    private SvnLogBuilder builder;
+    private InputStream logFile;
 
-	/**
-	 * Default Constructor
-	 * 
-	 * @param logFile
-	 *            a <tt>Reader</tt> containing the CVS logfile
-	 * @param builder
-	 *            the builder that will process the log information
-	 */
-	public SvnLogfileParser(InputStream logFile, SvnLogBuilder builder) {
-		this.logFile = logFile;
-		this.builder = builder;
-	}
+    /**
+     * Default Constructor
+     * 
+     * @param logFile
+     *            a <tt>Reader</tt> containing the CVS logfile
+     * @param builder
+     *            the builder that will process the log information
+     */
+    public SvnLogfileParser(InputStream logFile, SvnLogBuilder builder) {
+        this.logFile = logFile;
+        this.builder = builder;
+    }
 
-	private void handleLineCounts(SAXParserFactory factory) throws IOException {
-		long startTime = System.currentTimeMillis();
+    protected void handleLineCounts(SAXParserFactory factory) throws IOException {
+        long startTime = System.currentTimeMillis();
 
-		LineCountsBuilder lineCountsBuilder = new LineCountsBuilder(builder);
-		try {
-			FileInputStream lineCountsFile = new FileInputStream("lineCounts.xml");
-			SAXParser parser = factory.newSAXParser();
-			parser.parse(lineCountsFile, new SvnXmlLineCountsFileHandler(lineCountsBuilder));
-			// XMLUtil.writeXmlFile(lineCountsBuilder.getDocument(),
-			// "lineCounts2.xml");
-		} catch (ParserConfigurationException e) {
-		} catch (SAXException e) {
-		} catch (IOException e) {
-		}
-		logger.fine("parsing line counts finished in " + (System.currentTimeMillis() - startTime) + " ms.");
-		startTime = System.currentTimeMillis();
+        LineCountsBuilder lineCountsBuilder = new LineCountsBuilder(builder);
+        try {
+            FileInputStream lineCountsFile = new FileInputStream("lineCounts.xml");
+            SAXParser parser = factory.newSAXParser();
+            parser.parse(lineCountsFile, new SvnXmlLineCountsFileHandler(lineCountsBuilder));
+            // XMLUtil.writeXmlFile(lineCountsBuilder.getDocument(),
+            // "lineCounts2.xml");
+        } catch (ParserConfigurationException e) {
+        } catch (SAXException e) {
+        } catch (IOException e) {
+        }
+        logger.fine("parsing line counts finished in " + (System.currentTimeMillis() - startTime) + " ms.");
+        startTime = System.currentTimeMillis();
 
-		int limit = 20000;
-		int c = 0;
-		Collection fileBuilders = builder.getFileBuilders().values();
-		for (Iterator iter = fileBuilders.iterator(); iter.hasNext();) {
-			FileBuilder fileBuilder = (FileBuilder) iter.next();
-			if (fileBuilder.isBinary())
-				continue;
+        int limit = 20000;
+        int c = 0;
+        Collection fileBuilders = builder.getFileBuilders().values();
+        for (Iterator iter = fileBuilders.iterator(); iter.hasNext();) {
+            FileBuilder fileBuilder = (FileBuilder) iter.next();
+            if (fileBuilder.isBinary())
+                continue;
 
-			String fileName = fileBuilder.getName();
-			List revisions = fileBuilder.getRevisions();
-			for (int i = 0; i < revisions.size(); i++) {
-				if (i + 1 < revisions.size() && ((RevisionData) revisions.get(i)).hasNoLines() && !((RevisionData) revisions.get(i)).isDeletion()) {
+            String fileName = fileBuilder.getName();
+            List revisions = fileBuilder.getRevisions();
+            for (int i = 0; i < revisions.size(); i++) {
+                if (i + 1 < revisions.size() && ((RevisionData) revisions.get(i)).hasNoLines() && !((RevisionData) revisions.get(i)).isDeletion()) {
 
-					if (((RevisionData) revisions.get(i + 1)).isDeletion())
-						continue;
-					String revNrNew = ((RevisionData) revisions.get(i)).getRevisionNumber();
-					String revNrOld = ((RevisionData) revisions.get(i + 1)).getRevisionNumber();
-					System.out.println(fileName + " " + revNrOld + " " + revNrNew);
-					int lineDiff[] = SvnDiffUtils.getLineDiff(revNrOld, revNrNew, fileName);
-					if (lineDiff[0] != -1 && lineDiff[1] != -1) {
-						((RevisionData) revisions.get(i)).setLines(lineDiff[0], lineDiff[1]);
-						lineCountsBuilder.newRevision(fileName, revNrNew, lineDiff[0] + "", lineDiff[1] + "");
-					} else {
-						// file is binary and has been deleted
-						fileBuilder.setBinary(true);
-						break;
-					}
+                    if (((RevisionData) revisions.get(i + 1)).isDeletion())
+                        continue;
+                    String revNrNew = ((RevisionData) revisions.get(i)).getRevisionNumber();
+                    String revNrOld = ((RevisionData) revisions.get(i + 1)).getRevisionNumber();
+                    System.out.println(fileName + " " + revNrOld + " " + revNrNew);
+                    int lineDiff[] = SvnDiffUtils.getLineDiff(revNrOld, revNrNew, fileName);
+                    if (lineDiff[0] != -1 && lineDiff[1] != -1) {
+                        ((RevisionData) revisions.get(i)).setLines(lineDiff[0], lineDiff[1]);
+                        lineCountsBuilder.newRevision(fileName, revNrNew, lineDiff[0] + "", lineDiff[1] + "");
+                    } else {
+                        // file is binary and has been deleted
+                        fileBuilder.setBinary(true);
+                        break;
+                    }
 
-				}
-			}
-			if (c++ > limit)
-				break;
-		}
-		XMLUtil.writeXmlFile(lineCountsBuilder.getDocument(), "lineCounts.xml");
+                }
+            }
+            if (c++ > limit)
+                break;
+        }
+        XMLUtil.writeXmlFile(lineCountsBuilder.getDocument(), "lineCounts.xml");
 
-		logger.fine("parsing svn diff finished in " + (System.currentTimeMillis() - startTime) + " ms.");
-	}
+        logger.fine("parsing svn diff finished in " + (System.currentTimeMillis() - startTime) + " ms.");
+    }
 
-	/**
-	 * Parses the logfile. After <tt>parse()</tt> has finished, the result of
-	 * the parsing process can be obtained from the builder.
-	 * 
-	 * @throws LogSyntaxException
-	 *             if syntax errors in log
-	 * @throws IOException
-	 *             if errors while reading from the log Reader
-	 */
-	public void parse() throws LogSyntaxException, IOException {
+    /**
+     * Parses the logfile. After <tt>parse()</tt> has finished, the result of the parsing process can be obtained from the builder.
+     * 
+     * @throws LogSyntaxException
+     *             if syntax errors in log
+     * @throws IOException
+     *             if errors while reading from the log Reader
+     */
+    public void parse() throws LogSyntaxException, IOException {
 
-		SAXParserFactory factory = parseSvnLog();
+        SAXParserFactory factory = parseSvnLog();
 
-		verifyImplicitActions();
+        verifyImplicitActions();
 
-		// verifyAddition();
+        // verifyAddition();
 
-		removeDirectories();
+        removeDirectories();
 
-		handleLineCounts(factory);
+        handleLineCounts(factory);
 
-	}
+    }
 
-	private void verifyImplicitActions() {
-		
-		// this method most certainly has issues with implicit actions on root folder. 
-		
-		long startTime = System.currentTimeMillis();
-		logger.fine("verifying implicit actions ...");
+    protected void verifyImplicitActions() {
 
-		HashSet implicitActions = new HashSet();
+        // this method most certainly has issues with implicit actions on root folder.
 
-		ArrayList files = new ArrayList();
-		Collection fileBuilders = builder.getFileBuilders().values();
-		for (Iterator iter = fileBuilders.iterator(); iter.hasNext();) {
-			FileBuilder fileBuilder = (FileBuilder) iter.next();
-			files.add(fileBuilder.getName());
-		}
+        long startTime = System.currentTimeMillis();
+        logger.fine("verifying implicit actions ...");
 
-		Collections.sort(files, new FilenameComparator());
+        HashSet implicitActions = new HashSet();
 
-		FileBuilder parentBuilder, childBuilder;
-		RevisionData parentData, childData;
-		String parent, child;
-		int parentRevision, childRevision;
+        ArrayList files = new ArrayList();
+        Collection fileBuilders = builder.getFileBuilders().values();
+        for (Iterator iter = fileBuilders.iterator(); iter.hasNext();) {
+            FileBuilder fileBuilder = (FileBuilder) iter.next();
+            files.add(fileBuilder.getName());
+        }
 
-		for (int i = 0; i < files.size(); i++) {
-			parent = files.get(i).toString();
-			parentBuilder = (FileBuilder) builder.getFileBuilders().get(parent);
-			for (int j = i + 1; j < files.size() && files.get(j).toString().indexOf(parent + "/") == 0; j++) {
-				SvnInfoUtils.addDirectory(parent);
-				child = files.get(j).toString();
-				childBuilder = (FileBuilder) builder.getFileBuilders().get(child);
-				for (Iterator iter = parentBuilder.getRevisions().iterator(); iter.hasNext();) {
-					parentData = (RevisionData) iter.next();
-					try {
-						parentRevision = Integer.parseInt(parentData.getRevisionNumber());
-					} catch (Exception e) {
-						continue;
-					}
+        Collections.sort(files, new FilenameComparator());
 
-					int k;
-					// ignore modifications to folders
-					if (parentData.isCreation() || parentData.isDeletion()) {
-						for (k = 0; k < childBuilder.getRevisions().size(); k++) {
-							childData = (RevisionData) childBuilder.getRevisions().get(k);
-							childRevision = Integer.parseInt(childData.getRevisionNumber());
-							if (parentRevision == childRevision) {
-								k = childBuilder.getRevisions().size();
-								break;
-							}
+        FileBuilder parentBuilder, childBuilder;
+        RevisionData parentData, childData;
+        String parent, child;
+        int parentRevision, childRevision;
 
-							if (parentRevision > childRevision)
-								break; // we must insert it here!
-						}
+        for (int i = 0; i < files.size(); i++) {
+            parent = files.get(i).toString();
+            parentBuilder = (FileBuilder) builder.getFileBuilders().get(parent);
+            for (int j = i + 1; j < files.size() && files.get(j).toString().indexOf(parent + "/") == 0; j++) {
+                SvnInfoUtils.addDirectory(parent);
+                child = files.get(j).toString();
+                childBuilder = (FileBuilder) builder.getFileBuilders().get(child);
+                for (Iterator iter = parentBuilder.getRevisions().iterator(); iter.hasNext();) {
+                    parentData = (RevisionData) iter.next();
+                    try {
+                        parentRevision = Integer.parseInt(parentData.getRevisionNumber());
+                    } catch (Exception e) {
+                        continue;
+                    }
 
-						if (k < childBuilder.getRevisions().size()) {
-							// avoid concurrent modification errors.
-							List toMove = new ArrayList();
-							for (Iterator it = childBuilder.getRevisions().subList(k, childBuilder.getRevisions().size()).iterator(); it.hasNext();) {
-								toMove.add(it.next());
-							}
-							childBuilder.getRevisions().removeAll(toMove);
-							// don't call addRevision directly. buildRevision
-							// does more
-							builder.buildFile(child, false, false, new HashMap());
-							RevisionData implicit = (RevisionData) parentData.clone();
-							implicitActions.add(implicit);
-							builder.buildRevision(implicit);
-							for (Iterator it = toMove.iterator(); it.hasNext();) {
-								builder.buildRevision((RevisionData) it.next());
-							}
-						}
-					}
-				}
-			}
-		}
+                    int k;
+                    // ignore modifications to folders
+                    if (parentData.isCreation() || parentData.isDeletion()) {
+                        for (k = 0; k < childBuilder.getRevisions().size(); k++) {
+                            childData = (RevisionData) childBuilder.getRevisions().get(k);
+                            childRevision = Integer.parseInt(childData.getRevisionNumber());
+                            if (parentRevision == childRevision) {
+                                k = childBuilder.getRevisions().size();
+                                break;
+                            }
 
-		// in the preceeding block, we add implicit additions to too may files.
-		// possibly a folder was deleted and restored later on, without the
-		// specific file being re-added. we get rid of those here. however,
-		// without knowledge of what was copied during the implicit additions /
-		// replacements, we will remove as many implicit actions as possible
-		// 
-		// this solution is imperfect.
-		for (Iterator iter = fileBuilders.iterator(); iter.hasNext();) {
-			FileBuilder filebuilder = (FileBuilder) iter.next();
-			if (!SvnInfoUtils.existsInWorkingCopy(filebuilder.getName()) && !filebuilder.finalRevisionIsDead()) {
-				int earliestDelete = -1;
-				for (int i = 0; i < filebuilder.getRevisions().size(); i++) {
-					RevisionData data = (RevisionData) filebuilder.getRevisions().get(i);
+                            if (parentRevision > childRevision)
+                                break; // we must insert it here!
+                        }
 
-					if (data.isDeletion()) {
-						earliestDelete = i;
-					}
+                        if (k < childBuilder.getRevisions().size()) {
+                            // avoid concurrent modification errors.
+                            List toMove = new ArrayList();
+                            for (Iterator it = childBuilder.getRevisions().subList(k, childBuilder.getRevisions().size()).iterator(); it.hasNext();) {
+                                toMove.add(it.next());
+                            }
+                            childBuilder.getRevisions().removeAll(toMove);
+                            // don't call addRevision directly. buildRevision
+                            // does more
+                            builder.buildFile(child, false, false, new HashMap());
+                            RevisionData implicit = (RevisionData) parentData.clone();
+                            implicitActions.add(implicit);
+                            builder.buildRevision(implicit);
+                            for (Iterator it = toMove.iterator(); it.hasNext();) {
+                                builder.buildRevision((RevisionData) it.next());
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
-					if ((!data.isCreation() && data.isChangeOrRestore()) || !implicitActions.contains(data)) {
-						break;
-					}
-				}
+        // in the preceeding block, we add implicit additions to too may files.
+        // possibly a folder was deleted and restored later on, without the
+        // specific file being re-added. we get rid of those here. however,
+        // without knowledge of what was copied during the implicit additions /
+        // replacements, we will remove as many implicit actions as possible
+        // 
+        // this solution is imperfect.
+        for (Iterator iter = fileBuilders.iterator(); iter.hasNext();) {
+            FileBuilder filebuilder = (FileBuilder) iter.next();
 
-				if (earliestDelete > 0) {
-					// avoid concurrent modification errors.
-					List toRemove = new ArrayList();
-					for (Iterator it = filebuilder.getRevisions().subList(0, earliestDelete).iterator(); it.hasNext();) {
-						toRemove.add(it.next());
-					}
-					filebuilder.getRevisions().removeAll(toRemove);
-				}
+            // make sure our attic is well set, with our new deletions that we might have added.
+            if (!((Builder) builder).getAtticFileNames().contains(filebuilder.getName()) && !SvnInfoUtils.existsInWorkingCopy(filebuilder.getName())) {
+                ((Builder) builder).getAtticFileNames().add(filebuilder.getName());
+            }
 
-			}
+            if (!SvnInfoUtils.existsInWorkingCopy(filebuilder.getName()) && !filebuilder.finalRevisionIsDead()) {
+                int earliestDelete = -1;
+                for (int i = 0; i < filebuilder.getRevisions().size(); i++) {
+                    RevisionData data = (RevisionData) filebuilder.getRevisions().get(i);
 
-		}
+                    if (data.isDeletion()) {
+                        earliestDelete = i;
+                    }
 
-//		builder.getFileBuilders().get("src/seg/jUCMNav/tests/CommandTest.java");
-		logger.fine("verifying implicit actions finished in " + (System.currentTimeMillis() - startTime) + " ms.");
+                    if ((!data.isCreation() && data.isChangeOrRestore()) || !implicitActions.contains(data)) {
+                        break;
+                    }
+                }
 
-	}
+                if (earliestDelete > 0) {
+                    // avoid concurrent modification errors.
+                    List toRemove = new ArrayList();
+                    for (Iterator it = filebuilder.getRevisions().subList(0, earliestDelete).iterator(); it.hasNext();) {
+                        toRemove.add(it.next());
+                    }
+                    filebuilder.getRevisions().removeAll(toRemove);
+                }
 
-	private void removeDirectories() {
-		Collection fileBuilders = builder.getFileBuilders().values();
-		ArrayList toRemove = new ArrayList();
-		for (Iterator iter = fileBuilders.iterator(); iter.hasNext();) {
-			FileBuilder fileBuilder = (FileBuilder) iter.next();
-			if (SvnInfoUtils.isDirectory(fileBuilder.getName())) {
-				toRemove.add(fileBuilder.getName());
-			}
-		}
+            }
 
-		for (Iterator iter = toRemove.iterator(); iter.hasNext();) {
-			builder.getFileBuilders().remove(iter.next());
-		}
+        }
 
-	}
+        // builder.getFileBuilders().get("src/seg/jUCMNav/tests/CommandTest.java");
+        logger.fine("verifying implicit actions finished in " + (System.currentTimeMillis() - startTime) + " ms.");
 
-	private SAXParserFactory parseSvnLog() throws IOException, LogSyntaxException {
-		long startTime = System.currentTimeMillis();
-		logger.fine("starting to parse...");
+    }
 
-		SAXParserFactory factory = SAXParserFactory.newInstance();
-		try {
-			SAXParser parser = factory.newSAXParser();
-			parser.parse(logFile, new SvnXmlLogFileHandler(builder));
-		} catch (ParserConfigurationException e) {
-			throw new LogSyntaxException(e.getMessage());
-		} catch (SAXException e) {
-			throw new LogSyntaxException(e.getMessage());
-		}
+    protected void removeDirectories() {
+        Collection fileBuilders = builder.getFileBuilders().values();
+        ArrayList toRemove = new ArrayList();
+        for (Iterator iter = fileBuilders.iterator(); iter.hasNext();) {
+            FileBuilder fileBuilder = (FileBuilder) iter.next();
+            if (SvnInfoUtils.isDirectory(fileBuilder.getName())) {
+                toRemove.add(fileBuilder.getName());
+            }
+        }
 
-		logger.fine("parsing svn log finished in " + (System.currentTimeMillis() - startTime) + " ms.");
-		return factory;
-	}
+        for (Iterator iter = toRemove.iterator(); iter.hasNext();) {
+            builder.getFileBuilders().remove(iter.next());
+        }
 
-	private void verifyAddition() {
-		long startTime = System.currentTimeMillis();
-		logger.fine("finding implicit additions ...");
+    }
 
-		Collection fileBuilders = builder.getFileBuilders().values();
-		for (Iterator iter = fileBuilders.iterator(); iter.hasNext();) {
-			FileBuilder fileBuilder = (FileBuilder) iter.next();
+    protected SAXParserFactory parseSvnLog() throws IOException, LogSyntaxException {
+        long startTime = System.currentTimeMillis();
+        logger.fine("starting to parse...");
 
-			// file's first revision is not a creation... either not in log or
-			// was implicit
-			if (!fileBuilder.existRevision() || !fileBuilder.getFirstRevision().isCreation()) {
+        SAXParserFactory factory = SAXParserFactory.newInstance();
+        try {
+            SAXParser parser = factory.newSAXParser();
+            parser.parse(logFile, new SvnXmlLogFileHandler(builder));
+        } catch (ParserConfigurationException e) {
+            throw new LogSyntaxException(e.getMessage());
+        } catch (SAXException e) {
+            throw new LogSyntaxException(e.getMessage());
+        }
 
-				String path = fileBuilder.getName() + "/";
-				String parentPath = FileUtils.getParentDirectoryPath(path);
-				if (parentPath.length() > 0)
-					// remove last /
-					parentPath = parentPath.substring(0, parentPath.length() - 1);
-				// do we have a builder for the parent?
-				if (builder.getFileBuilders().get(parentPath) != null) {
-					FileBuilder parentBuilder = (FileBuilder) builder.getFileBuilders().get(parentPath);
-					// do we have a creation for that parent?
-					if (parentBuilder.getFirstRevision().isCreation()) {
-						// don't call addRevision directly. buildRevision
-						// does more
-						builder.buildFile(fileBuilder.getName(), false, false, new HashMap());
-						builder.buildRevision((RevisionData) parentBuilder.getFirstRevision().clone());
-						break;
-					}
+        logger.fine("parsing svn log finished in " + (System.currentTimeMillis() - startTime) + " ms.");
+        return factory;
+    }
 
-				}
-
-				// continue to recurse up
-				parentPath = FileUtils.getParentDirectoryPath(parentPath + "/");
-				if (parentPath.length() == 0) {
-					// System.out.println("Did not find creation for " +
-					// fileBuilder.getName());
-					break;
-				}
-				// remove last /
-				parentPath = parentPath.substring(0, parentPath.length() - 1);
-			}
-		}
-
-		// list is sorted
-		List directories = SvnInfoUtils.getDirectories();
-		for (Iterator iter = directories.iterator(); iter.hasNext();) {
-			String directory = iter.next().toString();
-			FileBuilder parent = (FileBuilder) builder.getFileBuilders().get(directory);
-			if (!parent.existRevision() || !parent.getFirstRevision().isCreation())
-				continue;
-
-			int parentRevision;
-			try {
-				parentRevision = Integer.parseInt(parent.getFirstRevision().getRevisionNumber());
-			} catch (Exception e) {
-				continue;
-			}
-			for (Iterator iterator = fileBuilders.iterator(); iterator.hasNext();) {
-				FileBuilder child = (FileBuilder) iterator.next();
-				if (child.getName().indexOf(directory + "/") == 0) {
-					// check to see that the addition wasn't somewhere in
-					// fileBuilder's existence (meaning we copied over the file
-					// from another branch, using
-					// the parent folder)
-					int childRevision;
-					try {
-						int i;
-						for (i = 0; i < child.getRevisions().size(); i++) {
-							RevisionData data = (RevisionData) child.getRevisions().get(i);
-							childRevision = Integer.parseInt(data.getRevisionNumber());
-							if (parentRevision > childRevision)
-								break;
-						}
-						if (i < child.getRevisions().size()) {
-							// get rid of older revisions
-
-							// avoid concurrent modification errors.
-							List toMove = new ArrayList();
-							for (Iterator it = child.getRevisions().subList(i, child.getRevisions().size()).iterator(); it.hasNext();) {
-								toMove.add(it.next());
-							}
-							child.getRevisions().removeAll(toMove);
-							// don't call addRevision directly. buildRevision
-							// does more
-							builder.buildFile(child.getName(), false, false, new HashMap());
-							builder.buildRevision((RevisionData) parent.getFirstRevision().clone());
-							for (Iterator it = toMove.iterator(); it.hasNext();) {
-								builder.buildRevision((RevisionData) it.next());
-							}
-
-						}
-
-					} catch (Exception e) {
-						continue;
-					}
-
-				}
-			}
-		}
-
-		logger.fine("finding implicit additions finished in " + (System.currentTimeMillis() - startTime) + " ms.");
-
-	}
 }
