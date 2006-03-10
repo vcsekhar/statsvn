@@ -20,364 +20,466 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+/**
+ * Utilities class that manages calls to svn info. Used to find repository information, latest revision numbers, and directories.
+ * 
+ * @author Jason Kealey <jkealey@shade.ca>
+ * 
+ * @version $Id$
+ */
 public class SvnInfoUtils {
 
-	protected static class SvnInfoHandler extends DefaultHandler {
+    /**
+     * SAX parser for the svn info --xml command.
+     * 
+     * @author jkealey
+     */
+    protected static class SvnInfoHandler extends DefaultHandler {
 
-		protected boolean isRootFolder = false;
-		protected String sCurrentKind;
-		protected String sCurrentRevision;
-		protected String sCurrentUrl;
-		protected String stringData = "";
+        protected boolean isRootFolder = false;
+        protected String sCurrentKind;
+        protected String sCurrentRevision;
+        protected String sCurrentUrl;
+        protected String stringData = "";
 
-		public void characters(char[] ch, int start, int length) throws SAXException {
-			stringData += new String(ch, start, length);
-		}
+        /**
+         * Builds the string that was read; default implementation can invoke this function multiple times while reading the data.
+         */
+        public void characters(char[] ch, int start, int length) throws SAXException {
+            stringData += new String(ch, start, length);
+        }
 
-		public void endElement(String uri, String localName, String qName) throws SAXException {
-			String eName = localName; // element name
-			if ("".equals(eName))
-				eName = qName; // namespaceAware = false
+        /**
+         * End of xml element.
+         */
+        public void endElement(String uri, String localName, String qName) throws SAXException {
+            String eName = localName; // element name
+            if ("".equals(eName))
+                eName = qName; // namespaceAware = false
 
-			if (isRootFolder && eName.equals("url")) {
-				isRootFolder = false;
-				setRootUrl(stringData);
-				sCurrentUrl = stringData;
-			} else if (eName.equals("url")) {
-				sCurrentUrl = stringData;
-			} else if (eName.equals("entry")) {
-				if (sCurrentRevision == null || sCurrentUrl == null || sCurrentKind == null)
-					throw new SAXException("Invalid svn info xml; unable to find revision or url");
+            if (isRootFolder && eName.equals("url")) {
+                isRootFolder = false;
+                setRootUrl(stringData);
+                sCurrentUrl = stringData;
+            } else if (eName.equals("url")) {
+                sCurrentUrl = stringData;
+            } else if (eName.equals("entry")) {
+                if (sCurrentRevision == null || sCurrentUrl == null || sCurrentKind == null)
+                    throw new SAXException("Invalid svn info xml; unable to find revision or url");
 
-				hmRevisions.put(urlToRelativePath(sCurrentUrl), sCurrentRevision);
-				if (sCurrentKind.equals("dir"))
-					hsDirectories.add(urlToRelativePath(sCurrentUrl));
-			}
-		}
+                hmRevisions.put(urlToRelativePath(sCurrentUrl), sCurrentRevision);
+                if (sCurrentKind.equals("dir"))
+                    hsDirectories.add(urlToRelativePath(sCurrentUrl));
+            }
+        }
 
-		public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-			String eName = localName; // element name
-			if ("".equals(eName))
-				eName = qName; // namespaceAware = false
+        /**
+         * Start of XML element.
+         */
+        public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+            String eName = localName; // element name
+            if ("".equals(eName))
+                eName = qName; // namespaceAware = false
 
-			if (eName.equals("entry")) {
-				if (!isValidInfoEntry(attributes))
-					throw new SAXException("Invalid svn info xml for entry element.");
+            if (eName.equals("entry")) {
+                if (!isValidInfoEntry(attributes))
+                    throw new SAXException("Invalid svn info xml for entry element.");
 
-				if (sRootUrl == null && isRootFolder(attributes)) {
-					isRootFolder = true;
-					sRootRevisionNumber = attributes.getValue("revision");
-				}
+                if (sRootUrl == null && isRootFolder(attributes)) {
+                    isRootFolder = true;
+                    sRootRevisionNumber = attributes.getValue("revision");
+                }
 
-				sCurrentRevision = null;
-				sCurrentUrl = null;
-				sCurrentKind = attributes.getValue("kind");
-			} else if (eName.equals("commit")) {
-				if (!isValidCommit(attributes))
-					throw new SAXException("Invalid svn info xml for commit element.");
-				sCurrentRevision = attributes.getValue("revision");
-			}
+                sCurrentRevision = null;
+                sCurrentUrl = null;
+                sCurrentKind = attributes.getValue("kind");
+            } else if (eName.equals("commit")) {
+                if (!isValidCommit(attributes))
+                    throw new SAXException("Invalid svn info xml for commit element.");
+                sCurrentRevision = attributes.getValue("revision");
+            }
 
-			stringData = "";
-		}
-	}
+            stringData = "";
+        }
 
-	// enable caching to speed up calculations
-	protected static final boolean ENABLE_CACHING = true;
+        /**
+         * Is this the root of the workspace?
+         * 
+         * @param attributes
+         *            the xml attributes
+         * @return true if is the root folder.
+         */
+        private static boolean isRootFolder(Attributes attributes) {
+            return attributes.getValue("path").equals(".") && attributes.getValue("kind").equals("dir");
+        }
 
-	// relative path -> Revision Number
-	protected static HashMap hmRevisions;
+        /**
+         * Is this a valid commit? Check to see if wec an read the revision number.
+         * 
+         * @param attributes
+         *            the xml attributes
+         * @return true if is a valid commit.
+         */
+        private static boolean isValidCommit(Attributes attributes) {
+            return attributes != null && attributes.getValue("revision") != null;
+        }
 
-	// if HashSet contains relative path, path is a directory.
-	protected static HashSet hsDirectories;
+        /**
+         * Is this a valid info entry? Check to see if we can read path, kind and revision.
+         * 
+         * @param attributes
+         *            the xml attributes.
+         * @return true if is a valid info entry.
+         */
+        private static boolean isValidInfoEntry(Attributes attributes) {
+            return attributes != null && attributes.getValue("path") != null && attributes.getValue("kind") != null && attributes.getValue("revision") != null;
+        }
+    }
 
-	// Path of . in repository. Can only be calculated if given an element from
-	// the SVN log.
-	protected static String sModuleName = null;
+    // enable caching to speed up calculations
+    protected static final boolean ENABLE_CACHING = true;
 
-	// Revision number of root folder (.)
-	protected static String sRootRevisionNumber = null;
+    // relative path -> Revision Number
+    protected static HashMap hmRevisions;
 
-	// URL of root (.)
-	protected static String sRootUrl = null;
+    // if HashSet contains relative path, path is a directory.
+    protected static HashSet hsDirectories;
 
-	// Any path given in svn log.
-	protected static String sSeedPath = null;
+    // Path of . in repository. Can only be calculated if given an element from
+    // the SVN log.
+    protected static String sModuleName = null;
 
-	/**
-	 * Converts an absolute path in the repository to a path relative to the
-	 * working folder root.
-	 * 
-	 * Will return null if absolute path does not start with getModuleName();
-	 * 
-	 * @param absolute
-	 *            Example (assume getModuleName() returns /trunk/statsvn)
-	 *            /trunk/statsvn/package.html
-	 * @return Example: package.html
-	 */
-	public static String absoluteToRelativePath(String absolute) {
-		if (absolute.endsWith("/"))
-			absolute = absolute.substring(0, absolute.length() - 1);
+    // Revision number of root folder (.)
+    protected static String sRootRevisionNumber = null;
 
-		if (absolute.equals(getModuleName()))
-			return ".";
-		else if (!absolute.startsWith(getModuleName()))
-			return null;
-		else
-			return absolute.substring(getModuleName().length() + 1);
-	}
+    // URL of root (.)
+    protected static String sRootUrl = null;
 
-	/**
-	 * Converts an absolute path in the repository to a URL, using the
-	 * repository URL
-	 * 
-	 * @param absolute
-	 *            Example: /trunk/statsvn/package.html
-	 * @return Example: svn://svn.statsvn.org/statsvn/trunk/statsvn/package.html
-	 */
-	public static String absolutePathToUrl(String absolute) {
-		return getRepositoryUrl() + (absolute.endsWith("/") ? absolute.substring(0, absolute.length() - 1) : absolute);
-	}
+    // Any path given in svn log.
+    protected static String sSeedPath = null;
 
-	/**
-	 * Converts a relative path in the working folder to a URL, using the
-	 * working folder's root URL
-	 * 
-	 * @param relative
-	 *            Example: src/Messages.java
-	 * @return Example:
-	 *         svn://svn.statsvn.org/statsvn/trunk/statsvn/src/Messages.java
-	 * 
-	 */
-	public static String relativePathToUrl(String relative) {
-		relative = relative.replace('\\', '/');
-		if (relative.equals(".") || relative.length() == 0)
-			return getRootUrl();
-		else
-			return getRootUrl() + "/" + (relative.endsWith("/") ? relative.substring(0, relative.length() - 1) : relative);
-	}
+    /**
+     * Converts an absolute path in the repository to a path relative to the working folder root.
+     * 
+     * Will return null if absolute path does not start with getModuleName();
+     * 
+     * @param absolute
+     *            Example (assume getModuleName() returns /trunk/statsvn) /trunk/statsvn/package.html
+     * @return Example: package.html
+     */
+    public static String absoluteToRelativePath(String absolute) {
+        if (absolute.endsWith("/"))
+            absolute = absolute.substring(0, absolute.length() - 1);
 
-	/**
-	 * Converts a relative path in the working folder to an absolute path in the
-	 * repository.
-	 * 
-	 * @param relative
-	 *            Example: src/Messages.java
-	 * @return Example: /trunk/statsvn/src/Messages.java
-	 * 
-	 */
-	public static String relativeToAbsolutePath(String relative) {
-		return urlToAbsolutePath(relativePathToUrl(relative));
-	}
+        if (absolute.equals(getModuleName()))
+            return ".";
+        else if (!absolute.startsWith(getModuleName()))
+            return null;
+        else
+            return absolute.substring(getModuleName().length() + 1);
+    }
 
-	public static boolean existsInWorkingCopy(String relativePath) {
-		return getRevisionNumber(relativePath) != null;
-	}
+    /**
+     * Converts an absolute path in the repository to a URL, using the repository URL
+     * 
+     * @param absolute
+     *            Example: /trunk/statsvn/package.html
+     * @return Example: svn://svn.statsvn.org/statsvn/trunk/statsvn/package.html
+     */
+    public static String absolutePathToUrl(String absolute) {
+        return getRepositoryUrl() + (absolute.endsWith("/") ? absolute.substring(0, absolute.length() - 1) : absolute);
+    }
 
-	/**
-	 * Assumes #loadInfo(String) has been called. Never ends with /, might be
-	 * empty.
-	 * 
-	 * @return The absolute path of the root of the working folder in the
-	 *         repository.
-	 */
-	public static String getModuleName() {
+    /**
+     * Converts a relative path in the working folder to a URL, using the working folder's root URL
+     * 
+     * @param relative
+     *            Example: src/Messages.java
+     * @return Example: svn://svn.statsvn.org/statsvn/trunk/statsvn/src/Messages.java
+     * 
+     */
+    public static String relativePathToUrl(String relative) {
+        relative = relative.replace('\\', '/');
+        if (relative.equals(".") || relative.length() == 0)
+            return getRootUrl();
+        else
+            return getRootUrl() + "/" + (relative.endsWith("/") ? relative.substring(0, relative.length() - 1) : relative);
+    }
 
-		if (sModuleName == null) {
-			// Need sSeedPath and sRootUrl
-			// sSeedPath: /trunk/statsvn/package.html
-			// sRootUrl: svn://svn.statsvn.org/statsvn/trunk/statsvn
+    /**
+     * Converts a relative path in the working folder to an absolute path in the repository.
+     * 
+     * @param relative
+     *            Example: src/Messages.java
+     * @return Example: /trunk/statsvn/src/Messages.java
+     * 
+     */
+    public static String relativeToAbsolutePath(String relative) {
+        return urlToAbsolutePath(relativePathToUrl(relative));
+    }
 
-			String tmp = sSeedPath;
-			if (tmp.endsWith("/"))
-				tmp = tmp.substring(0, tmp.length() - 1);
+    /**
+     * Returns true if the file exists in the working copy (according to the svn metadata, and not file system checks).
+     * 
+     * @param relativePath
+     *            the path
+     * @return <tt>true</tt> if it exists
+     */
+    public static boolean existsInWorkingCopy(String relativePath) {
+        return getRevisionNumber(relativePath) != null;
+    }
 
-			while (!sRootUrl.endsWith(tmp)) {
-				if (!tmp.endsWith("/"))
-					tmp += "/";
+    /**
+     * Assumes #loadInfo(String) has been called. Never ends with /, might be empty.
+     * 
+     * @return The absolute path of the root of the working folder in the repository.
+     */
+    public static String getModuleName() {
 
-				// tricking method to think it is receiving a directory.
-				tmp = FileUtils.getParentDirectoryPath(tmp);
+        if (sModuleName == null) {
+            // Need sSeedPath and sRootUrl
+            // sSeedPath: /trunk/statsvn/package.html
+            // sRootUrl: svn://svn.statsvn.org/statsvn/trunk/statsvn
 
-				if (tmp.endsWith("/"))
-					tmp = tmp.substring(0, tmp.length() - 1);
-			}
+            String tmp = sSeedPath;
+            if (tmp.endsWith("/"))
+                tmp = tmp.substring(0, tmp.length() - 1);
 
-			sModuleName = tmp;
-		}
-		return sModuleName;
-	}
+            while (!sRootUrl.endsWith(tmp)) {
+                if (!tmp.endsWith("/"))
+                    tmp += "/";
 
-	public static String getRevisionNumber(String relativePath) {
-		if (hmRevisions.containsKey(relativePath))
-			return hmRevisions.get(relativePath).toString();
-		else
-			return null;
-	}
+                // tricking method to think it is receiving a directory.
+                tmp = FileUtils.getParentDirectoryPath(tmp);
 
-	/**
-	 * Assumes #loadInfo() has been invoked.
-	 * 
-	 * @return the root of the working folder's revision number (last checked
-	 *         out revision number)
-	 */
-	public static String getRootRevisionNumber() {
-		return sRootRevisionNumber;
-	}
+                if (tmp.endsWith("/"))
+                    tmp = tmp.substring(0, tmp.length() - 1);
+            }
 
-	/**
-	 * Assumes #loadInfo() has been invoked.
-	 * 
-	 * @return the root of the working folder's url (example:
-	 *         svn://svn.statsvn.org/statsvn/trunk/statsvn)
-	 */
-	public static String getRootUrl() {
-		return sRootUrl;
-	}
+            sModuleName = tmp;
+        }
+        return sModuleName;
+    }
 
-	/**
-	 * Assumes #loadInfo() has been invoked.
-	 * 
-	 * @return the repository url (example: svn://svn.statsvn.org/statsvn)
-	 */
-	public static String getRepositoryUrl() {
-		return sRootUrl.substring(0, sRootUrl.lastIndexOf(getModuleName()));
-	}
+    /**
+     * Returns the revision number of the file in the working copy.
+     * 
+     * @param relativePath
+     *            the filename
+     * @return the revision number if it exists in the working copy, null otherwise.
+     */
+    public static String getRevisionNumber(String relativePath) {
+        if (hmRevisions.containsKey(relativePath))
+            return hmRevisions.get(relativePath).toString();
+        else
+            return null;
+    }
 
-	protected static String getSeedPath() {
-		return sSeedPath;
-	}
+    /**
+     * Assumes #loadInfo() has been invoked.
+     * 
+     * @return the root of the working folder's revision number (last checked out revision number)
+     */
+    public static String getRootRevisionNumber() {
+        return sRootRevisionNumber;
+    }
 
-	protected synchronized static InputStream getSvnInfo(boolean bRootOnly) {
-		InputStream istream = null;
+    /**
+     * Assumes #loadInfo() has been invoked.
+     * 
+     * @return the root of the working folder's url (example: svn://svn.statsvn.org/statsvn/trunk/statsvn)
+     */
+    public static String getRootUrl() {
+        return sRootUrl;
+    }
 
-		String svnInfoCommand = "svn info --xml";
-		if (!bRootOnly)
-			svnInfoCommand += " -R";
+    /**
+     * Assumes #loadInfo() has been invoked.
+     * 
+     * @return the repository url (example: svn://svn.statsvn.org/statsvn)
+     */
+    public static String getRepositoryUrl() {
+        return sRootUrl.substring(0, sRootUrl.lastIndexOf(getModuleName()));
+    }
 
-		try {
-			hmRevisions = new HashMap();
-			hsDirectories = new HashSet();
-			Process p = Runtime.getRuntime().exec(svnInfoCommand, null, ConfigurationOptions.getCheckedOutDirectoryAsFile());
-			istream = new BufferedInputStream(p.getInputStream());
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-		return istream;
-	}
+    /**
+     * Returns the seed path used to determine the repository root URL.
+     * 
+     * @return the seed path
+     */
+    protected static String getSeedPath() {
+        return sSeedPath;
+    }
 
-	public static boolean isDirectory(String relativePath) {
-		return hsDirectories.contains(relativePath);
-	}
+    /**
+     * Invokes svn info.
+     * 
+     * @param bRootOnly
+     *            true if should we check for the root only or false otherwise (recurse for all files)
+     * @return the response.
+     */
+    protected synchronized static InputStream getSvnInfo(boolean bRootOnly) {
+        InputStream istream = null;
 
-	public static List getDirectories() {
-		ArrayList list = new ArrayList();
-		Object[] dirs = hsDirectories.toArray();
-		for (int i = 0; i < dirs.length; i++) {
-			list.add(dirs[i]);
-		}
-		Collections.sort(list);
-		return list;
-	}
+        String svnInfoCommand = "svn info --xml";
+        if (!bRootOnly)
+            svnInfoCommand += " -R";
 
-	public static void addDirectory(String relativePath) {
-		if (!hsDirectories.contains(relativePath))
-			hsDirectories.add(relativePath);
-	}
+        try {
+            hmRevisions = new HashMap();
+            hsDirectories = new HashSet();
+            Process p = Runtime.getRuntime().exec(svnInfoCommand, null, ConfigurationOptions.getCheckedOutDirectoryAsFile());
+            istream = new BufferedInputStream(p.getInputStream());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return istream;
+    }
 
-	protected static boolean isQueryNeeded(boolean bRootOnly) {
-		return !ENABLE_CACHING || (bRootOnly && sRootUrl == null) || (!bRootOnly && hmRevisions == null);
-	}
+    /**
+     * Returns true if the path has been identified as a directory.
+     * 
+     * @param relativePath
+     *            the path
+     * @return true if it is a known directory.
+     */
+    public static boolean isDirectory(String relativePath) {
+        return hsDirectories.contains(relativePath);
+    }
 
-	private static boolean isRootFolder(Attributes attributes) {
-		return attributes.getValue("path").equals(".") && attributes.getValue("kind").equals("dir");
-	}
+    /**
+     * Returns the list of directories, sorted alphabetically.
+     * 
+     * @return the directories.
+     */
+    public static List getDirectories() {
+        ArrayList list = new ArrayList();
+        Object[] dirs = hsDirectories.toArray();
+        for (int i = 0; i < dirs.length; i++) {
+            list.add(dirs[i]);
+        }
+        Collections.sort(list);
+        return list;
+    }
 
-	private static boolean isValidCommit(Attributes attributes) {
-		return attributes != null && attributes.getValue("revision") != null;
-	}
+    /**
+     * Adds a directory to the list of known directories. Used when inferring implicit actions on deleted paths.
+     * 
+     * @param relativePath
+     *            the relative path.
+     */
+    public static void addDirectory(String relativePath) {
+        if (!hsDirectories.contains(relativePath))
+            hsDirectories.add(relativePath);
+    }
 
-	private static boolean isValidInfoEntry(Attributes attributes) {
-		return attributes != null && attributes.getValue("path") != null && attributes.getValue("kind") != null && attributes.getValue("revision") != null;
-	}
+    /**
+     * Do we need to re-invoke svn info?
+     * 
+     * @param bRootOnly
+     *            true if we need the root only
+     * @return true if we it needs to be re-invoked.
+     */
+    protected static boolean isQueryNeeded(boolean bRootOnly) {
+        return !ENABLE_CACHING || (bRootOnly && sRootUrl == null) || (!bRootOnly && hmRevisions == null);
+    }
 
-	protected static void loadInfo(boolean bRootOnly) throws LogSyntaxException, IOException {
-		if (isQueryNeeded(true)) {
-			try {
-				SAXParserFactory factory = SAXParserFactory.newInstance();
-				SAXParser parser = factory.newSAXParser();
-				parser.parse(getSvnInfo(bRootOnly), new SvnInfoHandler());
-			} catch (ParserConfigurationException e) {
-				throw new LogSyntaxException(e.getMessage());
-			} catch (SAXException e) {
-				throw new LogSyntaxException(e.getMessage());
-			}
+    /**
+     * Loads the information from svn info if needed.
+     * 
+     * @param bRootOnly
+     *            load only the root?
+     * @throws LogSyntaxException
+     *             if the format of the svn info is invalid
+     * @throws IOException
+     *             if we can't read from the response stream.
+     */
+    protected static void loadInfo(boolean bRootOnly) throws LogSyntaxException, IOException {
+        if (isQueryNeeded(true)) {
+            try {
+                SAXParserFactory factory = SAXParserFactory.newInstance();
+                SAXParser parser = factory.newSAXParser();
+                parser.parse(getSvnInfo(bRootOnly), new SvnInfoHandler());
+            } catch (ParserConfigurationException e) {
+                throw new LogSyntaxException(e.getMessage());
+            } catch (SAXException e) {
+                throw new LogSyntaxException(e.getMessage());
+            }
 
-		}
-	}
+        }
+    }
 
-	/**
-	 * 
-	 * @param seedPath
-	 *            any path found in an svn log (ex: /trunk/statsvn/package.html)
-	 * @throws LogSyntaxException
-	 *             if the svn info --xml is malformed
-	 * @throws IOException
-	 *             if there is an error reading from the stream
-	 */
-	public static void loadInfo(String seedPath) throws LogSyntaxException, IOException {
-		setSeedPath(seedPath);
-		loadInfo(false);
-	}
+    /**
+     * 
+     * @param seedPath
+     *            any path found in an svn log (ex: /trunk/statsvn/package.html)
+     * @throws LogSyntaxException
+     *             if the svn info --xml is malformed
+     * @throws IOException
+     *             if there is an error reading from the stream
+     */
+    public static void loadInfo(String seedPath) throws LogSyntaxException, IOException {
+        setSeedPath(seedPath);
+        loadInfo(false);
+    }
 
-	protected static void setSeedPath(String seedPath) {
-		sSeedPath = seedPath;
-		hmRevisions = null;
-		hsDirectories = null;
-		sRootUrl = null;
-		sRootRevisionNumber = null;
-		sModuleName = null;
+    /**
+     * Sets the seed path needed to compute the repository root URL.
+     * 
+     * @param seedPath
+     *            the path
+     */
+    protected static void setSeedPath(String seedPath) {
+        sSeedPath = seedPath;
+        hmRevisions = null;
+        hsDirectories = null;
+        sRootUrl = null;
+        sRootRevisionNumber = null;
+        sModuleName = null;
 
-	}
+    }
 
-	/**
-	 * Converts a url to an absolute path in the repository.
-	 * 
-	 * @param url
-	 *            Examples: svn://svn.statsvn.org/statsvn/trunk/statsvn,
-	 *            svn://svn.statsvn.org/statsvn/trunk/statsvn/package.html
-	 * @return Example: /trunk/statsvn, /trunk/statsvn/package.html
-	 */
-	public static String urlToAbsolutePath(String url) {
-		if (url.endsWith("/"))
-			url = url.substring(0, url.length() - 1);
-		if (getModuleName().length() <= 1) {
-			if (getRootUrl().equals(url))
-				return "/";
-			else
-				return url.substring(getRootUrl().length());
-		} else
-			return url.substring(url.lastIndexOf(getModuleName()));
-	}
+    /**
+     * Converts a url to an absolute path in the repository.
+     * 
+     * @param url
+     *            Examples: svn://svn.statsvn.org/statsvn/trunk/statsvn, svn://svn.statsvn.org/statsvn/trunk/statsvn/package.html
+     * @return Example: /trunk/statsvn, /trunk/statsvn/package.html
+     */
+    public static String urlToAbsolutePath(String url) {
+        if (url.endsWith("/"))
+            url = url.substring(0, url.length() - 1);
+        if (getModuleName().length() <= 1) {
+            if (getRootUrl().equals(url))
+                return "/";
+            else
+                return url.substring(getRootUrl().length());
+        } else
+            return url.substring(url.lastIndexOf(getModuleName()));
+    }
 
-	/**
-	 * Converts a url to a relative path in the repository.
-	 * 
-	 * @param url
-	 *            Examples: svn://svn.statsvn.org/statsvn/trunk/statsvn,
-	 *            svn://svn.statsvn.org/statsvn/trunk/statsvn/package.html
-	 * @return Example: ".", package.html
-	 */
-	public static String urlToRelativePath(String url) {
-		return absoluteToRelativePath(urlToAbsolutePath(url));
-	}
+    /**
+     * Converts a url to a relative path in the repository.
+     * 
+     * @param url
+     *            Examples: svn://svn.statsvn.org/statsvn/trunk/statsvn, svn://svn.statsvn.org/statsvn/trunk/statsvn/package.html
+     * @return Example: ".", package.html
+     */
+    public static String urlToRelativePath(String url) {
+        return absoluteToRelativePath(urlToAbsolutePath(url));
+    }
 
-	protected static void setRootUrl(String rootUrl) {
-		if (rootUrl.endsWith("/"))
-			sRootUrl = rootUrl.substring(0, rootUrl.length() - 1);
-		else
-			sRootUrl = rootUrl;
+    /**
+     * Sets the project's root URL.
+     * 
+     * @param rootUrl
+     */
+    protected static void setRootUrl(String rootUrl) {
+        if (rootUrl.endsWith("/"))
+            sRootUrl = rootUrl.substring(0, rootUrl.length() - 1);
+        else
+            sRootUrl = rootUrl;
 
-	}
+    }
 }

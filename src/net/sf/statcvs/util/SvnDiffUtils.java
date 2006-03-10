@@ -4,83 +4,107 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.StringReader;
 
-import net.sf.statcvs.input.NoLineCountException;
 import net.sf.statcvs.output.ConfigurationOptions;
 
+/**
+ * Utilities class that manages calls to svn diff.
+ * 
+ * @author Jason Kealey <jkealey@shade.ca>
+ * @author Gunter Mussbacher <gunterm@site.uottawa.ca>
+ * 
+ * @version $Id$
+ */
 public class SvnDiffUtils {
 
-	private synchronized static InputStream callSvnDiff(String oldRevNr, String newRevNr) {
-		InputStream istream = null;
-		String svnDiffCommand = "svn diff -r " + oldRevNr + ":" + newRevNr + " --no-diff-deleted";
-		try {
-			Process p = Runtime.getRuntime().exec(svnDiffCommand, null, ConfigurationOptions.getCheckedOutDirectoryAsFile());
-			if (p.getErrorStream().available() > 0) {
-				istream = new BufferedInputStream(p.getErrorStream());
-			} else
-				istream = new BufferedInputStream(p.getInputStream());
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-		return istream;
-	}
+    /**
+     * Calls svn diff for the filename and revisions given. Will use URL invocation, to ensure that we get diffs even for deleted files.
+     * 
+     * @param oldRevNr
+     *            old revision number
+     * @param newRevNr
+     *            new revision number
+     * @param filename
+     *            filename.
+     * @return the InputStream related to the call. If the error steam is non-empty, will return the error stream instead of the default input stream.
+     */
+    private synchronized static InputStream callSvnDiff(String oldRevNr, String newRevNr, String filename) {
+        InputStream istream = null;
+        String svnDiffCommand = null;
 
-	private synchronized static InputStream callSvnDiff(String oldRevNr, String newRevNr, String filename, boolean deleted) {
-		InputStream istream = null;
-		String svnDiffCommand = null;
+        filename = SvnInfoUtils.relativePathToUrl(filename);
+        svnDiffCommand = "svn diff  --old " + filename + "@" + oldRevNr + "  --new " + filename + "@" + newRevNr;
 
-		filename = SvnInfoUtils.relativePathToUrl(filename);
-		// if (deleted) {
-		svnDiffCommand = "svn diff  --old " + filename + "@" + oldRevNr + "  --new " + filename + "@" + newRevNr;
-		// } else {
-		// svnDiffCommand = "svn diff -r " + oldRevNr + ":" + newRevNr + "
-		// --no-diff-deleted " + filename;
-		// }
-		try {
-			Process p = Runtime.getRuntime().exec(svnDiffCommand, null, ConfigurationOptions.getCheckedOutDirectoryAsFile());
-			if (p.getErrorStream().available() > 0) {
-				istream = new BufferedInputStream(p.getErrorStream());
-			} else
-				istream = new BufferedInputStream(p.getInputStream());
+        try {
+            Process p = Runtime.getRuntime().exec(svnDiffCommand, null, ConfigurationOptions.getCheckedOutDirectoryAsFile());
+            if (p.getErrorStream().available() > 0) {
+                istream = new BufferedInputStream(p.getErrorStream());
+            } else
+                istream = new BufferedInputStream(p.getInputStream());
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-		return istream;
-	}
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return istream;
+    }
 
-	public static int[] getLineDiff(String oldRevNr, String newRevNr, String filename) throws IOException {
-		InputStream diffStream = callSvnDiff(oldRevNr, newRevNr, filename, false);
-		LookaheadReader diffReader = new LookaheadReader(new InputStreamReader(diffStream));
-		int lineDiff[] = parseDiff(diffReader);
-		return lineDiff;
-	}
+    /**
+     * Returns line count differences between two revisions of a file.
+     * 
+     * @param oldRevNr
+     *            old revision number
+     * @param newRevNr
+     *            new revision number
+     * @param filename
+     *            the filename
+     * @return A int[2] array of [lines added, lines removed] is returned.
+     * @throws IOException
+     *             problem parsing the stream
+     */
+    public static int[] getLineDiff(String oldRevNr, String newRevNr, String filename) throws IOException {
+        InputStream diffStream = callSvnDiff(oldRevNr, newRevNr, filename);
+        LookaheadReader diffReader = new LookaheadReader(new InputStreamReader(diffStream));
+        int lineDiff[] = parseDiff(diffReader);
 
-	private static int[] parseDiff(LookaheadReader diffReader) throws IOException {
-		int lineDiff[] = { -1, -1 };
-		if (!diffReader.hasNextLine()) {
-			// diff has no output because we modified properties or the changes
-			// are auto-generated ($id$ $author$ kind of thing)
-			// http://svnbook.red-bean.com/nightly/en/svn.advanced.props.html#svn.advanced.props.special.keywords
-			lineDiff[0] = 0;
-			lineDiff[1] = 0;
-		}
-		while (diffReader.hasNextLine()) {
-			diffReader.nextLine();
-			if (diffReader.getCurrentLine().length() == 0)
-				continue;
-			// very simple algorithm
-			if (diffReader.getCurrentLine().charAt(0) == '+')
-				lineDiff[0]++;
-			else if (diffReader.getCurrentLine().charAt(0) == '-')
-				lineDiff[1]++;
-			// System.out.println(diffReader.getCurrentLine());
-		}
-		System.out.println(lineDiff[0] + " " + lineDiff[1]);
-		return lineDiff;
-	}
+        // not using logger because these diffs take lots of time and we want to show on the standard output.
+        System.out.println("svn diff of " + filename + ", r" + oldRevNr + " to r" + newRevNr + ", +" + lineDiff[0] + " -" + lineDiff[1]);
+
+        return lineDiff;
+    }
+
+    /**
+     * Returns line count differences between two revisions of a file.
+     * 
+     * @param diffReader
+     *            the stream reader for svn diff
+     * 
+     * @return A int[2] array of [lines added, lines removed] is returned.
+     * @throws IOException
+     *             problem parsing the stream
+     */
+    private static int[] parseDiff(LookaheadReader diffReader) throws IOException {
+        int lineDiff[] = { -1, -1 };
+        if (!diffReader.hasNextLine()) {
+            // diff has no output because we modified properties or the changes
+            // are auto-generated ($id$ $author$ kind of thing)
+            // http://svnbook.red-bean.com/nightly/en/svn.advanced.props.html#svn.advanced.props.special.keywords
+            lineDiff[0] = 0;
+            lineDiff[1] = 0;
+        }
+        while (diffReader.hasNextLine()) {
+            diffReader.nextLine();
+            if (diffReader.getCurrentLine().length() == 0)
+                continue;
+            // very simple algorithm
+            if (diffReader.getCurrentLine().charAt(0) == '+')
+                lineDiff[0]++;
+            else if (diffReader.getCurrentLine().charAt(0) == '-')
+                lineDiff[1]++;
+            // System.out.println(diffReader.getCurrentLine());
+        }
+        // System.out.println(lineDiff[0] + " " + lineDiff[1]);
+        return lineDiff;
+    }
 
 }

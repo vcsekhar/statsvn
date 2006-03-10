@@ -116,7 +116,6 @@ public class SvnLogfileParser {
                         continue;
                     String revNrNew = ((RevisionData) revisions.get(i)).getRevisionNumber();
                     String revNrOld = ((RevisionData) revisions.get(i + 1)).getRevisionNumber();
-                    System.out.println(fileName + " " + revNrOld + " " + revNrNew);
                     int lineDiff[] = SvnDiffUtils.getLineDiff(revNrOld, revNrNew, fileName);
                     if (lineDiff[0] != -1 && lineDiff[1] != -1) {
                         ((RevisionData) revisions.get(i)).setLines(lineDiff[0], lineDiff[1]);
