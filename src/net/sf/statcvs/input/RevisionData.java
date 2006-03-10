@@ -244,8 +244,8 @@ public class RevisionData {
 
     }
 
-    private RevisionData(String revisionNumber, Date date, String loginName, boolean stateExp, boolean stateDead, boolean stateAdded, boolean hasNoLines, int linesAdded,
-            int linesRemoved, String comment) {
+    private RevisionData(String revisionNumber, Date date, String loginName, boolean stateExp, boolean stateDead, boolean stateAdded, boolean hasNoLines,
+            int linesAdded, int linesRemoved, String comment) {
         super();
         this.revisionNumber = revisionNumber;
         this.date = date;

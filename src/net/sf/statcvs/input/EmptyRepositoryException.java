@@ -23,34 +23,32 @@
 package net.sf.statcvs.input;
 
 /**
- * Indicates that we can't generate a report because there are no files or
- * revisions in the repository
+ * Indicates that we can't generate a report because there are no files or revisions in the repository
  * 
  * @author Richard Cyganiak
- * @version $Id: EmptyRepositoryException.java,v 1.1 2003/12/09 11:52:47
- *          cyganiak Exp $
+ * @version $Id: EmptyRepositoryException.java,v 1.1 2003/12/09 11:52:47 cyganiak Exp $
  */
 public class EmptyRepositoryException extends Exception {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6293287878549511732L;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -6293287878549511732L;
 
-	/**
-	 * Constructor for EmptyRepositoryException.
-	 */
-	public EmptyRepositoryException() {
-		super();
-	}
+    /**
+     * Constructor for EmptyRepositoryException.
+     */
+    public EmptyRepositoryException() {
+        super();
+    }
 
-	/**
-	 * Constructor for EmptyRepositoryException.
-	 * 
-	 * @param message
-	 *            input message
-	 */
-	public EmptyRepositoryException(String message) {
-		super(message);
-	}
+    /**
+     * Constructor for EmptyRepositoryException.
+     * 
+     * @param message
+     *            input message
+     */
+    public EmptyRepositoryException(String message) {
+        super(message);
+    }
 }

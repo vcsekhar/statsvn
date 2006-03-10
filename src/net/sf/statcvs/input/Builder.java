@@ -41,7 +41,6 @@ import net.sf.statcvs.model.SymbolicName;
 import net.sf.statcvs.model.VersionedFile;
 import net.sf.statcvs.util.FilePatternMatcher;
 import net.sf.statcvs.util.FileUtils;
-import net.sf.statcvs.util.SvnInfoUtils;
 
 /**
  * <p>
@@ -257,11 +256,6 @@ public class Builder implements SvnLogBuilder {
         if (repositoryFileManager == null) {
             throw new NoLineCountException("no RepositoryFileManager");
         }
-
-        // don't query dead or binary files.
-        FileBuilder fb = (FileBuilder) getFileBuilders().get(filename);
-//        if (fb.isBinary() || !fb.existRevision() || fb.finalRevisionIsDead())
-//            return 0;
 
         return repositoryFileManager.getLinesOfCode(filename);
     }
