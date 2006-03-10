@@ -99,15 +99,19 @@ public class CommandLineParser {
 			}
 			ConfigurationOptions.setViewCvsURL(popNextArg());
 		} else if (s.equals("cvsweb")) {
-			if (args.isEmpty()) {
-				throw new ConfigurationException("Missing argument for -cvsweb");
-			}
-			ConfigurationOptions.setCvswebURL(popNextArg());
+//			if (args.isEmpty()) {
+//				throw new ConfigurationException("Missing argument for -cvsweb");
+//			}
+//			ConfigurationOptions.setCvswebURL(popNextArg());
+            popNextArg();
+            throw new ConfigurationException("CVSweb is not supported by StatSVN");
 		} else if (s.equals("chora")) {
-			if (args.isEmpty()) {
-				throw new ConfigurationException("Missing argument for -chora");
-			}
-			ConfigurationOptions.setChoraURL(popNextArg());
+//			if (args.isEmpty()) {
+//				throw new ConfigurationException("Missing argument for -chora");
+//			}
+//			ConfigurationOptions.setChoraURL(popNextArg());
+            popNextArg();
+            throw new ConfigurationException("Chora is not (yet) supported by StatSVN");
 		} else if (s.equals("include")) {
 			if (args.isEmpty()) {
 				throw new ConfigurationException("Missing argument for -include");
