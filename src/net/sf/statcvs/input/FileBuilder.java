@@ -64,7 +64,6 @@ public class FileBuilder {
     private String name;
     private boolean isBinary;
     private List revisions = new ArrayList();
-    private RevisionData lastAdded = null;
     private Map revBySymnames;
     private int locDelta;
 
@@ -98,7 +97,6 @@ public class FileBuilder {
             data.setLines(0, 0);
         }
         this.revisions.add(data);
-        lastAdded = data;
 
         locDelta += getLOCChange(data);
     }
