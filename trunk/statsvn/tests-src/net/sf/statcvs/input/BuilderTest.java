@@ -68,20 +68,20 @@ public class BuilderTest extends TestCase {
 		rev1 = new RevisionData();
 		rev1.setRevisionNumber("1.1");
 		rev1.setLoginName("author1");
-		rev1.setStateExp();
+		rev1.setStateExp(true);
 		rev1.setDate(new Date(100000));
 		rev1.setComment("comment1");
 		rev2 = new RevisionData();
 		rev2.setRevisionNumber("1.2");
 		rev2.setLoginName("author2");
-		rev2.setStateExp();
+		rev2.setStateExp(true);
 		rev2.setLines(10, 2);
 		rev2.setDate(new Date(200000));
 		rev2.setComment("comment2");
 		rev3 = new RevisionData();
 		rev3.setRevisionNumber("1.3");
 		rev3.setLoginName("author1");
-		rev3.setStateDead();
+		rev3.setStateDead(true);
 		rev3.setDate(new Date(300000));
 		rev3.setComment("comment3");
 	}
@@ -240,7 +240,7 @@ public class BuilderTest extends TestCase {
 		RevisionData rev4 = new RevisionData();
 		rev4.setRevisionNumber("1.5");
 		rev4.setLines(10, 5);
-		rev4.setStateExp();
+		rev4.setStateExp(true);
 		rev4.setLoginName("somebody");
 		rev4.setDate(new Date(100000000));
 		builder.buildFile("dir/normal_file", true, false, new HashMap());

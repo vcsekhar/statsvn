@@ -24,6 +24,8 @@
 package net.sf.statcvs.input;
 
 /**
+ * Indicates there was a syntax error while parsing the log.
+ * 
  * @author Anja Jentzsch
  * @author Richard Cyganiak
  * @version $Id$

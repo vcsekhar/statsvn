@@ -267,7 +267,7 @@ public class LinesOfCodeTest extends TestCase {
 	private void buildRevision(String revision, Date date,
 			int linesAdded, int linesRemoved) {
 		RevisionData data = new RevisionData();
-		data.setStateExp();
+		data.setStateExp(true);
 		data.setRevisionNumber(revision);
 		data.setLoginName("author1");
 		data.setDate(date);
@@ -278,7 +278,7 @@ public class LinesOfCodeTest extends TestCase {
 
 	private void buildRevisionInitial(String revision, Date date) {
 		RevisionData data = new RevisionData();
-		data.setStateExp();
+		data.setStateExp(true);
 		data.setRevisionNumber(revision);
 		data.setLoginName("author1");
 		data.setDate(date);
@@ -288,7 +288,7 @@ public class LinesOfCodeTest extends TestCase {
 
 	private void buildRevisionDead(String revision, Date date) {
 		RevisionData data = new RevisionData();
-		data.setStateDead();
+		data.setStateDead(true);
 		data.setRevisionNumber(revision);
 		data.setLoginName("author1");
 		data.setDate(date);

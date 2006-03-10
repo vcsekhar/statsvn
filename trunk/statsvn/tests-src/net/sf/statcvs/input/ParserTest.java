@@ -69,7 +69,7 @@ public class ParserTest extends TestCase {
 		rev1.setRevisionNumber("1.1");
 		rev1.setDate(createDate(2003, 06, 04, 19, 32, 58));
 		rev1.setLoginName("cyganiak");
-		rev1.setStateExp();
+		rev1.setStateExp(true);
 		rev1.setComment("renamed license.txt to LICENSE");
 		mock.expectBuildRevision(rev1);
 		parseLog("simple.log");

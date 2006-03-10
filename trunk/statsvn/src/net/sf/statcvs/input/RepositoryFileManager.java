@@ -35,6 +35,8 @@ import net.sf.statcvs.util.SvnInfoUtils;
  * 
  * @author Manuel Schulze
  * @author Steffen Pingel
+ * @author Jason Kealey <jkealey@shade.ca>
+ * 
  * @version $Id$
  */
 public class RepositoryFileManager {
@@ -84,7 +86,7 @@ public class RepositoryFileManager {
     }
 
     /**
-     * Returns the revision of filename in the local working directory by reading the ./svn/entries file.
+     * Returns the revision of filename in the local working directory by reading the svn metadata. 
      * 
      * @param filename
      *            the filename

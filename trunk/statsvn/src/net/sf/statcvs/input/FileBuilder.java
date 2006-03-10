@@ -53,6 +53,8 @@ import net.sf.statcvs.model.VersionedFile;
  * 
  * @author Richard Cyganiak <richard@cyganiak.de>
  * @author Tammo van Lessen
+ * @author Jason Kealey <jkealey@shade.ca>
+ * @author Gunter Mussbacher <gunterm@site.uottawa.ca>
  * @version $Id$
  */
 public class FileBuilder {
@@ -64,7 +66,6 @@ public class FileBuilder {
     private List revisions = new ArrayList();
     private RevisionData lastAdded = null;
     private Map revBySymnames;
-
     private int locDelta;
 
     /**
@@ -93,10 +94,7 @@ public class FileBuilder {
      *            the revision
      */
     public void addRevisionData(RevisionData data) {
-        if (!data.isOnTrunk()) {
-            return;
-        }
-        if (isBinary && !data.isCreation()) {
+        if (isBinary && !data.isCreationOrRestore()) {
             data.setLines(0, 0);
         }
         this.revisions.add(data);
@@ -115,9 +113,6 @@ public class FileBuilder {
      */
     public VersionedFile createFile(Date beginOfLogDate) {
         if (isFilteredFile() || !fileExistsInLogPeriod()) {
-            return null;
-        }
-        if (revisions.size() == 1 && lastAdded.isAddOnSubbranch()) {
             return null;
         }
 
@@ -144,8 +139,8 @@ public class FileBuilder {
             // symbolic names for previousData
             symbolicNames = createSymbolicNamesCollection(previousData);
 
-            if (previousData.isCreation() || previousData.isChangeOrRestore() || isBinary()) {
-                if (currentData.isDeletion() || currentData.isAddOnSubbranch()) {
+            if (previousData.isCreationOrRestore() || previousData.isChange() || isBinary()) {
+                if (currentData.isDeletion()) {
                     buildCreationRevision(file, previousData, previousLOC, symbolicNames);
                 } else {
                     buildChangeRevision(file, previousData, previousLOC, symbolicNames);
@@ -161,16 +156,14 @@ public class FileBuilder {
         symbolicNames = createSymbolicNamesCollection(currentData);
 
         int nextLinesOfCode = currentLOC - getLOCChange(currentData);
-        if (currentData.isCreation()) {
+        if (currentData.isCreationOrRestore()) {
             buildCreationRevision(file, currentData, currentLOC, symbolicNames);
         } else if (currentData.isDeletion()) {
             buildDeletionRevision(file, currentData, currentLOC, symbolicNames);
             buildBeginOfLogRevision(file, beginOfLogDate, nextLinesOfCode, symbolicNames);
-        } else if (currentData.isChangeOrRestore()) {
+        } else if (currentData.isChange()) {
             buildChangeRevision(file, currentData, currentLOC, symbolicNames);
             buildBeginOfLogRevision(file, beginOfLogDate, nextLinesOfCode, symbolicNames);
-        } else if (currentData.isAddOnSubbranch()) {
-            // ignore
         } else {
             logger.warning("illegal state in " + file.getFilenameWithPath() + ":" + currentData.getRevisionNumber());
         }
@@ -186,8 +179,6 @@ public class FileBuilder {
     private int getFinalLOC() {
         if (isBinary) {
             return 0;
-        } else if (lastAdded != null && lastAdded.isAddOnSubbranch()) {
-            return locDelta;
         }
 
         String revision = null;
@@ -200,17 +191,17 @@ public class FileBuilder {
         }
 
         try {
-            if ("1.1".equals(revision)) {
-                return builder.getLOC(name) + locDelta;
-            } else {
-                if (!revisions.isEmpty()) {
-                    RevisionData firstAdded = (RevisionData) revisions.get(0);
-                    if (!finalRevisionIsDead() && !firstAdded.getRevisionNumber().equals(revision)) {
-                        logger.warning("Revision of " + name + " does not match expected revision");
-                    }
+            // if ("1.1".equals(revision)) {
+            // return builder.getLOC(name) + locDelta;
+            // } else {
+            if (!revisions.isEmpty()) {
+                RevisionData firstAdded = (RevisionData) revisions.get(0);
+                if (!finalRevisionIsDead() && !firstAdded.getRevisionNumber().equals(revision)) {
+                    logger.warning("Revision of " + name + " does not match expected revision");
                 }
-                return builder.getLOC(name);
             }
+            return builder.getLOC(name);
+            // }
         } catch (NoLineCountException e) {
             if (!finalRevisionIsDead()) {
                 logger.warning(e.getMessage());
@@ -231,6 +222,11 @@ public class FileBuilder {
         return ((RevisionData) revisions.get(0)).isDeletion();
     }
 
+    /**
+     * Returns <tt>true</tt> if the file has revisions.
+     * 
+     * @return Returns <tt>true</tt> if the file has revisions.
+     */
     public boolean existRevision() {
         if (revisions.isEmpty())
             return false;
@@ -341,28 +337,35 @@ public class FileBuilder {
         return symbolicNames;
     }
 
+    /**
+     * New in StatSVN: Gives the FileBuilder's filename.
+     * 
+     * TODO: Beef up this interface to better encapsulate the data structure.
+     * 
+     * @return the filename
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * New in StatSVN: The list of revisions made on this file.
+     * 
+     * TODO: Beef up this interface to better encapsulate the data structure.
+     * 
+     * @return the list of revisions on this file
+     */
     public List getRevisions() {
         return revisions;
     }
 
-    public RevisionData getFinalRevision() {
-        if (existRevision())
-            return (RevisionData) revisions.get(0);
-        else
-            return null;
-    }
-
-    public RevisionData getFirstRevision() {
-        if (existRevision())
-            return (RevisionData) revisions.get(revisions.size() - 1);
-        else
-            return null;
-    }
-
+    /**
+     * New in StatSVN: Returns a particular revision made on this file or <tt>null</tt> if it doesn't exist.
+     * 
+     * TODO: Beef up this interface to better encapsulate the data structure.
+     * 
+     * @return a particular revision made on this file or <tt>null</tt> if it doesn't exist.
+     */
     public RevisionData findRevision(String revisionNumber) {
         for (int i = 0; i < revisions.size(); i++) {
             RevisionData data = (RevisionData) revisions.get(i);
@@ -372,10 +375,25 @@ public class FileBuilder {
         return null;
     }
 
+    /**
+     * New in StatSVN: Returns <tt>true</tt> if this file is known to be binary.
+     * 
+     * TODO: Beef up this interface to better encapsulate the data structure.
+     * 
+     * @return <tt>true</tt> if this file is known to be binary, <tt>false</tt> otherwise.
+     */
     public boolean isBinary() {
         return isBinary;
     }
 
+    /**
+     * New in StatSVN: Sets the file's binary flag.
+     * 
+     * TODO: Beef up this interface to better encapsulate the data structure.
+     * 
+     * @param isBinary
+     *            is the file binary?
+     */
     public void setBinary(boolean isBinary) {
         this.isBinary = isBinary;
     }

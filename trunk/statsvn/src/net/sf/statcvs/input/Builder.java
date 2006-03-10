@@ -53,8 +53,9 @@ import net.sf.statcvs.util.FileUtils;
  * author name and path. It also provides LOC count services.
  * </p>
  * 
- * @author Richard Cyganiak <richard@cyganiak.de>, Jean-Philippe Daiglke <jpdaigle@softwareengineering.ca>, Jason Kealey <jkealey@shade.ca>, Gunter Mussbacher
- *         <gunterm@site.uottawa.ca>
+ * @author Richard Cyganiak <richard@cyganiak.de>
+ * @author Jason Kealey <jkealey@shade.ca>
+ * @author Gunter Mussbacher <gunterm@site.uottawa.ca>
  * 
  * @version $Id$
  * 
@@ -101,11 +102,14 @@ public class Builder implements SvnLogBuilder {
     }
 
     /**
-     * Starts building a new file. The files are not expected to be created in any particular order.
-     * 
+     * <p>
+     * Starts building a new file. The files are not expected to be created in any particular order. 
      * Subsequent calls to (@link #buildRevision(RevisionData)) will add revisions to this file.
+     * </p>
      * 
+     * <p>
      * New in StatSVN: If the method has already been invoked with the same filename, the original file will be re-loaded and the other arguments are ignored.
+     * </p>
      * 
      * @param filename
      *            the file's name with path, for example "path/file.txt"
@@ -248,7 +252,7 @@ public class Builder implements SvnLogBuilder {
     }
 
     /**
-     * @see RepositoryFilemanager.getLOC(String)
+     * @see RepositoryFileManager#getLinesOfCode(String)
      */
     public int getLOC(String filename) throws NoLineCountException {
         if (repositoryFileManager == null) {
@@ -259,7 +263,7 @@ public class Builder implements SvnLogBuilder {
     }
 
     /**
-     * @see RepositoryFilemanager.getRevision(String)
+     * @see RepositoryFileManager#getRevision(String)
      */
     public String getRevision(String filename) throws IOException {
         if (repositoryFileManager == null) {
