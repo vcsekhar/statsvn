@@ -9,20 +9,44 @@ import java.util.List;
 
 import net.sf.statcvs.output.ConfigurationOptions;
 
+/**
+ * Utilities class that manages calls to svn propget. Used to find binary files.
+ * 
+ * @author Jason Kealey <jkealey@shade.ca>
+ * 
+ * @version $Id$
+ */
 public class SvnPropgetUtils {
 
     protected static List binaryFiles;
 
+    /**
+     * Get the svn:mime-types for all files, latest revision.
+     * 
+     * @return the inputstream from which to read the information.
+     */
     protected synchronized static InputStream getFileMimeTypes() {
         return getFileMimeTypes(null, null);
     }
 
+    /**
+     * Get the svn:mime-type for a certain file (leave null for all files).
+     * 
+     * It was first thought that a the mime-type of a file's previous revision could be found. This is not the case. Leave revision null until future upgrade of
+     * svn propget command line.
+     * 
+     * @param revision
+     *            revision for which to query; LEAVE NULL
+     * @param filename
+     *            the filename (or null for all files)
+     * @return the inputstream from which to read the information.
+     */
     protected synchronized static InputStream getFileMimeTypes(String revision, String filename) {
         InputStream istream = null;
 
         String svnPropgetCommand = "svn propget svn:mime-type";
         if (revision != null && revision.length() > 0)
-            svnPropgetCommand += " -r " + revision; // won't work. 
+            svnPropgetCommand += " -r " + revision; // won't work.
 
         if (filename != null && filename.length() > 0)
             svnPropgetCommand += " " + SvnInfoUtils.relativePathToUrl(filename);
@@ -39,6 +63,11 @@ public class SvnPropgetUtils {
         return istream;
     }
 
+    /**
+     * Returns the list of binary files in the working directory.
+     * 
+     * @return the list of binary files
+     */
     public static List getBinaryFiles() {
         if (binaryFiles == null) {
             binaryFiles = new ArrayList();
@@ -59,10 +88,15 @@ public class SvnPropgetUtils {
 
     /**
      * Does not currently work.
-     *  
+     * 
+     * It was first thought that a the mime-type of a file's previous revision could be found. This is not the case. Leave revision null until future upgrade of
+     * svn propget command line.
+     * 
      * @param revision
+     *            the revision to query
      * @param filename
-     * @return
+     *            the filename
+     * @return if that version of a file is binary
      */
     public static boolean isBinaryFile(String revision, String filename) {
         LookaheadReader mimeReader = new LookaheadReader(new InputStreamReader(getFileMimeTypes(revision, filename)));
@@ -94,8 +128,8 @@ public class SvnPropgetUtils {
     private static String getBinaryFilename(String currentLine, boolean removeRoot) {
         // want to make sure we only have / in end result.
         String line = removeRoot ? currentLine : currentLine.replace("\\", "/");
-        
-        // HACK: See bug 18. if removeRoot==true, no - will be found because we are calling for one specific file. 
+
+        // HACK: See bug 18. if removeRoot==true, no - will be found because we are calling for one specific file.
         String octetStream = " - application/octet-stream";
         // if is common binary file or identified as something other than text
         if (line.endsWith(octetStream) || line.lastIndexOf(" - text/") < 0 && line.lastIndexOf(" - text/") == line.lastIndexOf(" - ")) {

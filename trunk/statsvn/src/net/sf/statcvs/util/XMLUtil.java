@@ -18,6 +18,15 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 
+/**
+ * 
+ * Utilities class to faciliate XML management.
+ * 
+ * @author Jason Kealey <jkealey@shade.ca>
+ * @author Gunter Mussbacher <gunterm@site.uottawa.ca>
+ * 
+ * @version $Id$
+ */
 public class XMLUtil {
     /**
      * For some reason, can't find this utility method in the java framework.
@@ -63,23 +72,29 @@ public class XMLUtil {
         return result;
     }
 
-	// This method writes a DOM document to a file
-	public static void writeXmlFile(Document doc, String filename) {
-		try {
-			// Prepare the DOM document for writing
-			Source source = new DOMSource(doc);
-	
-			// Prepare the output file
-			File file = new File(filename);
-			Result result = new StreamResult(file);
-	
-			// Write the DOM document to the file
-			Transformer xformer = TransformerFactory.newInstance()
-					.newTransformer();
-			xformer.transform(source, result);
-		} catch (TransformerConfigurationException e) {
-		} catch (TransformerException e) {
-		}
-	}
+    /**
+     * This method writes a DOM document to a file
+     * 
+     * @param doc
+     *            DOM document.
+     * @param filename
+     *            the target file.
+     */
+    public static void writeXmlFile(Document doc, String filename) {
+        try {
+            // Prepare the DOM document for writing
+            Source source = new DOMSource(doc);
+
+            // Prepare the output file
+            File file = new File(filename);
+            Result result = new StreamResult(file);
+
+            // Write the DOM document to the file
+            Transformer xformer = TransformerFactory.newInstance().newTransformer();
+            xformer.transform(source, result);
+        } catch (TransformerConfigurationException e) {
+        } catch (TransformerException e) {
+        }
+    }
 
 }
