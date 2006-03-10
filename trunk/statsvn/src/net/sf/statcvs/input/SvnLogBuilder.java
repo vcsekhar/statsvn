@@ -39,7 +39,7 @@ import java.util.Map;
  * 
  * @author Richard Cyganiak <richard@cyganiak.de>
  * @author Tammo van Lessen
- * @version $Id: SvnLogBuilder.java,v 1.2 2004/12/14 13:38:13 squig Exp $
+ * @version $Id$
  */
 public interface SvnLogBuilder {
 

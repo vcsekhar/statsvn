@@ -39,7 +39,7 @@ import net.sf.statcvs.model.Revision;
  * The implementation allows for a tolerance of several minutes between individual file commits, but author and message must be identical.
  * 
  * @author Richard Cyganiak
- * @version $Id: CommitListBuilder.java,v 1.3 2004/12/14 13:38:13 squig Exp $
+ * @version $Id$
  */
 public class CommitListBuilder {
     private static final int MAX_TIME_BETWEEN_CHANGES_MILLISECONDS = 300000;

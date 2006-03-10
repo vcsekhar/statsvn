@@ -43,7 +43,7 @@ import java.util.TreeMap;
  * Behaviour for <code>null</code> keys is unspecified.
  * 
  * @author Richard Cyganiak
- * @version $Id: IntegerMap.java,v 1.14 2004/10/12 07:22:42 cyganiak Exp $
+ * @version $Id$
  */
 public class IntegerMap {
 

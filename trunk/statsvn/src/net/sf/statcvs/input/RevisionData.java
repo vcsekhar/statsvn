@@ -28,7 +28,7 @@ import java.util.Date;
  * Container for all information contained in one CVS revisionNumber
  * 
  * @author Richard Cyganiak <richard@cyganiak.de>
- * @version $Id: RevisionData.java,v 1.5 2004/10/12 07:22:42 cyganiak Exp $
+ * @version $Id$
  */
 public class RevisionData {
     private String revisionNumber;

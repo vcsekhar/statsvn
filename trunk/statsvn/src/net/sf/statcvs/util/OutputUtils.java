@@ -28,7 +28,7 @@ import java.awt.Color;
  * Utility class for output related stuff.
  * 
  * @author Richard Cyganiak
- * @version $Id: OutputUtils.java,v 1.6 2003/04/15 23:47:25 cyganiak Exp $
+ * @version $Id$
  */
 public class OutputUtils {
 

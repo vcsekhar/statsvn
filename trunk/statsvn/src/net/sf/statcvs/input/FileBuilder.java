@@ -53,7 +53,7 @@ import net.sf.statcvs.model.VersionedFile;
  * 
  * @author Richard Cyganiak <richard@cyganiak.de>
  * @author Tammo van Lessen
- * @version $Id: FileBuilder.java,v 1.13 2005/03/29 22:45:06 cyganiak Exp $
+ * @version $Id$
  */
 public class FileBuilder {
     private static Logger logger = Logger.getLogger(FileBuilder.class.getName());

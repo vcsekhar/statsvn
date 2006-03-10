@@ -32,7 +32,7 @@ import java.util.logging.LogRecord;
 /**
  * Logging formatter for StatCvs
  * @author Lukasz Pekacki <lukasz@pekacki.de>
- * @version $Id: LogFormatter.java,v 1.7 2003/04/13 17:41:45 cyganiak Exp $
+ * @version $Id$
  */
 public class LogFormatter extends Formatter {
 

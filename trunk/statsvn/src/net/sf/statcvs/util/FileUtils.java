@@ -34,7 +34,7 @@ import java.io.InputStream;
  * Some helpful file functions TODO: Remove redundancy, write tests
  * 
  * @author Lukasz Pekacki
- * @version $Id: FileUtils.java,v 1.17 2004/02/20 19:49:53 cyganiak Exp $
+ * @version $Id$
  */
 public class FileUtils {
     /**

@@ -51,7 +51,7 @@ import org.xml.sax.SAXException;
  * 
  * @author Anja Jentzsch
  * @author Richard Cyganiak
- * @version $Id: SvnLogfileParser.java,v 1.15 2004/10/10 11:29:07 cyganiak Exp $
+ * @version $Id$
  */
 public class SvnLogfileParser {
 

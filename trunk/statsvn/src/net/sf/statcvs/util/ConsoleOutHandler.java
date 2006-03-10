@@ -32,7 +32,7 @@ import java.util.logging.StreamHandler;
  * <code>System.err</code> and uses the {@link LogFormatter}
  * to format 
  * @author Richard Cyganiak <rcyg@gmx.de>
- * @version $Id: ConsoleOutHandler.java,v 1.2 2003/03/18 10:33:57 lukasz Exp $
+ * @version $Id$
  */
 public class ConsoleOutHandler extends StreamHandler {
 

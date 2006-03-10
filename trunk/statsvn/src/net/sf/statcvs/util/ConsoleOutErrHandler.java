@@ -36,7 +36,7 @@ import java.util.logging.LogRecord;
  * It uses a {@link LogFormatter} to format the records.
  * 
  * @author Richard Cyganiak <rcyg@gmx.de>
- * @version $Id: ConsoleOutErrHandler.java,v 1.2 2003/03/18 10:33:57 lukasz Exp $
+ * @version $Id$
  */
 public class ConsoleOutErrHandler extends Handler {
 

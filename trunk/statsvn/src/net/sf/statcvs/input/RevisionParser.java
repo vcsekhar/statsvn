@@ -38,7 +38,7 @@ import net.sf.statcvs.util.LookaheadReader;
  * 
  * @author Anja Jentzsch
  * @author Richard Cyganiak
- * @version $Id: RevisionParser.java,v 1.40 2004/10/15 20:31:01 cyganiak Exp $
+ * @version $Id$
  */
 public class RevisionParser {
 
