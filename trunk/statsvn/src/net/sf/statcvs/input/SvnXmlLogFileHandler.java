@@ -93,11 +93,11 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
             data.setStateDead();
         }
 
-// must add directories because of implicit additions
-//        if (!SvnInfoUtils.isDirectory(filename)) {
-            currentRevisions.add(data);
-            currentFilenames.add(filename);
-  //      }
+        // must add directories because of implicit additions
+        // if (!SvnInfoUtils.isDirectory(filename)) {
+        currentRevisions.add(data);
+        currentFilenames.add(filename);
+        // }
     }
 
     private void checkLastElement(String last) throws SAXException {
@@ -143,23 +143,21 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
             revisionData.setLoginName(currentRevisionData.getLoginName());
             String currentFilename = currentFilenames.get(i).toString();
 
-            boolean isBinary=false; 
-			// if this file is not in the current working folder, discard it. 
+            boolean isBinary = false;
+            // if this file is not in the current working folder, discard it.
             if (!SvnInfoUtils.existsInWorkingCopy(currentFilename)) {
-                //continue;
-//            	isBinary=true;
-            }
-            else {
+                // continue;
+                // isBinary=true;
+            } else {
                 // check to see if binary in local copy (cached)
                 isBinary = SvnPropgetUtils.getBinaryFiles().contains(currentFilename);
             }
-            	
 
             builder.buildFile(currentFilename, isBinary, revisionData.isDeletion(), new HashMap());
-//            FileBuilder fileBuilder = (FileBuilder) builder.getFileBuilders().get(currentFilename);
-//            if (!fileBuilder.existRevision() || (fileBuilder.existRevision() && !fileBuilder.getFirstRevision().isCreation())) {
-                builder.buildRevision(revisionData);
-  //          }
+            // FileBuilder fileBuilder = (FileBuilder) builder.getFileBuilders().get(currentFilename);
+            // if (!fileBuilder.existRevision() || (fileBuilder.existRevision() && !fileBuilder.getFirstRevision().isCreation())) {
+            builder.buildRevision(revisionData);
+            // }
 
         }
 

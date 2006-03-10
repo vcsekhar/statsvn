@@ -123,8 +123,8 @@ public class FileBlockParserTest extends TestCase {
 		Builder builder = new Builder(null, null, null);
 		LookaheadReader lookahead = new LookaheadReader(new StringReader(log));
 		lookahead.nextLine();
-		new FileBlockParser(
-				lookahead, builder, false).parse();
+//		new FileBlockParser(
+//				lookahead, builder, false).parse();
 		try {
 			builder.createRepository();
 			fail("should have thrown EmptyRepositoryException");
@@ -175,8 +175,8 @@ public class FileBlockParserTest extends TestCase {
 		Builder builder = new Builder(null, null, null);
 		LookaheadReader lookahead = new LookaheadReader(new StringReader(log));
 		lookahead.nextLine();
-		new FileBlockParser(
-				lookahead, builder, false).parse();
+//		new FileBlockParser(
+//				lookahead, builder, false).parse();
 		Repository content = builder.createRepository();
 		return (VersionedFile) content.getFiles().first();
 	}

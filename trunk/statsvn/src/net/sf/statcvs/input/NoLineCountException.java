@@ -26,30 +26,29 @@ package net.sf.statcvs.input;
  * Indicates that no LOC count could be obtained for a file
  * 
  * @author Richard Cyganiak
- * @version $Id: NoLineCountException.java,v 1.1 2003/12/09 11:52:47 cyganiak
- *          Exp $
+ * @version $Id: NoLineCountException.java,v 1.1 2003/12/09 11:52:47 cyganiak Exp $
  */
 public class NoLineCountException extends Exception {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -2858589385629698925L;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -2858589385629698925L;
 
-	/**
-	 * Constructor for NoLineCountException.
-	 */
-	public NoLineCountException() {
-		super();
-	}
+    /**
+     * Constructor for NoLineCountException.
+     */
+    public NoLineCountException() {
+        super();
+    }
 
-	/**
-	 * Constructor for NoLineCountException.
-	 * 
-	 * @param message
-	 *            input message
-	 */
-	public NoLineCountException(String message) {
-		super(message);
-	}
+    /**
+     * Constructor for NoLineCountException.
+     * 
+     * @param message
+     *            input message
+     */
+    public NoLineCountException(String message) {
+        super(message);
+    }
 }

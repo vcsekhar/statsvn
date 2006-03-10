@@ -30,22 +30,22 @@ package net.sf.statcvs.input;
  */
 public class LogSyntaxException extends Exception {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 9092148307785767455L;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 9092148307785767455L;
 
-	/**
-	 * @see java.lang.Object#Object()
-	 */
-	public LogSyntaxException() {
-		super();
-	}
+    /**
+     * @see java.lang.Object#Object()
+     */
+    public LogSyntaxException() {
+        super();
+    }
 
-	/**
-	 * @see java.lang.Throwable#Throwable(String)
-	 */
-	public LogSyntaxException(String message) {
-		super(message);
-	}
+    /**
+     * @see java.lang.Throwable#Throwable(String)
+     */
+    public LogSyntaxException(String message) {
+        super(message);
+    }
 }
