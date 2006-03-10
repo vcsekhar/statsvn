@@ -23,7 +23,7 @@ import java.util.Map;
 
 /**
  * <p>
- * Interface for defining a Builder that constructs a data structure from a CVS logfile. {@link SvnLogfileParser} takes an instance of this interface and will
+ * Interface for defining a Builder that constructs a data structure from a SVM logfile. {@link SvnLogfileParser} takes an instance of this interface and will
  * call methods on the interface for every piece of data it encounters in the log.
  * </p>
  * 
@@ -73,5 +73,12 @@ public interface SvnLogBuilder {
      */
     public abstract void buildRevision(RevisionData data);
 
+    /**
+     * New in StatSVN: We need to have access to FileBuilders after they have been created to populate them with version numbers later on.
+     * 
+     * TODO: Beef up this interface to better encapsulate the data structure.
+     * 
+     * @return this builder's contained (@link FileBuilder)s.
+     */
     public abstract Map getFileBuilders();
 }

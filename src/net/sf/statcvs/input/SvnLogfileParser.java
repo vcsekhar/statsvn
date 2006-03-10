@@ -47,10 +47,11 @@ import net.sf.statcvs.util.XMLUtil;
 import org.xml.sax.SAXException;
 
 /**
- * Parses a CVS logfile. A {@link Builder} must be specified which does the construction work.
+ * Parses a Subversion logfile and does post-parse processing. A {@link Builder} must be specified which does the construction work.
  * 
- * @author Anja Jentzsch
- * @author Richard Cyganiak
+ * @author Jason Kealey <jkealey@shade.ca>
+ * @author Gunter Mussbacher <gunterm@site.uottawa.ca>
+ * 
  * @version $Id$
  */
 public class SvnLogfileParser {
@@ -63,7 +64,7 @@ public class SvnLogfileParser {
      * Default Constructor
      * 
      * @param logFile
-     *            a <tt>Reader</tt> containing the CVS logfile
+     *            a <tt>Reader</tt> containing the SVN logfile
      * @param builder
      *            the builder that will process the log information
      */
@@ -72,6 +73,15 @@ public class SvnLogfileParser {
         this.builder = builder;
     }
 
+    /**
+     * Because the log file does not contain the lines added or removed in a commit, and because the logfile contains implicit actions (@link
+     * #verifyImplicitActions()), we must query the repository for line differences. This method uses the (@link LineCountsBuilder) to load the persisted
+     * information and (@link SvnDiffUtils) to find new information.
+     * 
+     * @param factory
+     *            the factory used to create SAX parsers.
+     * @throws IOException
+     */
     protected void handleLineCounts(SAXParserFactory factory) throws IOException {
         long startTime = System.currentTimeMillis();
 
@@ -148,6 +158,14 @@ public class SvnLogfileParser {
 
     }
 
+    /**
+     * The svn log can contain deletions of directories which imply that all of its contents have been deleted.
+     * 
+     * Furthermore, the svn log can contain entries which are copies from other directories (additions or replacements; I haven't seen modifications with this
+     * property, but am not 100% sure) meaning that all files from the other directory are copied here. We currently do not go back through copies, so we must
+     * infer what files <i>could</i> have been added during those copies.
+     * 
+     */
     protected void verifyImplicitActions() {
 
         // this method most certainly has issues with implicit actions on root folder.
@@ -157,6 +175,7 @@ public class SvnLogfileParser {
 
         HashSet implicitActions = new HashSet();
 
+        // get all filenames
         ArrayList files = new ArrayList();
         Collection fileBuilders = builder.getFileBuilders().values();
         for (Iterator iter = fileBuilders.iterator(); iter.hasNext();) {
@@ -164,6 +183,7 @@ public class SvnLogfileParser {
             files.add(fileBuilder.getName());
         }
 
+        // sort them so that folders are immediately followed by the folder entries and then by other files which are prefixed by the folder name.
         Collections.sort(files, new FilenameComparator());
 
         FileBuilder parentBuilder, childBuilder;
@@ -171,13 +191,18 @@ public class SvnLogfileParser {
         String parent, child;
         int parentRevision, childRevision;
 
+        // for each file
         for (int i = 0; i < files.size(); i++) {
             parent = files.get(i).toString();
             parentBuilder = (FileBuilder) builder.getFileBuilders().get(parent);
+            // check to see if there are files that indicate that parent is a folder.
             for (int j = i + 1; j < files.size() && files.get(j).toString().indexOf(parent + "/") == 0; j++) {
+                // we might not know that it was a folder.
                 SvnInfoUtils.addDirectory(parent);
+
                 child = files.get(j).toString();
                 childBuilder = (FileBuilder) builder.getFileBuilders().get(child);
+                // for all revisions in the the parent folder
                 for (Iterator iter = parentBuilder.getRevisions().iterator(); iter.hasNext();) {
                     parentData = (RevisionData) iter.next();
                     try {
@@ -188,10 +213,14 @@ public class SvnLogfileParser {
 
                     int k;
                     // ignore modifications to folders
-                    if (parentData.isCreation() || parentData.isDeletion()) {
+                    if (parentData.isCreationOrRestore() || parentData.isDeletion()) {
+
+                        // check to see if the parent revision is an implicit action acting on the child.
                         for (k = 0; k < childBuilder.getRevisions().size(); k++) {
                             childData = (RevisionData) childBuilder.getRevisions().get(k);
                             childRevision = Integer.parseInt(childData.getRevisionNumber());
+
+                            // we don't want to add duplicate entries for the same revision
                             if (parentRevision == childRevision) {
                                 k = childBuilder.getRevisions().size();
                                 break;
@@ -201,19 +230,26 @@ public class SvnLogfileParser {
                                 break; // we must insert it here!
                         }
 
+                        // we found something to insert
                         if (k < childBuilder.getRevisions().size()) {
+                            // we want to memorize this implicit action.
+                            RevisionData implicit = (RevisionData) parentData.clone();
+                            implicitActions.add(implicit);
+
                             // avoid concurrent modification errors.
                             List toMove = new ArrayList();
                             for (Iterator it = childBuilder.getRevisions().subList(k, childBuilder.getRevisions().size()).iterator(); it.hasNext();) {
                                 toMove.add(it.next());
                             }
+
+                            // remove the revisions to be moved.
                             childBuilder.getRevisions().removeAll(toMove);
-                            // don't call addRevision directly. buildRevision
-                            // does more
+
+                            // don't call addRevision directly. buildRevision does more.
                             builder.buildFile(child, false, false, new HashMap());
-                            RevisionData implicit = (RevisionData) parentData.clone();
-                            implicitActions.add(implicit);
                             builder.buildRevision(implicit);
+
+                            // copy back the revisions we removed.
                             for (Iterator it = toMove.iterator(); it.hasNext();) {
                                 builder.buildRevision((RevisionData) it.next());
                             }
@@ -230,6 +266,10 @@ public class SvnLogfileParser {
         // replacements, we will remove as many implicit actions as possible
         // 
         // this solution is imperfect.
+
+        // Examples:
+        // IA ID IA ID M A -> ID M A
+        // IA ID A D M A -> ID A D M A
         for (Iterator iter = fileBuilders.iterator(); iter.hasNext();) {
             FileBuilder filebuilder = (FileBuilder) iter.next();
 
@@ -238,6 +278,7 @@ public class SvnLogfileParser {
                 ((Builder) builder).getAtticFileNames().add(filebuilder.getName());
             }
 
+            // do we detect an inconsistency?
             if (!SvnInfoUtils.existsInWorkingCopy(filebuilder.getName()) && !filebuilder.finalRevisionIsDead()) {
                 int earliestDelete = -1;
                 for (int i = 0; i < filebuilder.getRevisions().size(); i++) {
@@ -247,9 +288,9 @@ public class SvnLogfileParser {
                         earliestDelete = i;
                     }
 
-                    if ((!data.isCreation() && data.isChangeOrRestore()) || !implicitActions.contains(data)) {
+                    if ((!data.isCreationOrRestore() && data.isChange()) || !implicitActions.contains(data))
                         break;
-                    }
+
                 }
 
                 if (earliestDelete > 0) {
@@ -265,11 +306,17 @@ public class SvnLogfileParser {
 
         }
 
-        // builder.getFileBuilders().get("src/seg/jUCMNav/tests/CommandTest.java");
         logger.fine("verifying implicit actions finished in " + (System.currentTimeMillis() - startTime) + " ms.");
 
     }
 
+    /**
+     * We have created FileBuilders for directories because we needed the information to be able to find implicit actions. However, we don't want to query
+     * directories for their line counts later on. Therefore, we must remove them here.
+     * 
+     * (@link SvnInfoUtils#isDirectory(String)) is used to know what files are directories. Deleted directories are assumed to have been added in (@link
+     * #verifyImplicitActions())
+     */
     protected void removeDirectories() {
         Collection fileBuilders = builder.getFileBuilders().values();
         ArrayList toRemove = new ArrayList();
@@ -286,6 +333,15 @@ public class SvnLogfileParser {
 
     }
 
+    /**
+     * Parses the svn log file.
+     * 
+     * @return the SaxParserFactory, so that it can be reused.
+     * @throws IOException
+     *             errors while reading file.
+     * @throws LogSyntaxException
+     *             invalid log syntax.
+     */
     protected SAXParserFactory parseSvnLog() throws IOException, LogSyntaxException {
         long startTime = System.currentTimeMillis();
         logger.fine("starting to parse...");

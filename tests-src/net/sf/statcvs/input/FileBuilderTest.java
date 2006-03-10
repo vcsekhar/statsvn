@@ -51,19 +51,19 @@ public class FileBuilderTest extends TestCase {
 		rev1.setRevisionNumber("1.1");
 		rev1.setLoginName("author1");
 		rev1.setComment("comment");
-		rev1.setStateExp();
+		rev1.setStateExp(true);
 		rev1dead= new RevisionData();
 		rev1dead.setDate(date1);
 		rev1dead.setRevisionNumber("1.1");
 		rev1dead.setLoginName("author1");
 		rev1dead.setComment("comment");
-		rev1dead.setStateDead();
+		rev1dead.setStateDead(true);
 		rev1branch = new RevisionData();
 		rev1branch.setDate(date2);
 		rev1branch.setRevisionNumber("1.1.2.1");
 		rev1branch.setLoginName("author1");
 		rev1branch.setComment("comment");
-		rev1branch.setStateExp();
+		rev1branch.setStateExp(true);
 		rev1branch.setLines(100, 0);
 	}
 

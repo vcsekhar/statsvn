@@ -71,10 +71,10 @@ public class MockLogBuilder implements SvnLogBuilder {
 			Assert.assertEquals(expected.getRevisionNumber(), data.getRevisionNumber());
 			Assert.assertEquals(expected.getDate().getTime() / 1000, data.getDate().getTime() / 1000);
 			Assert.assertEquals(expected.getLoginName(), data.getLoginName());
-			Assert.assertEquals(expected.isAddOnSubbranch(), data.isAddOnSubbranch());
+			//Assert.assertEquals(expected.isAddOnSubbranch(), data.isAddOnSubbranch());
 			Assert.assertEquals(expected.isDeletion(), data.isDeletion());
-			Assert.assertEquals(expected.isCreation(), data.isCreation());
-			Assert.assertEquals(expected.isChangeOrRestore(), data.isChangeOrRestore());
+			Assert.assertEquals(expected.isCreationOrRestore(), data.isCreationOrRestore());
+			Assert.assertEquals(expected.isChange(), data.isChange());
 			Assert.assertEquals(expected.getComment(), data.getComment());
 			Assert.assertEquals(expected.getLinesAdded(), data.getLinesAdded());
 			Assert.assertEquals(expected.getLinesRemoved(), data.getLinesRemoved());

@@ -25,9 +25,12 @@ package net.sf.statcvs.input;
 import java.util.Date;
 
 /**
- * Container for all information contained in one CVS revisionNumber
+ * Container for all information contained in one SVN revision.
  * 
- * @author Richard Cyganiak <richard@cyganiak.de>
+ * @author Richard Cyganiak <richard@cyganiak.de> *
+ * @author Gunter Mussbacher <gunterm@site.uottawa.ca>
+ * @author Jason Kealey <jkealey@shade.ca>
+ * 
  * @version $Id$
  */
 public class RevisionData {
@@ -130,20 +133,38 @@ public class RevisionData {
         this.revisionNumber = revision;
     }
 
-    public void setStateDead() {
-        stateDead = true;
+    /**
+     * Is this revision a deletion?
+     * 
+     * @param isDead
+     *            <tt>true</tt> if revision is a deletion.
+     */
+    public void setStateDead(boolean isDead) {
+        stateDead = isDead;
     }
 
-    public void setStateExp() {
-        stateExp = true;
+    /**
+     * Is the revision exposed. This is CVS speak for any "live" revisionNumber, that is, if this is the current revisionNumber, then a file exists in the
+     * working copy.
+     * 
+     * New in StatSVN: We use it to mean this revision is not a deletion revision. (modify, add or replace)
+     * 
+     * @param isExposed
+     *            <tt>true</tt> true if the revision is not a deletion.
+     */
+    public void setStateExp(boolean isExposed) {
+        stateExp = isExposed;
     }
 
-    public void setStateAdded() {
-        stateAdded = true;
-    }
-
-    public void unsetStateExp() {
-        stateExp = false;
+    /**
+     * Is this revision an addition?
+     * 
+     * New in StatSVN: This is no longer a still exists in working copy. We use it to mean this revision is not a deletion revision.
+     * 
+     * @param isAdded
+     */
+    public void setStateAdded(boolean isAdded) {
+        stateAdded = isAdded;
     }
 
     /**
@@ -162,63 +183,45 @@ public class RevisionData {
     }
 
     /**
-     * Returns <tt>true</tt> if this revisionNumber marks the adding of a new file on a subbranch. CVS creates a dead 1.1 revisionNumber on the trunk even if
-     * the file never gets merged into the trunk. If we evaluate the trunk, and the file doesn't have any other revisions on the trunk, then we ignore this
-     * revisionNumber.
-     * 
-     * @return <tt>true</tt> if this is the adding of a new file on a subbranch
-     */
-    public boolean isAddOnSubbranch() {
-        return stateDead && revisionNumber.equals("1.1");
-    }
-
-    /**
-     * Returns <tt>true</tt> if this revisionNumber is the removal of a file. Any dead revisionNumber means that the file was removed. The only exception is a
-     * dead 1.1 revisionNumber, which is an add on a subbranch.
+     * Returns <tt>true</tt> if this revisionNumber is the removal of a file.
      * 
      * @return <tt>true</tt> if this revisionNumber deletes the file.
-     * @see #isAddOnSubbranch
+     * 
      */
     public boolean isDeletion() {
-        // return stateDead && !revisionNumber.equals("1.1");
         return stateDead;
     }
 
     /**
-     * Returns <tt>true</tt> if this revisionNumber is a normal change, or if it restores a removed file. The distinction between these two cases can be made
-     * by looking at the previous (in time, not log order) revisionNumber. If it was a deletion, then this revisionNumber is a restore.
+     * Returns <tt>true</tt> if this revisionNumber is a normal change.
+     * 
+     * New in StatSVN: This was isChangeOrRestore before.
      * 
      * @return <tt>true</tt> if this is a normal change or a restore.
      */
-    public boolean isChangeOrRestore() {
+    public boolean isChange() {
         // return stateExp && !hasNoLines;
         return stateExp && !stateAdded;
     }
 
     /**
-     * Returns <tt>true</tt> if this revisionNumber is the creation of a new file.
+     * Returns <tt>true</tt> if this revisionNumber is the creation of a new file or a restore.. The distinction between these two cases can be made by
+     * looking at the previous (in time, not log order) revisionNumber. If it was a deletion, then this revisionNumber is a restore.
+     * 
+     * New in StatSVN: This was isCreation before.
      * 
      * @return <tt>true</tt> if this is the creation of a new file.
      */
-    public boolean isCreation() {
+    public boolean isCreationOrRestore() {
         // return stateExp && hasNoLines;
         return stateExp && stateAdded;
     }
 
     /**
-     * Returns <tt>true</tt> if this revisionNumber is on the main branch.
-     * 
-     * In Subversion, branches are just copies so will assume everything is on the main branch.
-     * 
-     * @return <tt>true</tt> if this revisionNumber is on the main branch.
-     */
-    public boolean isOnTrunk() {
-        return true;
-    }
-
-    /**
      * Returns <tt>true</tt> if this is an Exp ("exposed"?) revisionNumber. This is CVS speak for any "live" revisionNumber, that is, if this is the current
      * revisionNumber, then a file exists in the working copy.
+     * 
+     * New in StatSVN: We use it to mean this revision is not a deletion revision. (modify, add or replace)
      * 
      * @return <tt>true</tt> if this is an Exp revisionNumber
      */
@@ -235,15 +238,47 @@ public class RevisionData {
         return stateDead;
     }
 
+    /**
+     * Returns the current revision data in string format.
+     */
     public String toString() {
         return "RevisionData " + revisionNumber;
     }
 
+    /**
+     * Returns a new instance of the RevisionData, with the same fields as the current one.
+     * 
+     * @return the clone
+     */
     public Object clone() {
         return new RevisionData(revisionNumber, date, loginName, stateExp, stateDead, stateAdded, hasNoLines, linesAdded, linesRemoved, comment);
 
     }
 
+    /**
+     * Private constructor used by (@link #clone())
+     * 
+     * @param revisionNumber
+     *            the revision number
+     * @param date
+     *            the revision date
+     * @param loginName
+     *            the revision login name
+     * @param stateExp
+     *            if this were the current revision, would the file still be live (not-dead)
+     * @param stateDead
+     *            is this a deletion revision
+     * @param stateAdded
+     *            is this an addition revision
+     * @param hasNoLines
+     *            have we set the line counts?
+     * @param linesAdded
+     *            number of lines added
+     * @param linesRemoved
+     *            number of lines removed
+     * @param comment
+     *            the revision comment
+     */
     private RevisionData(String revisionNumber, Date date, String loginName, boolean stateExp, boolean stateDead, boolean stateAdded, boolean hasNoLines,
             int linesAdded, int linesRemoved, String comment) {
         super();
