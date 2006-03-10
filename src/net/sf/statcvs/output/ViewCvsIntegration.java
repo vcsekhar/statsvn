@@ -73,13 +73,13 @@ public class ViewCvsIntegration implements WebRepositoryIntegration {
 
 	private String getFileUrl(VersionedFile file, String parameter) {
 		String filename;
-		if (isInAttic(file)) {
-			String path = file.getDirectory().getPath();
-			filename = "/" + path + "Attic/" + file.getFilename();
-
-		} else {
+//		if (isInAttic(file)) {
+//			String path = file.getDirectory().getPath();
+//			filename = "/" + path + "Attic/" + file.getFilename();
+//
+//		} else {
 			filename = "/" + file.getFilenameWithPath();
-		}
+//		}
 		
 		String append = parameter;
 		if (this.postfix != null) {
@@ -117,7 +117,12 @@ public class ViewCvsIntegration implements WebRepositoryIntegration {
 		if (!oldRevision.getFile().equals(newRevision.getFile())) {
 			throw new IllegalArgumentException("revisions must be of the same file");
 		}
-		return getFileUrl(oldRevision.getFile(),
+        // because of ViewCVS limitations regarding dead files. 
+        if (isInAttic(newRevision.getFile())) {
+            return getFileViewUrl(newRevision);
+        }
+        else 
+            return getFileUrl(oldRevision.getFile(),
 				".diff?r1=" + oldRevision.getRevisionNumber()
 				+ "&r2=" + newRevision.getRevisionNumber());
 	}
