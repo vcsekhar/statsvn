@@ -180,7 +180,7 @@ public class Main {
 		FileInputStream logFile = new FileInputStream(ConfigurationOptions.getLogFileName());
 		RepositoryFileManager repFileMan = new RepositoryFileManager(ConfigurationOptions.getCheckedOutDirectory());
 		Builder builder = new Builder(repFileMan, ConfigurationOptions.getIncludePattern(), ConfigurationOptions.getExcludePattern());
-		new SvnLogfileParser(logFile, builder).parse();
+		new SvnLogfileParser(repFileMan, logFile, builder).parse();
 
 //		String repositoryRevision = SvnLogUtils.getRevisionNumber(".");
 //

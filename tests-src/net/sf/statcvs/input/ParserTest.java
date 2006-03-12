@@ -169,7 +169,8 @@ public class ParserTest extends TestCase {
 	 */
 	public void testEmptyLog() throws Exception {
 		ByteArrayInputStream stream = new ByteArrayInputStream("".getBytes());
-		SvnLogfileParser parser = new SvnLogfileParser(stream, mock);
+        // test needs to be changed to use the new mandatory repositoryFileManager
+		SvnLogfileParser parser = new SvnLogfileParser(null, stream, mock);
 		try {
 			parser.parse();
 			fail("should have thrown LogSyntaxException");
@@ -184,7 +185,8 @@ public class ParserTest extends TestCase {
 	 */
 	public void testBogusLog() throws Exception {
 		ByteArrayInputStream stream = new ByteArrayInputStream("foo\nbar".getBytes());
-		SvnLogfileParser parser = new SvnLogfileParser(stream, mock);
+        // test needs to be changed to use the new mandatory repositoryFileManager
+		SvnLogfileParser parser = new SvnLogfileParser(null, stream, mock);
 		try {
 			parser.parse();
 			fail("should have thrown LogSyntaxException");
@@ -327,7 +329,8 @@ public class ParserTest extends TestCase {
 	}
 	private void parseLog(String name) throws Exception {
 		InputStream stream = getClass().getResourceAsStream(name);
-		new SvnLogfileParser(stream, mock).parse();
+        // test needs to be changed to use the new mandatory repositoryFileManager
+		new SvnLogfileParser(null, stream, mock).parse();
 	}
 
 	private void parseOneFile(String name) throws Exception {

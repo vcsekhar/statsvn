@@ -3,11 +3,8 @@ package net.sf.statcvs.util;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -348,20 +345,6 @@ public class SvnInfoUtils {
         return hsDirectories.contains(relativePath);
     }
 
-    /**
-     * Returns the list of directories, sorted alphabetically.
-     * 
-     * @return the directories.
-     */
-    public static List getDirectories() {
-        ArrayList list = new ArrayList();
-        Object[] dirs = hsDirectories.toArray();
-        for (int i = 0; i < dirs.length; i++) {
-            list.add(dirs[i]);
-        }
-        Collections.sort(list);
-        return list;
-    }
 
     /**
      * Adds a directory to the list of known directories. Used when inferring implicit actions on deleted paths.
@@ -411,6 +394,7 @@ public class SvnInfoUtils {
     }
 
     /**
+     * Initializes our representation of the repository using the a seed.
      * 
      * @param seedPath
      *            any path found in an svn log (ex: /trunk/statsvn/package.html)

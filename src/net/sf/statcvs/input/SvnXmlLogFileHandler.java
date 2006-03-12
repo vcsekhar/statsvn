@@ -6,8 +6,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
-import net.sf.statcvs.util.SvnInfoUtils;
-import net.sf.statcvs.util.SvnPropgetUtils;
 import net.sf.statcvs.util.XMLUtil;
 
 import org.xml.sax.Attributes;
@@ -43,15 +41,19 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
     private String lastElement = "";
     private String pathAction = "";
     private String stringData = "";
+    private RepositoryFileManager repositoryFileManager;
 
     /**
      * Default constructor.
      * 
      * @param builder
      *            where to send the information
+     * @param repositoryFileManager
+     *            the repository file manager needed to obtain some information.
      */
-    public SvnXmlLogFileHandler(SvnLogBuilder builder) {
+    public SvnXmlLogFileHandler(SvnLogBuilder builder, RepositoryFileManager repositoryFileManager) {
         this.builder = builder;
+        this.repositoryFileManager = repositoryFileManager;
         isFirstPath = true;
     }
 
@@ -165,21 +167,10 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
             revisionData.setLoginName(currentRevisionData.getLoginName());
             String currentFilename = currentFilenames.get(i).toString();
 
-            boolean isBinary = false;
-            // if this file is not in the current working folder, discard it.
-            if (!SvnInfoUtils.existsInWorkingCopy(currentFilename)) {
-                // continue;
-                // isBinary=true;
-            } else {
-                // check to see if binary in local copy (cached)
-                isBinary = SvnPropgetUtils.getBinaryFiles().contains(currentFilename);
-            }
+            boolean isBinary = repositoryFileManager.isBinary(currentFilename);
 
             builder.buildFile(currentFilename, isBinary, revisionData.isDeletion(), new HashMap());
-            // FileBuilder fileBuilder = (FileBuilder) builder.getFileBuilders().get(currentFilename);
-            // if (!fileBuilder.existRevision() || (fileBuilder.existRevision() && !fileBuilder.getFirstRevision().isCreation())) {
             builder.buildRevision(revisionData);
-            // }
 
         }
 
@@ -206,15 +197,16 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
         checkLastElement(PATHS);
         if (isFirstPath) {
             isFirstPath = false;
+            
             try {
-                SvnInfoUtils.loadInfo(stringData);
+                repositoryFileManager.loadInfo(stringData);
                 // we can't get the module name until we have one file to see the loader
-                builder.buildModule(SvnInfoUtils.getModuleName());
+                builder.buildModule(repositoryFileManager.getModuleName());
             } catch (Exception e) {
                 throw new SAXException(e);
             }
         }
-        String filename = SvnInfoUtils.absoluteToRelativePath(stringData);
+        String filename = repositoryFileManager.absoluteToRelativePath(stringData);
         RevisionData data = (RevisionData) currentRevisionData.clone();
         if (!pathAction.equals("D")) {
             data.setStateExp(true);
@@ -272,7 +264,6 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
      */
     public void startDocument() throws SAXException {
         super.startDocument();
-        SvnPropgetUtils.getBinaryFiles();
     }
 
     /**
