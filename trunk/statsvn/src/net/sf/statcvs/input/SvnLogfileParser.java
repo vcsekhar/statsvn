@@ -40,8 +40,6 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import net.sf.statcvs.util.FilenameComparator;
-import net.sf.statcvs.util.SvnDiffUtils;
-import net.sf.statcvs.util.SvnInfoUtils;
 import net.sf.statcvs.util.XMLUtil;
 
 import org.xml.sax.SAXException;
@@ -59,18 +57,22 @@ public class SvnLogfileParser {
     private static Logger logger = Logger.getLogger(SvnLogfileParser.class.getName());
     private SvnLogBuilder builder;
     private InputStream logFile;
+    private RepositoryFileManager repositoryFileManager;
 
     /**
      * Default Constructor
      * 
+     * @param repositoryFileManager
+     *            the repository file manager
      * @param logFile
      *            a <tt>Reader</tt> containing the SVN logfile
      * @param builder
      *            the builder that will process the log information
      */
-    public SvnLogfileParser(InputStream logFile, SvnLogBuilder builder) {
+    public SvnLogfileParser(RepositoryFileManager repositoryFileManager, InputStream logFile, SvnLogBuilder builder) {
         this.logFile = logFile;
         this.builder = builder;
+        this.repositoryFileManager = repositoryFileManager;
     }
 
     /**
@@ -116,7 +118,7 @@ public class SvnLogfileParser {
                         continue;
                     String revNrNew = ((RevisionData) revisions.get(i)).getRevisionNumber();
                     String revNrOld = ((RevisionData) revisions.get(i + 1)).getRevisionNumber();
-                    int lineDiff[] = SvnDiffUtils.getLineDiff(revNrOld, revNrNew, fileName);
+                    int lineDiff[] = repositoryFileManager.getLineDiff(revNrOld, revNrNew, fileName);
                     if (lineDiff[0] != -1 && lineDiff[1] != -1) {
                         ((RevisionData) revisions.get(i)).setLines(lineDiff[0], lineDiff[1]);
                         lineCountsBuilder.newRevision(fileName, revNrNew, lineDiff[0] + "", lineDiff[1] + "");
@@ -197,7 +199,7 @@ public class SvnLogfileParser {
             // check to see if there are files that indicate that parent is a folder.
             for (int j = i + 1; j < files.size() && files.get(j).toString().indexOf(parent + "/") == 0; j++) {
                 // we might not know that it was a folder.
-                SvnInfoUtils.addDirectory(parent);
+                repositoryFileManager.addDirectory(parent);
 
                 child = files.get(j).toString();
                 childBuilder = (FileBuilder) builder.getFileBuilders().get(child);
@@ -273,12 +275,12 @@ public class SvnLogfileParser {
             FileBuilder filebuilder = (FileBuilder) iter.next();
 
             // make sure our attic is well set, with our new deletions that we might have added.
-            if (!((Builder) builder).getAtticFileNames().contains(filebuilder.getName()) && !SvnInfoUtils.existsInWorkingCopy(filebuilder.getName())) {
+            if (!((Builder) builder).getAtticFileNames().contains(filebuilder.getName()) && !repositoryFileManager.existsInWorkingCopy(filebuilder.getName())) {
                 ((Builder) builder).getAtticFileNames().add(filebuilder.getName());
             }
 
             // do we detect an inconsistency?
-            if (!SvnInfoUtils.existsInWorkingCopy(filebuilder.getName()) && !filebuilder.finalRevisionIsDead()) {
+            if (!repositoryFileManager.existsInWorkingCopy(filebuilder.getName()) && !filebuilder.finalRevisionIsDead()) {
                 int earliestDelete = -1;
                 for (int i = 0; i < filebuilder.getRevisions().size(); i++) {
                     RevisionData data = (RevisionData) filebuilder.getRevisions().get(i);
@@ -321,7 +323,7 @@ public class SvnLogfileParser {
         ArrayList toRemove = new ArrayList();
         for (Iterator iter = fileBuilders.iterator(); iter.hasNext();) {
             FileBuilder fileBuilder = (FileBuilder) iter.next();
-            if (SvnInfoUtils.isDirectory(fileBuilder.getName())) {
+            if (repositoryFileManager.isDirectory(fileBuilder.getName())) {
                 toRemove.add(fileBuilder.getName());
             }
         }
@@ -348,7 +350,7 @@ public class SvnLogfileParser {
         SAXParserFactory factory = SAXParserFactory.newInstance();
         try {
             SAXParser parser = factory.newSAXParser();
-            parser.parse(logFile, new SvnXmlLogFileHandler(builder));
+            parser.parse(logFile, new SvnXmlLogFileHandler(builder, repositoryFileManager));
         } catch (ParserConfigurationException e) {
             throw new LogSyntaxException(e.getMessage());
         } catch (SAXException e) {
