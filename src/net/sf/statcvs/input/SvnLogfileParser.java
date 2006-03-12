@@ -275,9 +275,8 @@ public class SvnLogfileParser {
             FileBuilder filebuilder = (FileBuilder) iter.next();
 
             // make sure our attic is well set, with our new deletions that we might have added.
-            if (!((Builder) builder).getAtticFileNames().contains(filebuilder.getName()) && !repositoryFileManager.existsInWorkingCopy(filebuilder.getName())) {
-                ((Builder) builder).getAtticFileNames().add(filebuilder.getName());
-            }
+            if (!repositoryFileManager.existsInWorkingCopy(filebuilder.getName()))
+                builder.addToAttic(filebuilder.getName());
 
             // do we detect an inconsistency?
             if (!repositoryFileManager.existsInWorkingCopy(filebuilder.getName()) && !filebuilder.finalRevisionIsDead()) {

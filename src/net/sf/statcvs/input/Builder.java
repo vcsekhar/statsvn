@@ -62,17 +62,17 @@ import net.sf.statcvs.util.FileUtils;
  */
 public class Builder implements SvnLogBuilder {
     private static Logger logger = Logger.getLogger(Builder.class.getName());
-    private final RepositoryFileManager repositoryFileManager;
-    private final FilePatternMatcher includePattern;
-    private final FilePatternMatcher excludePattern;
-    private final Map authors = new HashMap();
-    private final Map directories = new HashMap();
-    private final Map symbolicNames = new HashMap();
-    private final Map fileBuilders = new HashMap();
     private final Set atticFileNames = new HashSet();
+    private final Map authors = new HashMap();
     private FileBuilder currentFileBuilder = null;
-    private Date startDate = null;
+    private final Map directories = new HashMap();
+    private final FilePatternMatcher excludePattern;
+    private final Map fileBuilders = new HashMap();
+    private final FilePatternMatcher includePattern;
     private String projectName = null;
+    private final RepositoryFileManager repositoryFileManager;
+    private Date startDate = null;
+    private final Map symbolicNames = new HashMap();
 
     /**
      * Creates a new <tt>Builder</tt>
@@ -92,19 +92,24 @@ public class Builder implements SvnLogBuilder {
     }
 
     /**
-     * Starts building the module.
+     * Adds a file to the attic. This method should only be called if our first invocation to (@link #buildFile(String, boolean, boolean, Map)) was given an
+     * invalid isInAttic field.
      * 
-     * @param moduleName
-     *            name of the module
+     * This is a hack to handle post-processing of implicit deletions at the same time as the implicit additions that can be found in Subversion.
+     * 
+     * @param filename
+     *            the filename to add to the attic.
      */
-    public void buildModule(String moduleName) {
-        this.projectName = moduleName;
+    public void addToAttic(String filename) {
+        if (!atticFileNames.contains(filename)) {
+            atticFileNames.add(filename);
+        }
     }
 
     /**
      * <p>
-     * Starts building a new file. The files are not expected to be created in any particular order. 
-     * Subsequent calls to (@link #buildRevision(RevisionData)) will add revisions to this file.
+     * Starts building a new file. The files are not expected to be created in any particular order. Subsequent calls to (@link #buildRevision(RevisionData))
+     * will add revisions to this file.
      * </p>
      * 
      * <p>
@@ -126,11 +131,19 @@ public class Builder implements SvnLogBuilder {
         else {
             currentFileBuilder = new FileBuilder(this, filename, isBinary, revBySymnames);
             fileBuilders.put(filename, currentFileBuilder);
-
-            if (isInAttic && !atticFileNames.contains(filename)) {
-                atticFileNames.add(filename);
-            }
+            if (isInAttic)
+                addToAttic(filename);
         }
+    }
+
+    /**
+     * Starts building the module.
+     * 
+     * @param moduleName
+     *            name of the module
+     */
+    public void buildModule(String moduleName) {
+        this.projectName = moduleName;
     }
 
     /**
@@ -187,10 +200,6 @@ public class Builder implements SvnLogBuilder {
         return result;
     }
 
-    public String getProjectName() {
-        return projectName;
-    }
-
     /**
      * Returns the <tt>Set</tt> of filenames that are "in the attic".
      * 
@@ -232,66 +241,6 @@ public class Builder implements SvnLogBuilder {
     }
 
     /**
-     * Returns the {@link SymbolicName} with the given name or creates it if it does not yet exist.
-     * 
-     * @param name
-     *            the symbolic name's name
-     * @return the corresponding symbolic name object
-     */
-    public SymbolicName getSymbolicName(String name) {
-        SymbolicName sym = (SymbolicName) symbolicNames.get(name);
-
-        if (sym != null) {
-            return sym;
-        } else {
-            sym = new SymbolicName(name);
-            symbolicNames.put(name, sym);
-
-            return sym;
-        }
-    }
-
-    /**
-     * @see RepositoryFileManager#getLinesOfCode(String)
-     */
-    public int getLOC(String filename) throws NoLineCountException {
-        if (repositoryFileManager == null) {
-            throw new NoLineCountException("no RepositoryFileManager");
-        }
-
-        return repositoryFileManager.getLinesOfCode(filename);
-    }
-
-    /**
-     * @see RepositoryFileManager#getRevision(String)
-     */
-    public String getRevision(String filename) throws IOException {
-        if (repositoryFileManager == null) {
-            throw new IOException("no RepositoryFileManager");
-        }
-        return repositoryFileManager.getRevision(filename);
-    }
-
-    /**
-     * Matches a filename against the include and exclude patterns. If no include pattern was specified, all files will be included. If no exclude pattern was
-     * specified, no files will be excluded.
-     * 
-     * @param filename
-     *            a filename
-     * @return <tt>true</tt> if the filename matches one of the include patterns and does not match any of the exclude patterns. If it matches an include and
-     *         an exclude pattern, <tt>false</tt> will be returned.
-     */
-    public boolean matchesPatterns(String filename) {
-        if (excludePattern != null && excludePattern.matches(filename)) {
-            return false;
-        }
-        if (includePattern != null) {
-            return includePattern.matches(filename);
-        }
-        return true;
-    }
-
-    /**
      * @param path
      *            for example "src/net/sf/statcvs/"
      * @return the <tt>Directory</tt> corresponding to <tt>statcvs</tt>
@@ -315,5 +264,69 @@ public class Builder implements SvnLogBuilder {
      */
     public Map getFileBuilders() {
         return fileBuilders;
+    }
+
+    /**
+     * @see RepositoryFileManager#getLinesOfCode(String)
+     */
+    public int getLOC(String filename) throws NoLineCountException {
+        if (repositoryFileManager == null) {
+            throw new NoLineCountException("no RepositoryFileManager");
+        }
+
+        return repositoryFileManager.getLinesOfCode(filename);
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    /**
+     * @see RepositoryFileManager#getRevision(String)
+     */
+    public String getRevision(String filename) throws IOException {
+        if (repositoryFileManager == null) {
+            throw new IOException("no RepositoryFileManager");
+        }
+        return repositoryFileManager.getRevision(filename);
+    }
+
+    /**
+     * Returns the {@link SymbolicName} with the given name or creates it if it does not yet exist.
+     * 
+     * @param name
+     *            the symbolic name's name
+     * @return the corresponding symbolic name object
+     */
+    public SymbolicName getSymbolicName(String name) {
+        SymbolicName sym = (SymbolicName) symbolicNames.get(name);
+
+        if (sym != null) {
+            return sym;
+        } else {
+            sym = new SymbolicName(name);
+            symbolicNames.put(name, sym);
+
+            return sym;
+        }
+    }
+
+    /**
+     * Matches a filename against the include and exclude patterns. If no include pattern was specified, all files will be included. If no exclude pattern was
+     * specified, no files will be excluded.
+     * 
+     * @param filename
+     *            a filename
+     * @return <tt>true</tt> if the filename matches one of the include patterns and does not match any of the exclude patterns. If it matches an include and
+     *         an exclude pattern, <tt>false</tt> will be returned.
+     */
+    public boolean matchesPatterns(String filename) {
+        if (excludePattern != null && excludePattern.matches(filename)) {
+            return false;
+        }
+        if (includePattern != null) {
+            return includePattern.matches(filename);
+        }
+        return true;
     }
 }

@@ -35,6 +35,16 @@ public class MockLogBuilder implements SvnLogBuilder {
 	private LinkedList expectedMethods = new LinkedList();
 	private LinkedList expectedData = new LinkedList();
 
+    
+
+    /*
+     *  (non-Javadoc)
+     * @see net.sf.statcvs.input.SvnLogBuilder#addToAttic(java.lang.String)
+     */
+    public void addToAttic(String filename) {
+        // TODO Auto-generated method stub       
+    }
+    
 	/* (non-Javadoc)
 	 * @see net.sf.statcvs.input.SvnLogBuilder#buildModule(java.lang.String)
 	 */
