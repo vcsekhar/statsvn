@@ -360,11 +360,9 @@ public class FileBuilder {
     /**
      * New in StatSVN: Returns a particular revision made on this file or <tt>null</tt> if it doesn't exist.
      * 
-     * TODO: Beef up this interface to better encapsulate the data structure.
-     * 
      * @return a particular revision made on this file or <tt>null</tt> if it doesn't exist.
      */
-    public RevisionData findRevision(String revisionNumber) {
+    private RevisionData findRevision(String revisionNumber) {
         for (int i = 0; i < revisions.size(); i++) {
             RevisionData data = (RevisionData) revisions.get(i);
             if (data.getRevisionNumber().equals(revisionNumber))
@@ -394,6 +392,24 @@ public class FileBuilder {
      */
     public void setBinary(boolean isBinary) {
         this.isBinary = isBinary;
+    }
+
+    /**
+     * New in StatSVN: Updates a particular revision with new line count information. If the file or revision does not exist, action will do nothing.
+     * 
+     * Necessary because line counts are not given in the log file and hence can only be added in a second pass.
+     * 
+     * @param revisionNumber
+     *            the revision number to be updated
+     * @param linesAdded
+     *            the lines that were added
+     * @param linesRemoved
+     *            the lines that were removed
+     */
+    public void updateRevision(String revisionNumber, int linesAdded, int linesRemoved) {
+        RevisionData data = findRevision(revisionNumber);
+        if (data != null)
+            data.setLines(linesAdded, linesRemoved);
     }
 
 }

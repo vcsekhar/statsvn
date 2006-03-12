@@ -329,4 +329,26 @@ public class Builder implements SvnLogBuilder {
         }
         return true;
     }
+
+    
+    /**
+     * New in StatSVN: Updates a particular revision for a file with new line count information. If the file or revision does not exist, action will do nothing.
+     * 
+     * Necessary because line counts are not given in the log file and hence can only be added in a second pass.
+     * 
+     * @param filename
+     *            the file to be updated
+     * @param revisionNumber
+     *            the revision number to be updated
+     * @param linesAdded
+     *            the lines that were added
+     * @param linesRemoved
+     *            the lines that were removed
+     */
+    public void updateRevision(String filename, String revisionNumber, int linesAdded, int linesRemoved) {
+        FileBuilder fb = (FileBuilder) fileBuilders.get(filename);
+        if (fb != null) {
+            fb.updateRevision(revisionNumber, linesAdded, linesRemoved);
+        }
+    }
 }

@@ -1,7 +1,5 @@
 package net.sf.statcvs.input;
 
-import java.util.Map;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -32,10 +30,10 @@ public class LineCountsBuilder {
     private static final String PATH = "path";
     private static final String REMOVED = "removed";
     private static final String REVISION = "revision";
-    private FileBuilder currentFileBuilder;
+    private SvnLogBuilder builder;
     private Element currentPath = null;
     private Document document = null;
-    private Map fileBuilders;
+    private String currentFilename;
     private Element lineCounts = null;
 
     /**
@@ -45,7 +43,7 @@ public class LineCountsBuilder {
      *            the SvnLogBuilder which contains all the FileBuilders.
      */
     public LineCountsBuilder(SvnLogBuilder builder) {
-        fileBuilders = builder.getFileBuilders();
+        this.builder = builder;
     }
 
     /**
@@ -93,12 +91,9 @@ public class LineCountsBuilder {
      *            the filename
      */
     public void buildPath(String name) {
+        currentFilename = name;
         addPath(name);
 
-        // get returns null if we have counts for files that don't (yet) exist
-        // in the svn log.
-        // or, we are operating on another project alltogether.
-        currentFileBuilder = (FileBuilder) fileBuilders.get(name);
     }
 
     /**
@@ -114,13 +109,10 @@ public class LineCountsBuilder {
      *            the number of lines removed.
      */
     public void buildRevision(String number, String added, String removed) {
-        // we read linecounts from file but they aren't in the current project.
-        if (currentFileBuilder == null)
-            return;
-        addRevision(number, added, removed);
-        RevisionData data = currentFileBuilder.findRevision(number);
-        if (data != null && !added.equals("-1") && !removed.equals("-1"))
-            data.setLines(Integer.parseInt(added), Integer.parseInt(removed));
+        if (!added.equals("-1") && !removed.equals("-1")) {
+            addRevision(number, added, removed);
+            builder.updateRevision(currentFilename, number, Integer.parseInt(added), Integer.parseInt(removed));
+        }
     }
 
     /**
