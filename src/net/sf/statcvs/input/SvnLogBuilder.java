@@ -74,6 +74,17 @@ public interface SvnLogBuilder {
     public abstract void buildRevision(RevisionData data);
 
     /**
+     * Adds a file to the attic. This method should only be called if our first invocation to (@link #buildFile(String, boolean, boolean, Map)) was given an
+     * invalid isInAttic field.
+     * 
+     * This is a way to handle post-processing of implicit deletions at the same time as the implicit additions that can be found in Subversion.
+     * 
+     * @param filename
+     *            the filename to add to the attic.
+     */
+    public abstract void addToAttic(String filename);
+
+    /**
      * New in StatSVN: We need to have access to FileBuilders after they have been created to populate them with version numbers later on.
      * 
      * TODO: Beef up this interface to better encapsulate the data structure.
@@ -83,13 +94,19 @@ public interface SvnLogBuilder {
     public abstract Map getFileBuilders();
 
     /**
-     * Adds a file to the attic. This method should only be called if our first invocation to (@link #buildFile(String, boolean, boolean, Map)) was given an
-     * invalid isInAttic field.
+     * New in StatSVN: Updates a particular revision for a file with new line count information. If the file or revision does not exist, action will do nothing.
      * 
-     * This is a hack to handle post-processing of implicit deletions at the same time as the implicit additions that can be found in Subversion.
+     * Necessary because line counts are not given in the log file and hence can only be added in a second pass.
      * 
      * @param filename
-     *            the filename to add to the attic.
+     *            the file to be updated
+     * @param revisionNumber
+     *            the revision number to be updated
+     * @param linesAdded
+     *            the lines that were added
+     * @param linesRemoved
+     *            the lines that were removed
      */
-    public abstract void addToAttic(String filename);
+    public abstract void updateRevision(String filename, String revisionNumber, int linesAdded, int linesRemoved);
+
 }

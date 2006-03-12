@@ -120,7 +120,7 @@ public class SvnLogfileParser {
                     String revNrOld = ((RevisionData) revisions.get(i + 1)).getRevisionNumber();
                     int lineDiff[] = repositoryFileManager.getLineDiff(revNrOld, revNrNew, fileName);
                     if (lineDiff[0] != -1 && lineDiff[1] != -1) {
-                        ((RevisionData) revisions.get(i)).setLines(lineDiff[0], lineDiff[1]);
+                        builder.updateRevision(fileName, revNrNew, lineDiff[0], lineDiff[1]);
                         lineCountsBuilder.newRevision(fileName, revNrNew, lineDiff[0] + "", lineDiff[1] + "");
                     } else {
                         // file is binary and has been deleted
@@ -290,7 +290,6 @@ public class SvnLogfileParser {
 
                     if ((!data.isCreationOrRestore() && data.isChange()) || !implicitActions.contains(data))
                         break;
-
                 }
 
                 if (earliestDelete > 0) {
@@ -301,13 +300,9 @@ public class SvnLogfileParser {
                     }
                     filebuilder.getRevisions().removeAll(toRemove);
                 }
-
             }
-
         }
-
         logger.fine("verifying implicit actions finished in " + (System.currentTimeMillis() - startTime) + " ms.");
-
     }
 
     /**

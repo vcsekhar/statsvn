@@ -187,4 +187,9 @@ public class MockLogBuilder implements SvnLogBuilder {
 		// TODO Auto-generated method stub
 		return null;
 	}
+    
+    public void updateRevision(String filename, String revisionNumber, int linesAdded, int linesRemoved)
+    {
+        // TODO Auto-generated method stub
+    }
 }
