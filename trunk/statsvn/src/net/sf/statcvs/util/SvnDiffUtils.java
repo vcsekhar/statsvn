@@ -84,7 +84,8 @@ public class SvnDiffUtils {
      *             problem parsing the stream
      */
     private static int[] parseDiff(LookaheadReader diffReader) throws IOException {
-        int lineDiff[] = { -1, -1 };
+    	int lineDiff[] = { -1, -1 };
+    	boolean propertyChange = false;
         if (!diffReader.hasNextLine()) {
             // diff has no output because we modified properties or the changes
             // are auto-generated ($id$ $author$ kind of thing)
@@ -101,7 +102,13 @@ public class SvnDiffUtils {
                 lineDiff[0]++;
             else if (diffReader.getCurrentLine().charAt(0) == '-')
                 lineDiff[1]++;
+            else if (diffReader.getCurrentLine().indexOf("Property changes on:") == 0)
+            	propertyChange = true;
             // System.out.println(diffReader.getCurrentLine());
+        }
+        if (propertyChange && (lineDiff[0] == -1 || lineDiff[1] == -1)) {
+        	lineDiff[0] = 0;
+        	lineDiff[1] = 0;
         }
         // System.out.println(lineDiff[0] + " " + lineDiff[1]);
         return lineDiff;
