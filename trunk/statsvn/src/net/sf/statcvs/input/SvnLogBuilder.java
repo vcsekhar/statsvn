@@ -66,7 +66,7 @@ public interface SvnLogBuilder {
     public abstract void buildFile(String filename, boolean isBinary, boolean isInAttic, Map revBySymnames);
 
     /**
-     * Adds a revision to the last file that was built.. The revisions are added in CVS logfile order, that is starting with the most recent one.
+     * Adds a revision to the last file that was built.. The revisions are added in SVN logfile order, that is starting with the most recent one.
      * 
      * @param data
      *            the revision
@@ -81,4 +81,15 @@ public interface SvnLogBuilder {
      * @return this builder's contained (@link FileBuilder)s.
      */
     public abstract Map getFileBuilders();
+
+    /**
+     * Adds a file to the attic. This method should only be called if our first invocation to (@link #buildFile(String, boolean, boolean, Map)) was given an
+     * invalid isInAttic field.
+     * 
+     * This is a hack to handle post-processing of implicit deletions at the same time as the implicit additions that can be found in Subversion.
+     * 
+     * @param filename
+     *            the filename to add to the attic.
+     */
+    public abstract void addToAttic(String filename);
 }
