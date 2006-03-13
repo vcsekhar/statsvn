@@ -36,10 +36,12 @@ public class LineCountsBuilder {
 	private static final String REMOVED = "removed";
 	private static final String REVISION = "revision";
 	private SvnLogBuilder builder;
+	private RepositoryFileManager repositoryFileManager;
 	private Element currentPath = null;
 	private Document document = null;
 	private String currentFilename;
 	private Element lineCounts = null;
+
 
 	/**
 	 * Constructs the LineCountsBuilder by giving it a reference to the builder
@@ -48,8 +50,9 @@ public class LineCountsBuilder {
 	 * @param builder
 	 *            the SvnLogBuilder which contains all the FileBuilders.
 	 */
-	public LineCountsBuilder(SvnLogBuilder builder) {
+	public LineCountsBuilder(SvnLogBuilder builder, RepositoryFileManager repositoryFileManager) {
 		this.builder = builder;
+		this.repositoryFileManager = repositoryFileManager;
 	}
 
 	/**
@@ -59,7 +62,7 @@ public class LineCountsBuilder {
 	 * @param name
 	 *            the filename
 	 */
-	private void addPath(String name) {
+	private void addDOMPath(String name) {
 		currentPath = (Element) document.createElement(PATH);
 		Attr attr = document.createAttribute(NAME);
 		attr.setTextContent(name);
@@ -74,7 +77,7 @@ public class LineCountsBuilder {
 	 *            the filename
 	 * @return the path or null if the path does not exist
 	 */
-	private Element findPath(String name) {
+	private Element findDOMPath(String name) {
 		if (currentPath != null) {
 			if (name.equals(currentPath.getAttribute(NAME))) {
 				return currentPath;
@@ -101,7 +104,7 @@ public class LineCountsBuilder {
 	 * @param removed
 	 *            the number of lines that were removed
 	 */
-	private void addRevision(String number, String added, String removed) {
+	private void addDOMRevision(String number, String added, String removed) {
 		Element revision = (Element) document.createElement(REVISION);
 		Attr attrRev1 = document.createAttribute(NUMBER);
 		attrRev1.setTextContent(number);
@@ -123,8 +126,8 @@ public class LineCountsBuilder {
 	 *            the filename
 	 */
 	public void buildPath(String name) {
-		currentFilename = name;
-		addPath(name);
+		currentFilename = repositoryFileManager.absoluteToRelativePath(name);
+		addDOMPath(name);
 
 	}
 
@@ -145,7 +148,7 @@ public class LineCountsBuilder {
 	 */
 	public void buildRevision(String number, String added, String removed) {
 		if (!added.equals("-1") && !removed.equals("-1")) {
-			addRevision(number, added, removed);
+			addDOMRevision(number, added, removed);
 			builder.updateRevision(currentFilename, number, Integer
 					.parseInt(added), Integer.parseInt(removed));
 		}
@@ -194,6 +197,7 @@ public class LineCountsBuilder {
 	 */
 	public void newRevision(String name, String number, String added,
 			String removed) {
+		name = repositoryFileManager.relativeToAbsolutePath(name);
 		if (document == null) {
 			try {
 				buildRoot();
@@ -202,12 +206,12 @@ public class LineCountsBuilder {
 			}
 		}
 		if (document != null) {
-			currentPath = findPath(name);
+			currentPath = findDOMPath(name);
 			if (currentPath == null) {
 				// changes currentPath to new one
-				addPath(name);
+				addDOMPath(name);
 			}
-			addRevision(number, added, removed);
+			addDOMRevision(number, added, removed);
 		}
 	}
 
