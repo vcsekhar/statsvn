@@ -67,6 +67,8 @@ public class SvnInfoUtils {
                 hmRevisions.put(urlToRelativePath(sCurrentUrl), sCurrentRevision);
                 if (sCurrentKind.equals("dir"))
                     hsDirectories.add(urlToRelativePath(sCurrentUrl));
+            } else if (eName.equals("uuid")) {
+            	sRepositoryUuid = stringData;
             }
         }
 
@@ -94,7 +96,7 @@ public class SvnInfoUtils {
                 if (!isValidCommit(attributes))
                     throw new SAXException("Invalid svn info xml for commit element.");
                 sCurrentRevision = attributes.getValue("revision");
-            }
+            } 
 
             stringData = "";
         }
@@ -154,6 +156,9 @@ public class SvnInfoUtils {
 
     // Any path given in svn log.
     protected static String sSeedPath = null;
+    
+    // UUID of repository
+    protected static String sRepositoryUuid = null;
 
     /**
      * Converts an absolute path in the repository to a path relative to the working folder root.
@@ -290,6 +295,15 @@ public class SvnInfoUtils {
         return sRootUrl;
     }
 
+    /**
+     * Assumes #loadInfo() has been invoked.
+     * 
+     * @return the uuid of the repository
+     */
+    public static String getRepositoryUuid() {
+        return sRepositoryUuid;
+    }
+    
     /**
      * Assumes #loadInfo() has been invoked.
      * 

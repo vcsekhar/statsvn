@@ -21,7 +21,7 @@ public class SvnXmlRepositoriesFileHandler extends DefaultHandler {
     private static final String FATAL_ERROR_MESSAGE = "Invalid StatSvn repositories file.";
     private static final String REPOSITORIES = "repositories";
     private static final String REPOSITORY = "repository";
-    private static final String URL = "url";
+    private static final String UUID = "uuid";
     private static final String FILE = "file";
     private String lastElement = "";
     private RepositoriesBuilder repositoriesBuilder;
@@ -154,10 +154,10 @@ public class SvnXmlRepositoriesFileHandler extends DefaultHandler {
     private void startRepository(Attributes attributes) throws SAXException {
         checkLastElement(REPOSITORIES);
         lastElement = REPOSITORY;
-        if (attributes != null && attributes.getValue(URL) != null && attributes.getValue(FILE) != null) {
-            String url = attributes.getValue(URL);
+        if (attributes != null && attributes.getValue(UUID) != null && attributes.getValue(FILE) != null) {
+            String uuid = attributes.getValue(UUID);
             String file = attributes.getValue(FILE);
-            repositoriesBuilder.buildRepository(url, file);
+            repositoriesBuilder.buildRepository(uuid, file);
         } else
             fatalError(FATAL_ERROR_MESSAGE);
     }
