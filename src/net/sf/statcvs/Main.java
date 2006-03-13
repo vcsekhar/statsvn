@@ -76,6 +76,7 @@ public class Main {
 		try {
 			new CommandLineParser(args).parse();
 			SvnStartupUtils.checkSvnVersionSufficient();
+			SvnStartupUtils.checkRepoRootAvailable();
 			generateDefaultHTMLSuite();
 		} catch (ConfigurationException cex) {
 			System.err.println(cex.getMessage());
