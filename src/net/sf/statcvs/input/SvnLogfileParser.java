@@ -39,6 +39,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import net.sf.statcvs.output.ConfigurationOptions;
 import net.sf.statcvs.util.FilenameComparator;
 import net.sf.statcvs.util.SvnInfoUtils;
 import net.sf.statcvs.util.XMLUtil;
@@ -88,18 +89,19 @@ public class SvnLogfileParser {
      */
     protected void handleLineCounts(SAXParserFactory factory) throws IOException {
         long startTime = System.currentTimeMillis();
-
+    	String xmlFile = ConfigurationOptions.getCacheDir() + REPOSITORIES_XML;
+    	
         RepositoriesBuilder repositoriesBuilder = new RepositoriesBuilder();
         try {
-            FileInputStream repositoriesFile = new FileInputStream(REPOSITORIES_XML);
+            FileInputStream repositoriesFile = new FileInputStream(xmlFile);
             SAXParser parser = factory.newSAXParser();
             parser.parse(repositoriesFile, new SvnXmlRepositoriesFileHandler(repositoriesBuilder));
         } catch (ParserConfigurationException e) {
         } catch (SAXException e) {
         } catch (IOException e) {
         }
-        String lineCountsFileName = repositoriesBuilder.getFileName(SvnInfoUtils.getRepositoryUrl());
-        XMLUtil.writeXmlFile(repositoriesBuilder.getDocument(), REPOSITORIES_XML);
+        String lineCountsFileName = ConfigurationOptions.getCacheDir() + repositoriesBuilder.getFileName(SvnInfoUtils.getRepositoryUrl());
+        XMLUtil.writeXmlFile(repositoriesBuilder.getDocument(), xmlFile);
         logger.fine("parsing repositories finished in " + (System.currentTimeMillis() - startTime) + " ms.");
         startTime = System.currentTimeMillis();
         
