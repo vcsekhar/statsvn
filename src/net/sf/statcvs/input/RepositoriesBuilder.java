@@ -21,6 +21,8 @@ import org.w3c.dom.NodeList;
  * 
  * @author Gunter Mussbacher <gunterm@site.uottawa.ca>
  * 
+ * @version $Id$
+ * 
  */
 public class RepositoriesBuilder {
 	private static final String REPOSITORIES = "repositories";
