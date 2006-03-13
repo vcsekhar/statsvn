@@ -14,6 +14,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * 
  * @author Gunter Mussbacher <gunterm@site.uottawa.ca>
  * 
+ * @version $Id$
  */
 public class SvnXmlRepositoriesFileHandler extends DefaultHandler {
     
