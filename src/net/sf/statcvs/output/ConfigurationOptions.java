@@ -28,8 +28,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.CodeSource;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+
+import net.sf.statcvs.Main;
 import net.sf.statcvs.util.FilePatternMatcher;
 import net.sf.statcvs.util.FileUtils;
 
@@ -52,7 +55,7 @@ public class ConfigurationOptions {
     private static String checkedOutDirectory = null;
     private static String projectName = null;
     private static String outputDir = "";
-    private static String cacheDir = "";
+    private static String cacheDir = getStatSvnJarDir();
     private static String loggingProperties = LOGGING_CONFIG_DEFAULT;
     private static String notesFile = null;
     private static String notes = null;
@@ -73,6 +76,26 @@ public class ConfigurationOptions {
         return cssHandler;
     }
 
+    /**
+     * Method getStatSvnJarDir.
+     * 
+     * @return the directory in which statsvn.jar resides
+     */
+    private static String getStatSvnJarDir() {
+	    Class c = ConfigurationOptions.class;
+	    CodeSource source  = c.getProtectionDomain().getCodeSource();
+	    URL url = source.getLocation();
+	    // this yields a string such as file:/PATH/statsvn.jar (statsvn.jar may not be there)
+	    String statSvnJarDir = new String(url.toString());
+	    // get rid of file:/ at the beginning of string
+	    statSvnJarDir = statSvnJarDir.substring(6);
+	    // remove statsvn.jar from end of string if it exists
+	    if (statSvnJarDir.lastIndexOf("statsvn.jar") > -1 ) {
+	    	statSvnJarDir = statSvnJarDir.substring(0, statSvnJarDir.lastIndexOf("statsvn.jar"));
+	    }
+		return statSvnJarDir;
+	}
+    
     /**
      * Method getProjectName.
      * 
