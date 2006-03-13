@@ -132,6 +132,11 @@ public class CommandLineParser {
 				throw new ConfigurationException("Missing argument for -tags");
 			}
 			ConfigurationOptions.setSymbolicNamesPattern(popNextArg());
+		} else if (s.equals("cache-dir")) {
+			if (args.isEmpty()) {
+				throw new ConfigurationException("Missing argument for -cache-dir");
+			}
+			ConfigurationOptions.setCacheDir(popNextArg());
 		} else {
 			throw new ConfigurationException("Unrecognized option -" + s);
 		}

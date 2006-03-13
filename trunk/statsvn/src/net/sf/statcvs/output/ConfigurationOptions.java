@@ -52,6 +52,7 @@ public class ConfigurationOptions {
     private static String checkedOutDirectory = null;
     private static String projectName = null;
     private static String outputDir = "";
+    private static String cacheDir = "";
     private static String loggingProperties = LOGGING_CONFIG_DEFAULT;
     private static String notesFile = null;
     private static String notes = null;
@@ -108,6 +109,15 @@ public class ConfigurationOptions {
         return outputDir;
     }
 
+    /**
+     * Returns the cacheDir.
+     * 
+     * @return String output Directory
+     */
+    public static String getCacheDir() {
+        return cacheDir;
+    }
+    
     /**
      * Returns the report notes (from "-notes filename" switch) or <tt>null</tt> if not specified
      * 
@@ -200,6 +210,25 @@ public class ConfigurationOptions {
         ConfigurationOptions.outputDir = outputDir;
     }
 
+    /**
+     * Sets the cacheDir.
+     * 
+     * @param cacheDir
+     *            The cacheDir to set
+     * @throws ConfigurationException
+     *             if the cache directory cannot be created
+     */
+    public static void setCacheDir(String cacheDir) throws ConfigurationException {
+        if (!cacheDir.endsWith(FileUtils.getDirSeparator())) {
+            cacheDir += FileUtils.getDefaultDirSeparator();
+        }
+        File cDir = new File(cacheDir);
+        if (!cDir.exists() && !cDir.mkdirs()) {
+            throw new ConfigurationException("Can't create cache directory: " + cacheDir);
+        }
+        ConfigurationOptions.cacheDir = cacheDir;
+    }
+    
     /**
      * Sets the name of the notes file. The notes file will be included on the {@link IndexPage} of the output. It must contain a valid block-level HTML
      * fragment (for example <tt>"&lt;p&gt;Some notes&lt;/p&gt;"</tt>)
