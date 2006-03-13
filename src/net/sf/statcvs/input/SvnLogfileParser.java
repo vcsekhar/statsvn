@@ -40,6 +40,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import net.sf.statcvs.util.FilenameComparator;
+import net.sf.statcvs.util.SvnInfoUtils;
 import net.sf.statcvs.util.XMLUtil;
 
 import org.xml.sax.SAXException;
@@ -54,7 +55,8 @@ import org.xml.sax.SAXException;
  */
 public class SvnLogfileParser {
 
-    private static Logger logger = Logger.getLogger(SvnLogfileParser.class.getName());
+    private static final String REPOSITORIES_XML = "repositories.xml";
+	private static Logger logger = Logger.getLogger(SvnLogfileParser.class.getName());
     private SvnLogBuilder builder;
     private InputStream logFile;
     private RepositoryFileManager repositoryFileManager;
@@ -87,13 +89,25 @@ public class SvnLogfileParser {
     protected void handleLineCounts(SAXParserFactory factory) throws IOException {
         long startTime = System.currentTimeMillis();
 
-        LineCountsBuilder lineCountsBuilder = new LineCountsBuilder(builder);
+        RepositoriesBuilder repositoriesBuilder = new RepositoriesBuilder();
         try {
-            FileInputStream lineCountsFile = new FileInputStream("lineCounts.xml");
+            FileInputStream repositoriesFile = new FileInputStream(REPOSITORIES_XML);
+            SAXParser parser = factory.newSAXParser();
+            parser.parse(repositoriesFile, new SvnXmlRepositoriesFileHandler(repositoriesBuilder));
+        } catch (ParserConfigurationException e) {
+        } catch (SAXException e) {
+        } catch (IOException e) {
+        }
+        String lineCountsFileName = repositoriesBuilder.getFileName(SvnInfoUtils.getRepositoryUrl());
+        XMLUtil.writeXmlFile(repositoriesBuilder.getDocument(), REPOSITORIES_XML);
+        logger.fine("parsing repositories finished in " + (System.currentTimeMillis() - startTime) + " ms.");
+        startTime = System.currentTimeMillis();
+        
+        LineCountsBuilder lineCountsBuilder = new LineCountsBuilder(builder, repositoryFileManager);
+        try {
+            FileInputStream lineCountsFile = new FileInputStream(lineCountsFileName);
             SAXParser parser = factory.newSAXParser();
             parser.parse(lineCountsFile, new SvnXmlLineCountsFileHandler(lineCountsBuilder));
-            // XMLUtil.writeXmlFile(lineCountsBuilder.getDocument(),
-            // "lineCounts2.xml");
         } catch (ParserConfigurationException e) {
         } catch (SAXException e) {
         } catch (IOException e) {
@@ -133,7 +147,7 @@ public class SvnLogfileParser {
             if (c++ > limit)
                 break;
         }
-        XMLUtil.writeXmlFile(lineCountsBuilder.getDocument(), "lineCounts.xml");
+        XMLUtil.writeXmlFile(lineCountsBuilder.getDocument(), lineCountsFileName);
 
         logger.fine("parsing svn diff finished in " + (System.currentTimeMillis() - startTime) + " ms.");
     }
