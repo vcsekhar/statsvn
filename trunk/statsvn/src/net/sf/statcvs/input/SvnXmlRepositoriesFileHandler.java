@@ -8,8 +8,9 @@ import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
- * This is the SAX parser for the repositories xml file. This xml file identifies the line counts xml files 
- * for all repositories for which SVN stats have been compiled.
+ * This is the SAX parser for the repositories xml file. This xml file 
+ * identifies the line counts xml files for all repositories for which 
+ * SVN stats have been compiled.
  * 
  * @author Gunter Mussbacher <gunterm@site.uottawa.ca>
  * 
