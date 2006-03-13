@@ -20,7 +20,7 @@ import org.w3c.dom.NodeList;
  * </p>
  * 
  * @author Gunter Mussbacher <gunterm@site.uottawa.ca>
- * @version $Id: RepositoriesBuilder.java 65 2006-03-12 23:58:14Z gunterm $
+ * 
  */
 public class RepositoriesBuilder {
 	private static final String REPOSITORIES = "repositories";
