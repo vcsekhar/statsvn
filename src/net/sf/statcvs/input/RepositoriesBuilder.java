@@ -1,8 +1,5 @@
 package net.sf.statcvs.input;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -26,7 +23,7 @@ import org.w3c.dom.NodeList;
  */
 public class RepositoriesBuilder {
 	private static final String REPOSITORIES = "repositories";
-	private static final String URL = "url";
+	private static final String UUID = "uuid";
 	private static final String FILE = "file";
 	private static final String REPOSITORY = "repository";
 	private Document document = null;
@@ -42,15 +39,15 @@ public class RepositoriesBuilder {
 	/**
 	 * Finds a repository in the DOM.
 	 * 
-	 * @param url
-	 *            the url of the repository
+	 * @param uuid
+	 *            the uuid of the repository
 	 * @return the repository or null if the repository does not exist
 	 */
-	private Element findRepository(String url) {
+	private Element findRepository(String uuid) {
 		NodeList paths = repositories.getChildNodes();
 		for (int i = 0; i < paths.getLength(); i++) {
 			Element path = (Element) paths.item(i);
-			if (url.equals(path.getAttribute(URL))) {
+			if (uuid.equals(path.getAttribute(UUID))) {
 				return path;
 			}
 		}
@@ -60,15 +57,15 @@ public class RepositoriesBuilder {
 	/**
 	 * Adds a repository to the DOM structure.
 	 * 
-	 * @param url
-	 *            the url of the repository
+	 * @param uuid
+	 *            the uuid of the repository
 	 * @param file
 	 *            the filename for the XML line counts file
 	 */
-	public Element buildRepository(String url, String file) {
+	public Element buildRepository(String uuid, String file) {
 		Element repository = (Element) document.createElement(REPOSITORY);
-		Attr attr = document.createAttribute(URL);
-		attr.setTextContent(url);
+		Attr attr = document.createAttribute(UUID);
+		attr.setTextContent(uuid);
 		repository.setAttributeNode(attr);
 		Attr attr2 = document.createAttribute(FILE);
 		attr2.setTextContent(file);
@@ -99,12 +96,12 @@ public class RepositoriesBuilder {
 	 * If the repositories xml file does not exist (i.e. the document is null), 
 	 * a new document is created.
 	 * 
-	 * @param url
-	 *            the url of the repository
+	 * @param uuid
+	 *            the uuid of the repository
 	 *            
 	 * @return the file name or "" if an unexpected error occurs          
 	 */
-	public String getFileName(String url) {
+	public String getFileName(String uuid) {
 		if (document == null) {
 			try {
 				buildRoot();
@@ -113,13 +110,9 @@ public class RepositoriesBuilder {
 			}
 		}
 		if (document != null) {
-			Element repository = findRepository(url);
+			Element repository = findRepository(uuid);
 			if (repository == null) {
-				try {
-					repository = buildRepository(url, "lineCounts_" + URLEncoder.encode(url, "UTF-8") + ".xml");
-				} catch (UnsupportedEncodingException e) {
-					return "";
-				}
+				repository = buildRepository(uuid, "lineCounts_" + uuid + ".xml");
 			}
 			return repository.getAttribute(FILE);
 		}

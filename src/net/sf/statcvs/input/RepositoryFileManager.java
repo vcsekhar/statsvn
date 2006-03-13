@@ -171,6 +171,15 @@ public class RepositoryFileManager {
     }
 
     /**
+     * Assumes #loadInfo(String) has been called.
+     * 
+     * @return The uuid of the repository.
+     */
+    public String getRepositoryUuid() {
+        return SvnInfoUtils.getRepositoryUuid();
+    }
+    
+    /**
      * Returns the revision of filename in the local working directory by reading the svn metadata.
      * 
      * @param filename

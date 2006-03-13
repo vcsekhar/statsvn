@@ -41,7 +41,6 @@ import javax.xml.parsers.SAXParserFactory;
 
 import net.sf.statcvs.output.ConfigurationOptions;
 import net.sf.statcvs.util.FilenameComparator;
-import net.sf.statcvs.util.SvnInfoUtils;
 import net.sf.statcvs.util.XMLUtil;
 
 import org.xml.sax.SAXException;
@@ -100,7 +99,7 @@ public class SvnLogfileParser {
         } catch (SAXException e) {
         } catch (IOException e) {
         }
-        String lineCountsFileName = ConfigurationOptions.getCacheDir() + repositoriesBuilder.getFileName(SvnInfoUtils.getRepositoryUrl());
+        String lineCountsFileName = ConfigurationOptions.getCacheDir() + repositoriesBuilder.getFileName(repositoryFileManager.getRepositoryUuid());
         XMLUtil.writeXmlFile(repositoriesBuilder.getDocument(), xmlFile);
         logger.fine("parsing repositories finished in " + (System.currentTimeMillis() - startTime) + " ms.");
         startTime = System.currentTimeMillis();
