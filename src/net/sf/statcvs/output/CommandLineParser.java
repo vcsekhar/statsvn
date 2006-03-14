@@ -37,6 +37,7 @@ public class CommandLineParser {
 	private String[] argsArray;
 	private List args = new ArrayList();
 	private int argCount = 0;
+	private boolean setCacheDir = false;
 
 	/**
 	 * Constructor for CommandLineParser
@@ -64,6 +65,10 @@ public class CommandLineParser {
 			} else {
 				parseArgument(currentArg);
 			}
+		}
+		// this creates the default cache dir if it has not been set up yet
+		if (!setCacheDir) {
+			ConfigurationOptions.setCacheDirToDefault();
 		}
 		checkForRequiredArgs();
 	}
@@ -137,6 +142,7 @@ public class CommandLineParser {
 				throw new ConfigurationException("Missing argument for -cache-dir");
 			}
 			ConfigurationOptions.setCacheDir(popNextArg());
+			setCacheDir = true;
 		} else {
 			throw new ConfigurationException("Unrecognized option -" + s);
 		}
