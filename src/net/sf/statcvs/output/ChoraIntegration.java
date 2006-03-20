@@ -1,37 +1,37 @@
 /*
-	StatCvs - CVS statistics generation 
-	Copyright (C) 2002  Lukasz Pekacki <lukasz@pekacki.de>
-	http://statcvs.sf.net/
-    
-	This library is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
+ StatCvs - CVS statistics generation 
+ Copyright (C) 2002  Lukasz Pekacki <lukasz@pekacki.de>
+ http://statcvs.sf.net/
+ 
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
 
-	This library is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-	Lesser General Public License for more details.
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public
-	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-    
-	$RCSfile: ChoraIntegration.java,v $
-	$Date: 2004/10/12 07:22:42 $ 
-*/
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ 
+ $RCSfile: ChoraIntegration.java,v $
+ $Date: 2004/10/12 07:22:42 $ 
+ */
 package net.sf.statcvs.output;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import net.sf.statcvs.model.VersionedFile;
-import net.sf.statcvs.model.Revision;
 import net.sf.statcvs.model.Directory;
+import net.sf.statcvs.model.Revision;
+import net.sf.statcvs.model.VersionedFile;
 
 /**
  * Integration of the <a href="http://www.horde.org/chora/">Chora CVS Viewer</a>
- *
+ * 
  * @author Richard Cyganiak
  * @version $Id: ChoraIntegration.java,v 1.9 2004/10/12 07:22:42 cyganiak Exp $
  */
@@ -40,7 +40,8 @@ public class ChoraIntegration implements WebRepositoryIntegration {
 	private Set atticFileNames = new HashSet();
 
 	/**
-	 * @param baseURL base URL of the Chora installation 
+	 * @param baseURL
+	 *            base URL of the Chora installation
 	 */
 	public ChoraIntegration(String baseURL) {
 		if (baseURL.endsWith("/")) {
@@ -61,34 +62,39 @@ public class ChoraIntegration implements WebRepositoryIntegration {
 	 * @see net.sf.statcvs.output.WebRepositoryIntegration#getDirectoryUrl
 	 */
 	public String getDirectoryUrl(Directory directory) {
-		return baseURL + "/" + directory.getPath();
+		return baseURL + "/?f=" + directory.getPath();
 	}
 
 	/**
 	 * @see net.sf.statcvs.output.WebRepositoryIntegration#getFileHistoryUrl
 	 */
 	public String getFileHistoryUrl(VersionedFile file) {
+		// chora doesn't seem to support deleted files for subversion
+		// repositories
 		if (isInAttic(file)) {
-			String path = file.getDirectory().getPath();
-			String filename = file.getFilename();
-			return baseURL + "/" + path + "Attic/" + filename;
+			// String path = file.getDirectory().getPath();
+			// String filename = file.getFilename();
+			// return baseURL + "/" + path + "Attic/" + filename;
 		}
-		return this.baseURL + "/" + file.getFilenameWithPath();
+		return this.baseURL + "/?f=" + file.getFilenameWithPath();
+	}
+
+	private String getFileViewBaseUrl(VersionedFile file) {
+		return this.baseURL + "/co.php?f=" + file.getFilenameWithPath();
 	}
 
 	/**
 	 * @see net.sf.statcvs.output.WebRepositoryIntegration#getFileViewUrl(VersionedFile)
 	 */
 	public String getFileViewUrl(VersionedFile file) {
-		return getFileHistoryUrl(file) + "?r=HEAD";
+		return getFileViewBaseUrl(file) + "&r=HEAD";
 	}
 
 	/**
 	 * @see net.sf.statcvs.output.WebRepositoryIntegration#getFileViewUrl(VersionedFile)
 	 */
 	public String getFileViewUrl(Revision revision) {
-		return getFileHistoryUrl(revision.getFile()) + "?r="
-				+ revision.getRevisionNumber();
+		return getFileViewBaseUrl(revision.getFile()) + "&r=" + revision.getRevisionNumber();
 	}
 
 	/**
@@ -98,11 +104,11 @@ public class ChoraIntegration implements WebRepositoryIntegration {
 		if (!oldRevision.getFile().equals(newRevision.getFile())) {
 			throw new IllegalArgumentException("revisions must be of the same file");
 		}
-		return getFileHistoryUrl(oldRevision.getFile())
-				+ "?r1=" + oldRevision.getRevisionNumber()
-				+ "&r2=" + newRevision.getRevisionNumber();
+
+		return this.baseURL + "/diff.php?f=" + oldRevision.getFile().getFilenameWithPath() + "&r1=" + oldRevision.getRevisionNumber() + "&r2="
+				+ newRevision.getRevisionNumber() + "&ty=h";
 	}
-	
+
 	/**
 	 * @see net.sf.statcvs.output.WebRepositoryIntegration#setAtticFileNames(java.util.Set)
 	 */
