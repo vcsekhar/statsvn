@@ -23,12 +23,11 @@
 package net.sf.statcvs.output;
 
 import java.util.Date;
-import java.util.HashSet;
 
 import junit.framework.TestCase;
-import net.sf.statcvs.model.VersionedFile;
-import net.sf.statcvs.model.Revision;
 import net.sf.statcvs.model.Directory;
+import net.sf.statcvs.model.Revision;
+import net.sf.statcvs.model.VersionedFile;
 
 /**
  * Test cases for {ViewCvsIntegration}
@@ -58,7 +57,6 @@ public class WebRepositoryIntegrationTest extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		viewcvs = new ViewCvsIntegration(BASE);
-		cvsweb = new CvswebIntegration(BASE);
 		chora = new ChoraIntegration(BASE);
 		root = Directory.createRoot();
 		path = root.createSubdirectory("path");
@@ -108,20 +106,20 @@ public class WebRepositoryIntegrationTest extends TestCase {
 				this.viewcvs.getFileViewUrl(file));
 	}
 
-	/**
-	 * test URLs for an attic file
-	 */
-	public void testViewcvsAtticFile() {
-		VersionedFile file = new VersionedFile("path/file", path);
-		file.addChangeRevision("1.1", null, date, null, 0, 0, 0, null);
-		HashSet atticFileNames = new HashSet();
-		atticFileNames.add("path/file");
-		viewcvs.setAtticFileNames(atticFileNames);
-		assertEquals(BASE + "path/Attic/file", viewcvs.getFileHistoryUrl(file));
-		assertEquals(BASE + "path/Attic/file?rev=HEAD&content-type=text/vnd.viewcvs-markup",
-				viewcvs.getFileViewUrl(file));
-	}
-	
+//	/**
+//	 * test URLs for an attic file
+//	 */
+//	public void testViewcvsAtticFile() {
+//		VersionedFile file = new VersionedFile("path/file", path);
+//		file.addChangeRevision("1.1", null, date, null, 0, 0, 0, null);
+//		HashSet atticFileNames = new HashSet();
+//		atticFileNames.add("path/file");
+//		viewcvs.setAtticFileNames(atticFileNames);
+//		assertEquals(BASE + "path/Attic/file", viewcvs.getFileHistoryUrl(file));
+//		assertEquals(BASE + "path/Attic/file?rev=HEAD&content-type=text/vnd.viewcvs-markup",
+//				viewcvs.getFileViewUrl(file));
+//	}
+//	
 	/**
 	 * Test URLs for directories
 	 */
@@ -158,99 +156,6 @@ public class WebRepositoryIntegrationTest extends TestCase {
 	}
 
 
-	/**
-	 * test
-	 */
-	public void testCvswebCreation() {
-		assertEquals("cvsweb", cvsweb.getName());
-	}
-	
-	/**
-	 * Tests if stuff still works when the trailing slash is omitted from
-	 * the base URL
-	 */
-	public void testCvswebForgivingBaseURL() {
-		CvswebIntegration cvsweb2 = new CvswebIntegration("http://example.com");
-		VersionedFile file = new VersionedFile("file", root);
-		file.addChangeRevision("1.1", null, date, null, 0, 0, 0, null);
-		assertEquals("http://example.com/file", cvsweb2.getFileHistoryUrl(file));
-	}
-
-	/**
-	 * test URLs for a normal file
-	 */
-	public void testCvswebNormalFile() {
-		VersionedFile file = new VersionedFile("path/file", path);
-		file.addChangeRevision("1.1", null, date, null, 0, 0, 0, null);
-		assertEquals(BASE + "path/file", cvsweb.getFileHistoryUrl(file));
-		assertEquals(BASE + "path/file?rev=HEAD&content-type=text/vnd.viewcvs-markup",
-				cvsweb.getFileViewUrl(file));
-	}
-
-	/**
-	 * Test for a URL that includes a cvsroot parameter
-	 */
-	public void testCvswebWithCvsroot() {
-		this.cvsweb = new CvswebIntegration("http://example.com/cgi-bin/cvsweb.cgi/module?cvsroot=CvsRoot");
-		VersionedFile file = new VersionedFile("path/file", this.path);
-		file.addChangeRevision("1.1", null, this.date, null, 0, 0, 0, null);
-		assertEquals(
-				"http://example.com/cgi-bin/cvsweb.cgi/module/path/file?cvsroot=CvsRoot",
-				this.cvsweb.getFileHistoryUrl(file));
-		assertEquals(
-				"http://example.com/cgi-bin/cvsweb.cgi/module/path/file?rev=HEAD&content-type=text/vnd.viewcvs-markup&cvsroot=CvsRoot",
-				this.cvsweb.getFileViewUrl(file));
-	}
-
-	/**
-	 * test URLs for an attic file
-	 */
-	public void testCvswebAtticFile() {
-		VersionedFile file = new VersionedFile("path/file", path);
-		file.addChangeRevision("1.1", null, date, null, 0, 0, 0, null);
-		HashSet atticFileNames = new HashSet();
-		atticFileNames.add("path/file");
-		cvsweb.setAtticFileNames(atticFileNames);
-		assertEquals(BASE + "path/Attic/file", cvsweb.getFileHistoryUrl(file));
-		assertEquals(BASE + "path/Attic/file?rev=HEAD&content-type=text/vnd.viewcvs-markup",
-				cvsweb.getFileViewUrl(file));
-	}
-	
-	/**
-	 * Test URLs for directories
-	 */
-	public void testCvswebDirectory() {
-		assertEquals("http://example.com/",
-				cvsweb.getDirectoryUrl(root));
-		assertEquals("http://example.com/path/",
-				cvsweb.getDirectoryUrl(path));
-	}
-	
-	/**
-	 * Test URLs for diff
-	 */
-	public void testCvswebDiff() {
-		VersionedFile file = new VersionedFile("file", root);
-		Revision rev1 = file.addChangeRevision("1.1", null, date, null, 0, 0, 0, null);
-		Revision rev2 = file.addChangeRevision("1.2", null, date, null, 0, 0, 0, null);
-		assertEquals(
-				"http://example.com/file.diff?r1=1.1&r2=1.2&f=h",
-				cvsweb.getDiffUrl(rev1, rev2));
-	}
-
-	/**
-	 * Test URLs for diff with cvsroot parameter
-	 */
-	public void testCvswebDiffWithCvsroot() {
-		this.cvsweb = new CvswebIntegration("http://example.com/cgi-bin/cvsweb.cgi/module?cvsroot=CvsRoot");
-		VersionedFile file = new VersionedFile("file", this.root);
-		Revision rev1 = file.addChangeRevision("1.1", null, this.date, null, 0, 0, 0, null);
-		Revision rev2 = file.addChangeRevision("1.2", null, this.date, null, 0, 0, 0, null);
-		assertEquals(
-				"http://example.com/cgi-bin/cvsweb.cgi/module/file.diff?r1=1.1&r2=1.2&f=h&cvsroot=CvsRoot",
-				this.cvsweb.getDiffUrl(rev1, rev2));
-	}
-
 
 	/**
 	 * test
@@ -267,7 +172,7 @@ public class WebRepositoryIntegrationTest extends TestCase {
 		ChoraIntegration chora2 = new ChoraIntegration("http://example.com");
 		VersionedFile file = new VersionedFile("file", root);
 		file.addChangeRevision("1.1", null, date, null, 0, 0, 0, null);
-		assertEquals("http://example.com/file", chora2.getFileHistoryUrl(file));
+		assertEquals("http://example.com/?f=file", chora2.getFileHistoryUrl(file));
 	}
 
 	/**
@@ -276,22 +181,22 @@ public class WebRepositoryIntegrationTest extends TestCase {
 	public void testChoraNormalFile() {
 		VersionedFile file = new VersionedFile("path/file", path);
 		file.addChangeRevision("1.1", null, date, null, 0, 0, 0, null);
-		assertEquals(BASE + "path/file", chora.getFileHistoryUrl(file));
-		assertEquals(BASE + "path/file?r=HEAD", chora.getFileViewUrl(file));
+		assertEquals(BASE + "?f=path/file", chora.getFileHistoryUrl(file));
+		assertEquals(BASE + "co.php?f=path/file&r=HEAD", chora.getFileViewUrl(file));
 	}
 
-	/**
-	 * test URLs for an attic file
-	 */
-	public void testChoraAtticFile() {
-		VersionedFile file = new VersionedFile("path/file", path);
-		file.addChangeRevision("1.1", null, date, null, 0, 0, 0, null);
-		HashSet atticFileNames = new HashSet();
-		atticFileNames.add("path/file");
-		chora.setAtticFileNames(atticFileNames);
-		assertEquals(BASE + "path/Attic/file", chora.getFileHistoryUrl(file));
-		assertEquals(BASE + "path/Attic/file?r=HEAD", chora.getFileViewUrl(file));
-	}
+//	/**
+//	 * test URLs for an attic file
+//	 */
+//	public void testChoraAtticFile() {
+//		VersionedFile file = new VersionedFile("path/file", path);
+//		file.addChangeRevision("1.1", null, date, null, 0, 0, 0, null);
+//		HashSet atticFileNames = new HashSet();
+//		atticFileNames.add("path/file");
+//		chora.setAtticFileNames(atticFileNames);
+//		assertEquals(BASE + "path/Attic/file", chora.getFileHistoryUrl(file));
+//		assertEquals(BASE + "path/Attic/file?r=HEAD", chora.getFileViewUrl(file));
+//	}
 	
 	/**
 	 * Test URLs for directories
@@ -311,7 +216,7 @@ public class WebRepositoryIntegrationTest extends TestCase {
 		Revision rev1 = file.addChangeRevision("1.1", null, date, null, 0, 0, 0, null);
 		Revision rev2 = file.addChangeRevision("1.2", null, date, null, 0, 0, 0, null);
 		assertEquals(
-				"http://example.com/file?r1=1.1&r2=1.2",
+				"http://example.com/diff.php?f=file&r1=1.1&r2=1.2&ty=h",
 				chora.getDiffUrl(rev1, rev2));
 	}
 }

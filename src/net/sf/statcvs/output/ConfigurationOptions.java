@@ -277,16 +277,6 @@ public class ConfigurationOptions {
         ConfigurationOptions.webRepository = new ViewCvsIntegration(url);
     }
 
-    /**
-     * Sets the URL to a <a href="http://www.freebsd.org/projects/cvsweb.html">cvsweb</a> web-based CVS browser. This must be the URL at which the checked-out
-     * module's root can be viewed in cvsweb.
-     * 
-     * @param url
-     *            URL to a cvsweb repository
-     */
-    public static void setCvswebURL(String url) {
-        ConfigurationOptions.webRepository = new CvswebIntegration(url);
-    }
 
     /**
      * Sets the URL to a <a href="http://www.horde.org/chora/">Chora</a> web-based CVS browser. This must be the URL at which the checked-out module's root can
