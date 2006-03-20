@@ -111,12 +111,10 @@ public class CommandLineParser {
             popNextArg();
             throw new ConfigurationException("CVSweb is not supported by StatSVN");
 		} else if (s.equals("chora")) {
-//			if (args.isEmpty()) {
-//				throw new ConfigurationException("Missing argument for -chora");
-//			}
-//			ConfigurationOptions.setChoraURL(popNextArg());
-            popNextArg();
-            throw new ConfigurationException("Chora is not (yet) supported by StatSVN");
+			if (args.isEmpty()) {
+				throw new ConfigurationException("Missing argument for -chora");
+			}
+			ConfigurationOptions.setChoraURL(popNextArg());
 		} else if (s.equals("include")) {
 			if (args.isEmpty()) {
 				throw new ConfigurationException("Missing argument for -include");
