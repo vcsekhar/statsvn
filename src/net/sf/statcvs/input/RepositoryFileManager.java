@@ -219,17 +219,15 @@ public class RepositoryFileManager {
     }
 
     /**
-     * Initializes our representation of the repository using the a seed.
+     * Initializes our representation of the repository.
      * 
-     * @param seedPath
-     *            any path found in an svn log (ex: /trunk/statsvn/package.html)
      * @throws LogSyntaxException
      *             if the svn info --xml is malformed
      * @throws IOException
      *             if there is an error reading from the stream
      */
-    public void loadInfo(String seedPath) throws LogSyntaxException, IOException {
-        SvnInfoUtils.loadInfo(seedPath);
+    public void loadInfo() throws LogSyntaxException, IOException {
+        SvnInfoUtils.loadInfo();
     }
 
     /**
