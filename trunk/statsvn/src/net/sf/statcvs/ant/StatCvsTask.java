@@ -46,7 +46,6 @@ public class StatCvsTask extends Task {
 	private String cssFile;
 	private String notesFile;
 	private String viewcvs;
-	private String cvsweb;
 	private String chora;
 	private String include = null;
 	private String exclude = null;
@@ -103,9 +102,6 @@ public class StatCvsTask extends Task {
 		}
 		if (viewcvs != null) {
 			ConfigurationOptions.setViewCvsURL(this.viewcvs);
-		}
-		if (cvsweb != null) {
-			ConfigurationOptions.setCvswebURL(this.cvsweb);
 		}
 		if (chora != null) {
 			ConfigurationOptions.setChoraURL(this.chora);
@@ -169,13 +165,6 @@ public class StatCvsTask extends Task {
 	 */
 	public void setViewcvsURL(String viewcvs) {
 		this.viewcvs = viewcvs;
-	}
-
-	/**
-	 * @param cvsweb String representing the URL of a cvsweb installation
-	 */
-	public void setCvswebURL(String cvsweb) {
-		this.cvsweb = cvsweb;
 	}
 
 	/**
