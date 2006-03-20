@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.logging.Logger;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -69,7 +70,8 @@ public class SvnInfoUtils {
                     hsDirectories.add(urlToRelativePath(sCurrentUrl));
             } else if (eName.equals("uuid")) {
             	sRepositoryUuid = stringData;
-            }
+            } else if (eName.equals("root"))
+            	setRepositoryUrl(stringData);
         }
 
         /**
@@ -153,12 +155,12 @@ public class SvnInfoUtils {
 
     // URL of root (.)
     protected static String sRootUrl = null;
-
-    // Any path given in svn log.
-    protected static String sSeedPath = null;
     
     // UUID of repository
     protected static String sRepositoryUuid = null;
+    
+    // URL of repository
+    protected static String sRepositoryUrl = null;
 
     /**
      * Converts an absolute path in the repository to a path relative to the working folder root.
@@ -239,26 +241,15 @@ public class SvnInfoUtils {
     public static String getModuleName() {
 
         if (sModuleName == null) {
-            // Need sSeedPath and sRootUrl
-            // sSeedPath: /trunk/statsvn/package.html
-            // sRootUrl: svn://svn.statsvn.org/statsvn/trunk/statsvn
-
-            String tmp = sSeedPath;
-            if (tmp.endsWith("/"))
-                tmp = tmp.substring(0, tmp.length() - 1);
-
-            while (!sRootUrl.endsWith(tmp)) {
-                if (!tmp.endsWith("/"))
-                    tmp += "/";
-
-                // tricking method to think it is receiving a directory.
-                tmp = FileUtils.getParentDirectoryPath(tmp);
-
-                if (tmp.endsWith("/"))
-                    tmp = tmp.substring(0, tmp.length() - 1);
-            }
-
-            sModuleName = tmp;
+        	
+        	if (getRootUrl().length()<getRepositoryUrl().length() || getRepositoryUrl().length()==0 ){
+        		Logger logger = Logger.getLogger(SvnInfoUtils.class.getName());
+        		logger.warning("Unable to process module name.");
+        		sModuleName= "";
+        	}
+        	else
+        		sModuleName = getRootUrl().substring(getRepositoryUrl().length());
+        	
         }
         return sModuleName;
     }
@@ -310,16 +301,7 @@ public class SvnInfoUtils {
      * @return the repository url (example: svn://svn.statsvn.org/statsvn)
      */
     public static String getRepositoryUrl() {
-        return sRootUrl.substring(0, sRootUrl.lastIndexOf(getModuleName()));
-    }
-
-    /**
-     * Returns the seed path used to determine the repository root URL.
-     * 
-     * @return the seed path
-     */
-    protected static String getSeedPath() {
-        return sSeedPath;
+    	return sRepositoryUrl;
     }
 
     /**
@@ -408,35 +390,17 @@ public class SvnInfoUtils {
     }
 
     /**
-     * Initializes our representation of the repository using the a seed.
+     * Initializes our representation of the repository. 
      * 
-     * @param seedPath
-     *            any path found in an svn log (ex: /trunk/statsvn/package.html)
      * @throws LogSyntaxException
      *             if the svn info --xml is malformed
      * @throws IOException
      *             if there is an error reading from the stream
      */
-    public static void loadInfo(String seedPath) throws LogSyntaxException, IOException {
-        setSeedPath(seedPath);
+    public static void loadInfo() throws LogSyntaxException, IOException {
         loadInfo(false);
     }
-
-    /**
-     * Sets the seed path needed to compute the repository root URL.
-     * 
-     * @param seedPath
-     *            the path
-     */
-    protected static void setSeedPath(String seedPath) {
-        sSeedPath = seedPath;
-        hmRevisions = null;
-        hsDirectories = null;
-        sRootUrl = null;
-        sRootRevisionNumber = null;
-        sModuleName = null;
-
-    }
+    
 
     /**
      * Converts a url to an absolute path in the repository.
@@ -478,6 +442,21 @@ public class SvnInfoUtils {
             sRootUrl = rootUrl.substring(0, rootUrl.length() - 1);
         else
             sRootUrl = rootUrl;
-
+        
+        sModuleName=null;
     }
+    
+    /**
+     * Sets the project's repository URL.
+     * 
+     * @param repositoryUrl
+     */
+    protected static void setRepositoryUrl(String repositoryUrl) {
+    	if (repositoryUrl.endsWith("/"))
+    		sRepositoryUrl = repositoryUrl.substring(0, repositoryUrl.length() - 1);
+        else
+        	sRepositoryUrl = repositoryUrl;
+    	
+    	sModuleName=null;
+    }    
 }

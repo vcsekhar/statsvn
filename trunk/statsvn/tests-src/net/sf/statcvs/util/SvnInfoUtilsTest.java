@@ -52,17 +52,17 @@ public class SvnInfoUtilsTest extends TestCase {
 	}
 
 	private void setupComp5900() {
-		SvnInfoUtils.setSeedPath(COMP5900_ABS_1);
+		SvnInfoUtils.setRepositoryUrl(COMP5900_REPO);
 		SvnInfoUtils.setRootUrl(COMP5900_ROOT);
 	}
 
 	private void setupjUCMNav() {
-		SvnInfoUtils.setSeedPath(JUCMNAV_ABS_1);
+		SvnInfoUtils.setRepositoryUrl(JUCMNAV_REPO);
 		SvnInfoUtils.setRootUrl(JUCMNAV_ROOT);
 	}
 
 	private void setupjUCMNav_BAD() {
-		SvnInfoUtils.setSeedPath(JUCMNAV_ABS_1);
+		SvnInfoUtils.setRepositoryUrl(JUCMNAV_REPO);
 		SvnInfoUtils.setRootUrl(JUCMNAV_ROOT + "/");
 	}
 
