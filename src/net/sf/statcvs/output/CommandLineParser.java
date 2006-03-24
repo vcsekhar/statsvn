@@ -25,6 +25,8 @@ package net.sf.statcvs.output;
 import java.util.ArrayList;
 import java.util.List;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 /**
  * Takes a command line, like given to the {@link net.sf.statcvs.Main#main} method,
  * and turns it into a {@link ConfigurationOptions} object.
@@ -141,7 +143,20 @@ public class CommandLineParser {
 			}
 			ConfigurationOptions.setCacheDir(popNextArg());
 			setCacheDir = true;
+		} else if (s.equals("username")) {
+			if (args.isEmpty()) {
+				throw new ConfigurationException("Missing argument for -username");
+			}
+			ConfigurationOptions.setSvnUsername(popNextArg());
+		} else if (s.equals("password")) {
+			if (args.isEmpty()) {
+				throw new ConfigurationException("Missing argument for -password");
+			}
+			ConfigurationOptions.setSvnPassword(popNextArg());
+		} else if (s.equals("bugzilla")) {
+			throw new ConfigurationException("Bugzilla link support is not yet implemented");
 		} else {
+			// exception path - option was not recognized above
 			throw new ConfigurationException("Unrecognized option -" + s);
 		}
 	}

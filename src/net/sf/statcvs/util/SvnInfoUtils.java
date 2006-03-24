@@ -317,7 +317,8 @@ public class SvnInfoUtils {
         String svnInfoCommand = "svn info --xml";
         if (!bRootOnly)
             svnInfoCommand += " -R";
-
+        svnInfoCommand += SvnCommandHelper.getAuthString();
+        
         try {
             hmRevisions = new HashMap();
             hsDirectories = new HashSet();

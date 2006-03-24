@@ -33,7 +33,7 @@ public class SvnDiffUtils {
         String svnDiffCommand = null;
 
         filename = SvnInfoUtils.relativePathToUrl(filename);
-        svnDiffCommand = "svn diff  --old " + filename + "@" + oldRevNr + "  --new " + filename + "@" + newRevNr;
+        svnDiffCommand = "svn diff  --old " + filename + "@" + oldRevNr + "  --new " + filename + "@" + newRevNr + SvnCommandHelper.getAuthString();
 
         try {
             Process p = Runtime.getRuntime().exec(svnDiffCommand, null, ConfigurationOptions.getCheckedOutDirectoryAsFile());

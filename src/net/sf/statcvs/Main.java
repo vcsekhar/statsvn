@@ -110,12 +110,16 @@ public class Main {
 				"Usage: java -jar statcvs.jar [options] <logfile> <directory>\n" + "\n" + "Required parameters:\n"
 						+ "  <logfile>          path to the cvs logfile of the module\n"
 						+ "  <directory>        path to the directory of the checked out module\n" + "\n" + "Some options:\n"
-						+ "  -version           print the version information and exit\n" + "  -output-dir <dir>  directory where HTML suite will be saved\n"
+						+ "  -version           print the version information and exit\n" 
+						+ "  -output-dir <dir>  directory where HTML suite will be saved\n"
 						+ "  -include <pattern> include only files matching pattern, e.g. **/*.c;**/*.h\n"
 						+ "  -exclude <pattern> exclude matching files, e.g. tests/**;docs/**\n"
 						+ "  -tags <regexp>     show matching tags in lines of code chart, e.g. version-.*\n"
-						+ "  -title <title>     Project title to be used in reports\n" + "  -viewcvs <url>     integrate with ViewCVS installation at <url>\n"
-						+ "  -verbose           print extra progress information\n" + "\n" + "Full options list: http://statcvs.sf.net/manual");
+						+ "  -title <title>     Project title to be used in reports\n"
+						+ "  -viewcvs <url>     integrate with ViewCVS installation at <url>\n"
+						+ "  -username <svnusername> username to pass to svn\n"
+						+ "  -password <svnpassword> password to pass to svn\n"
+						+ "  -verbose           print extra progress information\n" + "\n" + "Full options list: [STATSVN DOCUMENTATION URL]");
 		System.exit(1);
 	}
 
