@@ -53,6 +53,8 @@ public class SvnPropgetUtils {
         else
             svnPropgetCommand += " -R ";
 
+        svnPropgetCommand += SvnCommandHelper.getAuthString();
+        
         try {
             Process p = Runtime.getRuntime().exec(svnPropgetCommand, null, ConfigurationOptions.getCheckedOutDirectoryAsFile());
             istream = new BufferedInputStream(p.getInputStream());

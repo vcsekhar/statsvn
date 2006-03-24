@@ -58,7 +58,9 @@ public class ConfigurationOptions {
     private static String loggingProperties = LOGGING_CONFIG_DEFAULT;
     private static String notesFile = null;
     private static String notes = null;
-
+    private static String svnUsername = null;
+    private static String svnPassword = null;
+    
     private static FilePatternMatcher includePattern = null;
     private static FilePatternMatcher excludePattern = null;
 
@@ -384,5 +386,33 @@ public class ConfigurationOptions {
     public static File getCheckedOutDirectoryAsFile() {
         return new File(FileUtils.getPathWithoutEndingSlash(getCheckedOutDirectory()) + FileUtils.getDirSeparator());
     }
+
+	/**
+	 * @return Returns the svnPassword.
+	 */
+	public static String getSvnPassword() {
+		return svnPassword;
+	}
+
+	/**
+	 * @param svnPassword The svnPassword to set.
+	 */
+	public static void setSvnPassword(String svnPassword) {
+		ConfigurationOptions.svnPassword = svnPassword;
+	}
+
+	/**
+	 * @return Returns the svnUsername.
+	 */
+	public static String getSvnUsername() {
+		return svnUsername;
+	}
+
+	/**
+	 * @param svnUsername The svnUsername to set.
+	 */
+	public static void setSvnUsername(String svnUsername) {
+		ConfigurationOptions.svnUsername = svnUsername;
+	}
 
 }
