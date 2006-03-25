@@ -53,6 +53,7 @@ public class CommitLogRenderer {
 	private List pageCommits;
 	private HashMap commitHashMap = new HashMap();
 	private WebRepositoryIntegration webRepository;
+	private BugzillaTextFilter btf = new BugzillaTextFilter();
 
 	/**
 	 * Creates a new instance for the list of commits.
@@ -198,6 +199,7 @@ public class CommitLogRenderer {
 		result += getLinesOfCode(commit) + "</strong> ";
 		result += "lines of code changed in:</p>\n";
 		result += getAffectedFiles(commit) + "  </dd>\n\n";
+		result = btf.applyFilter(result);
 		return result;
 	}
 

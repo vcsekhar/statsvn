@@ -81,6 +81,11 @@ public class HTMLOutput {
 	public static final String DIRECTORY_ICON = "folder.png";
 
 	/**
+	 * Filename for bug icon
+	 */
+	public static final String BUG_ICON = "bug.png";
+
+	/**
 	 * Filename for deleted folder icon
 	 */
 	public static final String DELETED_DIRECTORY_ICON = "folder-deleted.png";
@@ -172,6 +177,7 @@ public class HTMLOutput {
 			new NoFilesPage(content);
 			return;
 		}
+		createIcon(BUG_ICON);
 		createIcon(DIRECTORY_ICON);
 		createIcon(DELETED_DIRECTORY_ICON);
 		createIcon(FILE_ICON);

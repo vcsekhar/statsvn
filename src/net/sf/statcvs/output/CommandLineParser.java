@@ -154,7 +154,10 @@ public class CommandLineParser {
 			}
 			ConfigurationOptions.setSvnPassword(popNextArg());
 		} else if (s.equals("bugzilla")) {
-			throw new ConfigurationException("Bugzilla link support is not yet implemented");
+			if (args.isEmpty()) {
+				throw new ConfigurationException("Missing argument for -bugzilla");
+			}
+			ConfigurationOptions.setBugzillaUrl(popNextArg());
 		} else {
 			// exception path - option was not recognized above
 			throw new ConfigurationException("Unrecognized option -" + s);

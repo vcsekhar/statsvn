@@ -60,6 +60,7 @@ public class ConfigurationOptions {
     private static String notes = null;
     private static String svnUsername = null;
     private static String svnPassword = null;
+    private static String bugzillaUrl = null;
     
     private static FilePatternMatcher includePattern = null;
     private static FilePatternMatcher excludePattern = null;
@@ -414,5 +415,14 @@ public class ConfigurationOptions {
 	public static void setSvnUsername(String svnUsername) {
 		ConfigurationOptions.svnUsername = svnUsername;
 	}
+
+	public static String getBugzillaUrl() {
+		return bugzillaUrl;
+	}
+
+	public static void setBugzillaUrl(String bugzillaUrl) {
+		ConfigurationOptions.bugzillaUrl = bugzillaUrl;
+	}
+
 
 }
