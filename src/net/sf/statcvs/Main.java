@@ -117,6 +117,7 @@ public class Main {
 						+ "  -tags <regexp>     show matching tags in lines of code chart, e.g. version-.*\n"
 						+ "  -title <title>     Project title to be used in reports\n"
 						+ "  -viewcvs <url>     integrate with ViewCVS installation at <url>\n"
+						+ "  -bugzilla <url>    integrate with Bugzilla installation at <url>\n"
 						+ "  -username <svnusername> username to pass to svn\n"
 						+ "  -password <svnpassword> password to pass to svn\n"
 						+ "  -verbose           print extra progress information\n" + "\n" + "Full options list: [STATSVN DOCUMENTATION URL]");
