@@ -80,7 +80,7 @@
 	<target name="run" depends="compile,copyfiles">
 		<!-- Runs StatSVN on itself -->
 		<java classname="${project.package}.Main" fork="yes">
-			<arg line="-verbose -title StatSVN -output-dir ${stats} -notes etc/report-notes.txt ${svn.log} ." />
+			<arg line="-verbose -title StatSVN -output-dir ${stats} -bugzilla http://svn.statsvn.org/bugzilla -notes etc/report-notes.txt ${svn.log} ." />
 			<classpath>
 				<path refid="project.class.path" />
 				<pathelement path="${build}" />
