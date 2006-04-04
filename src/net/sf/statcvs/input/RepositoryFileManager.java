@@ -45,8 +45,8 @@ import net.sf.statcvs.util.SvnPropgetUtils;
  * @version $Id$
  */
 public class RepositoryFileManager {
-    private static Logger logger;
-    private String path;
+	protected static Logger logger;
+	protected String path;
 
     /**
      * Creates a new instance with root at <code>pathName</code>.
@@ -113,7 +113,7 @@ public class RepositoryFileManager {
      * @throws IOException
      *             error reading from reader
      */
-    private int getLineCount(BufferedReader reader) throws IOException {
+    protected int getLineCount(BufferedReader reader) throws IOException {
         int linecount = 0;
         while (reader.readLine() != null) {
             linecount++;

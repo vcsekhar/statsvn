@@ -279,6 +279,7 @@ public class LinesOfCodeTest extends TestCase {
 	private void buildRevisionInitial(String revision, Date date) {
 		RevisionData data = new RevisionData();
 		data.setStateExp(true);
+		data.setStateAdded(true);
 		data.setRevisionNumber(revision);
 		data.setLoginName("author1");
 		data.setDate(date);

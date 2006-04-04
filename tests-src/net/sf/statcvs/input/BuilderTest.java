@@ -1,25 +1,25 @@
 /*
-    StatCvs - CVS statistics generation 
-    Copyright (C) 2002  Lukasz Pekacki <lukasz@pekacki.de>
-    http://statcvs.sf.net/
-    
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Lesser General Public
-    License as published by the Free Software Foundation; either
-    version 2.1 of the License, or (at your option) any later version.
+ StatCvs - CVS statistics generation 
+ Copyright (C) 2002  Lukasz Pekacki <lukasz@pekacki.de>
+ http://statcvs.sf.net/
+ 
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
 
-    This library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Lesser General Public License for more details.
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
 
-    You should have received a copy of the GNU Lesser General Public
-    License along with this library; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-    
-	$RCSfile: BuilderTest.java,v $ 
-	Created on $Date: 2004/12/14 13:38:13 $ 
-*/
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ 
+ $RCSfile: BuilderTest.java,v $ 
+ Created on $Date: 2004/12/14 13:38:13 $ 
+ */
 
 package net.sf.statcvs.input;
 
@@ -52,7 +52,9 @@ public class BuilderTest extends TestCase {
 
 	/**
 	 * Constructor
-	 * @param arg0 input
+	 * 
+	 * @param arg0
+	 *            input
 	 */
 	public BuilderTest(String arg0) {
 		super(arg0);
@@ -85,7 +87,7 @@ public class BuilderTest extends TestCase {
 		rev3.setDate(new Date(300000));
 		rev3.setComment("comment3");
 	}
-	
+
 	/**
 	 * Test if the module name is correctly passed on
 	 */
@@ -107,10 +109,10 @@ public class BuilderTest extends TestCase {
 		assertTrue(!author1.equals(author2));
 		assertTrue(!author1b.equals(author2));
 	}
-	
+
 	/**
-	 * On some Windows systems, people can use both upper and lower case
-	 * for the same login
+	 * On some Windows systems, people can use both upper and lower case for the
+	 * same login
 	 */
 	public void testGetAuthorCase() {
 		Author upper = this.builder.getAuthor("richard");
@@ -139,7 +141,7 @@ public class BuilderTest extends TestCase {
 		assertEquals(dir1, dir2.getParent().getParent().getParent());
 		assertTrue(dir1.getParent().isRoot());
 	}
-	
+
 	/**
 	 * test {@link Builder.getDirectory(String)}
 	 */
@@ -150,9 +152,10 @@ public class BuilderTest extends TestCase {
 		assertEquals(dir2, dir3);
 		assertEquals(dir1.getParent().getParent().getParent(), dir2.getParent().getParent());
 	}
-	
+
 	/**
-	 * test {@link Builder.addFile(VersionedFile)} and {@link Builder.getFiles()}
+	 * test {@link Builder.addFile(VersionedFile)} and
+	 * {@link Builder.getFiles()}
 	 */
 	public void testFilesEmpty() throws Exception {
 		Builder builder1 = new Builder(null, null, null);
@@ -163,15 +166,16 @@ public class BuilderTest extends TestCase {
 			// is expected
 		}
 	}
-	
+
 	/**
-	 * test {@link Builder.addFile(VersionedFile)} and {@link Builder.getFiles()}
+	 * test {@link Builder.addFile(VersionedFile)} and
+	 * {@link Builder.getFiles()}
 	 */
 	public void testFilesOneFile() throws Exception {
 		builder.buildFile("file1", false, false, new HashMap());
 		builder.buildRevision(rev1);
 		Repository content = builder.createRepository();
-	
+
 		assertNotNull(content.getFiles());
 		assertEquals(1, content.getFiles().size());
 		VersionedFile file1 = (VersionedFile) content.getFiles().first();
@@ -179,9 +183,10 @@ public class BuilderTest extends TestCase {
 		assertEquals(builder.getDirectory(""), file1.getDirectory());
 		assertEquals(1, file1.getRevisions().size());
 	}
-	
+
 	/**
-	 * test {@link Builder.addFile(VersionedFile)} and {@link Builder.getFiles()}
+	 * test {@link Builder.addFile(VersionedFile)} and
+	 * {@link Builder.getFiles()}
 	 */
 	public void testFileTwoFiles() throws Exception {
 		builder.buildFile("file2", false, false, new HashMap());
@@ -207,7 +212,7 @@ public class BuilderTest extends TestCase {
 		builder.buildRevision(rev2);
 		builder.buildRevision(rev1);
 		Repository content = builder.createRepository();
-		
+
 		VersionedFile file = (VersionedFile) content.getFiles().first();
 		Iterator it = file.getRevisions().iterator();
 		assertTrue(it.hasNext());
@@ -217,7 +222,7 @@ public class BuilderTest extends TestCase {
 		assertTrue(it.hasNext());
 		Revision r3 = (Revision) it.next();
 		assertTrue(!it.hasNext());
-		
+
 		assertEquals("1.1", r1.getRevisionNumber());
 		assertTrue(r1.isInitialRevision());
 		assertEquals("author1", r1.getAuthor().getName());
@@ -250,27 +255,27 @@ public class BuilderTest extends TestCase {
 		builder.buildFile("partial_logged_file", true, false, new HashMap());
 		builder.buildRevision(rev4);
 		Repository content = builder.createRepository();
-		
+
 		VersionedFile file = (VersionedFile) content.getRoot().getFiles().iterator().next();
 		assertTrue(file.getInitialRevision().isBeginOfLog());
 		Date beforeRev1 = new Date(rev1.getDate().getTime() - 60000);
 		assertEquals(beforeRev1, file.getInitialRevision().getDate());
 	}
-	
+
 	public void testIncludePattern() throws Exception {
 		Builder b = new Builder(null, new FilePatternMatcher("a*"), new FilePatternMatcher("*z"));
 		assertTrue(b.matchesPatterns("abc"));
 		assertTrue(!b.matchesPatterns("xyz"));
 		assertTrue(!b.matchesPatterns("az"));
 	}
-	
+
 	public void testNoAtticFiles() throws Exception {
 		builder.buildFile("file1", false, false, new HashMap());
 		builder.buildFile("file2", false, false, new HashMap());
 		builder.buildFile("file3", false, false, new HashMap());
 		assertTrue(builder.getAtticFileNames().isEmpty());
 	}
-	
+
 	public void testAtticFiles() throws Exception {
 		builder.buildFile("file1", false, false, new HashMap());
 		builder.buildFile("file2", false, true, new HashMap());
