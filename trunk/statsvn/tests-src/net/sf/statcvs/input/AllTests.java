@@ -31,6 +31,7 @@ import junit.framework.TestSuite;
  * 
  * @author Anja Jentzsch
  * @author Richard Cyganiak
+ * @author Jason Kealey
  * @version $Id: AllTests.java,v 1.10 2002/08/23 02:03:59 cyganiak Exp $
  */
 public class AllTests {
@@ -42,14 +43,19 @@ public class AllTests {
 	public static Test suite() {
 		TestSuite suite = new TestSuite("Test for net.sf.statcvs.input");
 		//$JUnit-BEGIN$
+
+		suite.addTestSuite(SvnLogfileParserTest.class);
+		suite.addTestSuite(BuilderTest.class);
+		suite.addTestSuite(LinesOfCodeTest.class);
+		suite.addTestSuite(FileBuilderTest.class);
+		suite.addTestSuite(CommitListBuilderTest.class);
+		
 		
 		// CVS tests
 		/*
-		suite.addTestSuite(LinesOfCodeTest.class);
-		suite.addTestSuite(FileBlockParserTest.class);
-		suite.addTestSuite(BuilderTest.class);
+		
 		suite.addTestSuite(ParserTest.class);
-		suite.addTestSuite(FileBuilderTest.class);
+
 		*/
 		//$JUnit-END$
 		return suite;
