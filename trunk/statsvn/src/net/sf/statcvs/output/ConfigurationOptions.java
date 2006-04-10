@@ -270,19 +270,19 @@ public class ConfigurationOptions {
     }
 
     /**
-     * Sets the URL to a <a href="http://viewcvs.sourceforge.net/">ViewCVS</a> web-based CVS browser. This must be the URL at which the checked-out module's
-     * root can be viewed in ViewCVS.
+     * Sets the URL to a <a href="http://www.viewvc.org/">ViewVC</a> web-based CVS/SVN browser. This must be the URL at which the checked-out module's
+     * root can be viewed in ViewVC.
      * 
      * @param url
-     *            URL to a ViewCVS repository
+     *            URL to a ViewVC repository
      */
-    public static void setViewCvsURL(String url) {
-        ConfigurationOptions.webRepository = new ViewCvsIntegration(url);
+    public static void setViewVcURL(String url) {
+        ConfigurationOptions.webRepository = new ViewVcIntegration(url);
     }
 
 
     /**
-     * Sets the URL to a <a href="http://www.horde.org/chora/">Chora</a> web-based CVS browser. This must be the URL at which the checked-out module's root can
+     * Sets the URL to a <a href="http://www.horde.org/chora/">Chora</a> web-based CVS/SVN browser. This must be the URL at which the checked-out module's root can
      * be viewed in Chora.
      * 
      * @param url

@@ -31,8 +31,8 @@ import net.sf.statcvs.model.Directory;
 /**
  * Interface for integration of web repository browsers. Web repository
  * browsers are dynamic web sites where you can browse the contents of
- * a CVS repository, make diffs etc. A good example is
- * <a href="http://viewcvs.sourceforge.net/">ViewCVS</a>.
+ * a CVS/SVN repository, make diffs etc. A good example is
+ * <a href="http://www.viewvc.org/">ViewVC</a>.
  * 
  * @author Richard Cyganiak
  * @version $Id: WebRepositoryIntegration.java,v 1.4 2004/02/19 22:23:31 cyganiak Exp $

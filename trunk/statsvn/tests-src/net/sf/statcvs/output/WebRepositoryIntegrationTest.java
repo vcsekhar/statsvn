@@ -30,7 +30,7 @@ import net.sf.statcvs.model.Revision;
 import net.sf.statcvs.model.VersionedFile;
 
 /**
- * Test cases for {ViewCvsIntegration}
+ * Test cases for {WebRepositoryIntegrationTest}
  * 
  * @author Richard Cyganiak <rcyg@gmx.de>
  * @version $Id: WebRepositoryIntegrationTest.java,v 1.19 2005/01/03 03:03:54 cyganiak Exp $
@@ -39,8 +39,7 @@ public class WebRepositoryIntegrationTest extends TestCase {
 
 	private static final String BASE = "http://example.com/";
 
-	private WebRepositoryIntegration viewcvs;
-	private WebRepositoryIntegration cvsweb;
+	private WebRepositoryIntegration viewvc;
 	private WebRepositoryIntegration chora;
 	private Date date = new Date(100000000);
 	private Directory root;
@@ -56,7 +55,7 @@ public class WebRepositoryIntegrationTest extends TestCase {
 	
 	protected void setUp() throws Exception {
 		super.setUp();
-		viewcvs = new ViewCvsIntegration(BASE);
+		viewvc = new ViewVcIntegration(BASE);
 		chora = new ChoraIntegration(BASE);
 		root = Directory.createRoot();
 		path = root.createSubdirectory("path");
@@ -65,94 +64,94 @@ public class WebRepositoryIntegrationTest extends TestCase {
 	/**
 	 * test
 	 */
-	public void testViewcvsCreation() {
-		assertEquals("ViewCVS", viewcvs.getName());
+	public void testViewvcCreation() {
+		assertEquals("ViewVC", viewvc.getName());
 	}
 	
 	/**
 	 * Tests if stuff still works when the trailing slash is omitted from
 	 * the base URL
 	 */
-	public void testViewcvsForgivingBaseURL() {
-		ViewCvsIntegration viewcvs2 = new ViewCvsIntegration("http://example.com");
+	public void testViewvcForgivingBaseURL() {
+		ViewVcIntegration viewvc2 = new ViewVcIntegration("http://example.com");
 		VersionedFile file = new VersionedFile("file", root);
 		file.addChangeRevision("1.1", null, date, null, 0, 0, 0, null);
-		assertEquals("http://example.com/file", viewcvs2.getFileHistoryUrl(file));
+		assertEquals("http://example.com/file", viewvc2.getFileHistoryUrl(file));
 	}
 
 	/**
 	 * test URLs for a normal file
 	 */
-	public void testViewcvsNormalFile() {
+	public void testViewvcNormalFile() {
 		VersionedFile file = new VersionedFile("path/file", path);
 		file.addChangeRevision("1.1", null, date, null, 0, 0, 0, null);
-		assertEquals(BASE + "path/file", viewcvs.getFileHistoryUrl(file));
+		assertEquals(BASE + "path/file", viewvc.getFileHistoryUrl(file));
 		assertEquals(BASE + "path/file?rev=HEAD&content-type=text/vnd.viewcvs-markup",
-				viewcvs.getFileViewUrl(file));
+				viewvc.getFileViewUrl(file));
 	}
 
 	/**
-	 * Test for a ViewCVS URL that includes a cvsroot parameter
+	 * Test for a ViewVC URL that includes a cvsroot parameter
 	 */
-	public void testViewcvsWithCvsroot() {
-		this.viewcvs = new ViewCvsIntegration("http://example.com/cgi-bin/viewcvs.cgi/module?cvsroot=CvsRoot");
+	public void testViewvcWithCvsroot() {
+		this.viewvc = new ViewVcIntegration("http://example.com/cgi-bin/viewvc.cgi/module?cvsroot=CvsRoot");
 		VersionedFile file = new VersionedFile("path/file", this.path);
 		file.addChangeRevision("1.1", null, this.date, null, 0, 0, 0, null);
 		assertEquals(
-				"http://example.com/cgi-bin/viewcvs.cgi/module/path/file?cvsroot=CvsRoot",
-				this.viewcvs.getFileHistoryUrl(file));
+				"http://example.com/cgi-bin/viewvc.cgi/module/path/file?cvsroot=CvsRoot",
+				this.viewvc.getFileHistoryUrl(file));
 		assertEquals(
-				"http://example.com/cgi-bin/viewcvs.cgi/module/path/file?rev=HEAD&content-type=text/vnd.viewcvs-markup&cvsroot=CvsRoot",
-				this.viewcvs.getFileViewUrl(file));
+				"http://example.com/cgi-bin/viewvc.cgi/module/path/file?rev=HEAD&content-type=text/vnd.viewcvs-markup&cvsroot=CvsRoot",
+				this.viewvc.getFileViewUrl(file));
 	}
 
 //	/**
 //	 * test URLs for an attic file
 //	 */
-//	public void testViewcvsAtticFile() {
+//	public void testViewvcAtticFile() {
 //		VersionedFile file = new VersionedFile("path/file", path);
 //		file.addChangeRevision("1.1", null, date, null, 0, 0, 0, null);
 //		HashSet atticFileNames = new HashSet();
 //		atticFileNames.add("path/file");
-//		viewcvs.setAtticFileNames(atticFileNames);
-//		assertEquals(BASE + "path/Attic/file", viewcvs.getFileHistoryUrl(file));
+//		viewvc.setAtticFileNames(atticFileNames);
+//		assertEquals(BASE + "path/Attic/file", viewvc.getFileHistoryUrl(file));
 //		assertEquals(BASE + "path/Attic/file?rev=HEAD&content-type=text/vnd.viewcvs-markup",
-//				viewcvs.getFileViewUrl(file));
+//				viewvc.getFileViewUrl(file));
 //	}
 //	
 	/**
 	 * Test URLs for directories
 	 */
-	public void testViewcvsDirectory() {
+	public void testViewvcDirectory() {
 		assertEquals("http://example.com/",
-				viewcvs.getDirectoryUrl(root));
+				viewvc.getDirectoryUrl(root));
 		assertEquals("http://example.com/path/",
-				viewcvs.getDirectoryUrl(path));
+				viewvc.getDirectoryUrl(path));
 	}
 	
 	/**
 	 * Test URLs for diff
 	 */
-	public void testViewcvsDiff() {
+	public void testViewvcDiff() {
 		VersionedFile file = new VersionedFile("file", root);
 		Revision rev1 = file.addChangeRevision("1.1", null, date, null, 0, 0, 0, null);
 		Revision rev2 = file.addChangeRevision("1.2", null, date, null, 0, 0, 0, null);
 		assertEquals(
 				"http://example.com/file.diff?r1=1.1&r2=1.2",
-				viewcvs.getDiffUrl(rev1, rev2));
+				viewvc.getDiffUrl(rev1, rev2));
 	}
 
 	/**
 	 * Test URLs for diff with cvsroot parameter
 	 */
-	public void testViewcvsDiffWithCvsroot() {
-		this.viewcvs = new ViewCvsIntegration("http://example.com/cgi-bin/viewcvs.cgi/module?cvsroot=CvsRoot");
+	public void testViewvcDiffWithCvsroot() {
+		this.viewvc = new ViewVcIntegration("http://example.com/cgi-bin/viewvc.cgi/module?cvsroot=CvsRoot");
 		VersionedFile file = new VersionedFile("file", this.root);
 		Revision rev1 = file.addChangeRevision("1.1", null, this.date, null, 0, 0, 0, null);
 		Revision rev2 = file.addChangeRevision("1.2", null, this.date, null, 0, 0, 0, null);
 		assertEquals(
-				"http://example.com/cgi-bin/viewcvs.cgi/module/file.diff?r1=1.1&r2=1.2&cvsroot=CvsRoot",
-				this.viewcvs.getDiffUrl(rev1, rev2));
+				"http://example.com/cgi-bin/viewvc.cgi/module/file.diff?r1=1.1&r2=1.2&cvsroot=CvsRoot",
+				this.viewvc.getDiffUrl(rev1, rev2));
 	}
 
 
@@ -203,9 +202,9 @@ public class WebRepositoryIntegrationTest extends TestCase {
 	 */
 	public void testChoraDirectory() {
 		assertEquals("http://example.com/",
-				viewcvs.getDirectoryUrl(root));
+				viewvc.getDirectoryUrl(root));
 		assertEquals("http://example.com/path/",
-				viewcvs.getDirectoryUrl(path));
+				viewvc.getDirectoryUrl(path));
 	}
 	
 	/**
