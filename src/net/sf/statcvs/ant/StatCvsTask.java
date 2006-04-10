@@ -101,7 +101,7 @@ public class StatCvsTask extends Task {
 			ConfigurationOptions.setNotesFile(this.notesFile);
 		}
 		if (viewcvs != null) {
-			ConfigurationOptions.setViewCvsURL(this.viewcvs);
+			ConfigurationOptions.setViewVcURL(this.viewcvs);
 		}
 		if (chora != null) {
 			ConfigurationOptions.setChoraURL(this.chora);

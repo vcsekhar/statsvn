@@ -100,11 +100,11 @@ public class CommandLineParser {
 				throw new ConfigurationException("Missing argument for -notes");
 			}
 			ConfigurationOptions.setNotesFile(popNextArg());
-		} else if (s.equals("viewcvs")) {
+		} else if (s.equals("viewcvs") || s.equals("viewvc")) {
 			if (args.isEmpty()) {
-				throw new ConfigurationException("Missing argument for -viewcvs");
+				throw new ConfigurationException("Missing argument for -viewvc");
 			}
-			ConfigurationOptions.setViewCvsURL(popNextArg());
+			ConfigurationOptions.setViewVcURL(popNextArg());
 		} else if (s.equals("cvsweb")) {
 //			if (args.isEmpty()) {
 //				throw new ConfigurationException("Missing argument for -cvsweb");

@@ -17,7 +17,7 @@
 	License along with this library; if not, write to the Free Software
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 	
-	$RCSfile: ViewCvsIntegration.java,v $
+	$RCSfile: ViewVcIntegration.java,v $
 	$Date: 2004/10/20 13:35:13 $ 
 */
 package net.sf.statcvs.output;
@@ -30,20 +30,22 @@ import net.sf.statcvs.model.Revision;
 import net.sf.statcvs.model.Directory;
 
 /**
- * Integration of ViewCVS
+ * Integration of ViewVC
  *
  * @author Richard Cyganiak
- * @version $Id: ViewCvsIntegration.java,v 1.11 2004/10/20 13:35:13 cyganiak Exp $
+ * @author Jason Kealey
+ * 
+ * @version $Id: ViewVcIntegration.java,v 1.11 2004/10/20 13:35:13 cyganiak Exp $
  */
-public class ViewCvsIntegration implements WebRepositoryIntegration {
+public class ViewVcIntegration implements WebRepositoryIntegration {
 	private String baseURL;
 	private Set atticFileNames = new HashSet();
 	private String postfix;
 
 	/**
-	 * @param baseURL base URL of the ViewCVS installation 
+	 * @param baseURL base URL of the ViewVC installation 
 	 */
-	public ViewCvsIntegration(String baseURL) {
+	public ViewVcIntegration(String baseURL) {
 		int i = baseURL.indexOf("?");
 		if (i != -1) {
 			this.postfix = baseURL.substring(i + 1);
@@ -61,7 +63,7 @@ public class ViewCvsIntegration implements WebRepositoryIntegration {
 	 * @see net.sf.statcvs.output.WebRepositoryIntegration#getName
 	 */
 	public String getName() {
-		return "ViewCVS";
+		return "ViewVC";
 	}
 
 	/**

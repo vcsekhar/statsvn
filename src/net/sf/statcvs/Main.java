@@ -114,7 +114,7 @@ public class Main {
 						+ "  -include <pattern> include only files matching pattern, e.g. **/*.c;**/*.h\n"
 						+ "  -exclude <pattern> exclude matching files, e.g. tests/**;docs/**\n"
 						+ "  -tags <regexp>     show matching tags in lines of code chart, e.g. version-.*\n"
-						+ "  -title <title>     Project title to be used in reports\n" + "  -viewcvs <url>     integrate with ViewCVS installation at <url>\n"
+						+ "  -title <title>     Project title to be used in reports\n" + "  -viewvc <url>     integrate with ViewVC installation at <url>\n"
 						+ "  -bugzilla <url>    integrate with Bugzilla installation at <url>\n" + "  -username <svnusername> username to pass to svn\n"
 						+ "  -password <svnpassword> password to pass to svn\n" + "  -verbose           print extra progress information\n" + "\n"
 						+ "Full options list: [STATSVN DOCUMENTATION URL]");
