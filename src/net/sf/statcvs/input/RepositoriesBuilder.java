@@ -22,6 +22,8 @@ import org.w3c.dom.NodeList;
  * 
  */
 public class RepositoriesBuilder {
+	private static final String FILE_EXTENSION = ".xml";
+	private static final String FILE_PREFIX = "cache_";
 	private static final String REPOSITORIES = "repositories";
 	private static final String UUID = "uuid";
 	private static final String FILE = "file";
@@ -112,7 +114,7 @@ public class RepositoriesBuilder {
 		if (document != null) {
 			Element repository = findRepository(uuid);
 			if (repository == null) {
-				repository = buildRepository(uuid, "lineCounts_" + uuid + ".xml");
+				repository = buildRepository(uuid, FILE_PREFIX + uuid + FILE_EXTENSION);
 			}
 			return repository.getAttribute(FILE);
 		}
