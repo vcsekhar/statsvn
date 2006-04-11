@@ -40,6 +40,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import net.sf.statcvs.output.ConfigurationOptions;
+import net.sf.statcvs.util.BinaryDiffException;
 import net.sf.statcvs.util.FilenameComparator;
 import net.sf.statcvs.util.XMLUtil;
 
@@ -133,15 +134,21 @@ public class SvnLogfileParser {
                         continue;
                     String revNrNew = ((RevisionData) revisions.get(i)).getRevisionNumber();
                     String revNrOld = ((RevisionData) revisions.get(i + 1)).getRevisionNumber();
-                    int lineDiff[] = repositoryFileManager.getLineDiff(revNrOld, revNrNew, fileName);
-                    if (lineDiff[0] != -1 && lineDiff[1] != -1) {
-                        builder.updateRevision(fileName, revNrNew, lineDiff[0], lineDiff[1]);
-                        lineCountsBuilder.newRevision(fileName, revNrNew, lineDiff[0] + "", lineDiff[1] + "");
-                    } else {
-                        // file is binary and has been deleted
-                        fileBuilder.setBinary(true);
-                        break;
-                    }
+					int lineDiff[];
+					try {
+						lineDiff = repositoryFileManager.getLineDiff(revNrOld, revNrNew, fileName);
+					} catch (BinaryDiffException e) {
+						// file is binary and has been deleted
+						fileBuilder.setBinary(true);
+						break;
+					}
+					if (lineDiff[0] != -1 && lineDiff[1] != -1) {
+						builder.updateRevision(fileName, revNrNew, lineDiff[0], lineDiff[1]);
+						lineCountsBuilder.newRevision(fileName, revNrNew, lineDiff[0] + "", lineDiff[1] + "");
+					} else {
+						System.out.println("unknown behaviour; to be investigated");
+					}
+					
 
                 }
             }
