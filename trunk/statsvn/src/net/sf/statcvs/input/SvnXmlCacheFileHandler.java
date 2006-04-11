@@ -14,28 +14,27 @@ import org.xml.sax.helpers.DefaultHandler;
  * 
  * @version $Id$
  */
-public class SvnXmlLineCountsFileHandler extends DefaultHandler {
-
-    
+public class SvnXmlCacheFileHandler extends DefaultHandler {
     private static final String ADDED = "added";
-    private static final String FATAL_ERROR_MESSAGE = "Invalid StatSvn line count file.";
-    private static final String LINECOUNTS = "lineCounts";
+    private static final String FATAL_ERROR_MESSAGE = "Invalid StatSvn cache file.";
+    private static final String CACHE = "cache";
     private static final String NAME = "name";
     private static final String NUMBER = "number";
     private static final String PATH = "path";
     private static final String REMOVED = "removed";
     private static final String REVISION = "revision";
+    private static final String BINARY_STATUS = "binaryStatus";
     private String lastElement = "";
-    private LineCountsBuilder lineCountsBuilder;
+    private CacheBuilder cacheBuilder;
 
     /**
      * Default constructor
      * 
-     * @param lineCountsBuilder
+     * @param cacheBuilder
      *            the lineCountsBuilder to which to send back line count information.
      */
-    public SvnXmlLineCountsFileHandler(LineCountsBuilder lineCountsBuilder) {
-        this.lineCountsBuilder = lineCountsBuilder;
+    public SvnXmlCacheFileHandler(CacheBuilder cacheBuilder) {
+        this.cacheBuilder = cacheBuilder;
     }
 
     /**
@@ -64,7 +63,7 @@ public class SvnXmlLineCountsFileHandler extends DefaultHandler {
         if ("".equals(eName))
             eName = qName; // namespaceAware = false
 
-        if (eName.equals(LINECOUNTS)) {
+        if (eName.equals(CACHE)) {
             endLineCounts();
         } else if (eName.equals(PATH)) {
             endPath();
@@ -82,7 +81,7 @@ public class SvnXmlLineCountsFileHandler extends DefaultHandler {
      *             unexpected event.
      */
     private void endLineCounts() throws SAXException {
-        checkLastElement(LINECOUNTS);
+        checkLastElement(CACHE);
         lastElement = "";
     }
 
@@ -94,7 +93,7 @@ public class SvnXmlLineCountsFileHandler extends DefaultHandler {
      */
     private void endPath() throws SAXException {
         checkLastElement(PATH);
-        lastElement = LINECOUNTS;
+        lastElement = CACHE;
     }
 
     /**
@@ -132,7 +131,7 @@ public class SvnXmlLineCountsFileHandler extends DefaultHandler {
         if ("".equals(eName))
             eName = qName; // namespaceAware = false
 
-        if (eName.equals(LINECOUNTS)) {
+        if (eName.equals(CACHE)) {
             startLineCounts();
         } else if (eName.equals(PATH)) {
             startPath(attributes);
@@ -151,9 +150,9 @@ public class SvnXmlLineCountsFileHandler extends DefaultHandler {
      */
     private void startLineCounts() throws SAXException {
         checkLastElement("");
-        lastElement = LINECOUNTS;
+        lastElement = CACHE;
         try {
-            lineCountsBuilder.buildRoot();
+            cacheBuilder.buildRoot();
         } catch (ParserConfigurationException e) {
             fatalError(FATAL_ERROR_MESSAGE);
         }
@@ -168,11 +167,11 @@ public class SvnXmlLineCountsFileHandler extends DefaultHandler {
      *             missing some data.
      */
     private void startPath(Attributes attributes) throws SAXException {
-        checkLastElement(LINECOUNTS);
+        checkLastElement(CACHE);
         lastElement = PATH;
         if (attributes != null && attributes.getValue(NAME) != null) {
             String name = attributes.getValue(NAME);
-            lineCountsBuilder.buildPath(name);
+            cacheBuilder.buildPath(name);
         } else
             fatalError(FATAL_ERROR_MESSAGE);
     }
@@ -191,7 +190,10 @@ public class SvnXmlLineCountsFileHandler extends DefaultHandler {
             String number = attributes.getValue(NUMBER);
             String added = attributes.getValue(ADDED);
             String removed = attributes.getValue(REMOVED);
-            lineCountsBuilder.buildRevision(number, added, removed);
+        	String binaryStatus = "unknown";
+            if (attributes.getValue(BINARY_STATUS) != null)
+            	binaryStatus = attributes.getValue(BINARY_STATUS);
+            cacheBuilder.buildRevision(number, added, removed, binaryStatus);
         } else
             fatalError(FATAL_ERROR_MESSAGE);
     }

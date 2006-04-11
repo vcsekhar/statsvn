@@ -27,20 +27,21 @@ import org.w3c.dom.NodeList;
  * @author Gunter Mussbacher <gunterm@site.uottawa.ca>
  * @version $Id$
  */
-public class LineCountsBuilder {
+public class CacheBuilder {
 	private static final String ADDED = "added";
-	private static final String LINECOUNTS = "lineCounts";
+	private static final String CACHE = "cache";
 	private static final String NAME = "name";
 	private static final String NUMBER = "number";
 	private static final String PATH = "path";
 	private static final String REMOVED = "removed";
 	private static final String REVISION = "revision";
+    private static final String BINARY_STATUS = "binaryStatus";
 	private SvnLogBuilder builder;
 	private RepositoryFileManager repositoryFileManager;
 	private Element currentPath = null;
 	private Document document = null;
 	private String currentFilename;
-	private Element lineCounts = null;
+	private Element cache = null;
 
 
 	/**
@@ -50,7 +51,7 @@ public class LineCountsBuilder {
 	 * @param builder
 	 *            the SvnLogBuilder which contains all the FileBuilders.
 	 */
-	public LineCountsBuilder(SvnLogBuilder builder, RepositoryFileManager repositoryFileManager) {
+	public CacheBuilder(SvnLogBuilder builder, RepositoryFileManager repositoryFileManager) {
 		this.builder = builder;
 		this.repositoryFileManager = repositoryFileManager;
 	}
@@ -67,7 +68,7 @@ public class LineCountsBuilder {
 		Attr attr = document.createAttribute(NAME);
 		attr.setTextContent(name);
 		currentPath.setAttributeNode(attr);
-		lineCounts.appendChild(currentPath);
+		cache.appendChild(currentPath);
 	}
 
 	/**
@@ -83,7 +84,7 @@ public class LineCountsBuilder {
 				return currentPath;
 			}
 		}
-		NodeList paths = lineCounts.getChildNodes();
+		NodeList paths = cache.getChildNodes();
 		for (int i = 0; i < paths.getLength(); i++) {
 			Element path = (Element) paths.item(i);
 			if (name.equals(path.getAttribute(NAME))) {
@@ -104,7 +105,7 @@ public class LineCountsBuilder {
 	 * @param removed
 	 *            the number of lines that were removed
 	 */
-	private void addDOMRevision(String number, String added, String removed) {
+	private void addDOMRevision(String number, String added, String removed, String binaryStatus) {
 		Element revision = (Element) document.createElement(REVISION);
 		Attr attrRev1 = document.createAttribute(NUMBER);
 		attrRev1.setTextContent(number);
@@ -115,6 +116,9 @@ public class LineCountsBuilder {
 		Attr attrRev3 = document.createAttribute(REMOVED);
 		attrRev3.setTextContent(removed);
 		revision.setAttributeNode(attrRev3);
+		Attr attrRev4 = document.createAttribute(BINARY_STATUS);
+		attrRev4.setTextContent(binaryStatus);
+		revision.setAttributeNode(attrRev4);
 		currentPath.appendChild(revision);
 	}
 
@@ -146,9 +150,9 @@ public class LineCountsBuilder {
 	 * @param removed
 	 *            the number of lines removed.
 	 */
-	public void buildRevision(String number, String added, String removed) {
+	public void buildRevision(String number, String added, String removed, String binaryStatus) {
 		if (!added.equals("-1") && !removed.equals("-1")) {
-			addDOMRevision(number, added, removed);
+			addDOMRevision(number, added, removed, binaryStatus);
 			builder.updateRevision(currentFilename, number, Integer
 					.parseInt(added), Integer.parseInt(removed));
 		}
@@ -165,8 +169,8 @@ public class LineCountsBuilder {
 		DocumentBuilder builderDOM;
 		builderDOM = factoryDOM.newDocumentBuilder();
 		document = builderDOM.newDocument();
-		lineCounts = (Element) document.createElement(LINECOUNTS);
-		document.appendChild(lineCounts);
+		cache = (Element) document.createElement(CACHE);
+		document.appendChild(cache);
 	}
 
 	/**
@@ -211,7 +215,7 @@ public class LineCountsBuilder {
 				// changes currentPath to new one
 				addDOMPath(name);
 			}
-			addDOMRevision(number, added, removed);
+			addDOMRevision(number, added, removed, "FALSE");
 		}
 	}
 

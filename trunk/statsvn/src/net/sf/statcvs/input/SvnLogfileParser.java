@@ -104,11 +104,11 @@ public class SvnLogfileParser {
         logger.fine("parsing repositories finished in " + (System.currentTimeMillis() - startTime) + " ms.");
         startTime = System.currentTimeMillis();
         
-        LineCountsBuilder lineCountsBuilder = new LineCountsBuilder(builder, repositoryFileManager);
+        CacheBuilder lineCountsBuilder = new CacheBuilder(builder, repositoryFileManager);
         try {
             FileInputStream lineCountsFile = new FileInputStream(lineCountsFileName);
             SAXParser parser = factory.newSAXParser();
-            parser.parse(lineCountsFile, new SvnXmlLineCountsFileHandler(lineCountsBuilder));
+            parser.parse(lineCountsFile, new SvnXmlCacheFileHandler(lineCountsBuilder));
         } catch (ParserConfigurationException e) {
         } catch (SAXException e) {
         } catch (IOException e) {
