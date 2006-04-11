@@ -1,13 +1,11 @@
 package net.sf.statcvs.util;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-
-import net.sf.statcvs.output.ConfigurationOptions;
+import java.util.logging.Logger;
 
 /**
  * Utilities class that manages calls to svn propget. Used to find binary files.
@@ -19,6 +17,7 @@ import net.sf.statcvs.output.ConfigurationOptions;
 public class SvnPropgetUtils {
 
 	protected static List binaryFiles;
+	private static Logger _logger = Logger.getLogger(SvnPropgetUtils.class.getName());
 
 	/**
 	 * Get the svn:mime-types for all files, latest revision.
@@ -43,8 +42,6 @@ public class SvnPropgetUtils {
 	 * @return the inputstream from which to read the information.
 	 */
 	protected synchronized static InputStream getFileMimeTypes(String revision, String filename) {
-		InputStream istream = null;
-
 		String svnPropgetCommand = "svn propget svn:mime-type";
 		if (revision != null && revision.length() > 0)
 			svnPropgetCommand += " -r " + revision; // won't work.
@@ -57,13 +54,11 @@ public class SvnPropgetUtils {
 		svnPropgetCommand += SvnCommandHelper.getAuthString();
 
 		try {
-			Process p = Runtime.getRuntime().exec(svnPropgetCommand, null, ConfigurationOptions.getCheckedOutDirectoryAsFile());
-			istream = new BufferedInputStream(p.getInputStream());
+			return ProcessUtils.call(svnPropgetCommand);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
-		return istream;
 	}
 
 	/**
@@ -97,7 +92,13 @@ public class SvnPropgetUtils {
 				if (file != null)
 					binaryFiles.add(file);
 			}
+			if (ProcessUtils.hasErrorOccured())
+			{
+				throw new IOException(ProcessUtils.getErrorMessage());
+			}
+			
 		} catch (IOException e) {
+			_logger.warning(e.getMessage());
 		}
 	}
 

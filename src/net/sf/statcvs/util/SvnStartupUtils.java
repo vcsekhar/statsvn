@@ -1,6 +1,7 @@
 package net.sf.statcvs.util;
 
 import java.io.BufferedInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.logging.Logger;
@@ -83,7 +84,15 @@ public class SvnStartupUtils {
                 		return; // success
                 }
             }
+            
+			if (ProcessUtils.hasErrorOccured())
+			{
+				throw new IOException(ProcessUtils.getErrorMessage());
+			}
+            
             istream.close();
+            
+            
 
         } catch (Exception e) {
         		_logger.warning(e.getMessage());

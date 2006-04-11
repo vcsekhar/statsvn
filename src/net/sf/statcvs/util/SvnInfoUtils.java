@@ -1,6 +1,5 @@
 package net.sf.statcvs.util;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -12,7 +11,6 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import net.sf.statcvs.input.LogSyntaxException;
-import net.sf.statcvs.output.ConfigurationOptions;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -328,21 +326,17 @@ public class SvnInfoUtils {
 	 * @return the response.
 	 */
 	protected synchronized static InputStream getSvnInfo(boolean bRootOnly) {
-		InputStream istream = null;
-
 		String svnInfoCommand = "svn info --xml";
 		if (!bRootOnly)
 			svnInfoCommand += " -R";
 		svnInfoCommand += SvnCommandHelper.getAuthString();
 
 		try {
-			Process p = Runtime.getRuntime().exec(svnInfoCommand, null, ConfigurationOptions.getCheckedOutDirectoryAsFile());
-			istream = new BufferedInputStream(p.getInputStream());
+			return ProcessUtils.call(svnInfoCommand);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
-		return istream;
 	}
 
 	/**
@@ -413,6 +407,12 @@ public class SvnInfoUtils {
 				SAXParserFactory factory = SAXParserFactory.newInstance();
 				SAXParser parser = factory.newSAXParser();
 				parser.parse(stream, new SvnInfoHandler());
+				
+				if (ProcessUtils.hasErrorOccured())
+				{
+					throw new IOException(ProcessUtils.getErrorMessage());
+				}
+				
 			} catch (ParserConfigurationException e) {
 				throw new LogSyntaxException(e.getMessage());
 			} catch (SAXException e) {
