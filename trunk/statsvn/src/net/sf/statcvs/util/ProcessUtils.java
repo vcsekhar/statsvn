@@ -48,7 +48,7 @@ public class ProcessUtils {
 			StringBuilder builder = new StringBuilder();
 			try {
 				while (diffReader.hasNextLine()) {
-					builder.append(diffReader.getCurrentLine());
+					builder.append(diffReader.nextLine());
 				}
 			} catch (IOException e) {
 			}
