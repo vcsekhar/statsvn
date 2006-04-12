@@ -43,6 +43,7 @@ public class StatCvsTask extends Task {
 	private String logFile;
 	private String pDir;
 	private String outDir;
+	private String cacheDir;
 	private String cssFile;
 	private String notesFile;
 	private String viewcvs;
@@ -94,6 +95,9 @@ public class StatCvsTask extends Task {
 		if (this.outDir != null) {
 			ConfigurationOptions.setOutputDir(this.outDir);
 		}
+		if (this.cacheDir != null) {
+			ConfigurationOptions.setCacheDir(this.cacheDir);
+		}
 		if (cssFile != null) {
 			ConfigurationOptions.setCssFile(this.cssFile);
 		}
@@ -143,6 +147,13 @@ public class StatCvsTask extends Task {
 	 */
 	public void setOutputDirectory(String outDir) {
 		this.outDir = outDir;
+	}
+	
+	/**
+	 * @param cacheDir String representing the cache directory of the program
+	 */
+	public void setCacheDirectory(String cacheDir) {
+		this.cacheDir = cacheDir;
 	}
 	
 	/**
