@@ -100,16 +100,16 @@ public class SvnLogfileParser {
         } catch (SAXException e) {
         } catch (IOException e) {
         }
-        String lineCountsFileName = ConfigurationOptions.getCacheDir() + repositoriesBuilder.getFileName(repositoryFileManager.getRepositoryUuid());
+        String cacheFileName = ConfigurationOptions.getCacheDir() + repositoriesBuilder.getFileName(repositoryFileManager.getRepositoryUuid());
         XMLUtil.writeXmlFile(repositoriesBuilder.getDocument(), xmlFile);
         logger.fine("parsing repositories finished in " + (System.currentTimeMillis() - startTime) + " ms.");
         startTime = System.currentTimeMillis();
         
-        CacheBuilder lineCountsBuilder = new CacheBuilder(builder, repositoryFileManager);
+        CacheBuilder cacheBuilder = new CacheBuilder(builder, repositoryFileManager);
         try {
-            FileInputStream lineCountsFile = new FileInputStream(lineCountsFileName);
+            FileInputStream cacheFile = new FileInputStream(cacheFileName);
             SAXParser parser = factory.newSAXParser();
-            parser.parse(lineCountsFile, new SvnXmlCacheFileHandler(lineCountsBuilder));
+            parser.parse(cacheFile, new SvnXmlCacheFileHandler(cacheBuilder));
         } catch (ParserConfigurationException e) {
         } catch (SAXException e) {
         } catch (IOException e) {
@@ -117,19 +117,21 @@ public class SvnLogfileParser {
         logger.fine("parsing line counts finished in " + (System.currentTimeMillis() - startTime) + " ms.");
         startTime = System.currentTimeMillis();
 
-        int limit = 20000;
-        int c = 0;
         Collection fileBuilders = builder.getFileBuilders().values();
         for (Iterator iter = fileBuilders.iterator(); iter.hasNext();) {
             FileBuilder fileBuilder = (FileBuilder) iter.next();
             if (fileBuilder.isBinary())
                 continue;
-
             String fileName = fileBuilder.getName();
             List revisions = fileBuilder.getRevisions();
+            // check if binary in cache
             for (int i = 0; i < revisions.size(); i++) {
+				// line diffs are expensive operations. therefore, the result is stored in the
+				// cacheBuilder and eventually persisted in the cache xml file. the next time
+				// the file is read the line diffs (or 0/0 in case of binary files) are intialized
+				// in the RevisionData. this cause hasNoLines to be false which in turn the if 
+            	// clause below to be skipped.
                 if (i + 1 < revisions.size() && ((RevisionData) revisions.get(i)).hasNoLines() && !((RevisionData) revisions.get(i)).isDeletion()) {
-
                     if (((RevisionData) revisions.get(i + 1)).isDeletion())
                         continue;
                     String revNrNew = ((RevisionData) revisions.get(i)).getRevisionNumber();
@@ -139,23 +141,23 @@ public class SvnLogfileParser {
 						lineDiff = repositoryFileManager.getLineDiff(revNrOld, revNrNew, fileName);
 					} catch (BinaryDiffException e) {
 						// file is binary and has been deleted
+						cacheBuilder.newRevision(fileName, revNrNew, "0", "0", true);
 						fileBuilder.setBinary(true);
 						break;
 					}
 					if (lineDiff[0] != -1 && lineDiff[1] != -1) {
 						builder.updateRevision(fileName, revNrNew, lineDiff[0], lineDiff[1]);
-						lineCountsBuilder.newRevision(fileName, revNrNew, lineDiff[0] + "", lineDiff[1] + "");
+						cacheBuilder.newRevision(fileName, revNrNew, lineDiff[0] + "", lineDiff[1] + "", false);
 					} else {
 						System.out.println("unknown behaviour; to be investigated");
 					}
-					
-
                 }
             }
-            if (c++ > limit)
-                break;
         }
-        XMLUtil.writeXmlFile(lineCountsBuilder.getDocument(), lineCountsFileName);
+        // before saving the cache xml file, update it with the latest binary status information
+        // from the working copy
+        cacheBuilder.updateBinaryStatus(builder.getFileBuilders().values(), repositoryFileManager.getRootRevisionNumber());
+        XMLUtil.writeXmlFile(cacheBuilder.getDocument(), cacheFileName);
 
         logger.fine("parsing svn diff finished in " + (System.currentTimeMillis() - startTime) + " ms.");
     }

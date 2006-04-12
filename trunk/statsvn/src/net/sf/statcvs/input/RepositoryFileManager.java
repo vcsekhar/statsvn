@@ -212,6 +212,16 @@ public class RepositoryFileManager {
 		else
 			return null;
 	}
+	
+	/**
+	 * Assumes #loadInfo(String) has been called.
+	 *  
+	 * @return the revision number of the root of the working folder 
+	 *         (last checked out revision number)
+	 */
+	public String getRootRevisionNumber() {
+		return SvnInfoUtils.getRootRevisionNumber();
+	}
 
 	/**
 	 * Is the given path a binary file in the <b>working</b> directory?
