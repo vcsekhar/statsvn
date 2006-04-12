@@ -32,8 +32,9 @@ public class SvnStartupUtils {
      */
     public synchronized static void checkSvnVersionSufficient() throws SvnVersionMismatchException {
         try {
-            Process p = Runtime.getRuntime().exec(SVN_VERSION_COMMAND, null, null);
-            InputStream istream = new BufferedInputStream(p.getInputStream());
+            
+            
+            InputStream istream = ProcessUtils.call(SVN_VERSION_COMMAND);
             LookaheadReader reader = new LookaheadReader(new InputStreamReader(istream));
 
             while (reader.hasNextLine()) {
@@ -53,7 +54,12 @@ public class SvnStartupUtils {
                     }
                 }
             }
+            
             istream.close();
+            
+            if (ProcessUtils.hasErrorOccured())
+                throw new IOException(ProcessUtils.getErrorMessage());
+            
 
         } catch (Exception e) {
         		_logger.warning(e.getMessage());
