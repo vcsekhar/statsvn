@@ -31,12 +31,8 @@ public class SvnPropgetUtils {
 	/**
 	 * Get the svn:mime-type for a certain file (leave null for all files).
 	 * 
-	 * It was first thought that a the mime-type of a file's previous revision
-	 * could be found. This is not the case. Leave revision null until future
-	 * upgrade of svn propget command line.
-	 * 
 	 * @param revision
-	 *            revision for which to query; LEAVE NULL
+	 *            revision for which to query; 
 	 * @param filename
 	 *            the filename (or null for all files)
 	 * @return the inputstream from which to read the information.
@@ -44,10 +40,14 @@ public class SvnPropgetUtils {
 	protected synchronized static InputStream getFileMimeTypes(String revision, String filename) {
 		String svnPropgetCommand = "svn propget svn:mime-type";
 		if (revision != null && revision.length() > 0)
-			svnPropgetCommand += " -r " + revision; // won't work.
+			svnPropgetCommand += " -r " + revision; 
 
-		if (filename != null && filename.length() > 0)
+		if (filename != null && filename.length() > 0) {
 			svnPropgetCommand += " " + SvnInfoUtils.relativePathToUrl(filename);
+            
+            if (revision != null && revision.length() > 0)
+                svnPropgetCommand += "@" + revision; 
+        }
 		else
 			svnPropgetCommand += " -R ";
 
@@ -103,8 +103,6 @@ public class SvnPropgetUtils {
 	}
 
 	/**
-	 * Does not currently work.
-	 * 
 	 * It was first thought that a the mime-type of a file's previous revision
 	 * could be found. This is not the case. Leave revision null until future
 	 * upgrade of svn propget command line.

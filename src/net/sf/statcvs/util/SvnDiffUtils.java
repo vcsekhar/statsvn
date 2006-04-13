@@ -14,7 +14,10 @@ import java.io.InputStreamReader;
  */
 public class SvnDiffUtils {
 
-	/**
+	private static final String PROPERTY_CHANGE = "Property changes on:";
+    private static final String BINARY_TYPE = "Cannot display: file marked as a binary type.";
+
+    /**
 	 * Calls svn diff for the filename and revisions given. Will use URL
 	 * invocation, to ensure that we get diffs even for deleted files.
 	 * 
@@ -32,7 +35,6 @@ public class SvnDiffUtils {
 		String svnDiffCommand = null;
 		filename = SvnInfoUtils.relativePathToUrl(filename);
 		svnDiffCommand = "svn diff  --old " + filename + "@" + oldRevNr + "  --new " + filename + "@" + newRevNr + SvnCommandHelper.getAuthString();
-
 		return ProcessUtils.call(svnDiffCommand);
 	}
 
@@ -57,6 +59,7 @@ public class SvnDiffUtils {
 		int lineDiff[] = parseDiff(diffReader);
 
 		if (ProcessUtils.hasErrorOccured()) {
+            // The binary checking code here might be useless... as it may be output on the standard out. 
 			String msg = ProcessUtils.getErrorMessage();
 			if (isBinaryErrorMessage(msg)) {
 				throw new BinaryDiffException();
@@ -71,10 +74,10 @@ public class SvnDiffUtils {
 	}
 
 	/**
-	 * Returns true if msg is an error message display that the file is binary.
+	 * Returns true if msg is an error message display that the file is binary. 
 	 * 
-	 * @param msg
-	 * @return
+	 * @param msg the error message given by ProcessUtils.getErrorMessage();
+	 * @return true if the file is binary
 	 */
 	private static boolean isBinaryErrorMessage(String msg) {
 		/*
@@ -84,7 +87,7 @@ public class SvnDiffUtils {
 		 * 
 		 * svn:mime-type = application/octet-stream
 		 */
-		return (msg.indexOf("file marked as a binary type") > 0);
+		return (msg.indexOf(BINARY_TYPE) > 0);
 	}
 
 	/**
@@ -97,7 +100,7 @@ public class SvnDiffUtils {
 	 * @throws IOException
 	 *             problem parsing the stream
 	 */
-	private static int[] parseDiff(LookaheadReader diffReader) throws IOException {
+	private static int[] parseDiff(LookaheadReader diffReader) throws IOException, BinaryDiffException {
 		int lineDiff[] = { -1, -1 };
 		boolean propertyChange = false;
 		if (!diffReader.hasNextLine()) {
@@ -116,8 +119,11 @@ public class SvnDiffUtils {
 				lineDiff[0]++;
 			else if (diffReader.getCurrentLine().charAt(0) == '-')
 				lineDiff[1]++;
-			else if (diffReader.getCurrentLine().indexOf("Property changes on:") == 0)
+			else if (diffReader.getCurrentLine().indexOf(PROPERTY_CHANGE) == 0)
 				propertyChange = true;
+            else if (diffReader.getCurrentLine().indexOf(BINARY_TYPE) == 0)
+                throw new BinaryDiffException();
+            
 			// System.out.println(diffReader.getCurrentLine());
 		}
 		if (propertyChange && (lineDiff[0] == -1 || lineDiff[1] == -1)) {
