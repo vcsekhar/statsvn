@@ -41,6 +41,9 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
 	private String lastElement = "";
 	private String pathAction = "";
 	private String stringData = "";
+    private String copyfromRev = "";
+    private String copyfromPath = "";
+    
 	private RepositoryFileManager repositoryFileManager;
 
 	/**
@@ -212,8 +215,12 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
 			data.setStateDead(true);
 		}
 
+		data.setCopyfromPath(copyfromPath);
+        data.setCopyfromRevision(copyfromRev);
+        
 		// must add directories because of implicit additions
 		// if (!SvnInfoUtils.isDirectory(filename)) {
+        
 		currentRevisions.add(data);
 		currentFilenames.add(filename);
 		// }
@@ -341,6 +348,10 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
 			pathAction = attributes.getValue("action");
 		else
 			fatalError(INVALID_SVN_LOG_FILE);
+        
+        copyfromPath = attributes.getValue("copyfrom-path");
+        copyfromRev = attributes.getValue("copyfrom-rev");
+
 	}
 
 	/**
