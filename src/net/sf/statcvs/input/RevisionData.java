@@ -44,7 +44,9 @@ public class RevisionData {
     private int linesAdded;
     private int linesRemoved;
     private String comment = "";
-
+    private String copyfromPath, copyfromRevision;
+    
+    
     public RevisionData() {
 
     }
@@ -292,6 +294,22 @@ public class RevisionData {
         this.linesRemoved = linesRemoved;
         this.comment = comment;
         this.stateAdded = stateAdded;
+    }
+
+    public String getCopyfromPath() {
+        return copyfromPath;
+    }
+
+    public void setCopyfromPath(String copyfromPath) {
+        this.copyfromPath = copyfromPath;
+    }
+
+    public String getCopyfromRevision() {
+        return copyfromRevision;
+    }
+
+    public void setCopyfromRevision(String copyfromRevision) {
+        this.copyfromRevision = copyfromRevision;
     }
 
 }
