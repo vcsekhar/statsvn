@@ -103,7 +103,6 @@ public class CacheBuilder {
 		String binaryStatus = CacheConfiguration.NOT_BINARY;
 		if (isBinary)
 			binaryStatus = CacheConfiguration.BINARY;
-		System.out.println("   " + oldRevision + "   " + newRevision);
 		if (newRevision >= oldRevision) {
 			path.setAttribute(CacheConfiguration.LATEST_REVISION, revisionNumber);
 			path.setAttribute(CacheConfiguration.BINARY_STATUS, binaryStatus);
@@ -241,13 +240,7 @@ public class CacheBuilder {
 	public void newRevision(String name, String number, String added,
 			String removed, boolean binaryStatus) {
 		name = repositoryFileManager.relativeToAbsolutePath(name);
-		if (document == null) {
-			try {
-				buildRoot();
-			} catch (ParserConfigurationException e) {
-				document = null;
-			}
-		}
+		checkDocument();
 		if (document != null) {
 			currentPath = findDOMPath(name);
 			if (currentPath == null) {
@@ -258,6 +251,16 @@ public class CacheBuilder {
 			if (binaryStatus)
 				sBinaryStatus = CacheConfiguration.BINARY;
 			addDOMRevision(number, added, removed, sBinaryStatus);
+		}
+	}
+
+	private void checkDocument() {
+		if (document == null) {
+			try {
+				buildRoot();
+			} catch (ParserConfigurationException e) {
+				document = null;
+			}
 		}
 	}
 
@@ -284,10 +287,10 @@ public class CacheBuilder {
 		if (!mFileBuilders.isEmpty()) {
 			// go through all the paths in the DOM and update their binary status
 			// remove the fileBuilder once its corresponding path in the DOM was dealt with
+			checkDocument();
 			NodeList paths = cache.getChildNodes();
 			for (int i = 0; i < paths.getLength(); i++) {
 				Element path = (Element) paths.item(i);
-				System.out.println(i + "   " + path.getAttribute(CacheConfiguration.NAME));
 				if (mFileBuilders.containsKey(repositoryFileManager.absoluteToRelativePath(path.getAttribute(CacheConfiguration.NAME)))) {
 					FileBuilder fileBuilder = (FileBuilder) mFileBuilders.get(repositoryFileManager.absoluteToRelativePath(path.getAttribute(CacheConfiguration.NAME)));
 					updateDOMPath(path, fileBuilder.isBinary(), revisionNumber); 
@@ -295,7 +298,6 @@ public class CacheBuilder {
 				}
 			}
 			// go through remaining fileBuilders and add them to the DOM
-			int i = 0;
 			Collection cFileBuilders = mFileBuilders.values();
 			for (Iterator iter = cFileBuilders.iterator(); iter.hasNext();) {
 				FileBuilder fileBuilder = (FileBuilder) iter.next();
@@ -303,11 +305,43 @@ public class CacheBuilder {
 				if (fileBuilder.isBinary())
 					binaryStatus = CacheConfiguration.BINARY;
 				addDOMPath(repositoryFileManager.relativeToAbsolutePath(fileBuilder.getName()), revisionNumber, binaryStatus);
-				System.out.println(i + "   " + fileBuilder.getName());
-				i++;
 			}			
 		}
 
+	}
+	
+	/**
+	 * Checks the path's cached binary status.
+	 *  
+	 * @param fileName
+	 * 			the path to be checked
+	 * @param revisionNumber
+	 * 			the revision of the path to be checked
+	 * @return
+	 * 			true if the path's BINARY_STATUS is true and the revisionNumber is lower
+	 *			or equal to the path's LATEST_REVISION 
+	 */
+	public boolean isBinary(String fileName, String revisionNumber) {
+		int latestRevision = 0;
+		int revisionToCheck = -1;
+		checkDocument();
+		Element path = findDOMPath(repositoryFileManager.relativeToAbsolutePath(fileName));
+		if (path == null)
+			return false;
+		try {
+			latestRevision = Integer.parseInt(path.getAttribute(CacheConfiguration.LATEST_REVISION));
+			revisionToCheck = Integer.parseInt(revisionNumber);
+		}
+		catch (NumberFormatException e) {
+			System.out.println("Ignoring invalid revision number " + revisionNumber + " for " + path.getAttribute(CacheConfiguration.NAME));
+			revisionToCheck = -1;
+		}
+		if (latestRevision >= revisionToCheck) {
+			String binaryStatus = path.getAttribute(CacheConfiguration.BINARY_STATUS);
+			if (binaryStatus.equals(CacheConfiguration.BINARY))
+				return true;
+		}		
+		return false;
 	}
 	
 }
