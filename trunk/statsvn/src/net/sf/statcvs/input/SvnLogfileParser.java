@@ -117,6 +117,10 @@ public class SvnLogfileParser {
         logger.fine("parsing line counts finished in " + (System.currentTimeMillis() - startTime) + " ms.");
         startTime = System.currentTimeMillis();
 
+        // update the cache xml file with the latest binary status information
+        // from the working copy
+        cacheBuilder.updateBinaryStatus(builder.getFileBuilders().values(), repositoryFileManager.getRootRevisionNumber());
+        
         Collection fileBuilders = builder.getFileBuilders().values();
         for (Iterator iter = fileBuilders.iterator(); iter.hasNext();) {
             FileBuilder fileBuilder = (FileBuilder) iter.next();
@@ -124,17 +128,18 @@ public class SvnLogfileParser {
                 continue;
             String fileName = fileBuilder.getName();
             List revisions = fileBuilder.getRevisions();
-            // check if binary in cache
             for (int i = 0; i < revisions.size(); i++) {
 				// line diffs are expensive operations. therefore, the result is stored in the
 				// cacheBuilder and eventually persisted in the cache xml file. the next time
 				// the file is read the line diffs (or 0/0 in case of binary files) are intialized
-				// in the RevisionData. this cause hasNoLines to be false which in turn the if 
-            	// clause below to be skipped.
+				// in the RevisionData. this cause hasNoLines to be false which in turn causes the 
+            	// if clause below to be skipped.
                 if (i + 1 < revisions.size() && ((RevisionData) revisions.get(i)).hasNoLines() && !((RevisionData) revisions.get(i)).isDeletion()) {
                     if (((RevisionData) revisions.get(i + 1)).isDeletion())
                         continue;
                     String revNrNew = ((RevisionData) revisions.get(i)).getRevisionNumber();
+                    if (cacheBuilder.isBinary(fileName, revNrNew))
+                    	continue;
                     String revNrOld = ((RevisionData) revisions.get(i + 1)).getRevisionNumber();
 					int lineDiff[];
 					try {
@@ -154,11 +159,7 @@ public class SvnLogfileParser {
                 }
             }
         }
-        // before saving the cache xml file, update it with the latest binary status information
-        // from the working copy
-        cacheBuilder.updateBinaryStatus(builder.getFileBuilders().values(), repositoryFileManager.getRootRevisionNumber());
         XMLUtil.writeXmlFile(cacheBuilder.getDocument(), cacheFileName);
-
         logger.fine("parsing svn diff finished in " + (System.currentTimeMillis() - startTime) + " ms.");
     }
 
