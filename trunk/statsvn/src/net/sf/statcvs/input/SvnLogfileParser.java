@@ -149,7 +149,10 @@ public class SvnLogfileParser {
 						cacheBuilder.newRevision(fileName, revNrNew, "0", "0", true);
 						fileBuilder.setBinary(true);
 						break;
-					}
+					} catch (IOException e) {
+					   System.out.println("Unable to obtain diff: " + e.getMessage());
+                       continue;
+                    }
 					if (lineDiff[0] != -1 && lineDiff[1] != -1) {
 						builder.updateRevision(fileName, revNrNew, lineDiff[0], lineDiff[1]);
 						cacheBuilder.newRevision(fileName, revNrNew, lineDiff[0] + "", lineDiff[1] + "", false);
