@@ -71,6 +71,7 @@ public class BuilderTest extends TestCase {
 		rev1.setRevisionNumber("1.1");
 		rev1.setLoginName("author1");
 		rev1.setStateExp(true);
+        rev1.setStateAdded(true);
 		rev1.setDate(new Date(100000));
 		rev1.setComment("comment1");
 		rev2 = new RevisionData();
