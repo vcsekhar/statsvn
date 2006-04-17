@@ -130,35 +130,38 @@ public class LinesOfCodeTest extends TestCase {
 		assertRevisionLines(rev4, 5, 5, 5);
 	}
 
-	/**
-	 * Test a file whose initial revision is dead (this means it was
-	 * added on another branch). The builder should filter this file,
-	 * so the Repository should be empty.
-	 */
-	public void testLinesOfCodeDeadInitial() throws Exception {
-		buildRevisionDead("1.1", date11);
-		try {
-			finishBuilder();
-			fail("should have thrown EmptyRepositoryException");
-		} catch (EmptyRepositoryException expected) {
-			// is expected
-		}
-	}
+//  not relevant for SVN
+//	/**
+//	 * Test a file whose initial revision is dead (this means it was
+//	 * added on another branch). The builder should filter this file,
+//	 * so the Repository should be empty.
+//	 */
+//	public void testLinesOfCodeDeadInitial() throws Exception {
+// not relevant for SVN
+//		buildRevisionDead("1.1", date11);
+//		try {
+//			finishBuilder();
+//			fail("should have thrown EmptyRepositoryException");
+//		} catch (EmptyRepositoryException expected) {
+//			// is expected
+//		}
+//	}
 
-	/**
-	 * Test a file whose initial revision is dead (this means it was
-	 * added on another branch), but that was later merged into the
-	 * trunk.
-	 */
-	public void testLinesOfCodeDeadInitialMerged() throws Exception {
-		buildRevision("1.2", date12, 10, 0);
-		buildRevisionDead("1.1", date11);
-		fileman.setLinesOfCode("file", 10);
-		finishBuilder();
-		assertTrue(rev0.isInitialRevision());
-		assertRevisionLines(rev0, 10, 10, 10);
-		assertEquals(1, file.getRevisions().size());
-	}
+//  not relevant for SVN
+//	/**
+//	 * Test a file whose initial revision is dead (this means it was
+//	 * added on another branch), but that was later merged into the
+//	 * trunk.
+//	 */
+//	public void testLinesOfCodeDeadInitialMerged() throws Exception {
+//		buildRevision("1.2", date12, 10, 0);
+//		buildRevisionDead("1.1", date11);
+//		fileman.setLinesOfCode("file", 10);
+//		finishBuilder();
+//		assertTrue(rev0.isInitialRevision());
+//		assertRevisionLines(rev0, 10, 10, 10);
+//		assertEquals(1, file.getRevisions().size());
+//	}
 
 	/**
 	 * Simple test to make sure that the Builder pulls the LOC number
