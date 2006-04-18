@@ -67,6 +67,7 @@ public class ConfigurationOptions {
 
     private static CssHandler cssHandler = new DefaultCssHandler("statcvs.css");
     private static WebRepositoryIntegration webRepository = null;
+    private static WebBugtrackerIntegration webBugTracker = null;
     private static Pattern symbolicNamesPattern;
 
     /**
@@ -416,12 +417,13 @@ public class ConfigurationOptions {
 		ConfigurationOptions.svnUsername = svnUsername;
 	}
 
-	public static String getBugzillaUrl() {
-		return bugzillaUrl;
-	}
 
 	public static void setBugzillaUrl(String bugzillaUrl) {
-		ConfigurationOptions.bugzillaUrl = bugzillaUrl;
+		ConfigurationOptions.webBugTracker = new BugzillaIntegration(bugzillaUrl);
+	}
+	
+	public static WebBugtrackerIntegration getWebBugtracker() {
+		return ConfigurationOptions.webBugTracker;
 	}
 
 

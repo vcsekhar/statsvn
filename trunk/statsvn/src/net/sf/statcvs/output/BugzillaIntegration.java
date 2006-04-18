@@ -1,34 +1,32 @@
-package net.sf.statcvs.renderer;
+package net.sf.statcvs.output;
 
 import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.sf.statcvs.output.ConfigurationOptions;
-import net.sf.statcvs.output.HTMLOutput;
-import net.sf.statcvs.output.HTMLTagger;
-
-/*
- * WARNING KNOWN PROBLEM
- * If, in a single input string 's', two bug references exist, where one is a substring of the other (ex: "Bug 2" and "Bug 24"), the
- * output is corrupted because the replaceAll operation mangles the superstring.
- */
-
-/**
- * 
- * @author jpdaigle
- *
- */
-public class BugzillaTextFilter implements TextFilter {
-	public static final String BUGZILLA_RELPATH = "show_bug.cgi?id=";
+public class BugzillaIntegration implements WebBugtrackerIntegration {
+	protected String _baseUrl;
+	protected static final String BUGZILLA_RELPATH = "show_bug.cgi?id=";
 	
-	public String applyFilter(String s) {
-		if (ConfigurationOptions.getBugzillaUrl() == null || ConfigurationOptions.getBugzillaUrl() == "")
-			return s;
-		
-		String bugzillaUrl = ConfigurationOptions.getBugzillaUrl();
+	public BugzillaIntegration(String baseUrl) {
+		String bugzillaUrl = baseUrl;
 		if (!bugzillaUrl.endsWith("/")) bugzillaUrl += "/";
-		bugzillaUrl += BUGZILLA_RELPATH;
+		_baseUrl = bugzillaUrl;
+	}
+	
+	public String getName() {
+		return "Bugzilla";
+	}
+
+	public String getBaseUrl() {
+		return _baseUrl;
+	}
+
+	public String applyFilter(String s) {
+		if (this.getBaseUrl() == null || this.getBaseUrl() == "")
+			return s;
+			
+		String bugzillaUrl = this.getBaseUrl() + BUGZILLA_RELPATH;
 		
 		Pattern pBugReference = Pattern.compile("Bug\\s+\\d+", Pattern.CASE_INSENSITIVE);
 		Pattern pBugNumber = Pattern.compile("\\d+");
