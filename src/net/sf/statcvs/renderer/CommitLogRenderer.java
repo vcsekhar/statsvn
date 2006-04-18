@@ -34,6 +34,7 @@ import net.sf.statcvs.model.Commit;
 import net.sf.statcvs.model.Revision;
 import net.sf.statcvs.output.ConfigurationOptions;
 import net.sf.statcvs.output.HTMLTagger;
+import net.sf.statcvs.output.WebBugtrackerIntegration;
 import net.sf.statcvs.output.WebRepositoryIntegration;
 import net.sf.statcvs.util.OutputUtils;
 
@@ -53,7 +54,7 @@ public class CommitLogRenderer {
 	private List pageCommits;
 	private HashMap commitHashMap = new HashMap();
 	private WebRepositoryIntegration webRepository;
-	private BugzillaTextFilter btf = new BugzillaTextFilter();
+	private WebBugtrackerIntegration webBugtracker;
 
 	/**
 	 * Creates a new instance for the list of commits.
@@ -64,6 +65,7 @@ public class CommitLogRenderer {
 		this.commits = new ArrayList(commits);
 		Collections.reverse(this.commits);
 		webRepository = ConfigurationOptions.getWebRepository();
+		webBugtracker = ConfigurationOptions.getWebBugtracker();
 	}
 
 
@@ -199,7 +201,8 @@ public class CommitLogRenderer {
 		result += getLinesOfCode(commit) + "</strong> ";
 		result += "lines of code changed in:</p>\n";
 		result += getAffectedFiles(commit) + "  </dd>\n\n";
-		result = btf.applyFilter(result);
+		if (webBugtracker != null)
+			result = webBugtracker.applyFilter(result);
 		return result;
 	}
 
