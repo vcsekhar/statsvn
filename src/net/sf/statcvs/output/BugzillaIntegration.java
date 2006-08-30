@@ -23,7 +23,7 @@ public class BugzillaIntegration implements WebBugtrackerIntegration {
 	}
 
 	public String applyFilter(String s) {
-		if (this.getBaseUrl() == null || this.getBaseUrl() == "")
+		if (this.getBaseUrl() == null || this.getBaseUrl().length() == 0)
 			return s;
 			
 		String bugzillaUrl = this.getBaseUrl() + BUGZILLA_RELPATH;

@@ -24,6 +24,7 @@ package net.sf.statcvs;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
@@ -97,7 +98,9 @@ public class Main {
 
 	private static void initLogManager(String loggingProperties) {
 		try {
-			lm.readConfiguration(Main.class.getResourceAsStream(loggingProperties));
+			InputStream stream = Main.class.getResourceAsStream(loggingProperties);
+			lm.readConfiguration(stream);
+			stream.close();
 		} catch (IOException e) {
 			System.err.println("ERROR: Logging could not be initialized!");
 		}
@@ -203,7 +206,7 @@ public class Main {
 		FileInputStream logFile = new FileInputStream(ConfigurationOptions.getLogFileName());
 		Builder builder = new Builder(repFileMan, ConfigurationOptions.getIncludePattern(), ConfigurationOptions.getExcludePattern());
 		new SvnLogfileParser(repFileMan, logFile, builder).parse();
-
+		logFile.close();
 
 		if (ConfigurationOptions.getProjectName() == null) {
 			ConfigurationOptions.setProjectName(builder.getProjectName());
