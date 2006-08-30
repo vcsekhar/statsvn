@@ -59,8 +59,8 @@ public class MockLogBuilder implements SvnLogBuilder {
 	public void buildFile(String filename, boolean isBinary, boolean isInAttic, Map revBySymnames) {
 		Assert.assertEquals(expectedMethods.removeFirst(), "buildFile");
 		Assert.assertEquals(expectedData.removeFirst(), filename);
-		Assert.assertEquals(expectedData.removeFirst(), new Boolean(isBinary));
-		Assert.assertEquals(expectedData.removeFirst(), new Boolean(isInAttic));
+		Assert.assertEquals(expectedData.removeFirst(), Boolean.valueOf(isBinary));
+		Assert.assertEquals(expectedData.removeFirst(), Boolean.valueOf(isInAttic));
 	}
 
 	/* (non-Javadoc)
@@ -126,8 +126,8 @@ public class MockLogBuilder implements SvnLogBuilder {
 	public void expectBuildFile(String filename, boolean isBinary, boolean isInAttic) {
 		expectedMethods.add("buildFile");
 		expectedData.add(filename);
-		expectedData.add(new Boolean(isBinary));
-		expectedData.add(new Boolean(isInAttic));
+		expectedData.add(Boolean.valueOf(isBinary));
+		expectedData.add(Boolean.valueOf(isInAttic));
 	}
 
 	public void expectBuildRevision(RevisionData data) {

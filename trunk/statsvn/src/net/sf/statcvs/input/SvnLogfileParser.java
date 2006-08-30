@@ -110,6 +110,7 @@ public class SvnLogfileParser {
             FileInputStream cacheFile = new FileInputStream(cacheFileName);
             SAXParser parser = factory.newSAXParser();
             parser.parse(cacheFile, new SvnXmlCacheFileHandler(cacheBuilder));
+            cacheFile.close();
         } catch (ParserConfigurationException e) {
         } catch (SAXException e) {
         } catch (IOException e) {

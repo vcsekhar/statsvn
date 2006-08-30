@@ -208,6 +208,7 @@ public class ParserTest extends TestCase {
 		lookahead.nextLine();
 //		new FileBlockParser(lookahead, mock, true).parse();
 		mock.verify();
+		reader.close();
 	}
 
 	/**
@@ -338,6 +339,7 @@ public class ParserTest extends TestCase {
 		LookaheadReader lookahead = new LookaheadReader(reader);
 		lookahead.nextLine();
 //		new FileBlockParser(lookahead, mock, false).parse();
+		reader.close();
 	}
 
 	private Date createDate(int year, int month, int day, int hour, int minute, int second) {

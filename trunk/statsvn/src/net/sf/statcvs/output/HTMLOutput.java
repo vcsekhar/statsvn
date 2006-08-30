@@ -24,6 +24,7 @@ package net.sf.statcvs.output;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -36,12 +37,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.regex.Pattern;
+
 import net.sf.statcvs.Main;
 import net.sf.statcvs.Messages;
 import net.sf.statcvs.model.Author;
+import net.sf.statcvs.model.Directory;
 import net.sf.statcvs.model.Repository;
 import net.sf.statcvs.model.Revision;
-import net.sf.statcvs.model.Directory;
 import net.sf.statcvs.model.SymbolicName;
 import net.sf.statcvs.renderer.BarChart;
 import net.sf.statcvs.renderer.CombinedCommitScatterChart;
@@ -56,6 +58,7 @@ import net.sf.statcvs.reports.AbstractLocTableReport;
 import net.sf.statcvs.reports.AvgFileSizeTimeLineReport;
 import net.sf.statcvs.reports.FileCountTimeLineReport;
 import net.sf.statcvs.util.FileUtils;
+
 import org.jfree.data.time.Second;
 import org.jfree.data.time.TimeSeries;
 
@@ -289,9 +292,11 @@ public class HTMLOutput {
 	}
 
 	private void createIcon(String iconFilename) throws IOException {
+		InputStream stream = Main.class.getResourceAsStream(WEB_FILE_PATH + iconFilename);
 		FileUtils.copyFile(
-				Main.class.getResourceAsStream(WEB_FILE_PATH + iconFilename),
+				stream,
 				new File(ConfigurationOptions.getOutputDir() + iconFilename));
+		stream.close();
 	}
 
 	private boolean createLOCChart() {

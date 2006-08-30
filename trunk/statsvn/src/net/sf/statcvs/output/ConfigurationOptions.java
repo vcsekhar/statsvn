@@ -327,13 +327,15 @@ public class ConfigurationOptions {
     }
 
     private static String readNotesFile() throws IOException {
-        BufferedReader r = new BufferedReader(new FileReader(notesFile));
+    	FileReader fileReader = new FileReader(notesFile);
+        BufferedReader r = new BufferedReader(fileReader);
         String line = r.readLine();
         String result = "";
         while (line != null) {
             result += line;
             line = r.readLine();
         }
+        fileReader.close();
         return result;
     }
 

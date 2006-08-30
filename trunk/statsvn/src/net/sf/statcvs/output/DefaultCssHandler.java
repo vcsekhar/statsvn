@@ -24,6 +24,7 @@ package net.sf.statcvs.output;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.logging.Logger;
 
 import net.sf.statcvs.Main;
@@ -75,9 +76,11 @@ public class DefaultCssHandler implements CssHandler {
 	public void createOutputFiles() throws IOException {
 		String destination = ConfigurationOptions.getOutputDir() + filename;
 		logger.info("Creating CSS file at '" + destination + "'");
+		InputStream stream = Main.class.getResourceAsStream(HTMLOutput.WEB_FILE_PATH + filename);
 		FileUtils.copyFile(
-			Main.class.getResourceAsStream(HTMLOutput.WEB_FILE_PATH + filename),
+			stream,
 			new File(destination));
+		stream.close();
 	}
 
 	/**
