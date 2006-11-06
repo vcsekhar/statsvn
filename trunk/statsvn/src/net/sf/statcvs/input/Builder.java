@@ -34,6 +34,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.logging.Logger;
 
+import net.sf.statcvs.Messages;
 import net.sf.statcvs.model.Author;
 import net.sf.statcvs.model.Directory;
 import net.sf.statcvs.model.Repository;
@@ -217,6 +218,8 @@ public class Builder implements SvnLogBuilder {
      * @return a corresponding <tt>Author</tt> object
      */
     public Author getAuthor(String name) {
+    	if (name==null || name.length()==0) name=Messages.getString("AUTHOR_UNKNOWN");
+    	
         if (this.authors.containsKey(name.toLowerCase())) {
             return (Author) this.authors.get(name.toLowerCase());
         }
