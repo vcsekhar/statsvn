@@ -38,26 +38,13 @@
   </repository>
 
   <mailingLists>
-    <mailingList>
-      <name>statcvs-announce</name>
-      <subscribe>http://lists.sourceforge.net/mailman/listinfo/statcvs-announce</subscribe>
-      <unsubscribe>http://lists.sourceforge.net/mailman/listinfo/statcvs-announce</unsubscribe>
-      <archive>http://sourceforge.net/mailarchive/forum.php?forum_id=11306</archive>
-    </mailingList>
 
     <mailingList>
-      <name>statcvs-devel</name>
-      <subscribe>http://lists.sourceforge.net/mailman/listinfo/statcvs-devel</subscribe>
-      <unsubscribe>http://lists.sourceforge.net/mailman/listinfo/statcvs-devel</unsubscribe>
-      <archive>http://sourceforge.net/mailarchive/forum.php?forum_id=10390</archive>
+      <name>statsvn-developers</name>
+      <subscribe>http://lists.sourceforge.net/mailman/listinfo/statsvn-developers/subscribe>
+      <unsubscribe>http://lists.sourceforge.net/mailman/listinfo/statsvn-developers</unsubscribe>
     </mailingList>    
 
-    <mailingList>
-      <name>statcvs-users</name>
-      <subscribe>http://lists.sourceforge.net/mailman/listinfo/statcvs-users</subscribe>
-      <unsubscribe>http://lists.sourceforge.net/mailman/listinfo/statcvs-users</unsubscribe>
-      <archive>http://sourceforge.net/mailarchive/forum.php?forum_id=11441</archive>
-    </mailingList>
   </mailingLists>
 
   <developers>
