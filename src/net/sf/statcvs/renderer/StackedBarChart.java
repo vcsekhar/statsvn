@@ -18,7 +18,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
     
 	$RCSfile: StackedBarChart.java,v $
-	$Date: 2004/10/12 07:22:42 $ 
+	$Date: 2006/06/14 10:25:33 $ 
 */
 package net.sf.statcvs.renderer;
 
@@ -37,18 +37,19 @@ import net.sf.statcvs.model.Revision;
 import net.sf.statcvs.output.ConfigurationOptions;
 
 import org.jfree.chart.ChartFactory;
-import org.jfree.chart.Legend;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.NumberTickUnit;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
+import org.jfree.chart.title.LegendTitle;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.ui.RectangleEdge;
 
 /**
  * Class for producing stacked bar charts
  * @author jentzsch
- * @version $Id: StackedBarChart.java,v 1.23 2004/10/12 07:22:42 cyganiak Exp $
+ * @version $Id: StackedBarChart.java,v 1.24 2006/06/14 10:25:33 mungady Exp $
  */
 public class StackedBarChart extends Chart {
 	private static final int MODIFYING = 0;
@@ -150,8 +151,8 @@ public class StackedBarChart extends Chart {
 		rangeAxis.setTickUnit(new NumberTickUnit(20.0, new DecimalFormat("0")));
 		rangeAxis.setUpperBound(100.0);
 		
-		Legend legend = getChart().getLegend();
-		legend.setAnchor(Legend.NORTH);
+		LegendTitle legend = getChart().getLegend();
+		legend.setPosition(RectangleEdge.TOP);
 		
 		createChart();
 		saveChart(450, 19 * content.getAuthors().size() + 110, "activity.png");

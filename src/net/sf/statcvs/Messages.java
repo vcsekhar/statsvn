@@ -46,7 +46,7 @@ public class Messages {
 			ResourceBundle.getBundle(BUNDLE_NAME);
 
 	/**
-	 * Returns the value for the specified key. key-value pairs are specivied
+	 * Returns the value for the specified key. Key-value pairs are specified
 	 * in the resourcebundle properties file.
 	 * @param key key of the requested string
 	 * @return String

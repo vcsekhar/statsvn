@@ -4,8 +4,8 @@
 	<classpathentry kind="src" path="tests-src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/ant.jar"/>
-	<classpathentry kind="lib" path="lib/jcommon-0.9.6.jar"/>
-	<classpathentry kind="lib" path="lib/jfreechart-0.9.21.jar"/>
 	<classpathentry kind="lib" path="lib/junit.jar"/>
+	<classpathentry kind="lib" path="lib/jcommon-1.0.0.jar"/>
+	<classpathentry kind="lib" path="lib/jfreechart-1.0.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
