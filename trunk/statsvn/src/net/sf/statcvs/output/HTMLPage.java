@@ -80,7 +80,7 @@ public abstract class HTMLPage {
 				+ Messages.getString("PROJECT_SHORTNAME") + " - " + getPageName() + "</title>\n"
 				+ "    <meta http-equiv=\"Content-Type\" content=\"text/html; "
 				+ "charset=ISO-8859-1\">\n"
-				+ "    <meta name=\"Generator\" content=\"StatSVN v0.1\">\n"
+				+ "    <meta name=\"Generator\" content=\"StatSVN v0.1.1\">\n"
 				+ "    <link rel=\"stylesheet\" href=\""
 				+ ConfigurationOptions.getCssHandler().getLink()
 				+ "\" type=\"text/css\">\n"
@@ -105,7 +105,7 @@ public abstract class HTMLPage {
 			+ a(
 				"http://www.statsvn.org",
 				Messages.getString("PROJECT_SHORTNAME"))
-			+ " v0.1");
+			+ " v0.1.1");
 		print("</div>\n");
 		print("</body>\n");
 		print("</html>");

@@ -18,7 +18,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
     
 	$RCSfile: Chart.java,v $
-	$Date: 2004/10/12 07:22:42 $ 
+	$Date: 2006/06/14 10:25:33 $ 
 */
 package net.sf.statcvs.renderer;
 
@@ -33,7 +33,8 @@ import net.sf.statcvs.output.ConfigurationOptions;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.title.TextTitle;
-import org.jfree.ui.Spacer;
+import org.jfree.ui.RectangleInsets;
+import org.jfree.util.UnitType;
 
 /**
  * superclass of all charts
@@ -105,7 +106,8 @@ public class Chart {
 
 	private void addTitles() {
 		TextTitle title2 = new TextTitle(title, font);
-		title2.setSpacer(new Spacer(Spacer.RELATIVE, 0.05, 0.05, 0.05, 0.0));
+		title2.setMargin(new RectangleInsets(UnitType.RELATIVE, 0.05, 0.05, 
+                0.05, 0.0));
 		chart.addSubtitle(title2);
 	}
 	

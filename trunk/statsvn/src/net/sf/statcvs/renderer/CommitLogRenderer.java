@@ -18,7 +18,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
     
 	$Name:  $ 
-	Created on $Date: 2004/10/12 07:22:42 $ 
+	Created on $Date: 2006/10/10 09:23:45 $ 
 */
 package net.sf.statcvs.renderer;
 
@@ -43,7 +43,7 @@ import net.sf.statcvs.util.OutputUtils;
  * 
  * @author Anja Jentzsch
  * @author Richard Cyganiak
- * @version $Id: CommitLogRenderer.java,v 1.31 2004/10/12 07:22:42 cyganiak Exp $
+ * @version $Id: CommitLogRenderer.java,v 1.32 2006/10/10 09:23:45 cyganiak Exp $
  */
 public class CommitLogRenderer {
 
@@ -65,7 +65,6 @@ public class CommitLogRenderer {
 		this.commits = new ArrayList(commits);
 		Collections.reverse(this.commits);
 		webRepository = ConfigurationOptions.getWebRepository();
-		webBugtracker = ConfigurationOptions.getWebBugtracker();
 	}
 
 
@@ -123,7 +122,7 @@ public class CommitLogRenderer {
 		} else {
 			commitsText = commits.size() + " " + Messages.getString("COMMITS");
 		}
-		return HTMLTagger.getSummaryPeriod(time1, time2, " (" + commitsText + ")");
+		return HTMLTagger.getSummaryPeriod(time1, time2, " (" + commitsText + ")", false);
 	}
 
 	private String renderNavigation() {
@@ -132,7 +131,7 @@ public class CommitLogRenderer {
 			result
 				+= HTMLTagger.getLink(
 					getFilename(currentPage - 1),
-					Messages.getString("NAVIGATION_PREVIOUS"))
+					Messages.getString("NAVIGATION_PREVIOUS"), "&laquo; ", "")
 				+ " ";
 		}
 		for (int i = 1; i <= getPages(); i++) {
@@ -145,7 +144,7 @@ public class CommitLogRenderer {
 		}
 		if (currentPage < getPages()) {
 			result += HTMLTagger.getLink(getFilename(currentPage + 1),
-					Messages.getString("NAVIGATION_NEXT")) + " ";
+					Messages.getString("NAVIGATION_NEXT"), "", " &raquo;") + " ";
 		}
 		return "<p>" + result + "</p>\n";
 	}

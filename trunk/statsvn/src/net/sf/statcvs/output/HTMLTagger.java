@@ -18,7 +18,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
     
 	$RCSfile: HTMLTagger.java,v $
-	$Date: 2005/03/29 21:57:43 $ 
+	$Date: 2006/10/10 09:23:45 $ 
 */
 package net.sf.statcvs.output;
 
@@ -34,7 +34,7 @@ import net.sf.statcvs.util.OutputUtils;
 /**
  * //TODO: lots of duplicate code here and in HTMLPage 
  * @author Anja Jentzsch
- * @version $Id: HTMLTagger.java,v 1.39 2005/03/29 21:57:43 cyganiak Exp $
+ * @version $Id: HTMLTagger.java,v 1.40 2006/10/10 09:23:45 cyganiak Exp $
  */
 public class HTMLTagger {
 	private static SimpleDateFormat outputDateFormat =
@@ -49,8 +49,20 @@ public class HTMLTagger {
 	 * @return String HTML code of the hyperlink
 	 */
 	public static String getLink(String link, String linkName) {
+		return getLink(link, linkName, "", "");
+	}
+
+	/**
+	 * Creates a HTML representation of a hyperlink
+	 * @param link URL
+	 * @param linkName Name of the Link
+	 * @param prefix A prefix to be inserted before the link label; no HTML escaping is performed
+	 * @param prefix A suffix to be inserted after the link label; no HTML escaping is performed
+	 * @return String HTML code of the hyperlink
+	 */
+	public static String getLink(String link, String linkName, String prefix, String suffix) {
 	    return "<a href=\"" + OutputUtils.escapeHtml(link) + "\">"
-	            + OutputUtils.escapeHtml(linkName) + "</a>";
+	            + prefix + OutputUtils.escapeHtml(linkName) + suffix + "</a>";
 	}
 
 	/**
@@ -118,7 +130,7 @@ public class HTMLTagger {
 	 * @return HTML string
 	 */
 	public static String getSummaryPeriod(Date startDate, Date endDate) {
-		return getSummaryPeriod(startDate, endDate, "");
+		return getSummaryPeriod(startDate, endDate, null, false);
 	}
 
 	/**
@@ -126,14 +138,19 @@ public class HTMLTagger {
 	 * @param startDate start date of the period
 	 * @param endDate end date of the period
 	 * @param additionalText additional text, added to the output string
+	 * @param newLine should additionalText be placed on a new line?
 	 * @return HTML string
 	 */
-	public static String getSummaryPeriod(Date startDate, Date endDate, String additionalText) {
-		return "<p class=\"summaryperiod\">\n  "
+	public static String getSummaryPeriod(Date startDate, Date endDate, String additionalText, boolean newLine) {
+		String result = "<p class=\"summaryperiod\">\n  "
 			+ Messages.getString("SUMMARY_PERIOD") + ":\n  "
 			+ HTMLTagger.getDate(startDate) + " to\n  "
-			+ HTMLTagger.getDate(endDate) + " "
-			+ OutputUtils.escapeHtml(additionalText) + "\n</p>\n";
+			+ HTMLTagger.getDate(endDate);
+		if (additionalText != null && !"".equals(additionalText)) {
+			result += newLine ? "<br />\n" : " ";
+			result += OutputUtils.escapeHtml(additionalText) + "\n";
+		}
+		return result + "</p>\n";
 	}
 	
 	/**

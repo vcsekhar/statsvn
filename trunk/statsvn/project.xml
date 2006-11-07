@@ -11,7 +11,7 @@
     <logo>http://sourceforge.net/sflogo.php?group_id=57558&amp;type=5</logo>
   </organization>
 
-  <inceptionYear>2003</inceptionYear>
+  <inceptionYear>2006</inceptionYear>
   <package>net.sf.statcvs</package>
 
   <logo>/images/statsvn.gif</logo>
@@ -28,13 +28,13 @@
   </description>
 
   <url>http://www.statsvn.org</url>
-  <issueTrackingUrl>http://www.statsvn.org</issueTrackingUrl>
+  <issueTrackingUrl>http://sourceforge.net/tracker/?group_id=164845</issueTrackingUrl>
   <siteAddress>http://www.statsvn.org</siteAddress>
-  <siteDirectory>/home/groups/s/st/statcvs/htdocs/maven</siteDirectory>
+  <siteDirectory>/home/groups/s/st/statsvn/htdocs/maven</siteDirectory>
 
   <repository>
-    <connection>scm:cvs:pserver:anonymous@cvs.sourceforge.net:/cvsroot/statcvs:statcvs</connection>
-    <url>http://cvs.sourceforge.net/viewcvs.py/statcvs/statcvs/</url>
+    <connection>https://svn.sourceforge.net/svnroot/statsvn</connection>
+    <url>http://statsvn.svn.sourceforge.net/viewvc/statsvn/</url>
   </repository>
 
   <mailingLists>
@@ -86,18 +86,33 @@
       <name>Steffen Pingel</name>
       <id>squig</id>
     </developer>
+
+	<developer>
+	  <name>Jason Kealey</name>
+	  <id>jkealey</id>
+	</developer>
+	
+	<developer>
+	  <name>Jean-Philippe Daigle</name>
+	  <id>jpdaigle</id>
+	</developer>
+
+	<developer>
+	  <name>Gunter Mussbacher</name>
+	  <id>gunterm</id>
+	</developer>
   </developers>
   
   <dependencies>
   
     <dependency>
       <id>jfreechart</id>
-      <version>0.9.21</version>    
+      <version>1.0.1</version>    
     </dependency>
 
     <dependency>
       <id>jcommon</id>
-      <version>0.9.6</version>
+      <version>1.0.0</version>
     </dependency>
 
     <dependency>

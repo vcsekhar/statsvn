@@ -60,7 +60,6 @@ public class ConfigurationOptions {
     private static String notes = null;
     private static String svnUsername = null;
     private static String svnPassword = null;
-    private static String bugzillaUrl = null;
     
     private static FilePatternMatcher includePattern = null;
     private static FilePatternMatcher excludePattern = null;

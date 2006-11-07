@@ -18,7 +18,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
     
 	$RCSfile: LOCChart.java,v $
-	$Date: 2004/12/14 13:38:13 $ 
+	$Date: 2006/06/14 10:25:33 $ 
 */
 package net.sf.statcvs.renderer;
 
@@ -48,7 +48,7 @@ import org.jfree.data.xy.XYDataset;
  * TODO: Replace by TimeSeriesChart
  *
  * @author jentzsch
- * @version $Id: LOCChart.java,v 1.39 2004/12/14 13:38:13 squig Exp $
+ * @version $Id: LOCChart.java,v 1.40 2006/06/14 10:25:33 mungady Exp $
  */
 public class LOCChart extends Chart {
 	private static Logger logger =
@@ -98,7 +98,7 @@ public class LOCChart extends Chart {
 		while (it.hasNext()) {
 			TimeSeries series = (TimeSeries) it.next();
 			collection.addSeries(series);
-			colors[i] = OutputUtils.getStringColor(series.getName()); 
+			colors[i] = OutputUtils.getStringColor(series.getKey().toString()); 
 			i++;
 		}
 		createLOCChart(collection, colors, title, annotations);

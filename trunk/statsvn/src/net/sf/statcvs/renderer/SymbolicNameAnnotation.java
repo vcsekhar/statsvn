@@ -33,9 +33,10 @@ import org.jfree.chart.annotations.XYAnnotation;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.PlotRenderingInfo;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.text.TextUtilities;
 import org.jfree.ui.RectangleEdge;
-import org.jfree.ui.RefineryUtilities;
 import org.jfree.ui.TextAnchor;
 
 
@@ -69,9 +70,9 @@ public class SymbolicNameAnnotation implements XYAnnotation {
     }
     
     /**
-     * @see org.jfree.chart.annotations.XYAnnotation#draw(java.awt.Graphics2D, org.jfree.chart.plot.XYPlot, java.awt.geom.Rectangle2D, org.jfree.chart.axis.ValueAxis, org.jfree.chart.axis.ValueAxis)
+     * @see org.jfree.chart.annotations.XYAnnotation#draw(java.awt.Graphics2D, org.jfree.chart.plot.XYPlot, java.awt.geom.Rectangle2D, org.jfree.chart.axis.ValueAxis, org.jfree.chart.axis.ValueAxis, int, org.jfree.chart.plot.PlotRenderingInfo)
      */
-    public void draw(Graphics2D g2d, XYPlot xyPlot, Rectangle2D dataArea, ValueAxis domainAxis, ValueAxis rangeAxis) {
+    public void draw(Graphics2D g2d, XYPlot xyPlot, Rectangle2D dataArea, ValueAxis domainAxis, ValueAxis rangeAxis, int rendererIndex, PlotRenderingInfo info) {
         PlotOrientation orientation = xyPlot.getOrientation();
         
 		// don't draw the annotation if symbolic names date is out of axis' bounds.
@@ -88,15 +89,15 @@ public class SymbolicNameAnnotation implements XYAnnotation {
                                             xyPlot.getRangeAxisLocation(), 
                                             orientation);
 
-        float x = (float)domainAxis.translateValueToJava2D(
+        float x = (float)domainAxis.valueToJava2D(
                                         symbolicName.getDate().getTime(), 
                                         dataArea, 
                                         domainEdge);
-        float y1 = (float)rangeAxis.translateValueToJava2D(
+        float y1 = (float)rangeAxis.valueToJava2D(
                                         rangeAxis.getUpperBound(),
                                         dataArea, 
                                         rangeEdge);
-        float y2 = (float)rangeAxis.translateValueToJava2D(
+        float y2 = (float)rangeAxis.valueToJava2D(
                                         rangeAxis.getLowerBound(), 
                                         dataArea, 
                                         rangeEdge);            
@@ -116,14 +117,14 @@ public class SymbolicNameAnnotation implements XYAnnotation {
         /*g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, 
                              RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);*/
                              
-        RefineryUtilities.drawRotatedString(
+        TextUtilities.drawRotatedString(
             symbolicName.getName(), 
             g2d,
             anchorX, 
             anchorY,
             TextAnchor.BOTTOM_RIGHT,
-            TextAnchor.BOTTOM_RIGHT,
-            -Math.PI/2
+            -Math.PI/2,
+            TextAnchor.BOTTOM_RIGHT
         );
     }
     

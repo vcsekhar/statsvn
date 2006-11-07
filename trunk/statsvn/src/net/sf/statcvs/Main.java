@@ -110,7 +110,7 @@ public class Main {
 		System.out.println(
 		// max. 80 chars
 				// 12345678901234567890123456789012345678901234567890123456789012345678901234567890
-				"Usage: java -jar statcvs.jar [options] <logfile> <directory>\n" + "\n" + "Required parameters:\n"
+				"Usage: java -jar statsvn.jar [options] <logfile> <directory>\n" + "\n" + "Required parameters:\n"
 						+ "  <logfile>          path to the cvs logfile of the module\n"
 						+ "  <directory>        path to the directory of the checked out module\n" + "\n" + "Some options:\n"
 						+ "  -version           print the version information and exit\n" + "  -output-dir <dir>  directory where HTML suite will be saved\n"
@@ -120,12 +120,12 @@ public class Main {
 						+ "  -title <title>     Project title to be used in reports\n" + "  -viewvc <url>     integrate with ViewVC installation at <url>\n"
 						+ "  -bugzilla <url>    integrate with Bugzilla installation at <url>\n" + "  -username <svnusername> username to pass to svn\n"
 						+ "  -password <svnpassword> password to pass to svn\n" + "  -verbose           print extra progress information\n" + "\n"
-						+ "Full options list: [STATSVN DOCUMENTATION URL]");
+						+ "Full options list: http://www.statsvn.org");
 		System.exit(1);
 	}
 
 	private static void printVersionAndExit() {
-		System.out.println("Version 1.0.0");
+		System.out.println("Version 0.1.1");
 		System.exit(1);
 	}
 

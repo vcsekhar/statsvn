@@ -12,8 +12,8 @@
 	<property name="src.filtered" value="src-temp" />
 	<property name="build" value="build" />
 	<property name="build.tests" value="build-tests" />
-	<property name="jfreechart.jar" value="jfreechart-0.9.21.jar" />
-	<property name="jcommon.jar" value="jcommon-0.9.6.jar" />
+	<property name="jfreechart.jar" value="jfreechart-1.0.1.jar" />
+	<property name="jcommon.jar" value="jcommon-1.0.0.jar" />
 	<property name="dist" value="dist" />
 	<property name="lib" value="lib" />
 	<property name="doc" value="doc" />
@@ -61,7 +61,7 @@
 
 	<target name="compile" depends="init,filter">
 		<!-- Compile the java code from ${src} into ${build} -->
-		<javac srcdir="${src.filtered}" destdir="${build}" debug="on">
+		<javac srcdir="${src.filtered}" destdir="${build}" debug="on" source="1.4" target="1.4" >
 			<classpath refid="project.class.path" />
 		</javac>
 	</target>
@@ -80,7 +80,7 @@
 	<target name="run" depends="compile,copyfiles">
 		<!-- Runs StatSVN on itself -->
 		<java classname="${project.package}.Main" fork="yes">
-			<arg line="-verbose -title StatSVN -output-dir ${stats} -bugzilla http://svn.statsvn.org/bugzilla -notes etc/report-notes.txt ${svn.log} ." />
+			<arg line="-verbose -title StatSVN -output-dir ${stats} -notes etc/report-notes.txt ${svn.log} ." />
 			<classpath>
 				<path refid="project.class.path" />
 				<pathelement path="${build}" />
@@ -95,7 +95,7 @@
 
 	<target name="compile.tests" depends="init.tests,compile">
 		<!-- Compile the unit tests from ${src.tests} into ${build.tests} -->
-		<javac srcdir="${src.tests}" destdir="${build.tests}" debug="on">
+		<javac srcdir="${src.tests}" destdir="${build.tests}" debug="on" source="1.4" target="1.4">
 			<classpath>
 				<path refid="project.class.path" />
 				<pathelement path="${build}" />
@@ -139,16 +139,16 @@
 	</target>
 
 	<target name="zip" depends="dist">
-		<zip destfile="${dist}/${project}-${statcvs.version}.zip">
-			<zipfileset file="${dist}/${project.jar}" fullpath="${project}-${statcvs.version}/${project.jar}" />
-			<zipfileset file="etc/README" fullpath="${project}-${statcvs.version}/readme.txt" />
+		<zip destfile="${dist}/${project}-${statsvn.version}.zip">
+			<zipfileset file="${dist}/${project.jar}" fullpath="${project}-${statsvn.version}/${project.jar}" />
+			<zipfileset file="etc/README" fullpath="${project}-${statsvn.version}/readme.txt" />
 		</zip>
 	</target>
 
 	<target name="zip.source" depends="clean">
 		<mkdir dir="${dist}" />
-		<zip destfile="${dist}/${project}-${statcvs.version}-source.zip">
-			<zipfileset dir="." excludes="${dist}/**" prefix="${project}-${statcvs.version}" />
+		<zip destfile="${dist}/${project}-${statsvn.version}-source.zip">
+			<zipfileset dir="." excludes="${dist}/**" prefix="${project}-${statsvn.version}" />
 		</zip>
 	</target>
 

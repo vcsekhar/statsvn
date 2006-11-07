@@ -18,7 +18,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
     
 	$RCSfile: IndexPage.java,v $ 
-	Created on $Date: 2004/10/12 07:22:42 $ 
+	Created on $Date: 2006/10/10 09:23:45 $ 
 */
 
 package net.sf.statcvs.output;
@@ -82,7 +82,8 @@ public class IndexPage extends HTMLPage {
 		String result = HTMLTagger.getSummaryPeriod(
 					getContent().getFirstDate(),
 					getContent().getLastDate(),
-					"\nGenerated: " + outputDateFormat.format(cal.getTime()));
+					"Generated: " + outputDateFormat.format(cal.getTime()),
+					true);
 		return result;
 	}
 
