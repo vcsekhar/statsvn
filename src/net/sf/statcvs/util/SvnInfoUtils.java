@@ -38,6 +38,7 @@ public class SvnInfoUtils {
 		protected String sCurrentRevision;
 		protected String sCurrentUrl;
 		protected String stringData = "";
+		private String sCurrentPath;
 
 		/**
 		 * Builds the string that was read; default implementation can invoke
@@ -63,7 +64,8 @@ public class SvnInfoUtils {
 				sCurrentUrl = stringData;
 			} else if (eName.equals("entry")) {
 				if (sCurrentRevision == null || sCurrentUrl == null || sCurrentKind == null)
-					throw new SAXException("Invalid svn info xml; unable to find revision or url");
+					throw new SAXException("Invalid svn info xml; unable to find revision or url for path [" + sCurrentPath + "]" + " revision="
+							+ sCurrentRevision + " url:" + sCurrentUrl + " kind:" + sCurrentKind);
 
 				hmRevisions.put(urlToRelativePath(sCurrentUrl), sCurrentRevision);
 				if (sCurrentKind.equals("dir"))
@@ -83,6 +85,7 @@ public class SvnInfoUtils {
 				eName = qName; // namespaceAware = false
 
 			if (eName.equals("entry")) {
+				sCurrentPath = attributes.getValue("path");
 				if (!isValidInfoEntry(attributes))
 					throw new SAXException("Invalid svn info xml for entry element.");
 
@@ -407,12 +410,11 @@ public class SvnInfoUtils {
 				SAXParserFactory factory = SAXParserFactory.newInstance();
 				SAXParser parser = factory.newSAXParser();
 				parser.parse(stream, new SvnInfoHandler());
-				
-				if (ProcessUtils.hasErrorOccured())
-				{
+
+				if (ProcessUtils.hasErrorOccured()) {
 					throw new IOException(ProcessUtils.getErrorMessage());
 				}
-				
+
 			} catch (ParserConfigurationException e) {
 				throw new LogSyntaxException(e.getMessage());
 			} catch (SAXException e) {
