@@ -123,6 +123,7 @@ public class SvnLogfileParser {
         cacheBuilder.updateBinaryStatus(builder.getFileBuilders().values(), repositoryFileManager.getRootRevisionNumber());
         
         Collection fileBuilders = builder.getFileBuilders().values();
+        boolean isFirstDiff=true;
         for (Iterator iter = fileBuilders.iterator(); iter.hasNext();) {
             FileBuilder fileBuilder = (FileBuilder) iter.next();
             if (fileBuilder.isBinary())
@@ -144,6 +145,11 @@ public class SvnLogfileParser {
                     String revNrOld = ((RevisionData) revisions.get(i + 1)).getRevisionNumber();
 					int lineDiff[];
 					try {
+						if (isFirstDiff) {
+							System.out.println("Contacting server to obtain line count information.");
+							System.out.println("This information will be cached so that the next time you run StatSVN, results will be returned more quickly.");
+							isFirstDiff=false;
+						}
 						lineDiff = repositoryFileManager.getLineDiff(revNrOld, revNrNew, fileName);
 					} catch (BinaryDiffException e) {
 						// file is binary and has been deleted

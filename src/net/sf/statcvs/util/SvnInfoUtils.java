@@ -87,7 +87,7 @@ public class SvnInfoUtils {
 			if (eName.equals("entry")) {
 				sCurrentPath = attributes.getValue("path");
 				if (!isValidInfoEntry(attributes))
-					throw new SAXException("Invalid svn info xml for entry element.");
+					throw new SAXException("Invalid svn info xml for entry element. Please verify that you have checked out this project using Subversion 1.3 or above, not only that you are currently using this version.");
 
 				if (sRootUrl == null && isRootFolder(attributes)) {
 					isRootFolder = true;
@@ -99,7 +99,7 @@ public class SvnInfoUtils {
 				sCurrentKind = attributes.getValue("kind");
 			} else if (eName.equals("commit")) {
 				if (!isValidCommit(attributes))
-					throw new SAXException("Invalid svn info xml for commit element.");
+					throw new SAXException("Invalid svn info xml for commit element. Please verify that you have checked out this project using Subversion 1.3 or above, not only that you are currently using this version.");
 				sCurrentRevision = attributes.getValue("revision");
 			}
 
