@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
 public class SvnStartupUtils {
     private static String SVN_VERSION_COMMAND = "svn --version";
     private static String SVN_MINIMUM_VERSION = "1.3.0";
-    private static String SVN_VERSION_LINE_PATTERN = ".*[v|V]ersion [0-9]+\\.[0-9]+\\.[0-9]+.*";
+    private static String SVN_VERSION_LINE_PATTERN = ".* [0-9]+\\.[0-9]+\\.[0-9]+.*";
     private static String SVN_VERSION_PATTERN = "[0-9]+\\.[0-9]+\\.[0-9]+";
     private static String SVN_INFO_WITHREPO_LINE_PATTERN= ".*<root>.+</root>.*";	//HACK: we "should" parse the output and check for a node named root, but this will work well enough
     private static String SVN_REPO_ROOT_NOTFOUND = "Repository root not available - verify that the project was checked out with svn version " + SVN_MINIMUM_VERSION + " or above.";
