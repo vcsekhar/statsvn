@@ -108,7 +108,7 @@ public class ModulePage extends HTMLPage {
 		String result;
 		Iterator it = directory.getSubdirectoriesRecursive().iterator();
 		Directory current = (Directory) it.next();
-		result = getRootLinks(current) + "<br>";
+		result = getRootLinks(current) + "<br/>";
 		while (it.hasNext()) {
 			Directory dir = (Directory) it.next();
 			result += getFolderHtml(dir, directory.getDepth());

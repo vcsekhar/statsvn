@@ -274,22 +274,22 @@ public class CommitLogRenderer {
 				}
 				if (revision.isInitialRevision()) {
 					int linesAdded = revision.getLines();
-					fileList += "&nbsp;<span class=\"new\">(new";
+					fileList += "&#160;<span class=\"new\">(new";
 					if (linesAdded > 0) {
-						fileList += "&nbsp;" + linesAdded;
+						fileList += "&#160;" + linesAdded;
 					}
 					fileList += ")</span>";
 				} else if (revision.isDead()) {
-					fileList += "&nbsp;<span class=\"del\">(del)</span>";
+					fileList += "&#160;<span class=\"del\">(del)</span>";
 				} else {
 					int delta = revision.getLinesDelta();
 					int linesAdded = revision.getReplacedLines() + ((delta > 0) ? delta : 0);
 					int linesRemoved = revision.getReplacedLines() - ((delta < 0) ? delta : 0);
-					fileList += "&nbsp;<span class=\"change\">(";
+					fileList += "&#160;<span class=\"change\">(";
 					if (linesAdded > 0) {
 						fileList += "+" + linesAdded;
 						if (linesRemoved > 0) {
-							fileList += "&nbsp;-" + linesRemoved;
+							fileList += "&#160;-" + linesRemoved;
 						}
 					} else if (linesRemoved > 0) {
 						fileList += "-" + linesRemoved;

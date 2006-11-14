@@ -160,6 +160,6 @@ public class HTMLTagger {
 	 */
 	public static String getIcon(String iconFilename) {
 		return "<img src=\"" + OutputUtils.escapeHtml(iconFilename) + "\" width=\""				+ HTMLOutput.ICON_WIDTH + "\" height=\""
-				+ HTMLOutput.ICON_HEIGHT + "\" alt=\"\">";
+				+ HTMLOutput.ICON_HEIGHT + "\" alt=\"\"/>";
 	}
 }

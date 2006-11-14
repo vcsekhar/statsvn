@@ -71,10 +71,10 @@ public class TableRenderer {
 		while (it.hasNext()) {
 			it.next();
 			if (table.hasKeysInFirstColumn() && isFirstColumn) {
-				result += "    <colgroup align=\"left\">\n";
+				result += "    <colgroup align=\"left\"/>\n";
 				isFirstColumn = false;
 			} else {
-				result += "    <colgroup align=\"right\">\n";
+				result += "    <colgroup align=\"right\"/>\n";
 			}
 		}
 		return result;
