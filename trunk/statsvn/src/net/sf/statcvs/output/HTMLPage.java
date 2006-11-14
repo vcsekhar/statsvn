@@ -75,15 +75,18 @@ public abstract class HTMLPage {
 	 */
 	private void printHeader() throws IOException {
 		print(
-			"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\">\n"
-				+ "<html>\n  <head>\n    <title>"
+				"<?xml version=\"1.0\"?>\n" 
+				+ "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" " 
+				+ "\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
+				+ "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n"				
+				+ "<head>\n    <title>"
 				+ Messages.getString("PROJECT_SHORTNAME") + " - " + getPageName() + "</title>\n"
 				+ "    <meta http-equiv=\"Content-Type\" content=\"text/html; "
-				+ "charset=ISO-8859-1\">\n"
-				+ "    <meta name=\"Generator\" content=\"StatSVN v0.1.1\">\n"
+				+ "charset=ISO-8859-1\"/>\n"
+				+ "    <meta name=\"Generator\" content=\"StatSVN v0.1.2\"/>\n"
 				+ "    <link rel=\"stylesheet\" href=\""
 				+ ConfigurationOptions.getCssHandler().getLink()
-				+ "\" type=\"text/css\">\n"
+				+ "\" type=\"text/css\"/>\n"
 				+ "  </head>\n\n"
 				+ "<body>\n");
 	}
@@ -105,7 +108,7 @@ public abstract class HTMLPage {
 			+ a(
 				"http://www.statsvn.org",
 				Messages.getString("PROJECT_SHORTNAME"))
-			+ " v0.1.1");
+			+ " v0.1.2");
 		print("</div>\n");
 		print("</body>\n");
 		print("</html>");
@@ -122,7 +125,7 @@ public abstract class HTMLPage {
 	}
 
 	protected String br() {
-		return "<br>\n";
+		return "<br/>\n";
 	}
 
 	protected String p(String p) {
@@ -162,7 +165,7 @@ public abstract class HTMLPage {
 	 */
 	protected String img(String image, int width, int height) {
 		return "<img src=\"" + image + "\" width=\"" + width + "\" height=\"" + height
-			+ "\" alt=\"\">";
+			+ "\" alt=\"\"/>";
 	}
 
 	/**
@@ -171,7 +174,7 @@ public abstract class HTMLPage {
 	 * @return HTML code for the image tag
 	 */
 	protected String img(String image) {
-		return "<img src=\"" + image + "\" alt=\"\">";
+		return "<img src=\"" + image + "\" alt=\"\"/>";
 	}
 
 	protected String tag(String elementName, String elementContent) {
@@ -192,7 +195,7 @@ public abstract class HTMLPage {
 	private String getSpaces(int count) {
 		String result = "";
 		for (int i = 0; i < count * SPACE_COUNT; i++) {
-			result += "&nbsp;";
+			result += "&#160;";
 		}
 		return result;
 	}

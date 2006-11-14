@@ -125,7 +125,7 @@ public class Main {
 	}
 
 	private static void printVersionAndExit() {
-		System.out.println("Version 0.1.1");
+		System.out.println("Version 0.1.2");
 		System.exit(1);
 	}
 
