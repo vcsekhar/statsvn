@@ -72,7 +72,7 @@ public class OutputUtilsTest extends TestCase {
 	 * Method testLineBreak.
 	 */
 	public void testLineBreak() {
-		assertEquals("line1<BR>\nline2<BR>\n",
+		assertEquals("line1<br/>\nline2<br/>\n",
 				OutputUtils.escapeHtml("line1\nline2\n"));
 	}
 	
@@ -80,7 +80,7 @@ public class OutputUtilsTest extends TestCase {
 	 * Method testCombination.
 	 */
 	public void testCombination() {
-		assertEquals("(x &lt; y) &amp;&amp;<BR>\n(y &gt; x)",
+		assertEquals("(x &lt; y) &amp;&amp;<br/>\n(y &gt; x)",
 				OutputUtils.escapeHtml("(x < y) &&\n(y > x)"));
 	}
 }
