@@ -103,7 +103,7 @@
 			<name>Gunter Mussbacher</name>
 			<id>gunterm</id>
 		</developer>
-		
+
 		<developer>
 			<name>Benoit Xhenseval</name>
 			<id>benoitx</id>
@@ -159,27 +159,32 @@
 		<!-- Unit test classes -->
 		<unitTest>
 			<includes>
-				<include>**/*Test.java</include>
+				<include>**/SvnLogfileParserTest.java</include>
+				<include>**/BuilderTest.java</include>
+				<include>**/LinesOfCodeTest.java</include>
+				<include>**/FileBuilderTest.java</include>
+				<include>**/CommitListBuilderTest.java</include>
 			</includes>
+			<resources>
+				<resource>
+					<directory>
+						tests-src
+					</directory>
+					<includes>
+						<include>**/*.log</include>
+						<include>**/*.log2</include>
+						<include>**/*.properties</include>
+					</includes>
+				</resource>
+			</resources>
 		</unitTest>
 
 		<resources>
 			<resource>
 				<directory>src</directory>
-				<targetPath>net/sf/statcvs</targetPath>
 				<includes>
-					<include>*.properties</include>
+					<include>**/*.properties</include>
 					<include>**/web-files/**</include>
-				</includes>
-			</resource>
-			<resource>
-				<directory>
-					${basedir}/tests-src/net/sf/statcvs/input
-				</directory>
-				<targetPath>net/sf/statcvs/input</targetPath>
-				<includes>
-					<include>*.log</include>
-					<include>*.log2</include>
 				</includes>
 			</resource>
 		</resources>
