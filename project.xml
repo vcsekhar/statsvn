@@ -1,170 +1,206 @@
 <?xml version="1.0"?>
 <project>
-  <pomVersion>3</pomVersion>
-  <name>statsvn</name>
-  <id>statsvn</id>
-  <currentVersion>${statsvn.version}</currentVersion>
+	<pomVersion>3</pomVersion>
+	<name>statsvn</name>
+	<id>statsvn</id>
+	<currentVersion>${statsvn.version}</currentVersion>
 
-  <organization>
-    <name>StatSVN Sourceforge Development Group</name>
-    <url>http://statsvn.sourceforge.net/</url>
-    <logo>http://sourceforge.net/sflogo.php?group_id=57558&amp;type=5</logo>
-  </organization>
+	<organization>
+		<name>StatSVN Sourceforge Development Group</name>
+		<url>http://statsvn.sourceforge.net/</url>
+		<logo>
+			http://sourceforge.net/sflogo.php?group_id=57558&amp;type=5
+		</logo>
+	</organization>
 
-  <inceptionYear>2006</inceptionYear>
-  <package>net.sf.statcvs</package>
+	<inceptionYear>2006</inceptionYear>
+	<package>net.sf.statcvs</package>
 
-  <logo>/images/statsvn.gif</logo>
-  <shortDescription>StatSVN, stat your repository</shortDescription>
-  <description>
-    StatSVN retrieves information from a Subversion repository and generates various 
-    tables and charts describing the project development, e.g. timeline for 
-    the lines of code, contribution of each developer etc. The current version 
-    of StatSVN generates a static suite of HTML documents containing tables 
-    and chart images. StatSVN is open source software, released under the 
-    terms of the LGPL, based on StatCVS.
+	<logo>/images/statsvn.gif</logo>
+	<shortDescription>StatSVN, stat your repository</shortDescription>
+	<description>
+		StatSVN retrieves information from a Subversion repository and
+		generates various tables and charts describing the project
+		development, e.g. timeline for the lines of code, contribution
+		of each developer etc. The current version of StatSVN generates
+		a static suite of HTML documents containing tables and chart
+		images. StatSVN is open source software, released under the
+		terms of the LGPL, based on StatCVS.
 
-    StatSVN uses JFreeChart to generate charts.
-  </description>
+		StatSVN uses JFreeChart to generate charts.
+	</description>
 
-  <url>http://www.statsvn.org</url>
-  <issueTrackingUrl>http://sourceforge.net/tracker/?group_id=164845</issueTrackingUrl>
-  <siteAddress>http://www.statsvn.org</siteAddress>
-  <siteDirectory>/home/groups/s/st/statsvn/htdocs/maven</siteDirectory>
+	<url>http://www.statsvn.org</url>
+	<issueTrackingUrl>
+		http://sourceforge.net/tracker/?group_id=164845
+	</issueTrackingUrl>
+	<siteAddress>http://www.statsvn.org</siteAddress>
+	<siteDirectory>
+		/home/groups/s/st/statsvn/htdocs/maven
+	</siteDirectory>
 
-  <repository>
-    <connection>https://svn.sourceforge.net/svnroot/statsvn</connection>
-    <url>http://statsvn.svn.sourceforge.net/viewvc/statsvn/</url>
-  </repository>
+	<repository>
+		<url>http://svn.sourceforge.net/statsvn</url>
+		<connection>
+			scm:svn:https://svn.sourceforge.net/svnroot/statsvn/trunk
+		</connection>
+		<developerConnection>
+			scm:svn:https://svn.sourceforge.net/svnroot/statsvn/trunk
+		</developerConnection>
+	</repository>
 
-  <mailingLists>
+	<mailingLists>
+		<mailingList>
+			<name>statsvn-developers</name>
+			<subscribe>
+				http://lists.sourceforge.net/mailman/listinfo/statsvn-developers
+			</subscribe>
+			<unsubscribe>
+				http://lists.sourceforge.net/mailman/listinfo/statsvn-developers
+			</unsubscribe>
+		</mailingList>
 
-    <mailingList>
-      <name>statsvn-developers</name>
-      <subscribe>http://lists.sourceforge.net/mailman/listinfo/statsvn-developers/subscribe>
-      <unsubscribe>http://lists.sourceforge.net/mailman/listinfo/statsvn-developers</unsubscribe>
-    </mailingList>    
+	</mailingLists>
 
-  </mailingLists>
+	<developers>
 
-  <developers>
+		<developer>
+			<name>Manuel Schulze</name>
+			<id>manschu</id>
+		</developer>
 
-    <developer>
-      <name>Manuel Schulze</name>
-      <id>manschu</id>
-    </developer>
+		<developer>
+			<name>Lukasz Pekacki</name>
+			<id>lukasz</id>
+		</developer>
 
-    <developer>
-      <name>Lukasz Pekacki</name>
-      <id>lukasz</id>
-    </developer>
+		<developer>
+			<name>Richard Cyganiak</name>
+			<id>cyganiak</id>
+		</developer>
 
-    <developer>
-      <name>Richard Cyganiak</name>
-      <id>cyganiak</id>
-    </developer>
+		<developer>
+			<name>Anja Jentzsch</name>
+			<id>jentzsch</id>
+		</developer>
 
-    <developer>
-      <name>Anja Jentzsch</name>
-      <id>jentzsch</id>
-    </developer>
+		<developer>
+			<name>Steffen Pingel</name>
+			<id>squig</id>
+		</developer>
 
-    <developer>
-      <name>Steffen Pingel</name>
-      <id>squig</id>
-    </developer>
+		<developer>
+			<name>Jason Kealey</name>
+			<id>jkealey</id>
+		</developer>
 
-	<developer>
-	  <name>Jason Kealey</name>
-	  <id>jkealey</id>
-	</developer>
-	
-	<developer>
-	  <name>Jean-Philippe Daigle</name>
-	  <id>jpdaigle</id>
-	</developer>
+		<developer>
+			<name>Jean-Philippe Daigle</name>
+			<id>jpdaigle</id>
+		</developer>
 
-	<developer>
-	  <name>Gunter Mussbacher</name>
-	  <id>gunterm</id>
-	</developer>
-  </developers>
-  
-  <dependencies>
-  
-    <dependency>
-      <id>jfreechart</id>
-      <version>1.0.1</version>    
-    </dependency>
+		<developer>
+			<name>Gunter Mussbacher</name>
+			<id>gunterm</id>
+		</developer>
+		
+		<developer>
+			<name>Benoit Xhenseval</name>
+			<id>benoitx</id>
+			<email>benoitx AT sourceforge DOT net</email>
+			<organization>ObjectLab Financial Ltd</organization>
+			<roles>
+				<role>Developer</role>
+			</roles>
+			<url>http://www.xhenseval.com</url>
+			<timezone>+0</timezone>
+		</developer>
+	</developers>
 
-    <dependency>
-      <id>jcommon</id>
-      <version>1.0.0</version>
-    </dependency>
+	<dependencies>
 
-    <dependency>
-      <id>ant</id>
-      <version>1.6</version>     
-    </dependency>
+		<dependency>
+			<groupId>jfree</groupId>
+			<artifactId>jfreechart</artifactId>
+			<version>1.0.2</version>
+			<type>jar</type>
+		</dependency>
+		<dependency>
+			<groupId>jfree</groupId>
+			<artifactId>jcommon</artifactId>
+			<version>1.0.5</version>
+			<type>jar</type>
+		</dependency>
 
-    <dependency>
-      <id>jdom</id>
-      <version>0.7</version>     
-    </dependency>
+		<dependency>
+			<id>ant</id>
+			<version>1.6</version>
+		</dependency>
 
-    <dependency>
-      <id>junit</id>
-      <version>3.8.1</version>
-      <url>http://www.junit.org/</url>
-    </dependency>
+		<dependency>
+			<id>jdom</id>
+			<version>0.7</version>
+		</dependency>
 
-  </dependencies>
+		<dependency>
+			<id>junit</id>
+			<version>3.8.1</version>
+			<url>http://www.junit.org/</url>
+		</dependency>
 
-  <build>
+	</dependencies>
 
-    <sourceDirectory>src</sourceDirectory>
-    <unitTestSourceDirectory>tests-src</unitTestSourceDirectory>
+	<build>
+		<defaultGoal>jar:install</defaultGoal>
 
-    <!-- Unit test classes -->
-    <unitTest>
-      <includes>
-        <include>**/*Test.java</include>
-      </includes>
-    </unitTest>
+		<sourceDirectory>src</sourceDirectory>
+		<unitTestSourceDirectory>tests-src</unitTestSourceDirectory>
 
-  	<resources>
-      <resource>
-        <directory>src</directory>
-      	<targetPath>net/sf/statcvs</targetPath>
-		<includes>
-			<include>*.properties</include>
-            <include>**/web-files/**</include>
-		</includes>
-      </resource>
-      <resource>
-        <directory>${basedir}/tests-src/net/sf/statcvs/input</directory>
-      	<targetPath>net/sf/statcvs/input</targetPath>
-		<includes>
-			<include>*.log</include>
-            <include>*.log2</include>
-		</includes>
-      </resource>
-    </resources>
+		<!-- Unit test classes -->
+		<unitTest>
+			<includes>
+				<include>**/*Test.java</include>
+			</includes>
+		</unitTest>
 
-  </build>
-  
-  <reports>
-    <report>maven-javadoc-plugin</report>
-    <report>maven-jxr-plugin</report>
-    <report>maven-changelog-plugin</report>
-    <report>maven-junit-report-plugin</report>
-    <report>maven-statcvs-plugin</report>
-    <report>maven-pmd-plugin</report>
-    <report>maven-simian-plugin</report>
-    <report>maven-jcoverage-plugin</report>        
-    <report>maven-license-plugin</report>
-    <report>maven-file-activity-plugin</report>
-<!--    <report>maven-checkstyle-plugin</report>  -->
-  </reports>
+		<resources>
+			<resource>
+				<directory>src</directory>
+				<targetPath>net/sf/statcvs</targetPath>
+				<includes>
+					<include>*.properties</include>
+					<include>**/web-files/**</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>
+					${basedir}/tests-src/net/sf/statcvs/input
+				</directory>
+				<targetPath>net/sf/statcvs/input</targetPath>
+				<includes>
+					<include>*.log</include>
+					<include>*.log2</include>
+				</includes>
+			</resource>
+		</resources>
+
+	</build>
+
+	<reports>
+		<report>maven-ydoc-plugin</report>
+		<report>maven-jxr-plugin</report>
+		<report>maven-junit-report-plugin</report>
+		<report>maven-pmd-plugin</report>
+		<report>maven-findbugs-plugin</report>
+		<report>maven-checkstyle-plugin</report>
+		<report>maven-simian-plugin</report>
+		<report>maven-cobertura-plugin</report>
+		<report>maven-license-plugin</report>
+		<report>maven-jdepend-plugin</report>
+		<report>maven-qalab-plugin</report>
+		<!--<report>maven-file-activity-plugin</report>-->
+		<!--<report>maven-statcvs-plugin</report>-->
+		<!--<report>maven-changelog-plugin</report>-->
+	</reports>
 
 </project>
