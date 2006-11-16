@@ -16,7 +16,7 @@ import net.sf.statcvs.output.ConfigurationOptions;
  */
 public class SvnLogfileParserTest extends TestCase {
 
-	protected final static String sRoot = "./tests-src/net/sf/statcvs/input/samplefiles/";
+	protected final static String sRoot = "/project/statsvn/statsvn/tests-src/net/sf/statcvs/input/samplefiles/";
 
 	protected RepositoryFileManager repFileMan;
 

@@ -47,42 +47,46 @@ public class FileSizesPage extends HTMLPage {
 	/**
 	 * @see net.sf.statcvs.output.HTMLPage#HTMLPage(Repository)
 	 */
-	public FileSizesPage(Repository content) throws IOException {
-		super(content);
-		setFileName("file_sizes.html");
+	public FileSizesPage(Repository content, final OutputRenderer renderer) throws IOException {
+		super(content, renderer);
+		setFileName("file_sizes" + renderer.getFileExtension());
 		setPageName(Messages.getString("FILE_SIZES_TITLE"));
 		createPage();
 	}
 
 	protected void printBody() throws IOException {
 		printBackLink();
-		print(h2(Messages.getString("FILE_COUNT_TITLE")));
+		print(startSection2(Messages.getString("FILE_COUNT_TITLE")));
 		print(getFileCountImage());
-		print(h2(Messages.getString("AVERAGE_FILE_SIZE_TITLE")));
+        print(endSection2());
+		print(startSection2(Messages.getString("AVERAGE_FILE_SIZE_TITLE")));
 		print(getFileSizeImage());
+        print(endSection2());
 		print(getLargestFilesSection());
 		print(getFilesWithMostRevisionsSection());
 	}
 
 	private String getLargestFilesSection() {
 		String result = "";
-		result += h2(Messages.getString("LARGEST_FILES_TITLE"));
+		result += startSection2(Messages.getString("LARGEST_FILES_TITLE"));
 		TableReport report = new LargestFilesTableReport(
 				getContent().getFiles(), 
 				MAX_LARGEST_FILES);
 		report.calculate();
-		result += new TableRenderer(report.getTable()).getRenderedTable();
+		result += new TableRenderer(report.getTable(), getRenderer()).getRenderedTable();
+        result += endSection2();
 		return result;
 	}
 
 	private String getFilesWithMostRevisionsSection() {
 		String result = "";
-		result += h2(Messages.getString("FILES_WITH_MOST_REVISIONS_TITLE"));
+		result += startSection2(Messages.getString("FILES_WITH_MOST_REVISIONS_TITLE"));
 		TableReport report = new FilesWithMostRevisionsTableReport(
 				getContent().getFiles(), 
 				MAX_FILES_WITH_MOST_REVISIONS);
 		report.calculate();
-		result += new TableRenderer(report.getTable()).getRenderedTable();
+		result += new TableRenderer(report.getTable(), getRenderer()).getRenderedTable();
+        result += endSection2();
 		return result;
 	}
 

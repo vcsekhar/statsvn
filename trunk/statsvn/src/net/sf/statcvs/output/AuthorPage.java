@@ -62,11 +62,11 @@ public class AuthorPage extends HTMLPage {
 	 * @throws IOException on error
 	 */
 	public AuthorPage(Repository content, Author author,
-			boolean codeDistributionChartCreated) throws IOException {
-		super(content);
+			boolean codeDistributionChartCreated, final OutputRenderer output) throws IOException {
+		super(content, output);
 		this.author = author;
 		this.codeDistributionChartCreated = codeDistributionChartCreated;
-		setFileName(HTMLOutput.getAuthorPageFilename(author));
+		setFileName(output.getAuthorPageFilename(author, false));
 		setPageName("User statistics for " + author.getName());
 		logger.fine("creating author page for '" + author.getName() + "'");
 
@@ -105,9 +105,10 @@ public class AuthorPage extends HTMLPage {
 
 	private String getActivitySection() {
 		String result = "";
-		result += h2(Messages.getString("ACTIVITY_TITLE"));
+		result += startSection2(Messages.getString("ACTIVITY_TITLE"));
 		result += p(img(HTMLOutput.getActivityTimeChartFilename(author), 500, 300));
 		result += p(img(HTMLOutput.getActivityDayChartFilename(author), 500, 300));
+        result += endSection2();
 		return result;
 	}
 
@@ -120,9 +121,10 @@ public class AuthorPage extends HTMLPage {
 	}
 
 	private String getChangesSection() {
-		String result = h2("Total Changes");
+		String result = startSection2("Total Changes");
 		String percentage = getPercentage(totalChangeCount, userChangeCount); 
 		result += p(userChangeCount + " (" + percentage + ")");
+        result += endSection2();
 		return result;
 	}
 
@@ -130,13 +132,14 @@ public class AuthorPage extends HTMLPage {
 		if (totalLineCount == 0) {
 			return "";
 		}
-		String result = h2(Messages.getString("LOC_TITLE"));
+		String result = startSection2(Messages.getString("LOC_TITLE"));
 		result += p(userLineCount + " (" + getPercentage(totalLineCount, userLineCount) + ")");
+        result += endSection2();
 		return result;
 	}
 
 	private String getModulesSection() {
-		String result = h2("Modules");
+		String result = startSection2("Modules");
 		if (codeDistributionChartCreated) {
 			result += p(img(HTMLOutput.getCodeDistributionChartFilename(author), 640, 480));
 		}
@@ -144,12 +147,13 @@ public class AuthorPage extends HTMLPage {
 				new DirectoriesForAuthorTableReport(getContent(), author);
 		report.calculate();
 		Table table = report.getTable();
-		result += new TableRenderer(table).getRenderedTable();
+		result += new TableRenderer(table, getRenderer()).getRenderedTable();
+        result += endSection2();
 		return result;
 	}
 
 	private String getLastCommits() {
-		String result = h2(Messages.getString("MOST_RECENT_COMMITS"));
+		String result = startSection2(Messages.getString("MOST_RECENT_COMMITS"));
 		List authorCommits = new ArrayList();
 		Iterator it = getContent().getCommits().iterator();
 		while (it.hasNext()) {
@@ -160,7 +164,8 @@ public class AuthorPage extends HTMLPage {
 			authorCommits.add(commit);
 		}
 		CommitLogRenderer renderer = new CommitLogRenderer(authorCommits);
-		result += renderer.renderMostRecentCommits(HTMLOutput.MOST_RECENT_COMMITS_LENGTH);
+		result += renderer.renderMostRecentCommits(HTMLOutput.MOST_RECENT_COMMITS_LENGTH, getRenderer());
+        result += endSection2();
 		return result;
 	}
 

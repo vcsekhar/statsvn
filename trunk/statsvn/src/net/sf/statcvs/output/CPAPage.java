@@ -47,15 +47,15 @@ public class CPAPage extends HTMLPage {
 	 * @param withImage <tt>true</tt> if the LOC per Author image was generated
 	 * @throws IOException on error
 	 */
-	public CPAPage(Repository content, int sortType, boolean withImage)
+	public CPAPage(Repository content, int sortType, boolean withImage, final OutputRenderer renderer)
 			throws IOException {
 
-		super(content);
+		super(content, renderer);
 		this.sortType = sortType;
 		if (sortType == AbstractLocTableReport.SORT_BY_LINES) {
-			setFileName("authors.html");
+			setFileName("authors" + renderer.getFileExtension());
 		} else {
-			setFileName("authors2.html");
+			setFileName("authors2" + renderer.getFileExtension());
 		}
 		this.withImage = withImage;
 		setPageName(Messages.getString("CPU_TITLE"));
@@ -67,7 +67,7 @@ public class CPAPage extends HTMLPage {
 		TableReport report = new AuthorsTableReport(getContent(), sortType);
 		report.calculate();
 		Table table = report.getTable();
-		print(new TableRenderer(table).getRenderedTable());
+		print(new TableRenderer(table, getRenderer()).getRenderedTable());
 		if (sortType == AbstractLocTableReport.SORT_BY_LINES) {
 			printParagraph(Messages.getString("NAVIGATION_ORDER_BY") + ": "
 				+ strong(Messages.getString("ORDER_BY_LOC"))
@@ -80,20 +80,23 @@ public class CPAPage extends HTMLPage {
 				+ strong(Messages.getString("ORDER_BY_NAME")));
 		}
 		if (withImage) {
-			printH2(Messages.getString("LOC_TITLE"));
+			printStartSection2(Messages.getString("LOC_TITLE"));
 			printParagraph(img("loc_per_author.png", 640, 480));
+            printEndSection2();
 		}
-		printH2(Messages.getString("ACTIVITY_TITLE"));
+		printStartSection2(Messages.getString("ACTIVITY_TITLE"));
 		printParagraph(img("activity_time.png", 500, 300));
 		printParagraph(img("activity_day.png", 500, 300));
 		print(getAuthorActivityChartSection());
+        printEndSection2();
 	}
 	
 	private String getAuthorActivityChartSection() {
 		String result = "";
-		result += h2(Messages.getString("AUTHOR_ACTIVITY_TITLE"));
+		result += startSection2(Messages.getString("AUTHOR_ACTIVITY_TITLE"));
 		result += p(img("commitscatterauthors.png"));
 		result += p(img("activity.png"));
+        result += endSection2();
 		return result;
 	}
 }

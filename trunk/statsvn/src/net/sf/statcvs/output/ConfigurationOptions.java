@@ -68,6 +68,7 @@ public class ConfigurationOptions {
     private static WebRepositoryIntegration webRepository = null;
     private static WebBugtrackerIntegration webBugTracker = null;
     private static Pattern symbolicNamesPattern;
+    private static String outputFormat = "html";
 
     /**
      * returns the {@link CssHandler}
@@ -178,6 +179,14 @@ public class ConfigurationOptions {
             cssHandler = new LocalFileCssHandler(cssFile);
         }
         cssHandler.checkForMissingResources();
+    }
+    
+    /**
+     * Allow change between css that are shipped with StatSvn.
+     * @param cssName statcvs.css or objectlab-statcvs-xdoc.css
+     */
+    public static void setDefaultCssFile(String cssName) {
+        cssHandler = new DefaultCssHandler(cssName);
     }
 
     /**
@@ -427,5 +436,11 @@ public class ConfigurationOptions {
 		return ConfigurationOptions.webBugTracker;
 	}
 
+    public static void setOutputFormat(final String outputFormat) {
+        ConfigurationOptions.outputFormat = outputFormat;
+    }
 
+    public static String getOutputFormat() {
+        return ConfigurationOptions.outputFormat; 
+    }
 }

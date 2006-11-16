@@ -38,6 +38,7 @@ public class CommandLineParser {
 	private List args = new ArrayList();
 	private int argCount = 0;
 	private boolean setCacheDir = false;
+    private boolean givenCss = false;
 
 	/**
 	 * Constructor for CommandLineParser
@@ -84,6 +85,7 @@ public class CommandLineParser {
 				throw new ConfigurationException("Missing argument for -css");
 			}
 			ConfigurationOptions.setCssFile(popNextArg());
+            givenCss = true;
 		} else if (s.equals("output-dir")) {
 			if (args.isEmpty()) {
 				throw new ConfigurationException("Missing argument for -output-dir");
@@ -151,11 +153,24 @@ public class CommandLineParser {
 				throw new ConfigurationException("Missing argument for -password");
 			}
 			ConfigurationOptions.setSvnPassword(popNextArg());
-		} else if (s.equals("bugzilla")) {
-			if (args.isEmpty()) {
-				throw new ConfigurationException("Missing argument for -bugzilla");
-			}
-			ConfigurationOptions.setBugzillaUrl(popNextArg());
+        } else if (s.equals("bugzilla")) {
+            if (args.isEmpty()) {
+                throw new ConfigurationException("Missing argument for -bugzilla");
+            }
+            ConfigurationOptions.setBugzillaUrl(popNextArg());
+        } else if (s.equals("format")) {
+            if (args.isEmpty()) {
+                throw new ConfigurationException("Missing argument for -format");
+            }
+            final String format = popNextArg();
+            if (!"html".equals(format) && !"xdoc".equals(format)) {
+                throw new ConfigurationException("Invalid argument for -format use only 'html' or 'xdoc'");
+            }
+            ConfigurationOptions.setOutputFormat(format);
+            if ("xdoc".equals(format) && !givenCss) {
+                // set the default to the XDOC css.
+                ConfigurationOptions.setDefaultCssFile("objectlab-statcvs-xdoc.css");
+            }
 		} else {
 			// exception path - option was not recognized above
 			throw new ConfigurationException("Unrecognized option -" + s);

@@ -34,6 +34,7 @@ import net.sf.statcvs.model.Commit;
 import net.sf.statcvs.model.Revision;
 import net.sf.statcvs.output.ConfigurationOptions;
 import net.sf.statcvs.output.HTMLTagger;
+import net.sf.statcvs.output.OutputRenderer;
 import net.sf.statcvs.output.WebBugtrackerIntegration;
 import net.sf.statcvs.output.WebRepositoryIntegration;
 import net.sf.statcvs.util.OutputUtils;
@@ -76,14 +77,14 @@ public class CommitLogRenderer {
 	 * are more, only the most recent will be used
 	 * @return HTML code for the commit log
 	 */
-	public String renderMostRecentCommits(int maxCommits) {
+	public String renderMostRecentCommits(int maxCommits, final OutputRenderer renderer) {
 		if (commits.size() > maxCommits) {
 			List recentCommits = commits.subList(0, maxCommits);
-			return renderCommitList(recentCommits)
+			return renderCommitList(recentCommits, renderer)
 					+ "<p>(" + (commits.size() - maxCommits) + " "
 					+ Messages.getString("MORE_COMMITS") + ")</p>\n";
 		}
-		return renderCommitList(commits);
+		return renderCommitList(commits, renderer);
 	}
 	
 	/**
@@ -91,18 +92,18 @@ public class CommitLogRenderer {
 	 * @param page the page number
 	 * @return HTML code
 	 */
-	public String renderPage(int page) {
+	public String renderPage(int page, final OutputRenderer renderer) {
 		this.currentPage = page;
 		this.pageCommits =
 			commits.subList(getFirstCommitOfPage(page), getLastCommitOfPage(page) + 1);
 		String result = "";
 		if (getPages() > 1) {
-			result += renderNavigation();
+			result += renderNavigation(renderer);
 		}
 		result += renderTimespan();
-		result += renderCommitList(pageCommits);
+		result += renderCommitList(pageCommits, renderer);
 		if (getPages() > 1) {
-			result += renderNavigation();
+			result += renderNavigation(renderer);
 		}
 		return result;
 	}
@@ -125,26 +126,26 @@ public class CommitLogRenderer {
 		return HTMLTagger.getSummaryPeriod(time1, time2, " (" + commitsText + ")", false);
 	}
 
-	private String renderNavigation() {
+	private String renderNavigation(final OutputRenderer renderer) {
 		String result = Messages.getString("PAGES") + ": ";
 		if (currentPage > 1) {
 			result
 				+= HTMLTagger.getLink(
-					getFilename(currentPage - 1),
-					Messages.getString("NAVIGATION_PREVIOUS"), "&laquo; ", "")
+					getFilename(currentPage - 1, renderer, true),
+					Messages.getString("NAVIGATION_PREVIOUS"), "&#171; ", "")
 				+ " ";
 		}
 		for (int i = 1; i <= getPages(); i++) {
 			if (i == currentPage) {
 				result += (i) + " ";
 			} else {
-				result += HTMLTagger.getLink(getFilename(i), Integer.toString(i))
+				result += HTMLTagger.getLink(getFilename(i, renderer, true), Integer.toString(i))
 						+ " ";
 			}
 		}
 		if (currentPage < getPages()) {
-			result += HTMLTagger.getLink(getFilename(currentPage + 1),
-					Messages.getString("NAVIGATION_NEXT"), "", " &raquo;") + " ";
+			result += HTMLTagger.getLink(getFilename(currentPage + 1, renderer, true),
+					Messages.getString("NAVIGATION_NEXT"), "", " &#187;") + " ";
 		}
 		return "<p>" + result + "</p>\n";
 	}
@@ -170,14 +171,14 @@ public class CommitLogRenderer {
 	 * @param page specified page
 	 * @return the filename for a commit log page
 	 */
-	public static String getFilename(int page) {
+	public static String getFilename(int page, final OutputRenderer renderer, final boolean asLink) {
 		if (page == 1) {
-			return "commit_log.html";
+			return "commit_log" + (asLink ? renderer.getLinkExtension() : renderer.getFileExtension());
 		}
-		return "commit_log_page_" + page + ".html";
+		return "commit_log_page_" + page + (asLink ? renderer.getLinkExtension() : renderer.getFileExtension());
 	}
 
-	private String renderCommitList(List commitList) {
+	private String renderCommitList(List commitList, final OutputRenderer renderer) {
 		if (commitList.isEmpty()) {
 			return "<p>No commits</p>\n";
 		}
@@ -186,14 +187,14 @@ public class CommitLogRenderer {
 
 		while (it.hasNext()) {
 			Commit commit = (Commit) it.next();
-			result += renderCommit(commit);
+			result += renderCommit(commit, renderer);
 		}
 		result += "</dl>\n\n";
 		return result;
 	}
 
-	private String renderCommit(Commit commit) {
-		String result = "  <dt>\n    " + getAuthor(commit) + "\n";
+	private String renderCommit(Commit commit, final OutputRenderer renderer) {
+		String result = "  <dt>\n    " + getAuthor(commit, renderer) + "\n";
 		result += "    " + getDate(commit) + "\n  </dt>\n";
 		result += "  <dd>\n    <p class=\"comment\">\n" + getComment(commit) + "\n    </p>\n";
 		result += "    <p class=\"commitdetails\"><strong>";
@@ -209,8 +210,8 @@ public class CommitLogRenderer {
 		return HTMLTagger.getDateAndTime(commit.getDate());
 	}
 
-	private String getAuthor(Commit commit) {
-		return HTMLTagger.getAuthorLink(commit.getAuthor());
+	private String getAuthor(Commit commit, final OutputRenderer renderer) {
+		return HTMLTagger.getAuthorLink(commit.getAuthor(), renderer);
 	}
 
 	private String getComment(Commit commit) {

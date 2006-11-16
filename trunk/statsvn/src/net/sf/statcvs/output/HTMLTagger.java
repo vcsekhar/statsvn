@@ -70,9 +70,9 @@ public class HTMLTagger {
 	 * @param author the author
 	 * @return HTML code for the link
 	 */
-	public static String getAuthorLink(Author author) {
+	public static String getAuthorLink(Author author, final OutputRenderer renderer) {
 		return "<a href=\""
-		+ OutputUtils.escapeHtml(HTMLOutput.getAuthorPageFilename(author))
+		+ OutputUtils.escapeHtml(renderer.getAuthorPageFilename(author, true))
 		+ "\" class=\"author\">" + OutputUtils.escapeHtml(author.getName()) + "</a>";
 	}
 
@@ -99,10 +99,10 @@ public class HTMLTagger {
 	 * @param directory a directory
 	 * @return HTML code for the link
 	 */
-	public static String getDirectoryLink(Directory directory) {
+	public static String getDirectoryLink(Directory directory, final OutputRenderer renderer) {
 		String caption = directory.isRoot() ? "/" : directory.getPath();
 		return "<a href=\""
-				+ OutputUtils.escapeHtml(HTMLOutput.getDirectoryPageFilename(directory))
+				+ OutputUtils.escapeHtml(renderer.getDirectoryPageFilename(directory, true))
 				+ "\" class=\"directory\">"
 				+ OutputUtils.escapeHtml(caption) + "</a>";
 	}

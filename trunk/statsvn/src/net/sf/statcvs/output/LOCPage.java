@@ -37,10 +37,10 @@ public class LOCPage extends HTMLPage {
 	/**
 	 * @see net.sf.statcvs.output.HTMLPage#HTMLPage(Repository)
 	 */
-	public LOCPage(Repository content, boolean locImageCreated) throws IOException {
-		super(content);
+	public LOCPage(Repository content, boolean locImageCreated, final OutputRenderer renderer) throws IOException {
+		super(content, renderer);
 		this.locImageCreated = locImageCreated;
-		setFileName("loc.html");
+		setFileName("loc" + renderer.getFileExtension());
 		setPageName(Messages.getString("LOC_TITLE"));
 		createPage();
 	}
