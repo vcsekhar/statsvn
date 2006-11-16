@@ -27,6 +27,7 @@ import net.sf.statcvs.model.VersionedFile;
 import net.sf.statcvs.model.Directory;
 import net.sf.statcvs.output.HTMLOutput;
 import net.sf.statcvs.output.HTMLTagger;
+import net.sf.statcvs.output.OutputRenderer;
 
 
 /**
@@ -39,6 +40,8 @@ import net.sf.statcvs.output.HTMLTagger;
 public class HTMLTableCellRenderer implements TableCellRenderer {
 
 	private String html = null;
+    
+    private OutputRenderer output = null;
 
 	/**
 	 * Render a generic table cell to HTML
@@ -87,7 +90,7 @@ public class HTMLTableCellRenderer implements TableCellRenderer {
 	 * @param author the author
 	 */
 	public void renderAuthorCell(Author author) {
-		html = HTMLTagger.getAuthorLink(author);
+		html = HTMLTagger.getAuthorLink(author, output);
 	}
 
 	/**
@@ -95,7 +98,7 @@ public class HTMLTableCellRenderer implements TableCellRenderer {
 	 * @param directory the directory
 	 */
 	public void renderDirectoryCell(Directory directory) {
-		html = HTMLTagger.getDirectoryLink(directory);
+		html = HTMLTagger.getDirectoryLink(directory, getOutput());
 	}
 
 	/**
@@ -155,4 +158,26 @@ public class HTMLTableCellRenderer implements TableCellRenderer {
 		}
 		return "<" + tag + ">" + html + "</" + tag + ">";
 	}
+
+    /**
+     * @return the output
+     */
+    public OutputRenderer getOutput() {
+        return output;
+    }
+
+    /**
+     * @param output the output to set
+     */
+    public void setOutput(OutputRenderer output) {
+        this.output = output;
+    }
+    
+    public String getOddRowFormat() {
+        return output.getOddRowFormat();
+    }
+    
+    public String getEvenRowFormat() {
+        return output.getEvenRowFormat();
+    }
 }

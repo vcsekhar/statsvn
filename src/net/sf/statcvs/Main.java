@@ -1,8 +1,8 @@
 /*
- StatCvs - CVS statistics generation 
+ StatCvs - CVS statistics generation
  Copyright (C) 2002  Lukasz Pekacki <lukasz@pekacki.de>
  http://statcvs.sf.net/
- 
+
  This library is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
  License as published by the Free Software Foundation; either
@@ -16,9 +16,9 @@
  You should have received a copy of the GNU Lesser General Public
  License along with this library; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- 
- $RCSfile: Main.java,v $ 
- Created on $Date: 2005/03/20 19:12:25 $ 
+
+ $RCSfile: Main.java,v $
+ Created on $Date: 2005/03/20 19:12:25 $
  */
 package net.sf.statcvs;
 
@@ -38,13 +38,14 @@ import net.sf.statcvs.output.CommandLineParser;
 import net.sf.statcvs.output.ConfigurationException;
 import net.sf.statcvs.output.ConfigurationOptions;
 import net.sf.statcvs.output.HTMLOutput;
+import net.sf.statcvs.output.XDocOutput;
 import net.sf.statcvs.util.SvnStartupUtils;
 import net.sf.statcvs.util.SvnVersionMismatchException;
 
 /**
  * StatCvs Main Class; it starts the application and controls command-line
  * related stuff
- * 
+ *
  * @author Lukasz Pekacki
  * @author Richard Cyganiak
  * @version $Id: Main.java,v 1.47 2005/03/20 19:12:25 squig Exp $
@@ -55,7 +56,7 @@ public class Main {
 
 	/**
 	 * Main method of StatCvs
-	 * 
+	 *
 	 * @param args
 	 *            command line options
 	 */
@@ -119,13 +120,14 @@ public class Main {
 						+ "  -tags <regexp>     show matching tags in lines of code chart, e.g. version-.*\n"
 						+ "  -title <title>     Project title to be used in reports\n" + "  -viewvc <url>     integrate with ViewVC installation at <url>\n"
 						+ "  -bugzilla <url>    integrate with Bugzilla installation at <url>\n" + "  -username <svnusername> username to pass to svn\n"
-						+ "  -password <svnpassword> password to pass to svn\n" + "  -verbose           print extra progress information\n" + "\n"
+						+ "  -password <svnpassword> password to pass to svn\n" + "  -verbose           print extra progress information\n"
+                        + "  -format <html|xdoc> optional (default html)\n"+ "\n"
 						+ "Full options list: http://www.statsvn.org");
 		System.exit(1);
 	}
 
 	private static void printVersionAndExit() {
-		System.out.println("Version 0.1.2");
+		System.out.println("Version 0.1.3");
 		System.exit(1);
 	}
 
@@ -159,7 +161,7 @@ public class Main {
 	/**
 	 * Generates HTML report. {@link net.sf.statcvs.output.ConfigurationOptions}
 	 * must be initialized before calling this method.
-	 * 
+	 *
 	 * @throws LogSyntaxException
 	 *             if the logfile contains unexpected syntax
 	 * @throws IOException
@@ -174,11 +176,11 @@ public class Main {
 	/**
 	 * Generates HTML report. {@link net.sf.statcvs.output.ConfigurationOptions}
 	 * must be initialized before calling this method.
-	 * 
+	 *
 	 * @param externalRepositoryFileManager
 	 *            RepositoryFileManager which is used to access the files in the
 	 *            repository.
-	 * 
+	 *
 	 * @throws LogSyntaxException
 	 *             if the logfile contains unexpected syntax
 	 * @throws IOException
@@ -218,7 +220,11 @@ public class Main {
 		logger.info("Generating report for " + ConfigurationOptions.getProjectName() + " into " + ConfigurationOptions.getOutputDir());
 		logger.info("Using " + ConfigurationOptions.getCssHandler());
 		Repository content = builder.createRepository();
-		new HTMLOutput(content).createHTMLSuite();
+        if ("xdoc".equals(ConfigurationOptions.getOutputFormat())) {
+            new XDocOutput(content).createHTMLSuite();
+        } else {
+            new HTMLOutput(content).createHTMLSuite();
+        }
 
 		long endTime = System.currentTimeMillis();
 		long memoryUsedOnEnd = Runtime.getRuntime().totalMemory();

@@ -44,10 +44,10 @@ public class CommitLogPage extends HTMLPage {
 	 * @throws IOException on IOError
 	 */
 	public CommitLogPage(Repository content, CommitLogRenderer logRenderer,
-			int pageNr, int totalPages) throws IOException {
-		super(content);
+			int pageNr, int totalPages, final OutputRenderer output) throws IOException {
+		super(content, output);
 		this.logRenderer = logRenderer;
-		setFileName(CommitLogRenderer.getFilename(pageNr));
+		setFileName(CommitLogRenderer.getFilename(pageNr, output, false));
 		setPageName(Messages.getString("COMMIT_LOG_TITLE"));
 		if (totalPages > 1) {
 			setPageName(getPageName() + (" (Page " + pageNr + " of " + totalPages + ")"));
@@ -58,6 +58,6 @@ public class CommitLogPage extends HTMLPage {
 
 	protected void printBody() throws IOException {
 		printBackLink();
-		print(logRenderer.renderPage(pageNr));
+		print(logRenderer.renderPage(pageNr, getRenderer()));
 	}
 }

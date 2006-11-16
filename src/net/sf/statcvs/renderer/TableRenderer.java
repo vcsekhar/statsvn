@@ -24,6 +24,7 @@ package net.sf.statcvs.renderer;
 
 import java.util.Iterator;
 
+import net.sf.statcvs.output.OutputRenderer;
 import net.sf.statcvs.reportmodel.Column;
 import net.sf.statcvs.reportmodel.Table;
 import net.sf.statcvs.util.OutputUtils;
@@ -43,8 +44,9 @@ public class TableRenderer {
 	 * Creates a new table renderer for the given table model
 	 * @param table the table to render
 	 */
-	public TableRenderer(Table table) {
+	public TableRenderer(Table table,final OutputRenderer output) {
 		this.table = table;
+        renderer.setOutput(output);
 	}
 
 	/**
@@ -52,7 +54,7 @@ public class TableRenderer {
 	 * @return a String of HTML
 	 */
 	public String getRenderedTable() {
-		String result = "  <table rules=\"groups\" summary=\""
+		String result = "  <table "+renderer.getOutput().getTableFormat()+" rules=\"groups\" summary=\""
 				+ OutputUtils.escapeHtml(table.getSummary()) + "\">\n";
 		result += getColumnDescriptions();
 		result += getTableHead();
@@ -122,9 +124,9 @@ public class TableRenderer {
 	private String getTableRow(int rowIndex) {
 		String result;
 		if (rowIndex % 2 == 0) {
-			result = "      <tr class=\"odd\">\n";
+			result = "      <tr " + renderer.getEvenRowFormat() + ">\n";
 		} else {
-			result = "      <tr class=\"even\">\n";
+			result = "      <tr " + renderer.getOddRowFormat() + ">\n";
 		}
 		Iterator it = table.getColumnIterator();
 		boolean isFirstColumn = true;

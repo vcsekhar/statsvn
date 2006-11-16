@@ -59,9 +59,9 @@ public class ModulePage extends HTMLPage {
 	 * @throws IOException on error
 	 */
 	public ModulePage(Repository content, Directory directory,
-			boolean locImageCreated) throws IOException {
-		super(content);
-		setFileName(HTMLOutput.getDirectoryPageFilename(directory));
+			boolean locImageCreated, final OutputRenderer renderer) throws IOException {
+		super(content, renderer);
+		setFileName(renderer.getDirectoryPageFilename(directory, false));
 		setPageName("Module " + directory.getPath());
 		this.directory = directory;
 		this.locImageCreated = locImageCreated;
@@ -77,11 +77,12 @@ public class ModulePage extends HTMLPage {
 		printBackLink();
 		print(getModuleInfo());
 		print(getWebRepositoryLink());
-		printH2(Messages.getString("SUBTREE_TITLE"));
+		printStartSection2(Messages.getString("SUBTREE_TITLE"));
 		printParagraph(getModuleLinks());
 		print(getLOCImage());
 		print(getCPUTable());
 		print(getLastCommits());
+        printEndSection2();
 	}
 
 	private String getModuleInfo() {
@@ -120,10 +121,11 @@ public class ModulePage extends HTMLPage {
 		if (!locImageCreated) {
 			return "";
 		}
-		String result = h2(Messages.getString("LOC_TITLE"));
+		String result = startSection2(Messages.getString("LOC_TITLE"));
 		result += p(img(HTMLOutput.getDirectoryLocChartFilename(directory), 640, 480)
 				+ br() + strong("Total Lines Of Code: ") + locInModule
 				+ " (" + HTMLTagger.getDateAndTime(getContent().getLastDate()) + ")");
+        result += endSection2();
 		return result;
 	}
 
@@ -131,12 +133,13 @@ public class ModulePage extends HTMLPage {
 		if (directory.getRevisions().isEmpty()) {
 			return "";
 		}
-		String result = h2(Messages.getString("CPU_TITLE"));
+		String result = startSection2(Messages.getString("CPU_TITLE"));
 		TableReport report = 
 				new AuthorsForDirectoryTableReport(getContent(), directory);
 		report.calculate();
 		Table table = report.getTable();
-		result += new TableRenderer(table).getRenderedTable();
+		result += new TableRenderer(table, getRenderer()).getRenderedTable();
+        result += endSection2();
 		return result;
 	}
 
@@ -146,9 +149,10 @@ public class ModulePage extends HTMLPage {
 		if (commitCount == 0) {
 			return "";
 		}
-		String result = h2(Messages.getString("MOST_RECENT_COMMITS"));
+		String result = startSection2(Messages.getString("MOST_RECENT_COMMITS"));
 		CommitLogRenderer renderer = new CommitLogRenderer(dirCommits);
-		result += renderer.renderMostRecentCommits(HTMLOutput.MOST_RECENT_COMMITS_LENGTH);
+		result += renderer.renderMostRecentCommits(HTMLOutput.MOST_RECENT_COMMITS_LENGTH, getRenderer());
+        result += endSection2();
 		return result;
 	}
 
@@ -161,7 +165,7 @@ public class ModulePage extends HTMLPage {
 			String caption = parent.isRoot()
 					? Messages.getString("NAVIGATION_ROOT")
 					: parent.getName();
-			String parentPageFilename = HTMLOutput.getDirectoryPageFilename(parent);
+			String parentPageFilename = getRenderer().getDirectoryPageFilename(parent, true);
 			result = a(parentPageFilename, caption) + "/" + result;
 			dir = parent;
 		}

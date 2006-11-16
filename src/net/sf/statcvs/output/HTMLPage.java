@@ -1,8 +1,8 @@
 /*
-    StatCVS - CVS statistics generation 
+    StatCVS - CVS statistics generation
     Copyright (C) 2002  Lukasz Pekacki <lukasz@pekacki.de>
     http://statcvs.sf.net/
-    
+
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
     License as published by the Free Software Foundation; either
@@ -16,9 +16,9 @@
     You should have received a copy of the GNU Lesser General Public
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-    
-	$RCSfile: HTMLPage.java,v $ 
-	Created on $Date: 2004/10/12 13:03:36 $ 
+
+	$RCSfile: HTMLPage.java,v $
+	Created on $Date: 2004/10/12 13:03:36 $
 */
 
 package net.sf.statcvs.output;
@@ -43,13 +43,15 @@ public abstract class HTMLPage {
 	private Repository content;
 	private String fileName;
 	private String pageName;
+    private OutputRenderer renderer;
 
 	/**
 	 * Method HTMLPage.
 	 * @param content of the Page
 	 */
-	public HTMLPage(Repository content) {
+	public HTMLPage(Repository content, final OutputRenderer renderer) {
 		this.content = content;
+        this.renderer = renderer;
 	}
 
 	protected void createPage() throws IOException {
@@ -74,21 +76,21 @@ public abstract class HTMLPage {
 	 * Method printHeader.
 	 */
 	private void printHeader() throws IOException {
-		print(
-				"<?xml version=\"1.0\"?>\n" 
-				+ "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" " 
-				+ "\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-				+ "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n"				
-				+ "<head>\n    <title>"
-				+ Messages.getString("PROJECT_SHORTNAME") + " - " + getPageName() + "</title>\n"
-				+ "    <meta http-equiv=\"Content-Type\" content=\"text/html; "
-				+ "charset=ISO-8859-1\"/>\n"
-				+ "    <meta name=\"Generator\" content=\"StatSVN v0.1.2\"/>\n"
-				+ "    <link rel=\"stylesheet\" href=\""
-				+ ConfigurationOptions.getCssHandler().getLink()
-				+ "\" type=\"text/css\"/>\n"
-				+ "  </head>\n\n"
-				+ "<body>\n");
+		print( renderer.getHeader(getPageName()) );
+//				"<?xml version=\"1.0\"?>\n"
+//				+ "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" "
+//				+ "\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
+//				+ "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n"
+//				+ "<head>\n    <title>"
+//				+ Messages.getString("PROJECT_SHORTNAME") + " - " + getPageName() + "</title>\n"
+//				+ "    <meta http-equiv=\"Content-Type\" content=\"text/html; "
+//				+ "charset=ISO-8859-1\"/>\n"
+//				+ "    <meta name=\"Generator\" content=\"StatSVN v0.1.2\"/>\n"
+//				+ "    <link rel=\"stylesheet\" href=\""
+//				+ ConfigurationOptions.getCssHandler().getLink()
+//				+ "\" type=\"text/css\"/>\n"
+//				+ "  </head>\n\n"
+//				+ "<body>\n");
 	}
 
 	private void printHeadline() throws IOException {
@@ -96,9 +98,13 @@ public abstract class HTMLPage {
 	}
 
 	//TODO: Remove this! It feels bad.
-	protected void printH2(String h2) throws IOException {
-		print(h2(h2));
-	}
+    protected void printStartSection2(String h2) throws IOException {
+        print(startSection2(h2));
+    }
+
+    protected void printEndSection2() throws IOException {
+        print(endSection2());
+    }
 
 	private void printFooter() throws IOException {
 		print("<div id=\"generatedby\">");
@@ -108,10 +114,9 @@ public abstract class HTMLPage {
 			+ a(
 				"http://www.statsvn.org",
 				Messages.getString("PROJECT_SHORTNAME"))
-			+ " v0.1.2");
+			+ " v0.1.3");
 		print("</div>\n");
-		print("</body>\n");
-		print("</html>");
+		print(renderer.getEndOfPage());
 		htmlFileWriter.close();
 	}
 
@@ -133,12 +138,17 @@ public abstract class HTMLPage {
 	}
 
 	protected String h1(String h1) {
-		return "\n\n" + tag("h1", h1) + "\n";
+		return renderer.startSection1(h1);
 	}
 
-	protected String h2(String h2) {
-		return "\n" + tag("h2", h2) + "\n";
+	protected String startSection2(String h2) {
+        return renderer.startSection2(h2);
+//		return "\n" + tag("h2", h2) + "\n";
 	}
+
+    protected String endSection2() {
+        return renderer.endSection2();
+    }
 
 	protected String strong(String b) {
 		return tag("strong", b);
@@ -217,7 +227,7 @@ public abstract class HTMLPage {
 		} else {
 			result += HTMLTagger.getIcon(HTMLOutput.DIRECTORY_ICON);
 		}
-		String pageFilename = HTMLOutput.getDirectoryPageFilename(dir);
+		String pageFilename = getRenderer().getDirectoryPageFilename(dir, true);
 		result += " \n" + a(pageFilename, name);
 		result += " \n(" + dir.getCurrentFileCount() + " ";
 		result += Messages.getString("DIRECTORY_TREE_FILES") + ", ";
@@ -252,4 +262,11 @@ public abstract class HTMLPage {
 	protected String getPageName() {
 		return pageName;
 	}
+
+    /**
+     * @return the renderer
+     */
+    protected OutputRenderer getRenderer() {
+        return renderer;
+    }
 }

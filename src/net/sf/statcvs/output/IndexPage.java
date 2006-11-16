@@ -53,12 +53,12 @@ public class IndexPage extends HTMLPage {
 	 * @see net.sf.statcvs.output.HTMLPage#HTMLPage(Repository)
 	 */
 	public IndexPage(Repository content, boolean locImageCreated, boolean commitScatterImageCreated,
-			boolean authorsPageCreated) throws IOException {
-		super(content);
+			boolean authorsPageCreated, final OutputRenderer renderer) throws IOException {
+		super(content,renderer);
 		this.locImageCreated = locImageCreated;
 		this.commitScatterImageCreated = commitScatterImageCreated;
 		this.authorsPageCreated = authorsPageCreated;
-		setFileName("index.html");
+		setFileName("index" + renderer.getFileExtension());
 		setPageName(Messages.getString("INDEX_TITLE") + " " + ConfigurationOptions.getProjectName());
 		createPage();
 	}
@@ -73,8 +73,9 @@ public class IndexPage extends HTMLPage {
 		if (authorsPageCreated) {
 			print(getTopAuthorsSection());
 		}
-		printH2(Messages.getString("REPTREE_TITLE"));
+		printStartSection2(Messages.getString("REPTREE_TITLE"));
 		printParagraph(getIndexTree());
+        printEndSection2();
 	}
 
 	private String getProjectInfo() {
@@ -94,13 +95,13 @@ public class IndexPage extends HTMLPage {
 		} else {
 			Author author = getOnlyAuthor();
 			String caption = Messages.getString("NAVIGATION_AUTHOR") + " " + author.getName();
-			authorLink = a(HTMLOutput.getAuthorPageFilename(author), caption); 
+			authorLink = a(getRenderer().getAuthorPageFilename(author, true), caption); 
 		}
 		return ul(
 			  li(authorLink)
 			+ li(
 				a(
-					CommitLogRenderer.getFilename(1),
+					CommitLogRenderer.getFilename(1, getRenderer(), true),
 					Messages.getString("COMMIT_LOG_TITLE")))
 			+ li(a("loc.html", Messages.getString("LOC_TITLE")))
 			+ li(a("file_sizes.html", Messages.getString("FILE_SIZES_TITLE")))
@@ -111,11 +112,12 @@ public class IndexPage extends HTMLPage {
 		if (!locImageCreated || !commitScatterImageCreated) {
 			return "";
 		}
-		String result = h2(Messages.getString("LOC_TITLE"));
+		String result = startSection2(Messages.getString("LOC_TITLE"));
 		int loc = getContent().getCurrentLOC();
 		result += p(a("loc.html", img("loc_small.png", 400, 300)) + br()
 				+ strong("Total Lines Of Code:") + " " + loc + " ("
 				+ HTMLTagger.getDateAndTime(getContent().getLastDate()) + ")");
+        result += endSection2();
 		return result;
 	}
 
@@ -125,12 +127,13 @@ public class IndexPage extends HTMLPage {
 		report.calculate();
 		Table table = report.getTable();
 		if (table.getRowCount() >= 10) {
-			result = h2(Messages.getString("SECTION_TOP_AUTHORS"));
+			result = startSection2(Messages.getString("SECTION_TOP_AUTHORS"));
 		} else {
-			result = h2(Messages.getString("SECTION_AUTHORS"));
+			result = startSection2(Messages.getString("SECTION_AUTHORS"));
 		}
-		result += new TableRenderer(table).getRenderedTable();
+		result += new TableRenderer(table, getRenderer()).getRenderedTable();
 		result += p(a("authors.html", Messages.getString("NAVIGATION_MORE")));
+        result += endSection2();
 		return result;
 	}
 
