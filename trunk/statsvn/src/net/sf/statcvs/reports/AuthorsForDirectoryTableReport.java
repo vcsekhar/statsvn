@@ -49,8 +49,8 @@ public class AuthorsForDirectoryTableReport extends AbstractLocTableReport
 	 * @param content the version control source data
 	 * @param directory a directory
 	 */
-	public AuthorsForDirectoryTableReport(Repository content,
-			Directory directory) {
+	public AuthorsForDirectoryTableReport(final Repository content,
+			final Directory directory) {
 		super(content);
 		this.directory = directory;
 	}

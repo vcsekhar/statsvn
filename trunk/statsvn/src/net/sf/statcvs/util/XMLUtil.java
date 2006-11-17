@@ -29,7 +29,13 @@ import org.w3c.dom.Document;
  * 
  * @version $Id$
  */
-public class XMLUtil {
+public final class XMLUtil {
+	/**
+	 * A utility class (only static methods) should be final and have
+	 * a private constructor.
+	 */
+	private XMLUtil() {}
+
 	/**
 	 * For some reason, can't find this utility method in the java framework.
 	 * 
@@ -46,8 +52,9 @@ public class XMLUtil {
 			iDotPosition = 20;
 		}
 		Date result;
-		if (sDateTime.length() <= iDotPosition)
+		if (sDateTime.length() <= iDotPosition) {
 			return format.parse(sDateTime + "Z");
+		}
 
 		String millis = null;
 		char c = sDateTime.charAt(iDotPosition);

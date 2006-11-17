@@ -41,7 +41,7 @@ public class TimePoint {
 	 * @param value the time point's value
 	 * @param delta the time point's change relative to the previous value
 	 */
-	public TimePoint(Date date, int value, int delta) {
+	public TimePoint(final Date date, final int value, final int delta) {
 		this.date = date;
 		this.value = value;
 		this.delta = delta;

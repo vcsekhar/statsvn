@@ -53,7 +53,7 @@ public class TimeLine {
 	 * @param title the time line's title
 	 * @param rangeLabel a range label (axis label) for the values
 	 */
-	public TimeLine(String title, String rangeLabel) {
+	public TimeLine(final String title, final String rangeLabel) {
 		this.title = title;
 		this.rangeLabel = rangeLabel;
 	}

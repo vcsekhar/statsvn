@@ -37,7 +37,7 @@ public class SimpleTextColumn extends GenericColumn {
 	 * Creates a new <tt>SimpleTextColumn</tt> with the given head
 	 * @param title the head of the column
 	 */
-	public SimpleTextColumn(String title) {
+	public SimpleTextColumn(final String title) {
 		super(title);
 	}
 

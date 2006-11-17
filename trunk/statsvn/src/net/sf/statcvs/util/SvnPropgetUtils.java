@@ -14,10 +14,17 @@ import java.util.logging.Logger;
  * 
  * @version $Id$
  */
-public class SvnPropgetUtils {
+public final class SvnPropgetUtils {
 
-	protected static List binaryFiles;
+	private static List binaryFiles;
 	private static Logger _logger = Logger.getLogger(SvnPropgetUtils.class.getName());
+
+	/**
+	 * A utility class (only static methods) should be final and have
+	 * a private constructor.
+	 */
+	private SvnPropgetUtils() {
+	}
 
 	/**
 	 * Get the svn:mime-types for all files, latest revision.

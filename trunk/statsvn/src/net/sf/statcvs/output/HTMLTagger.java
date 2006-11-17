@@ -142,13 +142,13 @@ public class HTMLTagger {
 	 * @return HTML string
 	 */
 	public static String getSummaryPeriod(Date startDate, Date endDate, String additionalText, boolean newLine) {
-		String result = "<p class=\"summaryperiod\">\n  "
-			+ Messages.getString("SUMMARY_PERIOD") + ":\n  "
-			+ HTMLTagger.getDate(startDate) + " to\n  "
-			+ HTMLTagger.getDate(endDate);
+		StringBuffer result = new StringBuffer("<p class=\"summaryperiod\">\n  ");
+		result.append(Messages.getString("SUMMARY_PERIOD")).append(":\n  ");
+		result.append(HTMLTagger.getDate(startDate)).append(" to\n  ");
+		result.append(HTMLTagger.getDate(endDate));
 		if (additionalText != null && !"".equals(additionalText)) {
-			result += newLine ? "<br />\n" : " ";
-			result += OutputUtils.escapeHtml(additionalText) + "\n";
+			result.append(newLine ? "<br />\n" : " ");
+			result.append(OutputUtils.escapeHtml(additionalText)).append("\n");
 		}
 		return result + "</p>\n";
 	}
@@ -159,7 +159,10 @@ public class HTMLTagger {
 	 * @return HTML string
 	 */
 	public static String getIcon(String iconFilename) {
-		return "<img src=\"" + OutputUtils.escapeHtml(iconFilename) + "\" width=\""				+ HTMLOutput.ICON_WIDTH + "\" height=\""
-				+ HTMLOutput.ICON_HEIGHT + "\" alt=\"\"/>";
+		StringBuffer result = new StringBuffer("<img src=\"");
+		result.append(OutputUtils.escapeHtml(iconFilename)).append("\" width=\"");
+		result.append(HTMLOutput.ICON_WIDTH).append("\" height=\"");
+		result.append(HTMLOutput.ICON_HEIGHT).append("\" alt=\"\"/>");
+		return result.toString();
 	}
 }

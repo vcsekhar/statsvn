@@ -48,7 +48,7 @@ public class EmptyRepositoryException extends Exception {
      * @param message
      *            input message
      */
-    public EmptyRepositoryException(String message) {
+    public EmptyRepositoryException(final String message) {
         super(message);
     }
 }

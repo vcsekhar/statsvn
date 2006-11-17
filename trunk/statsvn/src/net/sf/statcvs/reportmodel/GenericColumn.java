@@ -44,7 +44,7 @@ public abstract class GenericColumn extends Column {
 	 * Creates a new <tt>GenericColumn</tt> with the given head
 	 * @param title the head of the column
 	 */
-	public GenericColumn(String title) {
+	public GenericColumn(final String title) {
 		this.title = title;
 	}
 

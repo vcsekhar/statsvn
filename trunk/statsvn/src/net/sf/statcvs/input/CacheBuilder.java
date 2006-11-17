@@ -16,14 +16,14 @@ import org.w3c.dom.NodeList;
 
 /**
  * <p>
- * CVS log files include lines modified for each commit and binary status of a file
- * while SVN log files do not offer this additional information.
+ * CVS log files include lines modified for each commit and binary status of a
+ * file while SVN log files do not offer this additional information.
  * </p>
  * 
  * <p>
- * StatSVN must query the Subversion repository for line counts using svn
- * diff. However, this is very costly, performance-wise. Therefore, the decision
- * was taken to persist this information in an XML file. This class receives
+ * StatSVN must query the Subversion repository for line counts using svn diff.
+ * However, this is very costly, performance-wise. Therefore, the decision was
+ * taken to persist this information in an XML file. This class receives
  * information from (@link net.sf.statcvs.input.SvnXmlLineCountsFileHandler) to
  * build a DOM-based xml structure. It also forwards line counts to the
  * appropriate (@link net.sf.statcvs.input.FileBuilder).
@@ -34,12 +34,16 @@ import org.w3c.dom.NodeList;
  */
 public class CacheBuilder {
 	private SvnLogBuilder builder;
-	private RepositoryFileManager repositoryFileManager;
-	private Element currentPath = null;
-	private Document document = null;
-	private String currentFilename;
-	private Element cache = null;
 
+	private RepositoryFileManager repositoryFileManager;
+
+	private Element currentPath = null;
+
+	private Document document = null;
+
+	private String currentFilename;
+
+	private Element cache = null;
 
 	/**
 	 * Constructs the LineCountsBuilder by giving it a reference to the builder
@@ -48,7 +52,8 @@ public class CacheBuilder {
 	 * @param builder
 	 *            the SvnLogBuilder which contains all the FileBuilders.
 	 */
-	public CacheBuilder(SvnLogBuilder builder, RepositoryFileManager repositoryFileManager) {
+	public CacheBuilder(final SvnLogBuilder builder,
+			final RepositoryFileManager repositoryFileManager) {
 		this.builder = builder;
 		this.repositoryFileManager = repositoryFileManager;
 	}
@@ -60,51 +65,60 @@ public class CacheBuilder {
 	 * @param name
 	 *            the filename
 	 * @param latestRevision
-	 * 			  the latest revision of the file for which the binary status is known
+	 *            the latest revision of the file for which the binary status is
+	 *            known
 	 * @param binaryStatus
-	 * 			  binary status of latest revision            
+	 *            binary status of latest revision
 	 */
-	private void addDOMPath(String name, String latestRevision, String binaryStatus) {
-		currentPath = (Element) document.createElement(CacheConfiguration.PATH);
-		Attr attr = document.createAttribute(CacheConfiguration.NAME);
+	private void addDOMPath(final String name, final String latestRevision,
+			final String binaryStatus) {
+		currentPath = document.createElement(CacheConfiguration.PATH);
+		final Attr attr = document.createAttribute(CacheConfiguration.NAME);
 		attr.setTextContent(name);
 		currentPath.setAttributeNode(attr);
-		Attr attr2 = document.createAttribute(CacheConfiguration.LATEST_REVISION);
+		final Attr attr2 = document
+				.createAttribute(CacheConfiguration.LATEST_REVISION);
 		attr2.setTextContent(latestRevision);
 		currentPath.setAttributeNode(attr2);
-		Attr attr3 = document.createAttribute(CacheConfiguration.BINARY_STATUS);
+		final Attr attr3 = document.createAttribute(CacheConfiguration.BINARY_STATUS);
 		attr3.setTextContent(binaryStatus);
 		currentPath.setAttributeNode(attr3);
 		cache.appendChild(currentPath);
 	}
-	
+
 	/**
-	 * Updates the BINARY_STATUS and LATEST_REVISION attributes of a path in the DOM. 
-	 * Updates only if the revisionNumber is higher than current LATEST_REVISION of the path.
+	 * Updates the BINARY_STATUS and LATEST_REVISION attributes of a path in the
+	 * DOM. Updates only if the revisionNumber is higher than current
+	 * LATEST_REVISION of the path.
 	 * 
 	 * @param path
 	 *            the path to be updated
 	 * @param isBinary
-	 *			  indicates if the revision is binary or not
+	 *            indicates if the revision is binary or not
 	 * @param revisionNumber
-	 *			  the revision number for which the binary status is valid            
+	 *            the revision number for which the binary status is valid
 	 */
-	private void updateDOMPath(Element path, boolean isBinary, String revisionNumber) {
+	private void updateDOMPath(final Element path, final boolean isBinary,
+			final String revisionNumber) {
 		int oldRevision = 0;
 		int newRevision = -1;
 		try {
-			oldRevision = Integer.parseInt(path.getAttribute(CacheConfiguration.LATEST_REVISION));
+			oldRevision = Integer.parseInt(path
+					.getAttribute(CacheConfiguration.LATEST_REVISION));
 			newRevision = Integer.parseInt(revisionNumber);
-		}
-		catch (NumberFormatException e) {
-			System.out.println("Ignoring invalid revision number " + revisionNumber + " for " + path.getAttribute(CacheConfiguration.NAME));
+		} catch (final NumberFormatException e) {
+			System.out.println("Ignoring invalid revision number "
+					+ revisionNumber + " for "
+					+ path.getAttribute(CacheConfiguration.NAME));
 			newRevision = -1;
 		}
 		String binaryStatus = CacheConfiguration.NOT_BINARY;
-		if (isBinary)
+		if (isBinary) {
 			binaryStatus = CacheConfiguration.BINARY;
+		}
 		if (newRevision >= oldRevision) {
-			path.setAttribute(CacheConfiguration.LATEST_REVISION, revisionNumber);
+			path.setAttribute(CacheConfiguration.LATEST_REVISION,
+					revisionNumber);
 			path.setAttribute(CacheConfiguration.BINARY_STATUS, binaryStatus);
 		}
 	}
@@ -116,15 +130,15 @@ public class CacheBuilder {
 	 *            the filename
 	 * @return the path or null if the path does not exist
 	 */
-	private Element findDOMPath(String name) {
-		if (currentPath != null) {
-			if (name.equals(currentPath.getAttribute(CacheConfiguration.NAME))) {
-				return currentPath;
-			}
+	private Element findDOMPath(final String name) {
+		if (currentPath != null
+				&& name.equals(currentPath
+						.getAttribute(CacheConfiguration.NAME))) {
+			return currentPath;
 		}
-		NodeList paths = cache.getChildNodes();
+		final NodeList paths = cache.getChildNodes();
 		for (int i = 0; i < paths.getLength(); i++) {
-			Element path = (Element) paths.item(i);
+			final Element path = (Element) paths.item(i);
 			if (name.equals(path.getAttribute(CacheConfiguration.NAME))) {
 				return path;
 			}
@@ -143,18 +157,21 @@ public class CacheBuilder {
 	 * @param removed
 	 *            the number of lines that were removed
 	 */
-	private void addDOMRevision(String number, String added, String removed, String binaryStatus) {
-		Element revision = (Element) document.createElement(CacheConfiguration.REVISION);
-		Attr attrRev1 = document.createAttribute(CacheConfiguration.NUMBER);
+	private void addDOMRevision(final String number, final String added, final String removed,
+			final String binaryStatus) {
+		final Element revision = document
+				.createElement(CacheConfiguration.REVISION);
+		final Attr attrRev1 = document.createAttribute(CacheConfiguration.NUMBER);
 		attrRev1.setTextContent(number);
 		revision.setAttributeNode(attrRev1);
-		Attr attrRev2 = document.createAttribute(CacheConfiguration.ADDED);
+		final Attr attrRev2 = document.createAttribute(CacheConfiguration.ADDED);
 		attrRev2.setTextContent(added);
 		revision.setAttributeNode(attrRev2);
-		Attr attrRev3 = document.createAttribute(CacheConfiguration.REMOVED);
+		final Attr attrRev3 = document.createAttribute(CacheConfiguration.REMOVED);
 		attrRev3.setTextContent(removed);
 		revision.setAttributeNode(attrRev3);
-		Attr attrRev4 = document.createAttribute(CacheConfiguration.BINARY_STATUS);
+		final Attr attrRev4 = document
+				.createAttribute(CacheConfiguration.BINARY_STATUS);
 		attrRev4.setTextContent(binaryStatus);
 		revision.setAttributeNode(attrRev4);
 		currentPath.appendChild(revision);
@@ -167,7 +184,7 @@ public class CacheBuilder {
 	 * @param name
 	 *            the filename
 	 */
-	public void buildPath(String name, String revision, String binaryStatus) {
+	public void buildPath(final String name, final String revision, final String binaryStatus) {
 		currentFilename = repositoryFileManager.absoluteToRelativePath(name);
 		addDOMPath(name, revision, binaryStatus);
 
@@ -188,7 +205,8 @@ public class CacheBuilder {
 	 * @param removed
 	 *            the number of lines removed.
 	 */
-	public void buildRevision(String number, String added, String removed, String binaryStatus) {
+	public void buildRevision(final String number, final String added, final String removed,
+			final String binaryStatus) {
 		if (!added.equals("-1") && !removed.equals("-1")) {
 			addDOMRevision(number, added, removed, binaryStatus);
 			builder.updateRevision(currentFilename, number, Integer
@@ -202,12 +220,12 @@ public class CacheBuilder {
 	 * @throws ParserConfigurationException
 	 */
 	public void buildRoot() throws ParserConfigurationException {
-		DocumentBuilderFactory factoryDOM = DocumentBuilderFactory
+		final DocumentBuilderFactory factoryDOM = DocumentBuilderFactory
 				.newInstance();
 		DocumentBuilder builderDOM;
 		builderDOM = factoryDOM.newDocumentBuilder();
 		document = builderDOM.newDocument();
-		cache = (Element) document.createElement(CacheConfiguration.CACHE);
+		cache = document.createElement(CacheConfiguration.CACHE);
 		document.appendChild(cache);
 	}
 
@@ -237,8 +255,8 @@ public class CacheBuilder {
 	 * @param removed
 	 *            the number of lines removed
 	 */
-	public void newRevision(String name, String number, String added,
-			String removed, boolean binaryStatus) {
+	public void newRevision(String name, final String number, final String added,
+			final String removed, final boolean binaryStatus) {
 		name = repositoryFileManager.relativeToAbsolutePath(name);
 		checkDocument();
 		if (document != null) {
@@ -248,8 +266,9 @@ public class CacheBuilder {
 				addDOMPath(name, "0", CacheConfiguration.UNKNOWN);
 			}
 			String sBinaryStatus = CacheConfiguration.NOT_BINARY;
-			if (binaryStatus)
+			if (binaryStatus) {
 				sBinaryStatus = CacheConfiguration.BINARY;
+			}
 			addDOMRevision(number, added, removed, sBinaryStatus);
 		}
 	}
@@ -258,7 +277,7 @@ public class CacheBuilder {
 		if (document == null) {
 			try {
 				buildRoot();
-			} catch (ParserConfigurationException e) {
+			} catch (final ParserConfigurationException e) {
 				document = null;
 			}
 		}
@@ -277,71 +296,89 @@ public class CacheBuilder {
 	 * @param removed
 	 *            the number of lines removed
 	 */
-	public void updateBinaryStatus(Collection fileBuilders, String revisionNumber) {
+	public void updateBinaryStatus(final Collection fileBuilders,
+			final String revisionNumber) {
 		// change data structure to a more appropriate one for lookup
-		Map mFileBuilders = new HashMap();
-		for (Iterator iter = fileBuilders.iterator(); iter.hasNext();) {
-			FileBuilder fileBuilder = (FileBuilder) iter.next();
+		final Map mFileBuilders = new HashMap();
+		for (final Iterator iter = fileBuilders.iterator(); iter.hasNext();) {
+			final FileBuilder fileBuilder = (FileBuilder) iter.next();
 			mFileBuilders.put(fileBuilder.getName(), fileBuilder);
 		}
 		if (!mFileBuilders.isEmpty()) {
-			// go through all the paths in the DOM and update their binary status
-			// remove the fileBuilder once its corresponding path in the DOM was dealt with
+			// go through all the paths in the DOM and update their binary
+			// status
+			// remove the fileBuilder once its corresponding path in the DOM was
+			// dealt with
 			checkDocument();
-			NodeList paths = cache.getChildNodes();
+			final NodeList paths = cache.getChildNodes();
 			for (int i = 0; i < paths.getLength(); i++) {
-				Element path = (Element) paths.item(i);
-				if (mFileBuilders.containsKey(repositoryFileManager.absoluteToRelativePath(path.getAttribute(CacheConfiguration.NAME)))) {
-					FileBuilder fileBuilder = (FileBuilder) mFileBuilders.get(repositoryFileManager.absoluteToRelativePath(path.getAttribute(CacheConfiguration.NAME)));
-					updateDOMPath(path, fileBuilder.isBinary(), revisionNumber); 
-					mFileBuilders.remove(repositoryFileManager.absoluteToRelativePath(path.getAttribute(CacheConfiguration.NAME)));
+				final Element path = (Element) paths.item(i);
+				if (mFileBuilders.containsKey(repositoryFileManager
+						.absoluteToRelativePath(path
+								.getAttribute(CacheConfiguration.NAME)))) {
+					final FileBuilder fileBuilder = (FileBuilder) mFileBuilders
+							.get(repositoryFileManager
+									.absoluteToRelativePath(path
+											.getAttribute(CacheConfiguration.NAME)));
+					updateDOMPath(path, fileBuilder.isBinary(), revisionNumber);
+					mFileBuilders.remove(repositoryFileManager
+							.absoluteToRelativePath(path
+									.getAttribute(CacheConfiguration.NAME)));
 				}
 			}
 			// go through remaining fileBuilders and add them to the DOM
-			Collection cFileBuilders = mFileBuilders.values();
-			for (Iterator iter = cFileBuilders.iterator(); iter.hasNext();) {
-				FileBuilder fileBuilder = (FileBuilder) iter.next();
+			final Collection cFileBuilders = mFileBuilders.values();
+			for (final Iterator iter = cFileBuilders.iterator(); iter.hasNext();) {
+				final FileBuilder fileBuilder = (FileBuilder) iter.next();
 				String binaryStatus = CacheConfiguration.NOT_BINARY;
-				if (fileBuilder.isBinary())
+				if (fileBuilder.isBinary()) {
 					binaryStatus = CacheConfiguration.BINARY;
-				addDOMPath(repositoryFileManager.relativeToAbsolutePath(fileBuilder.getName()), revisionNumber, binaryStatus);
-			}			
+				}
+				addDOMPath(repositoryFileManager
+						.relativeToAbsolutePath(fileBuilder.getName()),
+						revisionNumber, binaryStatus);
+			}
 		}
 
 	}
-	
+
 	/**
 	 * Checks the path's cached binary status.
-	 *  
+	 * 
 	 * @param fileName
-	 * 			the path to be checked
+	 *            the path to be checked
 	 * @param revisionNumber
-	 * 			the revision of the path to be checked
-	 * @return
-	 * 			true if the path's BINARY_STATUS is true and the revisionNumber is lower
-	 *			or equal to the path's LATEST_REVISION 
+	 *            the revision of the path to be checked
+	 * @return true if the path's BINARY_STATUS is true and the revisionNumber
+	 *         is lower or equal to the path's LATEST_REVISION
 	 */
-	public boolean isBinary(String fileName, String revisionNumber) {
+	public boolean isBinary(final String fileName, final String revisionNumber) {
 		int latestRevision = 0;
 		int revisionToCheck = -1;
 		checkDocument();
-		Element path = findDOMPath(repositoryFileManager.relativeToAbsolutePath(fileName));
-		if (path == null)
+		final Element path = findDOMPath(repositoryFileManager
+				.relativeToAbsolutePath(fileName));
+		if (path == null) {
 			return false;
-		try {
-			latestRevision = Integer.parseInt(path.getAttribute(CacheConfiguration.LATEST_REVISION));
-			revisionToCheck = Integer.parseInt(revisionNumber);
 		}
-		catch (NumberFormatException e) {
-			System.out.println("Ignoring invalid revision number " + revisionNumber + " for " + path.getAttribute(CacheConfiguration.NAME));
+		try {
+			latestRevision = Integer.parseInt(path
+					.getAttribute(CacheConfiguration.LATEST_REVISION));
+			revisionToCheck = Integer.parseInt(revisionNumber);
+		} catch (final NumberFormatException e) {
+			System.out.println("Ignoring invalid revision number "
+					+ revisionNumber + " for "
+					+ path.getAttribute(CacheConfiguration.NAME));
 			revisionToCheck = -1;
 		}
 		if (latestRevision >= revisionToCheck) {
-			String binaryStatus = path.getAttribute(CacheConfiguration.BINARY_STATUS);
-			if (binaryStatus.equals(CacheConfiguration.BINARY))
+			final String binaryStatus = path
+					.getAttribute(CacheConfiguration.BINARY_STATUS);
+			if (binaryStatus.equals(CacheConfiguration.BINARY)) {
 				return true;
-		}		
+			}
+		}
 		return false;
 	}
-	
+
 }

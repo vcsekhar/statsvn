@@ -25,7 +25,6 @@ import org.xml.sax.helpers.DefaultHandler;
  * @version $Id$
  */
 public class SvnInfoUtils {
-
 	/**
 	 * SAX parser for the svn info --xml command.
 	 * 

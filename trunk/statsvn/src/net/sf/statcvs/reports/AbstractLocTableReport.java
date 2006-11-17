@@ -62,7 +62,7 @@ public abstract class AbstractLocTableReport {
      * Constructor
 	 * @param content render table on specified content
 	 */
-	public AbstractLocTableReport(Repository content) {
+	public AbstractLocTableReport(final Repository content) {
 		this.content = content;
 	}
 

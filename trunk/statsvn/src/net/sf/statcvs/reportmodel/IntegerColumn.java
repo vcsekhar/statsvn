@@ -45,7 +45,7 @@ public class IntegerColumn extends Column {
 	 * Creates a new <tt>SimpleTextColumn</tt> with the given head
 	 * @param title the head of the column
 	 */
-	public IntegerColumn(String title) {
+	public IntegerColumn(final String title) {
 		this.title = title;
 	}
 

@@ -106,41 +106,41 @@ public class ModulePage extends HTMLPage {
 	}
 
 	private String getModuleLinks() {
-		String result;
+		StringBuffer result = new StringBuffer();
 		Iterator it = directory.getSubdirectoriesRecursive().iterator();
 		Directory current = (Directory) it.next();
-		result = getRootLinks(current) + "<br/>";
+		result.append(getRootLinks(current)).append("<br/>");
 		while (it.hasNext()) {
 			Directory dir = (Directory) it.next();
-			result += getFolderHtml(dir, directory.getDepth());
+			result.append(getFolderHtml(dir, directory.getDepth()));
 		}
-		return result;
+		return result.toString();
 	}
 
 	private String getLOCImage() {
 		if (!locImageCreated) {
 			return "";
 		}
-		String result = startSection2(Messages.getString("LOC_TITLE"));
-		result += p(img(HTMLOutput.getDirectoryLocChartFilename(directory), 640, 480)
+		StringBuffer result = new StringBuffer(startSection2(Messages.getString("LOC_TITLE")));
+		result.append(p(img(HTMLOutput.getDirectoryLocChartFilename(directory), 640, 480)
 				+ br() + strong("Total Lines Of Code: ") + locInModule
-				+ " (" + HTMLTagger.getDateAndTime(getContent().getLastDate()) + ")");
-        result += endSection2();
-		return result;
+				+ " (" + HTMLTagger.getDateAndTime(getContent().getLastDate()) + ")"));
+        result.append(endSection2());
+		return result.toString();
 	}
 
 	private String getCPUTable() {
 		if (directory.getRevisions().isEmpty()) {
 			return "";
 		}
-		String result = startSection2(Messages.getString("CPU_TITLE"));
+		StringBuffer result = new StringBuffer(startSection2(Messages.getString("CPU_TITLE")));
 		TableReport report = 
 				new AuthorsForDirectoryTableReport(getContent(), directory);
 		report.calculate();
 		Table table = report.getTable();
-		result += new TableRenderer(table, getRenderer()).getRenderedTable();
-        result += endSection2();
-		return result;
+		result.append(new TableRenderer(table, getRenderer()).getRenderedTable());
+        result.append(endSection2());
+		return result.toString();
 	}
 
 	private String getLastCommits() {
@@ -149,11 +149,11 @@ public class ModulePage extends HTMLPage {
 		if (commitCount == 0) {
 			return "";
 		}
-		String result = startSection2(Messages.getString("MOST_RECENT_COMMITS"));
+		StringBuffer result = new StringBuffer(startSection2(Messages.getString("MOST_RECENT_COMMITS")));
 		CommitLogRenderer renderer = new CommitLogRenderer(dirCommits);
-		result += renderer.renderMostRecentCommits(HTMLOutput.MOST_RECENT_COMMITS_LENGTH, getRenderer());
-        result += endSection2();
-		return result;
+		result.append(renderer.renderMostRecentCommits(HTMLOutput.MOST_RECENT_COMMITS_LENGTH, getRenderer()));
+        result.append(endSection2());
+		return result.toString();
 	}
 
 	private String getRootLinks(Directory dir) {

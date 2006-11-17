@@ -51,7 +51,7 @@ public class FilesWithMostRevisionsTableReport implements TableReport {
 	 *              {@link net.sf.statcvs.model.VersionedFile}s
 	 * @param maxRows the maximum number of files displayed in the table 
 	 */
-	public FilesWithMostRevisionsTableReport(SortedSet files, int maxRows) {
+	public FilesWithMostRevisionsTableReport(final SortedSet files, final int maxRows) {
 		this.files = new ArrayList(files);
 		this.maxRows = maxRows;
 	}

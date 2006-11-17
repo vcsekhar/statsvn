@@ -70,11 +70,11 @@ public class PieChart extends Chart {
 	 * @param filter filter options (users / whole repository)
 	 */
 	public PieChart(
-		Repository content,
-		String title,
-		String fileName,
-		Author author,
-		int filter) {
+		final Repository content,
+		final String title,
+		final String fileName,
+		final Author author,
+		final int filter) {
 		super(title, fileName);
 
 		DefaultPieDataset data = new DefaultPieDataset();

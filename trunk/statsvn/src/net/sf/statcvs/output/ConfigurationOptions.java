@@ -338,13 +338,13 @@ public class ConfigurationOptions {
     	FileReader fileReader = new FileReader(notesFile);
         BufferedReader r = new BufferedReader(fileReader);
         String line = r.readLine();
-        String result = "";
+        StringBuffer result = new StringBuffer();
         while (line != null) {
-            result += line;
+            result.append(line);
             line = r.readLine();
         }
         fileReader.close();
-        return result;
+        return result.toString();
     }
 
     /**

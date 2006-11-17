@@ -53,7 +53,7 @@ public class FilePatternMatcher {
 	 * wildcard pattern
 	 * @param wildcardPattern an Ant-style wildcard pattern
 	 */
-	public FilePatternMatcher(String wildcardPattern) {
+	public FilePatternMatcher(final String wildcardPattern) {
 		StringTokenizer tokenizer = new StringTokenizer(wildcardPattern, ":;");
 		while (tokenizer.hasMoreTokens()) {
 			patterns.add(Pattern.compile(buildRegex(tokenizer.nextToken())));

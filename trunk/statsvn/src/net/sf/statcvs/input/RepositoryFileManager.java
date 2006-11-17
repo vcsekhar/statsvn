@@ -58,7 +58,7 @@ public class RepositoryFileManager {
 	 * @param pathName
 	 *            the root of the checked out repository
 	 */
-	public RepositoryFileManager(String pathName) {
+	public RepositoryFileManager(final String pathName) {
 		path = pathName;
 		logger = Logger.getLogger(getClass().getName());
 	}

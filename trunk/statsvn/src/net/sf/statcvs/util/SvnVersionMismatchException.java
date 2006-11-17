@@ -15,14 +15,15 @@ public class SvnVersionMismatchException extends Exception {
     private static final long serialVersionUID = 1L;
 
     public SvnVersionMismatchException() {
-        super("Subversion binary is incorrect version or not found. Please verify that you have installed the Subversion command-line client and it is on your path.");
+        super("Subversion binary is incorrect version or not found. Please verify that "
+        		+"you have installed the Subversion command-line client and it is on your path.");
     }
 
-    public SvnVersionMismatchException(String m) {
+    public SvnVersionMismatchException(final String m) {
         super(m);
     }
 
-    public SvnVersionMismatchException(String found, String required) {
+    public SvnVersionMismatchException(final String found, final String required) {
         super("Subversion binary is incorrect version. Found: " + found + ", required: " + required);
     }
 }

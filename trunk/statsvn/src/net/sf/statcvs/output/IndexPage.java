@@ -112,39 +112,39 @@ public class IndexPage extends HTMLPage {
 		if (!locImageCreated || !commitScatterImageCreated) {
 			return "";
 		}
-		String result = startSection2(Messages.getString("LOC_TITLE"));
+		StringBuffer result = new StringBuffer(startSection2(Messages.getString("LOC_TITLE")));
 		int loc = getContent().getCurrentLOC();
-		result += p(a("loc.html", img("loc_small.png", 400, 300)) + br()
+		result.append(p(a("loc.html", img("loc_small.png", 400, 300))) + br()
 				+ strong("Total Lines Of Code:") + " " + loc + " ("
 				+ HTMLTagger.getDateAndTime(getContent().getLastDate()) + ")");
-        result += endSection2();
-		return result;
+        result.append(endSection2());
+		return result.toString();
 	}
 
 	private String getTopAuthorsSection() {
-		String result;
+		StringBuffer result = new StringBuffer();
 		TableReport report = new TopAuthorsTableReport(getContent());
 		report.calculate();
 		Table table = report.getTable();
 		if (table.getRowCount() >= 10) {
-			result = startSection2(Messages.getString("SECTION_TOP_AUTHORS"));
+			result.append(startSection2(Messages.getString("SECTION_TOP_AUTHORS")));
 		} else {
-			result = startSection2(Messages.getString("SECTION_AUTHORS"));
+			result.append(startSection2(Messages.getString("SECTION_AUTHORS")));
 		}
-		result += new TableRenderer(table, getRenderer()).getRenderedTable();
-		result += p(a("authors.html", Messages.getString("NAVIGATION_MORE")));
-        result += endSection2();
-		return result;
+		result.append(new TableRenderer(table, getRenderer()).getRenderedTable());
+		result.append(p(a("authors.html", Messages.getString("NAVIGATION_MORE"))));
+        result.append(endSection2());
+		return result.toString();
 	}
 
 	private String getIndexTree() {
-		String result = "";
+		StringBuffer result = new StringBuffer();
 		Iterator it = getContent().getDirectories().iterator();
 		while (it.hasNext()) {
 			Directory dir = (Directory) it.next();
-			result += getFolderHtml(dir, 0);
+			result.append(getFolderHtml(dir, 0));
 		}
-		return result;
+		return result.toString();
 	}
 	
 	private Author getOnlyAuthor() {

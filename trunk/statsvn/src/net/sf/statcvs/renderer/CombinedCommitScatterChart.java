@@ -64,8 +64,8 @@ public class CombinedCommitScatterChart extends Chart{
 	 * @param width width of PNG in pixels
 	 * @param height height of PNG in pixels
 	 */
-	public CombinedCommitScatterChart(TimeSeries series_all, Map authorSeriesMap, String title,
-							  String fileName, int width,	int height) {
+	public CombinedCommitScatterChart(final TimeSeries series_all, final Map authorSeriesMap, final String title,
+			final String fileName, final int width, final int height) {
 		super(title, fileName);
 
 		createScatterChart(series_all, authorSeriesMap, title);

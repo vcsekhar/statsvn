@@ -54,7 +54,7 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
 	 * @param repositoryFileManager
 	 *            the repository file manager needed to obtain some information.
 	 */
-	public SvnXmlLogFileHandler(SvnLogBuilder builder, RepositoryFileManager repositoryFileManager) {
+	public SvnXmlLogFileHandler(final SvnLogBuilder builder, final RepositoryFileManager repositoryFileManager) {
 		this.builder = builder;
 		this.repositoryFileManager = repositoryFileManager;
 	}

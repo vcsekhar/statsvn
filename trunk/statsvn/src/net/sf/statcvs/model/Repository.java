@@ -189,14 +189,14 @@ public class Repository {
 	 * {@inheritDoc}
 	 */
 	public String toString() {
-		String result = "";
+		StringBuffer result = new StringBuffer();
 		Iterator it = files.iterator();
 		VersionedFile cf = null;
 		while (it.hasNext()) {
 			cf = (VersionedFile) it.next();
-			result += cf.toString() + "\n";
+			result.append(cf.toString()).append("\n");
 		}
-		return result;
+		return result.toString();
 	}
 
 	/**
