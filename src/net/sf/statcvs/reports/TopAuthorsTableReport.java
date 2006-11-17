@@ -48,7 +48,7 @@ public class TopAuthorsTableReport extends AbstractLocTableReport
 	 * LOC contributions
 	 * @param content the version control source data
 	 */
-	public TopAuthorsTableReport(Repository content) {
+	public TopAuthorsTableReport(final Repository content) {
 		super(content);
 	}
 	

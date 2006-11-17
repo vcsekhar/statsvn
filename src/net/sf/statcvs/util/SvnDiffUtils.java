@@ -56,15 +56,16 @@ public class SvnDiffUtils {
 	public static int[] getLineDiff(String oldRevNr, String newRevNr, String filename) throws IOException, BinaryDiffException {
 		InputStream diffStream = callSvnDiff(oldRevNr, newRevNr, filename);
 		LookaheadReader diffReader = new LookaheadReader(new InputStreamReader(diffStream));
-		int lineDiff[] = parseDiff(diffReader);
+		int[] lineDiff = parseDiff(diffReader);
 
 		if (ProcessUtils.hasErrorOccured()) {
             // The binary checking code here might be useless... as it may be output on the standard out. 
 			String msg = ProcessUtils.getErrorMessage();
 			if (isBinaryErrorMessage(msg)) {
 				throw new BinaryDiffException();
-			} else
+			} else {
 				throw new IOException(msg);
+			}
 		}
 		// not using logger because these diffs take lots of time and we want to
 		// show on the standard output.
@@ -101,7 +102,7 @@ public class SvnDiffUtils {
 	 *             problem parsing the stream
 	 */
 	private static int[] parseDiff(LookaheadReader diffReader) throws IOException, BinaryDiffException {
-		int lineDiff[] = { -1, -1 };
+		int[] lineDiff = { -1, -1 };
 		boolean propertyChange = false;
 		if (!diffReader.hasNextLine()) {
 			// diff has no output because we modified properties or the changes
@@ -112,17 +113,19 @@ public class SvnDiffUtils {
 		}
 		while (diffReader.hasNextLine()) {
 			diffReader.nextLine();
-			if (diffReader.getCurrentLine().length() == 0)
+			if (diffReader.getCurrentLine().length() == 0) {
 				continue;
+			}
 			// very simple algorithm
-			if (diffReader.getCurrentLine().charAt(0) == '+')
+			if (diffReader.getCurrentLine().charAt(0) == '+') {
 				lineDiff[0]++;
-			else if (diffReader.getCurrentLine().charAt(0) == '-')
+			} else if (diffReader.getCurrentLine().charAt(0) == '-') {
 				lineDiff[1]++;
-			else if (diffReader.getCurrentLine().indexOf(PROPERTY_CHANGE) == 0)
+			} else if (diffReader.getCurrentLine().indexOf(PROPERTY_CHANGE) == 0) {
 				propertyChange = true;
-            else if (diffReader.getCurrentLine().indexOf(BINARY_TYPE) == 0)
+			} else if (diffReader.getCurrentLine().indexOf(BINARY_TYPE) == 0) {
                 throw new BinaryDiffException();
+			}
             
 			// System.out.println(diffReader.getCurrentLine());
 		}

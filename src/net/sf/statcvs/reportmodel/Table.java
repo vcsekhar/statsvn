@@ -46,7 +46,7 @@ public class Table {
 	 * @param summary a short summary of the table data, intended for
 	 * non-visual web browsers 
 	 */
-	public Table(String summary) {
+	public Table(final String summary) {
 		this.summary = summary;
 	}
 	

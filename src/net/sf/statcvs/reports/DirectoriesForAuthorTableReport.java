@@ -49,8 +49,8 @@ public class DirectoriesForAuthorTableReport extends AbstractLocTableReport
 	 * @param content the version control source data
 	 * @param author an author
 	 */
-	public DirectoriesForAuthorTableReport(Repository content,
-			Author author) {
+	public DirectoriesForAuthorTableReport(final Repository content,
+			final Author author) {
 		super(content);
 		this.author = author;
 	}

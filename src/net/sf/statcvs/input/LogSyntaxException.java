@@ -47,7 +47,7 @@ public class LogSyntaxException extends Exception {
     /**
      * @see java.lang.Throwable#Throwable(String)
      */
-    public LogSyntaxException(String message) {
+    public LogSyntaxException(final String message) {
         super(message);
     }
 }

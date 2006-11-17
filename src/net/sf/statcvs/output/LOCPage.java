@@ -54,13 +54,12 @@ public class LOCPage extends HTMLPage {
 		if (!locImageCreated) {
 			return p(Messages.getString("NO_LOC_AVAILABLE"));
 		}
-		String result;
+		StringBuffer result = new StringBuffer();
 		int loc = getContent().getCurrentLOC();
-		result = img("loc.png", 640, 480) + br()
-				+ strong(Messages.getString("TOTAL_LOC") + ": ") + loc;
-		result += " ("
-				+ HTMLTagger.getDateAndTime(getContent().getLastDate())
-				+ ")";
-		return p(result);
+		result.append(img("loc.png", 640, 480)).append(br());
+		result.append(strong(Messages.getString("TOTAL_LOC"))).append(": ").append(loc);
+		result.append(" (").append(HTMLTagger.getDateAndTime(getContent().getLastDate()));
+		result.append(")");
+		return p(result.toString());
 	}
 }

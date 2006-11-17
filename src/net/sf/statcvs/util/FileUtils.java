@@ -49,7 +49,7 @@ public class FileUtils {
      * @throws IOException
      *             if cannot read or write
      */
-    public static void copyFile(String inputName, String destination) throws FileNotFoundException, IOException {
+    public static void copyFile(String inputName, String destination) throws IOException {
         File input = new File(inputName);
         File outputFile = new File(destination);
         FileReader in = new FileReader(input);
@@ -74,7 +74,7 @@ public class FileUtils {
      * @throws IOException
      *             if read/write error
      */
-    public static void copyFile(InputStream in, File out) throws FileNotFoundException, IOException {
+    public static void copyFile(InputStream in, File out) throws IOException {
 
         InputStream fis = in;
         FileOutputStream fos = new FileOutputStream(out);

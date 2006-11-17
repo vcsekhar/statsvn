@@ -47,7 +47,7 @@ public class AuthorsTableReport extends AbstractLocTableReport
 	 * @param content the version control source data
 	 * @param sortedBy a SORT_XXXX constant
 	 */
-	public AuthorsTableReport(Repository content, int sortedBy) {
+	public AuthorsTableReport(final Repository content, final int sortedBy) {
 		super(content);
 		this.sortedBy = sortedBy;
 	}

@@ -255,7 +255,7 @@ public class IntegerMap {
 		
 		private Map mapToBeSorted;
 
-		public SortByValueComparator(Map map) {
+		public SortByValueComparator(final Map map) {
 			this.mapToBeSorted = map;
 		}
 

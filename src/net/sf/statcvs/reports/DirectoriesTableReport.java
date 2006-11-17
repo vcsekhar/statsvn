@@ -44,7 +44,7 @@ public class DirectoriesTableReport extends AbstractLocTableReport
 	 * respective number of changes and LOC.
 	 * @param content the version control source data
 	 */
-	public DirectoriesTableReport(Repository content) {
+	public DirectoriesTableReport(final Repository content) {
 		super(content);
 	}
 	

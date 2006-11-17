@@ -30,10 +30,16 @@ import java.awt.Color;
  * @author Richard Cyganiak
  * @version $Id$
  */
-public class OutputUtils {
+public final class OutputUtils {
 
 	private static final String MAGIC_SEED_1 = "0 Ax-!";
 	private static final String MAGIC_SEED_2 = "!Z x5";
+	
+	/**
+	 * A utility class (only static methods) should be final and have a 
+	 * private constructor.
+	 */
+	private OutputUtils() {}
 
 	/**
 	 * Returns a distinct <code>Color</code> for a <code>String</code> argument.

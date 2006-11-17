@@ -45,17 +45,18 @@ public class ViewVcIntegration implements WebRepositoryIntegration {
 	/**
 	 * @param baseURL base URL of the ViewVC installation 
 	 */
-	public ViewVcIntegration(String baseURL) {
+	public ViewVcIntegration(final String baseURL) {
+		String baseUrlToUse = baseURL;
 		int i = baseURL.indexOf("?");
 		if (i != -1) {
 			this.postfix = baseURL.substring(i + 1);
-			baseURL = baseURL.substring(0, i);		  
+			baseUrlToUse = baseURL.substring(0, i);		  
 		}
 
-		if (baseURL.endsWith("/")) {
-			this.baseURL = baseURL.substring(0, baseURL.length() - 1);
+		if (baseUrlToUse.endsWith("/")) {
+			this.baseURL = baseUrlToUse.substring(0, baseUrlToUse.length() - 1);
 		} else {
-			this.baseURL = baseURL;
+			this.baseURL = baseUrlToUse;
 		}	   
 	}
 
@@ -122,11 +123,11 @@ public class ViewVcIntegration implements WebRepositoryIntegration {
         // because of ViewCVS limitations regarding dead files. 
         if (isInAttic(newRevision.getFile())) {
             return getFileViewUrl(newRevision);
-        }
-        else 
+        } else { 
             return getFileUrl(oldRevision.getFile(),
 				".diff?r1=" + oldRevision.getRevisionNumber()
 				+ "&r2=" + newRevision.getRevisionNumber());
+        }
 	}
 	
 	/**

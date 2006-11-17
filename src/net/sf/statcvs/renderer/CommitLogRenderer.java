@@ -62,7 +62,7 @@ public class CommitLogRenderer {
 	 * 
 	 * @param commits A list of {@link Commit} objects
 	 */
-	public CommitLogRenderer(List commits) {
+	public CommitLogRenderer(final List commits) {
 		this.commits = new ArrayList(commits);
 		Collections.reverse(this.commits);
 		webRepository = ConfigurationOptions.getWebRepository();
@@ -96,58 +96,58 @@ public class CommitLogRenderer {
 		this.currentPage = page;
 		this.pageCommits =
 			commits.subList(getFirstCommitOfPage(page), getLastCommitOfPage(page) + 1);
-		String result = "";
+		StringBuffer result = new StringBuffer();
 		if (getPages() > 1) {
-			result += renderNavigation(renderer);
+			result.append(renderNavigation(renderer));
 		}
-		result += renderTimespan();
-		result += renderCommitList(pageCommits, renderer);
+		result.append(renderTimespan());
+		result.append(renderCommitList(pageCommits, renderer));
 		if (getPages() > 1) {
-			result += renderNavigation(renderer);
+			result.append(renderNavigation(renderer));
 		}
-		return result;
+		return result.toString();
 	}
 
 	private String renderTimespan() {
 		Date time1 = ((Commit) pageCommits.get(0)).getDate();
 		Date time2 = ((Commit) pageCommits.get(pageCommits.size() - 1)).getDate();
-		String commitsText;
+		StringBuffer commitsText = new StringBuffer();
 		if (getPages() > 1) {
-			commitsText = Messages.getString("COMMITS")
-					+ " "
-					+ (commits.size() - getLastCommitOfPage(currentPage))
-					+ "-"
-					+ (commits.size() - getFirstCommitOfPage(currentPage))
-					+ " of "
-					+ commits.size();
+			commitsText.append(Messages.getString("COMMITS"))
+					.append(" ")
+					.append((commits.size() - getLastCommitOfPage(currentPage)))
+					.append("-")
+					.append((commits.size() - getFirstCommitOfPage(currentPage)))
+					.append(" of ")
+					.append(commits.size());
 		} else {
-			commitsText = commits.size() + " " + Messages.getString("COMMITS");
+			commitsText.append(commits.size()).append(" ").append(Messages.getString("COMMITS"));
 		}
-		return HTMLTagger.getSummaryPeriod(time1, time2, " (" + commitsText + ")", false);
+		return HTMLTagger.getSummaryPeriod(time1, time2, " (" + commitsText.toString() + ")", false);
 	}
 
 	private String renderNavigation(final OutputRenderer renderer) {
-		String result = Messages.getString("PAGES") + ": ";
+		StringBuffer result = new StringBuffer("<p>").append(Messages.getString("PAGES")).append(": ");
 		if (currentPage > 1) {
-			result
-				+= HTMLTagger.getLink(
+			result.append(HTMLTagger.getLink(
 					getFilename(currentPage - 1, renderer, true),
-					Messages.getString("NAVIGATION_PREVIOUS"), "&#171; ", "")
-				+ " ";
+					Messages.getString("NAVIGATION_PREVIOUS"), "&#171; ", ""))
+					.append(" ");
 		}
 		for (int i = 1; i <= getPages(); i++) {
 			if (i == currentPage) {
-				result += (i) + " ";
+				result.append((i)).append(" ");
 			} else {
-				result += HTMLTagger.getLink(getFilename(i, renderer, true), Integer.toString(i))
-						+ " ";
+				result.append(HTMLTagger.getLink(getFilename(i, renderer, true), Integer.toString(i)))
+						.append(" ");
 			}
 		}
 		if (currentPage < getPages()) {
-			result += HTMLTagger.getLink(getFilename(currentPage + 1, renderer, true),
-					Messages.getString("NAVIGATION_NEXT"), "", " &#187;") + " ";
+			result.append(HTMLTagger.getLink(getFilename(currentPage + 1, renderer, true),
+					Messages.getString("NAVIGATION_NEXT"), "", " &#187;")).append(" ");
 		}
-		return "<p>" + result + "</p>\n";
+		result.append("</p>\n");
+		return result.toString();
 	}
 
 	private int getFirstCommitOfPage(int page) {
@@ -183,27 +183,28 @@ public class CommitLogRenderer {
 			return "<p>No commits</p>\n";
 		}
 		Iterator it = commitList.iterator();
-		String result = "<dl class=\"commitlist\">\n";
+		StringBuffer result = new StringBuffer("<dl class=\"commitlist\">\n");
 
 		while (it.hasNext()) {
 			Commit commit = (Commit) it.next();
-			result += renderCommit(commit, renderer);
+			result.append(renderCommit(commit, renderer));
 		}
-		result += "</dl>\n\n";
-		return result;
+		result.append("</dl>\n\n");
+		return result.toString();
 	}
 
 	private String renderCommit(Commit commit, final OutputRenderer renderer) {
-		String result = "  <dt>\n    " + getAuthor(commit, renderer) + "\n";
-		result += "    " + getDate(commit) + "\n  </dt>\n";
-		result += "  <dd>\n    <p class=\"comment\">\n" + getComment(commit) + "\n    </p>\n";
-		result += "    <p class=\"commitdetails\"><strong>";
-		result += getLinesOfCode(commit) + "</strong> ";
-		result += "lines of code changed in:</p>\n";
-		result += getAffectedFiles(commit) + "  </dd>\n\n";
-		if (webBugtracker != null)
-			result = webBugtracker.applyFilter(result);
-		return result;
+		StringBuffer result = new StringBuffer("  <dt>\n    ").append(getAuthor(commit, renderer)).append("\n");
+		result.append("    ").append(getDate(commit)).append("\n  </dt>\n");
+		result.append("  <dd>\n    <p class=\"comment\">\n").append(getComment(commit)).append("\n    </p>\n");
+		result.append("    <p class=\"commitdetails\"><strong>");
+		result.append(getLinesOfCode(commit)).append("</strong> ");
+		result.append("lines of code changed in:</p>\n");
+		result.append(getAffectedFiles(commit)).append("  </dd>\n\n");
+		if (webBugtracker != null) {
+			return webBugtracker.applyFilter(result.toString());
+		}
+		return result.toString();
 	}
 
 	private String getDate(Commit commit) {
@@ -234,26 +235,25 @@ public class CommitLogRenderer {
 	}
 	
 	private String getAffectedFiles(Commit commit) {
-
-		String result = "    <ul class=\"commitdetails\">\n";
+		StringBuffer result = new StringBuffer("    <ul class=\"commitdetails\">\n");
 		FileCollectionFormatter formatter =
 				new FileCollectionFormatter(commit.getAffectedFiles());
 		Iterator it = formatter.getDirectories().iterator();
 		while (it.hasNext()) {
-			result += "      <li>\n";
+			result.append("      <li>\n");
 			String directory = (String) it.next();
 			if (!directory.equals("")) {
-				result += "        <strong>"
-					+ directory.substring(0, directory.length() - 1)
-					+ "</strong>:\n";
+				result.append("        <strong>")
+					.append(directory.substring(0, directory.length() - 1))
+					.append("</strong>:\n");
 			}
 			Iterator files = formatter.getFiles(directory).iterator();
-			String fileList = "";
+			StringBuffer fileList = new StringBuffer();
 			while (files.hasNext()) {
-				if (!fileList.equals("")) {
-					fileList += ",\n";
+				if (fileList.length()>0) {
+					fileList.append(",\n");
 				}
-				fileList += "        ";
+				fileList.append("        ");
 				String file = (String) files.next();
 				Revision revision =
 						(Revision) commitHashMap.get(directory + file);
@@ -267,43 +267,42 @@ public class CommitLogRenderer {
 					} else {
 						url = webRepository.getDiffUrl(previous, revision);
 					}
-					fileList += "<a href=\""
-							+ OutputUtils.escapeHtml(url)
-							+ "\" class=\"webrepository\">" + file + "</a>"; 
+					fileList.append("<a href=\"").append(OutputUtils.escapeHtml(url))
+						.append("\" class=\"webrepository\">").append(file).append("</a>"); 
 				} else {
-					fileList += file;
+					fileList.append(file);
 				}
 				if (revision.isInitialRevision()) {
 					int linesAdded = revision.getLines();
-					fileList += "&#160;<span class=\"new\">(new";
+					fileList.append("&#160;<span class=\"new\">(new");
 					if (linesAdded > 0) {
-						fileList += "&#160;" + linesAdded;
+						fileList.append("&#160;").append(linesAdded);
 					}
-					fileList += ")</span>";
+					fileList.append(")</span>");
 				} else if (revision.isDead()) {
-					fileList += "&#160;<span class=\"del\">(del)</span>";
+					fileList.append("&#160;<span class=\"del\">(del)</span>");
 				} else {
 					int delta = revision.getLinesDelta();
 					int linesAdded = revision.getReplacedLines() + ((delta > 0) ? delta : 0);
 					int linesRemoved = revision.getReplacedLines() - ((delta < 0) ? delta : 0);
-					fileList += "&#160;<span class=\"change\">(";
+					fileList.append("&#160;<span class=\"change\">(");
 					if (linesAdded > 0) {
-						fileList += "+" + linesAdded;
+						fileList.append("+").append(linesAdded);
 						if (linesRemoved > 0) {
-							fileList += "&#160;-" + linesRemoved;
+							fileList.append("&#160;-").append(linesRemoved);
 						}
 					} else if (linesRemoved > 0) {
-						fileList += "-" + linesRemoved;
+						fileList.append("-").append(linesRemoved);
 					} else {	// linesAdded == linesRemoved == 0
 						// should be binary file or keyword subst change
-						fileList += "changed";
+						fileList.append("changed");
 					}
-					fileList += ")</span>";
+					fileList.append(")</span>");
 				}
 			}
-			result += fileList + "\n      </li>\n";
+			result.append(fileList.toString()).append("\n      </li>\n");
 		}
-		result += "    </ul>\n";
-		return result;
+		result.append("    </ul>\n");
+		return result.toString();
 	}
 }

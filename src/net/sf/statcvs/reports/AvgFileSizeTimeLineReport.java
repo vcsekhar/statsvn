@@ -46,7 +46,7 @@ public class AvgFileSizeTimeLineReport {
 	 * Creates a new file count time line for a specified list of files.
 	 * @param files a list of {@link net.sf.statcvs.model.VersionedFile}s
 	 */
-	public AvgFileSizeTimeLineReport(SortedSet files) {
+	public AvgFileSizeTimeLineReport(final SortedSet files) {
 		timeLine = new TimeLine(Messages.getString("AVERAGE_FILE_SIZE_TITLE"),
 				Messages.getString("RANGE_LOC_PER_FILE"));
 		List revisions = new ArrayList();

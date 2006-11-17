@@ -32,7 +32,6 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.logging.Logger;
 
-import net.sf.statcvs.model.Revision;
 import net.sf.statcvs.model.VersionedFile;
 
 /**
@@ -77,7 +76,7 @@ public class FileBuilder {
      * @param isBinary
      *            Is this a binary file or not?
      */
-    public FileBuilder(Builder builder, String name, boolean isBinary, Map revBySymnames) {
+    public FileBuilder(final Builder builder, final String name, final boolean isBinary, final Map revBySymnames) {
         this.builder = builder;
         this.name = name;
         this.isBinary = isBinary;
@@ -226,10 +225,7 @@ public class FileBuilder {
      * @return Returns <tt>true</tt> if the file has revisions.
      */
     public boolean existRevision() {
-        if (revisions.isEmpty())
-            return false;
-        else
-            return true;
+        return !revisions.isEmpty();
     }
 
     /**
@@ -365,8 +361,9 @@ public class FileBuilder {
     private RevisionData findRevision(String revisionNumber) {
         for (int i = 0; i < revisions.size(); i++) {
             RevisionData data = (RevisionData) revisions.get(i);
-            if (data.getRevisionNumber().equals(revisionNumber))
+            if (data.getRevisionNumber().equals(revisionNumber)) {
                 return data;
+            }
         }
         return null;
     }

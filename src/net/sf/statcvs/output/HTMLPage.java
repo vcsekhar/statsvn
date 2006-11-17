@@ -203,11 +203,11 @@ public abstract class HTMLPage {
 	}
 
 	private String getSpaces(int count) {
-		String result = "";
+		StringBuffer result = new StringBuffer();
 		for (int i = 0; i < count * SPACE_COUNT; i++) {
-			result += "&#160;";
+			result.append("&#160;");
 		}
-		return result;
+		return result.toString();
 	}
 
 	protected String deleteEndingSlash(String path) {
@@ -221,19 +221,19 @@ public abstract class HTMLPage {
 		String name = dir.isRoot()
 				? Messages.getString("NAVIGATION_ROOT")
 				: dir.getName();
-		String result = getSpaces(dir.getDepth() - currentDepth);
+		StringBuffer result = new StringBuffer(getSpaces(dir.getDepth() - currentDepth));
 		if (dir.isEmpty()) {
-			result += HTMLTagger.getIcon(HTMLOutput.DELETED_DIRECTORY_ICON);
+			result.append(HTMLTagger.getIcon(HTMLOutput.DELETED_DIRECTORY_ICON));
 		} else {
-			result += HTMLTagger.getIcon(HTMLOutput.DIRECTORY_ICON);
+			result.append(HTMLTagger.getIcon(HTMLOutput.DIRECTORY_ICON));
 		}
 		String pageFilename = getRenderer().getDirectoryPageFilename(dir, true);
-		result += " \n" + a(pageFilename, name);
-		result += " \n(" + dir.getCurrentFileCount() + " ";
-		result += Messages.getString("DIRECTORY_TREE_FILES") + ", ";
-		result += dir.getCurrentLOC() + " ";
-		result += Messages.getString("DIRECTORY_TREE_LINES") + ")" + br() + "\n";
-		return result;
+		result.append(" \n").append(a(pageFilename, name));
+		result.append(" \n(").append(dir.getCurrentFileCount()).append(" ");
+		result.append(Messages.getString("DIRECTORY_TREE_FILES")).append(", ");
+		result.append(dir.getCurrentLOC()).append(" ");
+		result.append(Messages.getString("DIRECTORY_TREE_LINES")).append(")").append(br()).append("\n");
+		return result.toString();
 	}
 	/**
 	 * Returns the logger.

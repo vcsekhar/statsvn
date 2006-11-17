@@ -64,8 +64,8 @@ public class LOCChart extends Chart {
 	 * @param height height of PNG in pixels
 	 * @param annotations
 	 */
-	public LOCChart(TimeSeries locSeries, String title,
-			String fileName, int width, int height, List annotations) {
+	public LOCChart(final TimeSeries locSeries, final String title,
+			final String fileName, final int width, final int height, final List annotations) {
 		super(title, fileName);
 		
 		Paint[] colors = new Paint[1];
@@ -87,8 +87,8 @@ public class LOCChart extends Chart {
 	 * @param width width of PNG in pixels
 	 * @param height height of PNG in pixels
 	 */
-	public LOCChart(List locSeriesList, String title,
-			String fileName, int width, int height, List annotations) {
+	public LOCChart(final List locSeriesList, final String title,
+			final String fileName, final int width, final int height, final List annotations) {
 		super(title, fileName);
 		
 		Paint[] colors = new Paint[locSeriesList.size()];

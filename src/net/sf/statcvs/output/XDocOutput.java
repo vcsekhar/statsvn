@@ -4,7 +4,7 @@ import net.sf.statcvs.model.Repository;
 
 public class XDocOutput extends HTMLOutput {
 
-    public XDocOutput(Repository content) {
+    public XDocOutput(final Repository content) {
         super(content);
     }
 

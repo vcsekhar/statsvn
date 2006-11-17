@@ -25,7 +25,7 @@ public class SvnXmlCacheFileHandler extends DefaultHandler {
      * @param cacheBuilder
      *            the cacheBuilder to which to send back line count information.
      */
-    public SvnXmlCacheFileHandler(CacheBuilder cacheBuilder) {
+    public SvnXmlCacheFileHandler(final CacheBuilder cacheBuilder) {
         this.cacheBuilder = cacheBuilder;
     }
 
@@ -52,8 +52,9 @@ public class SvnXmlCacheFileHandler extends DefaultHandler {
     public void endElement(String uri, String localName, String qName) throws SAXException {
         super.endElement(uri, localName, qName);
         String eName = localName; // element name
-        if ("".equals(eName))
+        if ("".equals(eName)) {
             eName = qName; // namespaceAware = false
+        }
 
         if (eName.equals(CacheConfiguration.CACHE)) {
             endCache();
@@ -120,8 +121,9 @@ public class SvnXmlCacheFileHandler extends DefaultHandler {
         super.startElement(uri, localName, qName, attributes);
 
         String eName = localName; // element name
-        if ("".equals(eName))
+        if ("".equals(eName)) {
             eName = qName; // namespaceAware = false
+        }
 
         if (eName.equals(CacheConfiguration.CACHE)) {
             startCache();
@@ -170,8 +172,9 @@ public class SvnXmlCacheFileHandler extends DefaultHandler {
             if (attributes.getValue(CacheConfiguration.BINARY_STATUS) != null)
             	binaryStatus = attributes.getValue(CacheConfiguration.BINARY_STATUS);
             cacheBuilder.buildPath(name, revision, binaryStatus);
-        } else
+        } else {
             fatalError(FATAL_ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -194,8 +197,8 @@ public class SvnXmlCacheFileHandler extends DefaultHandler {
             if (attributes.getValue(CacheConfiguration.BINARY_STATUS) != null)
             	binaryStatus = attributes.getValue(CacheConfiguration.BINARY_STATUS);
             cacheBuilder.buildRevision(number, added, removed, binaryStatus);
-        } else
+        } else {
             fatalError(FATAL_ERROR_MESSAGE);
+        }
     }
-
 }

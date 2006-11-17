@@ -38,7 +38,7 @@ public class UrlCssHandler implements CssHandler {
 	 * Creates a new UrlCssHandler for a CSS file located at a given URL.
 	 * @param url the url to the CSS file
 	 */
-	public UrlCssHandler(URL url) {
+	public UrlCssHandler(final URL url) {
 		this.url = url;
 	}
 

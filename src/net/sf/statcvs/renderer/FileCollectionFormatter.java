@@ -50,7 +50,7 @@ public class FileCollectionFormatter {
 	 * file names.
 	 * @param files Collection containing the String representations of files
 	 */
-	public FileCollectionFormatter(Collection files) {
+	public FileCollectionFormatter(final Collection files) {
 		this.files = files;
 		filesPerDir = createFilesPerDirCount();
 		dirDepths = createDirDepths();

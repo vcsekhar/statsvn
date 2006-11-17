@@ -91,5 +91,5 @@ public interface WebRepositoryIntegration {
 	 * <a href="http://www.cvshome.org/docs/manual/current/cvs_2.html#SEC15">CVS manual</a>.
 	 * @param atticFileNames names of all files (<tt>String</tt>) in the attic
 	 */
-	public void setAtticFileNames(Set atticFileNames);
+	void setAtticFileNames(Set atticFileNames);
 }

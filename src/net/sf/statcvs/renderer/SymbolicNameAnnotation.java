@@ -64,8 +64,7 @@ public class SymbolicNameAnnotation implements XYAnnotation {
      * 
      * @param symbolicName
      */
-    public SymbolicNameAnnotation(SymbolicName symbolicName)
-    {
+    public SymbolicNameAnnotation(final SymbolicName symbolicName) {
         this.symbolicName = symbolicName;
     }
     

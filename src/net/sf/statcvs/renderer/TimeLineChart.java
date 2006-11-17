@@ -62,8 +62,8 @@ public class TimeLineChart extends Chart {
 	 * @param width the width of the image
 	 * @param height the height of the image
 	 */
-	public TimeLineChart(TimeLine timeLine, String fileName,
-			int width, int height, List annotations) {
+	public TimeLineChart(final TimeLine timeLine, final String fileName,
+			final int width, final int height, final List annotations) {
 
 		super(timeLine.getTitle(), fileName);
 		

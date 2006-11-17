@@ -49,7 +49,7 @@ public interface SvnLogBuilder {
      * @param moduleName
      *            the name of the module
      */
-    public abstract void buildModule(String moduleName);
+    void buildModule(String moduleName);
 
     /**
      * Starts building a new file. The files are not processed in any particular order.
@@ -63,7 +63,7 @@ public interface SvnLogBuilder {
      * @param revBySymnames
      *            maps revision (string) by symbolic name (string)
      */
-    public abstract void buildFile(String filename, boolean isBinary, boolean isInAttic, Map revBySymnames);
+    void buildFile(String filename, boolean isBinary, boolean isInAttic, Map revBySymnames);
 
     /**
      * Adds a revision to the last file that was built.. The revisions are added in SVN logfile order, that is starting with the most recent one.
@@ -71,7 +71,7 @@ public interface SvnLogBuilder {
      * @param data
      *            the revision
      */
-    public abstract void buildRevision(RevisionData data);
+    void buildRevision(RevisionData data);
 
     /**
      * Adds a file to the attic. This method should only be called if our first invocation to (@link #buildFile(String, boolean, boolean, Map)) was given an
@@ -82,7 +82,7 @@ public interface SvnLogBuilder {
      * @param filename
      *            the filename to add to the attic.
      */
-    public abstract void addToAttic(String filename);
+    void addToAttic(String filename);
 
     /**
      * New in StatSVN: We need to have access to FileBuilders after they have been created to populate them with version numbers later on.
@@ -91,7 +91,7 @@ public interface SvnLogBuilder {
      * 
      * @return this builder's contained (@link FileBuilder)s.
      */
-    public abstract Map getFileBuilders();
+    Map getFileBuilders();
 
     /**
      * New in StatSVN: Updates a particular revision for a file with new line count information. If the file or revision does not exist, action will do nothing.
@@ -107,6 +107,6 @@ public interface SvnLogBuilder {
      * @param linesRemoved
      *            the lines that were removed
      */
-    public abstract void updateRevision(String filename, String revisionNumber, int linesAdded, int linesRemoved);
+    void updateRevision(String filename, String revisionNumber, int linesAdded, int linesRemoved);
 
 }

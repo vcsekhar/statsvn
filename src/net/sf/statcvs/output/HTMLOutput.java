@@ -164,7 +164,7 @@ public class HTMLOutput implements OutputRenderer {
 	 * @param content
 	 *            the repository
 	 */
-	public HTMLOutput(Repository content) {
+	public HTMLOutput(final Repository content) {
 		this.content = content;
 	}
 

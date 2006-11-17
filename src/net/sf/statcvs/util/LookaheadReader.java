@@ -53,7 +53,7 @@ public class LookaheadReader {
 	 * @param reader a reader whose contents will be returned by the
 	 * 			LookaheadReader
 	 */
-	public LookaheadReader(Reader reader) {
+	public LookaheadReader(final Reader reader) {
 		this.reader = new BufferedReader(reader);
 	}
 	

@@ -10,7 +10,8 @@ import net.sf.statcvs.output.ConfigurationOptions;
  *
  * Utility class to help build svn command strings
  */
-public class SvnCommandHelper {
+public final class SvnCommandHelper {
+	private SvnCommandHelper() {}
 	
 	/**
 	 * Gets the authentication / non-interactive command part to use when invoking
@@ -19,12 +20,13 @@ public class SvnCommandHelper {
 	 * @return A String with the username, password and non-interactive settings
 	 */
 	public static String getAuthString() {
-		String strAuth = " --non-interactive";
-		if (ConfigurationOptions.getSvnUsername() != null)
-			strAuth	+= " --username " + ConfigurationOptions.getSvnUsername()
-					+  " --password " + ConfigurationOptions.getSvnPassword();
+		StringBuffer strAuth = new StringBuffer(" --non-interactive");
+		if (ConfigurationOptions.getSvnUsername() != null) {
+			strAuth.append(" --username ").append(ConfigurationOptions.getSvnUsername())
+					.append(" --password ").append(ConfigurationOptions.getSvnPassword());
+		}
 
-		return strAuth;
+		return strAuth.toString();
 	}
 	
 }

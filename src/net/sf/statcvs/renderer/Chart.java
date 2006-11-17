@@ -56,8 +56,8 @@ public class Chart {
 	 * @param fileName fileName for chart
 	 */
 	public Chart(
-		String title,
-		String fileName) {
+		final String title,
+		final String fileName) {
 		this.title = title;
 		this.fileName = fileName;
 	}

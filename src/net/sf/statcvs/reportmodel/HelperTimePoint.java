@@ -31,12 +31,12 @@ import java.util.Date;
  * @author Richard Cyganiak <rcyg@gmx.de>
  * @version $Id: HelperTimePoint.java,v 1.1 2003/06/05 10:51:54 cyganiak Exp $
  */
-class HelperTimePoint implements Comparable {
+final class HelperTimePoint implements Comparable {
 	private Date date;
 	private int value;
 	private boolean isAbsolute;
 
-	private HelperTimePoint(Date date, int value, boolean isAbsolute) {
+	private HelperTimePoint(final Date date, final int value, final boolean isAbsolute) {
 		this.date = date;
 		this.value = value;
 		this.isAbsolute = isAbsolute;

@@ -44,7 +44,7 @@ public class RatioColumn extends Column {
 	 * @param col1 the first column
 	 * @param col2 the second column
 	 */
-	public RatioColumn(String title, IntegerColumn col1, IntegerColumn col2) {
+	public RatioColumn(final String title, final IntegerColumn col1, final IntegerColumn col2) {
 		this.title = title;
 		this.col1 = col1;
 		this.col2 = col2;

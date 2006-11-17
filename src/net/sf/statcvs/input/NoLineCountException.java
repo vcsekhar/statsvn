@@ -48,7 +48,7 @@ public class NoLineCountException extends Exception {
      * @param message
      *            input message
      */
-    public NoLineCountException(String message) {
+    public NoLineCountException(final String message) {
         super(message);
     }
 }

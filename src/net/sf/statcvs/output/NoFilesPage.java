@@ -36,7 +36,7 @@ public class NoFilesPage extends HTMLPage {
 	/**
 	 * @see net.sf.statcvs.output.HTMLPage#HTMLPage(Repository)
 	 */
-	public NoFilesPage(Repository content, final OutputRenderer renderer) throws IOException {
+	public NoFilesPage(final Repository content, final OutputRenderer renderer) throws IOException {
 		super(content, renderer);
 		setFileName("index" + renderer.getFileExtension());
 		setPageName("Development statistics for " + ConfigurationOptions.getProjectName());

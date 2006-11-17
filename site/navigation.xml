@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="StatSvn">
+   <title>QALab - Statistics for your Build</title>
+   <body>
+      <links>
+         <item name="Project Page on SF.net"
+            href="http://sourceforge.net/projects/statsvn" />
+      </links>
+      <menu name="StatSvn">
+         <item name="Overview" href="index.html" />
+         <item name="Stat SVN" class="newWindow" target="_new" href="statsvn/index.html" />
+      </menu>
+      
+      <sitemap/>
+      <search/>
+      
+   </body>
+</project>

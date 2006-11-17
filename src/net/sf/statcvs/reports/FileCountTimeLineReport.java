@@ -43,7 +43,7 @@ public class FileCountTimeLineReport {
 	 * Creates a new file count time line for a specified list of files.
 	 * @param files a list of {@link net.sf.statcvs.model.VersionedFile}s
 	 */
-	public FileCountTimeLineReport(SortedSet files) {
+	public FileCountTimeLineReport(final SortedSet files) {
 		timeLine = new TimeLine(Messages.getString("FILE_COUNT_TITLE"),
 				Messages.getString("RANGE_FILES"));
 		timeLine.setInitialValue(0);

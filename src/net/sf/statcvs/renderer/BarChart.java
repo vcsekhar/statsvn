@@ -57,11 +57,11 @@ public class BarChart extends Chart {
 	 * @param categoryNames names for categories
 	 */
 	public BarChart(
-		SortedSet revisions,
-		String title,
-		String fileName,
-		int categoryCount,
-		String[] categoryNames) {
+		final SortedSet revisions,
+		final String title,
+		final String fileName,
+		final int categoryCount,
+		final String[] categoryNames) {
 
 		super(title, fileName);
 		

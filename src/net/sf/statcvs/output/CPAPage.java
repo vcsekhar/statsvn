@@ -92,11 +92,11 @@ public class CPAPage extends HTMLPage {
 	}
 	
 	private String getAuthorActivityChartSection() {
-		String result = "";
-		result += startSection2(Messages.getString("AUTHOR_ACTIVITY_TITLE"));
-		result += p(img("commitscatterauthors.png"));
-		result += p(img("activity.png"));
-        result += endSection2();
-		return result;
+		StringBuffer result = new StringBuffer();
+		result.append(startSection2(Messages.getString("AUTHOR_ACTIVITY_TITLE")));
+		result.append(p(img("commitscatterauthors.png")));
+		result.append(p(img("activity.png")));
+        result.append(endSection2());
+		return result.toString();
 	}
 }

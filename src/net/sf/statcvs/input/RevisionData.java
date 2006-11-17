@@ -281,8 +281,9 @@ public class RevisionData {
      * @param comment
      *            the revision comment
      */
-    private RevisionData(String revisionNumber, Date date, String loginName, boolean stateExp, boolean stateDead, boolean stateAdded, boolean hasNoLines,
-            int linesAdded, int linesRemoved, String comment) {
+    private RevisionData(final String revisionNumber, final Date date, final String loginName, final boolean stateExp,
+    		final boolean stateDead, final boolean stateAdded, final boolean hasNoLines,
+            final int linesAdded, final int linesRemoved, final String comment) {
         super();
         this.revisionNumber = revisionNumber;
         this.date = date;

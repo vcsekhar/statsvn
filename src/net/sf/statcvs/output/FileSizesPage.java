@@ -67,35 +67,35 @@ public class FileSizesPage extends HTMLPage {
 	}
 
 	private String getLargestFilesSection() {
-		String result = "";
-		result += startSection2(Messages.getString("LARGEST_FILES_TITLE"));
+		StringBuffer result = new StringBuffer();
+		result.append(startSection2(Messages.getString("LARGEST_FILES_TITLE")));
 		TableReport report = new LargestFilesTableReport(
 				getContent().getFiles(), 
 				MAX_LARGEST_FILES);
 		report.calculate();
-		result += new TableRenderer(report.getTable(), getRenderer()).getRenderedTable();
-        result += endSection2();
-		return result;
+		result.append(new TableRenderer(report.getTable(), getRenderer()).getRenderedTable());
+        result.append(endSection2());
+		return result.toString();
 	}
 
 	private String getFilesWithMostRevisionsSection() {
-		String result = "";
-		result += startSection2(Messages.getString("FILES_WITH_MOST_REVISIONS_TITLE"));
+		StringBuffer result = new StringBuffer();
+		result.append(startSection2(Messages.getString("FILES_WITH_MOST_REVISIONS_TITLE")));
 		TableReport report = new FilesWithMostRevisionsTableReport(
 				getContent().getFiles(), 
 				MAX_FILES_WITH_MOST_REVISIONS);
 		report.calculate();
-		result += new TableRenderer(report.getTable(), getRenderer()).getRenderedTable();
-        result += endSection2();
-		return result;
+		result.append(new TableRenderer(report.getTable(), getRenderer()).getRenderedTable());
+        result.append(endSection2());
+		return result.toString();
 	}
 
 	private String getFileCountImage() {
 		int fileCount = getCurrentFileCount();
-		String result = img("file_count.png", 640, 480) + br()
-				+ strong(Messages.getString("TOTAL_FILE_COUNT") + ": ") + fileCount;
-		result += " (" + HTMLTagger.getDateAndTime(getContent().getLastDate()) + ")";
-		return p(result);
+		StringBuffer result = new StringBuffer(img("file_count.png", 640, 480)).append(br());
+		result.append(strong(Messages.getString("TOTAL_FILE_COUNT") + ": ")).append(fileCount);
+		result.append(" (").append(HTMLTagger.getDateAndTime(getContent().getLastDate())).append(")");
+		return p(result.toString());
 	}
 	
 	private String getFileSizeImage() {
