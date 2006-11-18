@@ -40,7 +40,7 @@ public class AllTests {
 	 * @return Test suite
 	 */
 	public static Test suite() {
-		TestSuite suite = new TestSuite("Test for net.sf.statcvs.util");
+		final TestSuite suite = new TestSuite("Test for net.sf.statcvs.util");
 		// $JUnit-BEGIN$
 		suite.addTest(new TestSuite(FileUtilsTest.class));
 		suite.addTest(new TestSuite(IntegerMapTest.class));

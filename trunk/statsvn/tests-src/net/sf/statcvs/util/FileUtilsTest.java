@@ -36,7 +36,7 @@ public class FileUtilsTest extends TestCase {
 	 * Constructor for OutputUtilsTest.
 	 * @param arg0 input 
 	 */
-	public FileUtilsTest(String arg0) {
+	public FileUtilsTest(final String arg0) {
 		super(arg0);
 	}
 
@@ -50,7 +50,7 @@ public class FileUtilsTest extends TestCase {
 		try {
 			FileUtils.getDirectoryName("");
 			fail("can't get directory name for root");
-		} catch (IllegalArgumentException expected) {
+		} catch (final IllegalArgumentException expected) {
 			// expected
 		}
 	}
@@ -67,7 +67,7 @@ public class FileUtilsTest extends TestCase {
 		try {
 			FileUtils.getParentDirectoryPath("");
 			fail("can't get parent directory for root");
-		} catch (IllegalArgumentException expected) {
+		} catch (final IllegalArgumentException expected) {
 			// expected
 		}
 	}

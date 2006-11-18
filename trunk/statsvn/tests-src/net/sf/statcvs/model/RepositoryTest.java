@@ -39,13 +39,13 @@ public class RepositoryTest extends TestCase {
 	private Directory dirRoot;
 	private Directory dirTest;
 	private Directory dirTest1;
-	private Date date = new Date(100000000);
+	private final Date date = new Date(100000000);
 
 	/**
 	 * Constructor for RepositoryTest.
 	 * @param arg0 input
 	 */
-	public RepositoryTest(String arg0) {
+	public RepositoryTest(final String arg0) {
 		super(arg0);
 	}
 
@@ -67,14 +67,14 @@ public class RepositoryTest extends TestCase {
 	 * Method testGetDirectories.
 	 */
 	public void testGetDirectories() {
-		VersionedFile file1 = new VersionedFile("test/test1.java", dirTest);
-		VersionedFile file2 = new VersionedFile("test2.java", dirRoot);
-		VersionedFile file3 = new VersionedFile("test1/test3.java", dirTest1);
-		VersionedFile file4 = new VersionedFile("test/test2.java", dirTest);
-		VersionedFile file5 = new VersionedFile("test1/test1.java", dirTest1);
-		VersionedFile file6 = new VersionedFile("test/test3.java", dirTest);
+		final VersionedFile file1 = new VersionedFile("test/test1.java", dirTest);
+		final VersionedFile file2 = new VersionedFile("test2.java", dirRoot);
+		final VersionedFile file3 = new VersionedFile("test1/test3.java", dirTest1);
+		final VersionedFile file4 = new VersionedFile("test/test2.java", dirTest);
+		final VersionedFile file5 = new VersionedFile("test1/test1.java", dirTest1);
+		final VersionedFile file6 = new VersionedFile("test/test3.java", dirTest);
 
-		Repository content = new Repository();
+		final Repository content = new Repository();
 		content.addFile(file1);
 		content.addFile(file2);
 		content.addFile(file3);
@@ -82,7 +82,7 @@ public class RepositoryTest extends TestCase {
 		content.addFile(file5);
 		content.addFile(file6);
 
-		Collection dirs = content.getDirectories();
+		final Collection dirs = content.getDirectories();
 
 		assertEquals(3, dirs.size());
 		assertTrue(dirs.contains(dirTest));
@@ -94,27 +94,27 @@ public class RepositoryTest extends TestCase {
 	 * Method testGetDirectoriesPerUser.
 	 */
 	public void testGetDirectoriesPerUser() {
-		VersionedFile file1 = new VersionedFile("test/test1.java", dirTest);
+		final VersionedFile file1 = new VersionedFile("test/test1.java", dirTest);
 		file1.addChangeRevision("1.2", tester1, date, null, 0, 0, 0, null);
 		file1.addInitialRevision("1.1", tester2, date, null, 0, null);
-		VersionedFile file2 = new VersionedFile("test2.java", dirRoot);
+		final VersionedFile file2 = new VersionedFile("test2.java", dirRoot);
 		file2.addChangeRevision("2.3", tester1, date, null, 0, 0, 0, null);
 		file2.addChangeRevision("2.2", tester1, date, null, 0, 0, 0, null);
 		file2.addInitialRevision("2.1", tester3, date, null, 0, null);
-		VersionedFile file3 = new VersionedFile("test1/test3.java", dirTest1);
+		final VersionedFile file3 = new VersionedFile("test1/test3.java", dirTest1);
 		file3.addInitialRevision("3.1", tester2, date, null, 0, null);
-		VersionedFile file4 = new VersionedFile("test/test2.java", dirTest);
+		final VersionedFile file4 = new VersionedFile("test/test2.java", dirTest);
 		file4.addInitialRevision("4.1", tester2, date, null, 0, null);
-		VersionedFile file5 = new VersionedFile("test1/test1.java", dirTest1);
+		final VersionedFile file5 = new VersionedFile("test1/test1.java", dirTest1);
 		file5.addChangeRevision("5.3", tester2, date, null, 0, 0, 0, null);
 		file5.addChangeRevision("5.2", tester2, date, null, 0, 0, 0, null);
 		file5.addInitialRevision("5.1", tester2, date, null, 0, null);
-		VersionedFile file6 = new VersionedFile("test/test3.java", dirTest);
+		final VersionedFile file6 = new VersionedFile("test/test3.java", dirTest);
 		file6.addChangeRevision("6.2", tester1, date, null, 0, 0, 0, null);
 		file6.addInitialRevision("6.1", tester3, date, null, 0, null);
 
 
-		Repository content = new Repository();
+		final Repository content = new Repository();
 		content.addFile(file1);
 		content.addFile(file2);
 		content.addFile(file3);
@@ -142,19 +142,19 @@ public class RepositoryTest extends TestCase {
 	 * Method testUserNames.
 	 */
 	public void testUserNames() {
-		VersionedFile file1 = new VersionedFile("test/Burg.java", dirTest);
+		final VersionedFile file1 = new VersionedFile("test/Burg.java", dirTest);
 		file1.addChangeRevision("1.3", tester1, date, null, 0, 0, 0, null);
 		file1.addChangeRevision("1.2", tester2, date, null, 0, 0, 0, null);
 		file1.addInitialRevision("1.1", tester1, date, null, 0, null);
-		VersionedFile file2 = new VersionedFile("test/History.java", dirTest);
+		final VersionedFile file2 = new VersionedFile("test/History.java", dirTest);
 		file2.addChangeRevision("2.2", tester3, date, null, 0, 0, 0, null);
 		file2.addInitialRevision("2.1", tester4, date, null, 0, null);
-		VersionedFile file3 = new VersionedFile("test/Spieler.java", dirTest);
+		final VersionedFile file3 = new VersionedFile("test/Spieler.java", dirTest);
 		file3.addChangeRevision("3.4", tester2, date, null, 0, 0, 0, null);
 		file3.addChangeRevision("3.3", tester4, date, null, 0, 0, 0, null);
 		file3.addChangeRevision("3.2", tester1, date, null, 0, 0, 0, null);
 		file3.addInitialRevision("3.1", tester2, date, null, 0, null);
-		Repository content = new Repository();
+		final Repository content = new Repository();
 		content.addFile(file1);
 		content.addFile(file2);
 		content.addFile(file3);
@@ -167,9 +167,9 @@ public class RepositoryTest extends TestCase {
 	 * in the authors list
 	 */
 	public void testIgnoreNullAuthor() {
-		VersionedFile file = new VersionedFile("test/file", dirTest);
+		final VersionedFile file = new VersionedFile("test/file", dirTest);
 		file.addInitialRevision("0.0", null, date, null, 0, null);
-		Repository content = new Repository();
+		final Repository content = new Repository();
 		content.addFile(file);
 
 		assertTrue(content.getAuthors().isEmpty());

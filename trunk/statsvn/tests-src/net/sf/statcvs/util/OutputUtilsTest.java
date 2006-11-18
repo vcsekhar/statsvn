@@ -36,7 +36,7 @@ public class OutputUtilsTest extends TestCase {
 	 * Constructor for OutputUtilsTest.
 	 * @param arg0 input 
 	 */
-	public OutputUtilsTest(String arg0) {
+	public OutputUtilsTest(final String arg0) {
 		super(arg0);
 	}
 

@@ -42,7 +42,7 @@ public class IntegerMapTest extends TestCase {
 	 * Constructor for IntegerMapTest.
 	 * @param arg0 input
 	 */
-	public IntegerMapTest(String arg0) {
+	public IntegerMapTest(final String arg0) {
 		super(arg0);
 	}
 
@@ -141,7 +141,7 @@ public class IntegerMapTest extends TestCase {
 		map.put("a", 21);
 		map.put("c", 20);
 		map.put("b", 19);
-		Iterator keys = map.iteratorSortedByKey();
+		final Iterator keys = map.iteratorSortedByKey();
 		assertTrue("should have next", keys.hasNext());
 		assertEquals("a", keys.next());
 		assertTrue("should have next", keys.hasNext());
@@ -167,7 +167,7 @@ public class IntegerMapTest extends TestCase {
 		map.put("a", 99);
 		map.put("c", 3);
 		map.put("b", 2);
-		Iterator keys = map.iteratorSortedByValue();
+		final Iterator keys = map.iteratorSortedByValue();
 		assertTrue("should have next", keys.hasNext());
 		assertEquals("e", keys.next());
 		assertTrue("should have next", keys.hasNext());
@@ -193,7 +193,7 @@ public class IntegerMapTest extends TestCase {
 		map.put("a", 99);
 		map.put("c", 3);
 		map.put("b", 2);
-		Iterator keys = map.iteratorSortedByValueReverse();
+		final Iterator keys = map.iteratorSortedByValueReverse();
 		assertTrue("should have next", keys.hasNext());
 		assertEquals("a", keys.next());
 		assertTrue("should have next", keys.hasNext());
@@ -255,7 +255,7 @@ public class IntegerMapTest extends TestCase {
 	 * Method testKeySetEmpty.
 	 */
 	public void testKeySetEmpty() {
-		Set keys = map.keySet();
+		final Set keys = map.keySet();
 		assertTrue("should be empty", keys.isEmpty());
 	}
 
@@ -266,9 +266,9 @@ public class IntegerMapTest extends TestCase {
 		map.put("c", 5);
 		map.put("b", 0);
 		map.put("a", 1);
-		Set keys = map.keySet();
+		final Set keys = map.keySet();
 		assertEquals(3, keys.size());
-		Iterator it = keys.iterator();
+		final Iterator it = keys.iterator();
 		assertTrue(it.next().equals("a"));
 		assertTrue(it.next().equals("b"));
 		assertTrue(it.next().equals("c"));

@@ -20,7 +20,7 @@ public final class SvnCommandHelper {
 	 * @return A String with the username, password and non-interactive settings
 	 */
 	public static String getAuthString() {
-		StringBuffer strAuth = new StringBuffer(" --non-interactive");
+		final StringBuffer strAuth = new StringBuffer(" --non-interactive");
 		if (ConfigurationOptions.getSvnUsername() != null) {
 			strAuth.append(" --username ").append(ConfigurationOptions.getSvnUsername())
 					.append(" --password ").append(ConfigurationOptions.getSvnPassword());

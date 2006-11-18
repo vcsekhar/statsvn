@@ -37,7 +37,7 @@ import net.sf.statcvs.renderer.TableCellRenderer;
 public abstract class GenericColumn extends Column {
 
 	private String title;
-	private List values = new ArrayList();
+	private final List values = new ArrayList();
 	private String total = null;
 
 	/**
@@ -52,7 +52,7 @@ public abstract class GenericColumn extends Column {
 	 * Sets the total for this column
 	 * @param value the total for this column
 	 */
-	public void setTotal(String value) {
+	public void setTotal(final String value) {
 		this.total = value;
 	}
 
@@ -60,7 +60,7 @@ public abstract class GenericColumn extends Column {
 	 * Adds a value to this column (in a new row)
 	 * @param value the new value
 	 */
-	public void addValue(Object value) {
+	public void addValue(final Object value) {
 		values.add(value);
 	}
 
@@ -69,7 +69,7 @@ public abstract class GenericColumn extends Column {
 	 * @param rowIndex the row, starting at 0
 	 * @return the value
 	 */
-	public Object getValue(int rowIndex) {
+	public Object getValue(final int rowIndex) {
 		return values.get(rowIndex);
 	}
 
@@ -83,7 +83,7 @@ public abstract class GenericColumn extends Column {
 	/**
 	 * @see net.sf.statcvs.reportmodel.Column#renderHead(net.sf.statcvs.renderer.TableCellRenderer)
 	 */
-	public void renderHead(TableCellRenderer renderer) {
+	public void renderHead(final TableCellRenderer renderer) {
 		renderer.renderCell(title);
 	}
 
@@ -95,7 +95,7 @@ public abstract class GenericColumn extends Column {
 	/**
 	 * @see net.sf.statcvs.reportmodel.Column#renderTotal
 	 */
-	public void renderTotal(TableCellRenderer renderer) {
+	public void renderTotal(final TableCellRenderer renderer) {
 		if (total == null) {
 			renderer.renderEmptyCell();
 		} else {

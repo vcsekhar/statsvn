@@ -41,7 +41,7 @@ public class AllTests {
 	 * @return Test Test suite
 	 */
 	public static Test suite() {
-		TestSuite suite = new TestSuite("Test for net.sf.statcvs.input");
+		final TestSuite suite = new TestSuite("Test for net.sf.statcvs.input");
 		//$JUnit-BEGIN$
 
 		suite.addTestSuite(SvnLogfileParserTest.class);

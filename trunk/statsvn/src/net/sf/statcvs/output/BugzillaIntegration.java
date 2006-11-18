@@ -5,13 +5,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class BugzillaIntegration implements WebBugtrackerIntegration {
-	protected String _baseUrl;
-	protected static final String BUGZILLA_RELPATH = "show_bug.cgi?id=";
+	private String baseUrl;
+	private static final String BUGZILLA_RELPATH = "show_bug.cgi?id=";
 	
-	public BugzillaIntegration(String baseUrl) {
+	public BugzillaIntegration(final String baseUrl) {
 		String bugzillaUrl = baseUrl;
-		if (!bugzillaUrl.endsWith("/")) bugzillaUrl += "/";
-		_baseUrl = bugzillaUrl;
+		if (!bugzillaUrl.endsWith("/")) {
+			bugzillaUrl += "/";
+		}
+		this.baseUrl = bugzillaUrl;
 	}
 	
 	public String getName() {
@@ -19,29 +21,31 @@ public class BugzillaIntegration implements WebBugtrackerIntegration {
 	}
 
 	public String getBaseUrl() {
-		return _baseUrl;
+		return baseUrl;
 	}
 
 	public String applyFilter(String s) {
-		if (this.getBaseUrl() == null || this.getBaseUrl().length() == 0)
+		if (this.getBaseUrl() == null || this.getBaseUrl().length() == 0) {
 			return s;
+		}
 			
-		String bugzillaUrl = this.getBaseUrl() + BUGZILLA_RELPATH;
+		final String bugzillaUrl = this.getBaseUrl() + BUGZILLA_RELPATH;
 		
-		Pattern pBugReference = Pattern.compile("Bug\\s+\\d+", Pattern.CASE_INSENSITIVE);
-		Pattern pBugNumber = Pattern.compile("\\d+");
-		Matcher m = pBugReference.matcher(s);
+		final Pattern pBugReference = Pattern.compile("Bug\\s+\\d+", Pattern.CASE_INSENSITIVE);
+		final Pattern pBugNumber = Pattern.compile("\\d+");
+		final Matcher m = pBugReference.matcher(s);
 		
 		int bugCount = 0;
-		Vector listBugRefs = new Vector();
-		Vector listBugLinks = new Vector();
+		final Vector listBugRefs = new Vector();
+		final Vector listBugLinks = new Vector();
 		
 		// build list of bugs references to replace
 		while (m.find()) {
-			String bugIdText = m.group();
-			Matcher mBugId = pBugNumber.matcher(bugIdText);
+			final String bugIdText = m.group();
+			final Matcher mBugId = pBugNumber.matcher(bugIdText);
 			mBugId.find();
-			String bugLink = HTMLTagger.getIcon(HTMLOutput.BUG_ICON) + " <a href='" + bugzillaUrl + mBugId.group() + "'>" + bugIdText + "</a>";
+			final String bugLink = HTMLTagger.getIcon(HTMLOutput.BUG_ICON) + " <a href='" + bugzillaUrl 
+			+ mBugId.group() + "'>" + bugIdText + "</a>";
 
 			if (!listBugRefs.contains(bugIdText)) {
 				listBugRefs.add(bugIdText);

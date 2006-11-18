@@ -24,7 +24,6 @@
 package net.sf.statcvs.output;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Iterator;
 
@@ -37,14 +36,12 @@ import net.sf.statcvs.renderer.TableRenderer;
 import net.sf.statcvs.reportmodel.Table;
 import net.sf.statcvs.reports.TableReport;
 import net.sf.statcvs.reports.TopAuthorsTableReport;
+import net.sf.statcvs.util.StatSvnConstants;
 
 /**
  * @author anja
  */
 public class IndexPage extends HTMLPage {
-	private static SimpleDateFormat outputDateFormat =
-		new SimpleDateFormat(Messages.getString("DATE_FORMAT"));
-
 	private boolean locImageCreated;
 	private boolean commitScatterImageCreated;
 	private boolean authorsPageCreated;
@@ -52,8 +49,8 @@ public class IndexPage extends HTMLPage {
 	/**
 	 * @see net.sf.statcvs.output.HTMLPage#HTMLPage(Repository)
 	 */
-	public IndexPage(Repository content, boolean locImageCreated, boolean commitScatterImageCreated,
-			boolean authorsPageCreated, final OutputRenderer renderer) throws IOException {
+	public IndexPage(final Repository content, final boolean locImageCreated, final boolean commitScatterImageCreated,
+			final boolean authorsPageCreated, final OutputRenderer renderer) throws IOException {
 		super(content,renderer);
 		this.locImageCreated = locImageCreated;
 		this.commitScatterImageCreated = commitScatterImageCreated;
@@ -79,11 +76,11 @@ public class IndexPage extends HTMLPage {
 	}
 
 	private String getProjectInfo() {
-		Calendar cal = Calendar.getInstance();
-		String result = HTMLTagger.getSummaryPeriod(
+		final Calendar cal = Calendar.getInstance();
+		final String result = HTMLTagger.getSummaryPeriod(
 					getContent().getFirstDate(),
 					getContent().getLastDate(),
-					"Generated: " + outputDateFormat.format(cal.getTime()),
+					"Generated: " + StatSvnConstants.OUTPUT_DATE_FORMAT.format(cal.getTime()),
 					true);
 		return result;
 	}
@@ -93,8 +90,8 @@ public class IndexPage extends HTMLPage {
 		if (authorsPageCreated) {
 			authorLink = a("authors.html", Messages.getString("CPU_TITLE"));
 		} else {
-			Author author = getOnlyAuthor();
-			String caption = Messages.getString("NAVIGATION_AUTHOR") + " " + author.getName();
+			final Author author = getOnlyAuthor();
+			final String caption = Messages.getString("NAVIGATION_AUTHOR") + " " + author.getName();
 			authorLink = a(getRenderer().getAuthorPageFilename(author, true), caption); 
 		}
 		return ul(
@@ -112,8 +109,8 @@ public class IndexPage extends HTMLPage {
 		if (!locImageCreated || !commitScatterImageCreated) {
 			return "";
 		}
-		StringBuffer result = new StringBuffer(startSection2(Messages.getString("LOC_TITLE")));
-		int loc = getContent().getCurrentLOC();
+		final StringBuffer result = new StringBuffer(startSection2(Messages.getString("LOC_TITLE")));
+		final int loc = getContent().getCurrentLOC();
 		result.append(p(a("loc.html", img("loc_small.png", 400, 300))) + br()
 				+ strong("Total Lines Of Code:") + " " + loc + " ("
 				+ HTMLTagger.getDateAndTime(getContent().getLastDate()) + ")");
@@ -122,10 +119,10 @@ public class IndexPage extends HTMLPage {
 	}
 
 	private String getTopAuthorsSection() {
-		StringBuffer result = new StringBuffer();
-		TableReport report = new TopAuthorsTableReport(getContent());
+		final StringBuffer result = new StringBuffer();
+		final TableReport report = new TopAuthorsTableReport(getContent());
 		report.calculate();
-		Table table = report.getTable();
+		final Table table = report.getTable();
 		if (table.getRowCount() >= 10) {
 			result.append(startSection2(Messages.getString("SECTION_TOP_AUTHORS")));
 		} else {
@@ -138,10 +135,10 @@ public class IndexPage extends HTMLPage {
 	}
 
 	private String getIndexTree() {
-		StringBuffer result = new StringBuffer();
-		Iterator it = getContent().getDirectories().iterator();
+		final StringBuffer result = new StringBuffer();
+		final Iterator it = getContent().getDirectories().iterator();
 		while (it.hasNext()) {
-			Directory dir = (Directory) it.next();
+			final Directory dir = (Directory) it.next();
 			result.append(getFolderHtml(dir, 0));
 		}
 		return result.toString();

@@ -47,7 +47,7 @@ public class ViewVcIntegration implements WebRepositoryIntegration {
 	 */
 	public ViewVcIntegration(final String baseURL) {
 		String baseUrlToUse = baseURL;
-		int i = baseURL.indexOf("?");
+		final int i = baseURL.indexOf("?");
 		if (i != -1) {
 			this.postfix = baseURL.substring(i + 1);
 			baseUrlToUse = baseURL.substring(0, i);		  
@@ -70,11 +70,11 @@ public class ViewVcIntegration implements WebRepositoryIntegration {
 	/**
 	 * @see net.sf.statcvs.output.WebRepositoryIntegration#getDirectoryUrl
 	 */
-	public String getDirectoryUrl(Directory directory) {
+	public String getDirectoryUrl(final Directory directory) {
 		return baseURL + "/" + directory.getPath();
 	}
 
-	private String getFileUrl(VersionedFile file, String parameter) {
+	private String getFileUrl(final VersionedFile file, final String parameter) {
 		String filename;
 //		if (isInAttic(file)) {
 //			String path = file.getDirectory().getPath();
@@ -94,21 +94,21 @@ public class ViewVcIntegration implements WebRepositoryIntegration {
 	/**
 	 * @see net.sf.statcvs.output.WebRepositoryIntegration#getFileHistoryUrl
 	 */
-	public String getFileHistoryUrl(VersionedFile file) {
+	public String getFileHistoryUrl(final VersionedFile file) {
 		return getFileUrl(file, "");
 	}
 	
 	/**
 	 * @see net.sf.statcvs.output.WebRepositoryIntegration#getFileViewUrl(VersionedFile)
 	 */
-	public String getFileViewUrl(VersionedFile file) {
+	public String getFileViewUrl(final VersionedFile file) {
 		return getFileUrl(file, "?rev=HEAD&content-type=text/vnd.viewcvs-markup");
 	}
 
 	/**
 	 * @see net.sf.statcvs.output.WebRepositoryIntegration#getFileViewUrl(VersionedFile)
 	 */
-	public String getFileViewUrl(Revision revision) {
+	public String getFileViewUrl(final Revision revision) {
 		return getFileUrl(revision.getFile(), "?rev="
 				+ revision.getRevisionNumber() + "&content-type=text/vnd.viewcvs-markup");
 	}
@@ -116,7 +116,7 @@ public class ViewVcIntegration implements WebRepositoryIntegration {
 	/**
 	 * @see net.sf.statcvs.output.WebRepositoryIntegration#getDiffUrl
 	 */
-	public String getDiffUrl(Revision oldRevision, Revision newRevision) {
+	public String getDiffUrl(final Revision oldRevision, final Revision newRevision) {
 		if (!oldRevision.getFile().equals(newRevision.getFile())) {
 			throw new IllegalArgumentException("revisions must be of the same file");
 		}
@@ -133,11 +133,11 @@ public class ViewVcIntegration implements WebRepositoryIntegration {
 	/**
 	 * @see net.sf.statcvs.output.WebRepositoryIntegration#setAtticFileNames(java.util.Set)
 	 */
-	public void setAtticFileNames(Set atticFileNames) {
+	public void setAtticFileNames(final Set atticFileNames) {
 		this.atticFileNames = atticFileNames;
 	}
 	
-	private boolean isInAttic(VersionedFile file) {
+	private boolean isInAttic(final VersionedFile file) {
 		return atticFileNames.contains(file.getFilenameWithPath());
 	}
 }

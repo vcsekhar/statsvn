@@ -43,7 +43,7 @@ public class ChoraIntegration implements WebRepositoryIntegration {
 	 * @param baseURL
 	 *            base URL of the Chora installation
 	 */
-	public ChoraIntegration(String baseURL) {
+	public ChoraIntegration(final String baseURL) {
 		if (baseURL.endsWith("/")) {
 			this.baseURL = baseURL.substring(0, baseURL.length() - 1);
 		} else {
@@ -61,14 +61,14 @@ public class ChoraIntegration implements WebRepositoryIntegration {
 	/**
 	 * @see net.sf.statcvs.output.WebRepositoryIntegration#getDirectoryUrl
 	 */
-	public String getDirectoryUrl(Directory directory) {
+	public String getDirectoryUrl(final Directory directory) {
 		return baseURL + "/?f=" + directory.getPath();
 	}
 
 	/**
 	 * @see net.sf.statcvs.output.WebRepositoryIntegration#getFileHistoryUrl
 	 */
-	public String getFileHistoryUrl(VersionedFile file) {
+	public String getFileHistoryUrl(final VersionedFile file) {
 		// chora doesn't seem to support deleted files for subversion
 		// repositories
 		if (isInAttic(file)) {
@@ -79,28 +79,28 @@ public class ChoraIntegration implements WebRepositoryIntegration {
 		return this.baseURL + "/?f=" + file.getFilenameWithPath();
 	}
 
-	private String getFileViewBaseUrl(VersionedFile file) {
+	private String getFileViewBaseUrl(final VersionedFile file) {
 		return this.baseURL + "/co.php?f=" + file.getFilenameWithPath();
 	}
 
 	/**
 	 * @see net.sf.statcvs.output.WebRepositoryIntegration#getFileViewUrl(VersionedFile)
 	 */
-	public String getFileViewUrl(VersionedFile file) {
+	public String getFileViewUrl(final VersionedFile file) {
 		return getFileViewBaseUrl(file) + "&r=HEAD";
 	}
 
 	/**
 	 * @see net.sf.statcvs.output.WebRepositoryIntegration#getFileViewUrl(VersionedFile)
 	 */
-	public String getFileViewUrl(Revision revision) {
+	public String getFileViewUrl(final Revision revision) {
 		return getFileViewBaseUrl(revision.getFile()) + "&r=" + revision.getRevisionNumber();
 	}
 
 	/**
 	 * @see net.sf.statcvs.output.WebRepositoryIntegration#getDiffUrl
 	 */
-	public String getDiffUrl(Revision oldRevision, Revision newRevision) {
+	public String getDiffUrl(final Revision oldRevision, final Revision newRevision) {
 		if (!oldRevision.getFile().equals(newRevision.getFile())) {
 			throw new IllegalArgumentException("revisions must be of the same file");
 		}
@@ -112,11 +112,11 @@ public class ChoraIntegration implements WebRepositoryIntegration {
 	/**
 	 * @see net.sf.statcvs.output.WebRepositoryIntegration#setAtticFileNames(java.util.Set)
 	 */
-	public void setAtticFileNames(Set atticFileNames) {
+	public void setAtticFileNames(final Set atticFileNames) {
 		this.atticFileNames = atticFileNames;
 	}
 
-	private boolean isInAttic(VersionedFile file) {
+	private boolean isInAttic(final VersionedFile file) {
 		return atticFileNames.contains(file.getFilenameWithPath());
 	}
 }

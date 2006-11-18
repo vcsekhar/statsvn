@@ -60,30 +60,30 @@ public class RatioColumn extends Column {
 	/**
 	 * @see net.sf.statcvs.reportmodel.Column#renderHead(net.sf.statcvs.renderer.TableCellRenderer)
 	 */
-	public void renderHead(TableCellRenderer renderer) {
+	public void renderHead(final TableCellRenderer renderer) {
 		renderer.renderCell(title);
 	}
 
 	/**
 	 * @see net.sf.statcvs.reportmodel.Column#renderCell
 	 */
-	public void renderCell(int rowIndex, TableCellRenderer renderer) {
+	public void renderCell(final int rowIndex, final TableCellRenderer renderer) {
 		renderer.renderCell(getRatio(col1.getValue(rowIndex), col2.getValue(rowIndex)));		
 	}
 
 	/**
 	 * @see net.sf.statcvs.reportmodel.Column#renderTotal(net.sf.statcvs.renderer.TableCellRenderer)
 	 */
-	public void renderTotal(TableCellRenderer renderer) {
+	public void renderTotal(final TableCellRenderer renderer) {
 		renderer.renderCell(getRatio(col1.getSum(), col2.getSum()));		
 	}
 
-	private String getRatio(int val1, int val2) {
+	private String getRatio(final int val1, final int val2) {
 		if (val2 == 0) {
 			return "-";
 		}
-		int ratioTimes10 = (val1 * 10) / val2;
-		double ratio = (double) ratioTimes10 / 10;
+		final int ratioTimes10 = (val1 * 10) / val2;
+		final double ratio = (double) ratioTimes10 / 10;
 		return Double.toString(ratio);
 	}
 }

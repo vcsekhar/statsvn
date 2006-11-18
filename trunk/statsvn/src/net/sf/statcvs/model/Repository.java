@@ -52,11 +52,11 @@ public class Repository {
 	 * Adds one file to the repository.
 	 * @param file the file
 	 */
-	public void addFile(VersionedFile file) {
+	public void addFile(final VersionedFile file) {
 		files.add(file);
-		Iterator it = file.getRevisions().iterator();
+		final Iterator it = file.getRevisions().iterator();
 		while (it.hasNext()) {
-			Revision revision = (Revision) it.next();
+			final Revision revision = (Revision) it.next();
 			revisions.add(revision);
 			if (revision.getAuthor() != null) {
 				authors.add(revision.getAuthor());
@@ -76,7 +76,7 @@ public class Repository {
 	 * TODO: Fix this ugly hack!
 	 * @param commits the list of commits
 	 */
-	public void setCommits(List commits) {
+	public void setCommits(final List commits) {
 		this.commits = commits;
 	}
 
@@ -115,9 +115,9 @@ public class Repository {
 	 */
 	public int getCurrentLOC() {
 		int result = 0;
-		Iterator it = files.iterator();
+		final Iterator it = files.iterator();
 		while (it.hasNext()) {
-			VersionedFile file = (VersionedFile) it.next();
+			final VersionedFile file = (VersionedFile) it.next();
 			result += file.getCurrentLinesOfCode();
 		}
 		return result;
@@ -171,8 +171,7 @@ public class Repository {
 	 * Sets the list of symbolic names contained in this Repository.
 	 * @param symbolicNames
 	 */
-	public void setSymbolicNames(SortedSet symbolicNames)
-	{
+	public void setSymbolicNames(final SortedSet symbolicNames)	{
 		this.symbolicNames = symbolicNames;
 	}
 	
@@ -180,8 +179,7 @@ public class Repository {
 	 * Returns a list of {@link SymbolicName}s,
 	 * ordered from latest to oldest. 
 	 */
-	public SortedSet getSymbolicNames()
-	{
+	public SortedSet getSymbolicNames()	{
 		return symbolicNames;
 	}
 	
@@ -189,8 +187,8 @@ public class Repository {
 	 * {@inheritDoc}
 	 */
 	public String toString() {
-		StringBuffer result = new StringBuffer();
-		Iterator it = files.iterator();
+		final StringBuffer result = new StringBuffer();
+		final Iterator it = files.iterator();
 		VersionedFile cf = null;
 		while (it.hasNext()) {
 			cf = (VersionedFile) it.next();
@@ -212,7 +210,7 @@ public class Repository {
 		if (files.isEmpty()) {
 			return;
 		}
-		VersionedFile file = (VersionedFile) files.first();
+		final VersionedFile file = (VersionedFile) files.first();
 		Directory dir = file.getDirectory();
 		while (!dir.isRoot()) {
 			dir = dir.getParent();
@@ -220,7 +218,7 @@ public class Repository {
 		root = dir;
 	}
 
-	private void adjustStartAndEndDate(Date revisionDate) {
+	private void adjustStartAndEndDate(final Date revisionDate) {
 		if (revisionDate == null) {
 			return;
 		}

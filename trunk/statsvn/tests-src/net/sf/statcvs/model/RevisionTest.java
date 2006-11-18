@@ -36,7 +36,7 @@ public class RevisionTest extends TestCase {
 	private Date date3;
 	private Date date4;
 	
-	public RevisionTest(String arg) {
+	public RevisionTest(final String arg) {
 		super(arg);
 	}
 
@@ -49,11 +49,11 @@ public class RevisionTest extends TestCase {
 	}
 
 	public void testGetFileCountChange1() {
-		VersionedFile file = new VersionedFile("file", Directory.createRoot());
-		Revision rev4 = new Revision(file, "1.4", Revision.TYPE_CREATION, author, date4, null, 0, 0, 0, null);
-		Revision rev3 = new Revision(file, "1.3", Revision.TYPE_CHANGE, author, date3, null, 0, 0, 0, null);
-		Revision rev2 = new Revision(file, "1.2", Revision.TYPE_DELETION, author, date2, null, 0, 0, 0, null);
-		Revision rev1 = new Revision(file, "1.1", Revision.TYPE_CREATION, author, date1, null, 0, 0, 0, null);
+		final VersionedFile file = new VersionedFile("file", Directory.createRoot());
+		final Revision rev4 = new Revision(file, "1.4", Revision.TYPE_CREATION, author, date4, null, 0, 0, 0, null);
+		final Revision rev3 = new Revision(file, "1.3", Revision.TYPE_CHANGE, author, date3, null, 0, 0, 0, null);
+		final Revision rev2 = new Revision(file, "1.2", Revision.TYPE_DELETION, author, date2, null, 0, 0, 0, null);
+		final Revision rev1 = new Revision(file, "1.1", Revision.TYPE_CREATION, author, date1, null, 0, 0, 0, null);
 		assertEquals(1, rev4.getFileCountDelta());
 		assertEquals(0, rev3.getFileCountDelta());
 		assertEquals(-1, rev2.getFileCountDelta());
@@ -61,8 +61,8 @@ public class RevisionTest extends TestCase {
 	}
 
 	public void testGetFileCountChange2() {
-		VersionedFile file = new VersionedFile("file", Directory.createRoot());
-		Revision rev = new Revision(file, null, Revision.TYPE_BEGIN_OF_LOG, author, date1, null, 0, 0, 0, null);
+		final VersionedFile file = new VersionedFile("file", Directory.createRoot());
+		final Revision rev = new Revision(file, null, Revision.TYPE_BEGIN_OF_LOG, author, date1, null, 0, 0, 0, null);
 		assertEquals(0, rev.getFileCountDelta());
 	}
 }

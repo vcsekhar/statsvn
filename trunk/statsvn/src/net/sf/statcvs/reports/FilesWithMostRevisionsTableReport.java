@@ -63,16 +63,16 @@ public class FilesWithMostRevisionsTableReport implements TableReport {
 		Collections.sort(files, new FilesRevisionCountComparator());
 		table = new Table(Messages.getString("FILES_WITH_MOST_REVISIONS_TABLE_SUMMARY"));
 		table.setKeysInFirstColumn(true);
-		FileColumn filesCol = new FileColumn();
+		final FileColumn filesCol = new FileColumn();
 		filesCol.setWithIcon(true);
-		IntegerColumn locCol = new IntegerColumn(Messages.getString("COLUMN_CHANGES"));
+		final IntegerColumn locCol = new IntegerColumn(Messages.getString("COLUMN_CHANGES"));
 		locCol.setShowPercentages(false);
 		table.addColumn(filesCol);
 		table.addColumn(locCol);
 		int lines = 0;
-		Iterator it = files.iterator();
+		final Iterator it = files.iterator();
 		while (it.hasNext() && lines < maxRows) {
-			VersionedFile file = (VersionedFile) it.next();
+			final VersionedFile file = (VersionedFile) it.next();
 			filesCol.addValue(file);
 			locCol.addValue(file.getRevisions().size());
 			lines++;

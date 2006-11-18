@@ -47,8 +47,8 @@ import java.util.TreeMap;
  */
 public class IntegerMap {
 
-	private Map map = new TreeMap();
-	private Comparator comparator = new SortByValueComparator(map);
+	private final Map map = new TreeMap();
+	private final Comparator comparator = new SortByValueComparator(map);
 	private int sum = 0;
 	private int max = 0;
 
@@ -59,7 +59,7 @@ public class IntegerMap {
 	 * @param key an <code>Object</code> which is used as key.
 	 * @param value the <code>int</code> value to be stored at this key.
 	 */
-	public void put(Object key, int value) {
+	public void put(final Object key, final int value) {
 		max = Math.max(max, value);
 		sum -= get(key);
 		sum += value;
@@ -74,8 +74,8 @@ public class IntegerMap {
 	 * @param key an <code>Object</code> which is used as key.
 	 * @return the value for this key
 	 */
-	public int get(Object key) {
-		Integer result = (Integer) map.get(key);
+	public int get(final Object key) {
+		final Integer result = (Integer) map.get(key);
 		if (result == null) {
 			return 0;
 		}
@@ -89,7 +89,7 @@ public class IntegerMap {
 	 * @param key the key to get the value for
 	 * @return the value wrapped in an <code>Integer</code> object
 	 */
-	public Integer getInteger(Object key) {
+	public Integer getInteger(final Object key) {
 		return (Integer) map.get(key);
 	}
 	
@@ -100,7 +100,7 @@ public class IntegerMap {
 	 * @param key the key to get the value for
 	 * @return the value as a percentage of the sum of all values
 	 */
-	public double getPercent(Object key) {
+	public double getPercent(final Object key) {
 		return (double) get(key) * 100 / sum;
 	}
 
@@ -113,7 +113,7 @@ public class IntegerMap {
 	 * @param key the key to get the value for
 	 * @return the value as a percentage of largest value in the map
 	 */
-	public double getPercentOfMaximum(Object key) {
+	public double getPercentOfMaximum(final Object key) {
 		return get(key) * 100 / max;
 	}
 
@@ -125,7 +125,7 @@ public class IntegerMap {
 	 * @param key the key to whose value <code>addValue</code> should be added
 	 * @param addValue the <code>int</code> to be added
 	 */
-	public void addInt(Object key, int addValue) {
+	public void addInt(final Object key, final int addValue) {
 		put(key, addValue + get(key));
 	}
 	
@@ -134,7 +134,7 @@ public class IntegerMap {
 	 * 
 	 * @param key the key whose value should be increased
 	 */
-	public void inc(Object key) {
+	public void inc(final Object key) {
 		addInt(key, 1);
 	}
 	
@@ -143,7 +143,7 @@ public class IntegerMap {
 	 * 
 	 * @param key the key whose value should be decreased
 	 */
-	public void dec(Object key) {
+	public void dec(final Object key) {
 		addInt(key, -1);
 	}
 	
@@ -154,7 +154,7 @@ public class IntegerMap {
 	 * 
 	 * @param key the key that should be removed
 	 */
-	public void remove(Object key) {
+	public void remove(final Object key) {
 		sum -= get(key);
 		map.remove(key);
 	}
@@ -166,7 +166,7 @@ public class IntegerMap {
 	 * @param key the key to check for
 	 * @return <code>true</code> if the key is in the map
 	 */
-	public boolean contains(Object key) {
+	public boolean contains(final Object key) {
 		return map.containsKey(key);
 	}
 
@@ -204,7 +204,7 @@ public class IntegerMap {
 	 * @return an iterator on the keys
 	 */
 	public Iterator iteratorSortedByValue() {
-		List keys = new ArrayList(map.keySet());
+		final List keys = new ArrayList(map.keySet());
 		Collections.sort(keys, comparator);
 		return keys.iterator();
 	}
@@ -215,7 +215,7 @@ public class IntegerMap {
 	 * @return an iterator on the keys
 	 */
 	public Iterator iteratorSortedByValueReverse() {
-		List keys = new ArrayList(map.keySet());
+		final List keys = new ArrayList(map.keySet());
 		Collections.sort(keys, comparator);
 		Collections.reverse(keys);
 		return keys.iterator();
@@ -259,9 +259,9 @@ public class IntegerMap {
 			this.mapToBeSorted = map;
 		}
 
-		public int compare(Object o1, Object o2) {
-			int i1 = ((Integer) this.mapToBeSorted.get(o1)).intValue();
-			int i2 = ((Integer) this.mapToBeSorted.get(o2)).intValue();
+		public int compare(final Object o1, final Object o2) {
+			final int i1 = ((Integer) this.mapToBeSorted.get(o1)).intValue();
+			final int i2 = ((Integer) this.mapToBeSorted.get(o2)).intValue();
 			if (i1 < i2) {
 				return -1;
 			} else if (i1 > i2) {

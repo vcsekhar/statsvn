@@ -39,8 +39,7 @@ public class SymbolicName implements Comparable{
 	 * 
 	 * @param name the symbolic name's name
 	 */
-	public SymbolicName(String name)
-	{
+	public SymbolicName(final String name) {
 		this.name = name;
 	}
 
@@ -49,8 +48,7 @@ public class SymbolicName implements Comparable{
 	 * 
 	 * @return the symbolic name's name.
 	 */
-	public String getName()
-	{
+	public String getName() {
 		return name;
 	}
 
@@ -59,8 +57,7 @@ public class SymbolicName implements Comparable{
 	 * 
 	 * @param rev the revision
 	 */
-	protected void addRevision(Revision rev)
-	{
+	protected void addRevision(final Revision rev) {
 		revisions.add(rev);
 	}
 
@@ -69,8 +66,7 @@ public class SymbolicName implements Comparable{
 	 * 
 	 * @return the revisions
 	 */
-	public SortedSet getRevisions()
-	{
+	public SortedSet getRevisions()	{
 		return revisions;
 	}
 	
@@ -82,8 +78,7 @@ public class SymbolicName implements Comparable{
 	 *  
 	 * @return the smbolic name's date
 	 */
-	public Date getDate()
-	{
+	public Date getDate() {
         if (revisions.isEmpty()) {
             return null;
         }
@@ -93,12 +88,12 @@ public class SymbolicName implements Comparable{
 	/**
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
-	public int compareTo(Object o) {
-		SymbolicName other = (SymbolicName)o;
+	public int compareTo(final Object o) {
+		final SymbolicName other = (SymbolicName)o;
         if (getDate() == null || other.getDate() == null) {
             return getName().compareTo(other.getName());
         }
-        int dateComp = getDate().compareTo(other.getDate()); 
+        final int dateComp = getDate().compareTo(other.getDate()); 
         return (dateComp != 0) ? dateComp
                                 : getName().compareTo(other.getName());
 	}
@@ -114,8 +109,8 @@ public class SymbolicName implements Comparable{
     /**
      * @see java.lang.Object#equals(java.lang.Object)
      */
-    public boolean equals(Object obj) {
-        SymbolicName other = (SymbolicName)obj;
+    public boolean equals(final Object obj) {
+        final SymbolicName other = (SymbolicName)obj;
         return ("" + getDate() + getName())
                     .equals("" + other.getDate() + other.getName()); 
     }

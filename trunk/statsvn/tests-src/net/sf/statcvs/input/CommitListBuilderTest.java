@@ -61,7 +61,7 @@ public class CommitListBuilderTest extends TestCase {
 	 * Constructor for CommitListBuilderTest.
 	 * @param arg0 input argument
 	 */
-	public CommitListBuilderTest(String arg0) {
+	public CommitListBuilderTest(final String arg0) {
 		super(arg0);
 	}
 
@@ -73,14 +73,14 @@ public class CommitListBuilderTest extends TestCase {
 		author1 = new Author("author1");
 		author2 = new Author("author2");
 		author3 = new Author("author3");
-		Directory root = Directory.createRoot();
-		VersionedFile file1 = new VersionedFile("file1", root);
-		VersionedFile file2 = new VersionedFile("file2", root);
-		VersionedFile file3 = new VersionedFile("file3", root);
-		VersionedFile file4 = new VersionedFile("file4", root);
-		VersionedFile file4b = new VersionedFile("file4b", root);
-		VersionedFile file5 = new VersionedFile("file5", root);
-		VersionedFile file6 = new VersionedFile("file6", root);
+		final Directory root = Directory.createRoot();
+		final VersionedFile file1 = new VersionedFile("file1", root);
+		final VersionedFile file2 = new VersionedFile("file2", root);
+		final VersionedFile file3 = new VersionedFile("file3", root);
+		final VersionedFile file4 = new VersionedFile("file4", root);
+		final VersionedFile file4b = new VersionedFile("file4b", root);
+		final VersionedFile file5 = new VersionedFile("file5", root);
+		final VersionedFile file6 = new VersionedFile("file6", root);
 		rev1 = createRevision(file1, "rev1", DATE, author1, "message1");
 		rev2 = createRevision(file2, "rev2", DATE + 100, author2, "message1");
 		rev3 = createRevision(file3, "rev3", DATE + 200, author1, "message2");
@@ -105,7 +105,7 @@ public class CommitListBuilderTest extends TestCase {
 	 * Method testOneRevision.
 	 */
 	public void testOneRevision() {
-		Revision[] revs = {rev1};
+		final Revision[] revs = {rev1};
 		runBuilder(revs);
 		assertEquals(1, commits.size());
 		assertEquals(1, getCommit(0).getRevisions().size());
@@ -116,7 +116,7 @@ public class CommitListBuilderTest extends TestCase {
 	 * Method testOneCommitMultipleRevisions.
 	 */
 	public void testOneCommitMultipleRevisions() {
-		Revision[] revs = {rev1, rev4b, rev5};
+		final Revision[] revs = {rev1, rev4b, rev5};
 		runBuilder(revs);
 		assertEquals(1, commits.size());
 		assertEquals(3, getCommit(0).getRevisions().size());
@@ -129,7 +129,7 @@ public class CommitListBuilderTest extends TestCase {
 	 * Method testMultipleCommits.
 	 */
 	public void testMultipleCommits() {
-		Revision[] revs = {rev1, rev2, rev3};
+		final Revision[] revs = {rev1, rev2, rev3};
 		runBuilder(revs);
 		assertEquals(3, commits.size());
 		assertEquals(1, getCommit(0).getRevisions().size());
@@ -144,7 +144,7 @@ public class CommitListBuilderTest extends TestCase {
 	 * Method testSimultaneousCommits.
 	 */
 	public void testSimultaneousCommits() {
-		Revision[] revs = {rev1, rev2, rev4, rev5, rev6};
+		final Revision[] revs = {rev1, rev2, rev4, rev5, rev6};
 		runBuilder(revs);
 		assertEquals(3, commits.size());
 		assertEquals(2, getCommit(0).getRevisions().size());
@@ -161,7 +161,7 @@ public class CommitListBuilderTest extends TestCase {
 	 * Method testIsSameCommit.
 	 */
 	public void testIsSameCommit() {
-		Commit commit = new Commit(rev1);
+		final Commit commit = new Commit(rev1);
 		assertTrue("has different author", !CommitListBuilder.isSameCommit(commit, rev2));
 		assertTrue("has different comment", !CommitListBuilder.isSameCommit(commit, rev3));
 		assertTrue("is same commit", CommitListBuilder.isSameCommit(commit, rev4b));
@@ -171,23 +171,23 @@ public class CommitListBuilderTest extends TestCase {
 	 * Method testIsInTimeFrame1.
 	 */
 	public void testIsInTimeFrame1() {
-		Commit commit = new Commit(rev6b);
+		final Commit commit = new Commit(rev6b);
 		assertTrue("rev5 should be in time frame", CommitListBuilder.isInTimeFrame(commit, rev5.getDate()));
 		assertTrue("rev7 should be in time frame", CommitListBuilder.isInTimeFrame(commit, rev7.getDate()));
 		assertTrue("rev1 should not be in time frame", !CommitListBuilder.isInTimeFrame(commit, rev1.getDate()));
 		assertTrue("rev8 should not be in time frame", !CommitListBuilder.isInTimeFrame(commit, rev8.getDate()));
 	}
 
-	private Commit getCommit(int index) {
+	private Commit getCommit(final int index) {
 		return (Commit) commits.get(index);
 	}
 
-	private Revision createRevision(VersionedFile file, String revision, long time, Author author, String message) {
+	private Revision createRevision(final VersionedFile file, final String revision, final long time, final Author author, final String message) {
 		return file.addChangeRevision(revision, author, new Date(time), message, 0, 0, 0, null);
 	}
 
-	private void runBuilder(Revision[] revisions) {
-		TreeSet revList = new TreeSet();
+	private void runBuilder(final Revision[] revisions) {
+		final TreeSet revList = new TreeSet();
 		if (revisions != null) {
 			for (int i = 0; i < revisions.length; i++) {
 				revList.add(revisions[i]);

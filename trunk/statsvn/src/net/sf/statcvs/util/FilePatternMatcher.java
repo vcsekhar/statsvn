@@ -46,7 +46,7 @@ import java.util.regex.Pattern;
  * @version $Id$
  */
 public class FilePatternMatcher {
-	private List patterns = new ArrayList();
+	private final List patterns = new ArrayList();
 
 	/**
 	 * Creates a matcher to match filenames against a specified
@@ -54,7 +54,7 @@ public class FilePatternMatcher {
 	 * @param wildcardPattern an Ant-style wildcard pattern
 	 */
 	public FilePatternMatcher(final String wildcardPattern) {
-		StringTokenizer tokenizer = new StringTokenizer(wildcardPattern, ":;");
+		final StringTokenizer tokenizer = new StringTokenizer(wildcardPattern, ":;");
 		while (tokenizer.hasMoreTokens()) {
 			patterns.add(Pattern.compile(buildRegex(tokenizer.nextToken())));
 		}
@@ -65,10 +65,10 @@ public class FilePatternMatcher {
 	 * @param filename a filename
 	 * @return <tt>true</tt> if the filename matches the pattern
 	 */
-	public boolean matches(String filename) {
-		Iterator it = patterns.iterator();
+	public boolean matches(final String filename) {
+		final Iterator it = patterns.iterator();
 		while (it.hasNext()) {
-			Pattern regex = (Pattern) it.next();
+			final Pattern regex = (Pattern) it.next();
 			if (regex.matcher(filename).matches()) {
 				return true;
 			} 
@@ -76,7 +76,7 @@ public class FilePatternMatcher {
 		return false;
 	}
 
-	private String buildRegex(String wildcardPattern) {
+	private String buildRegex(final String wildcardPattern) {
 		String temp = wildcardPattern;
 		temp = temp.replace('\\', '/');
 		if (temp.endsWith("/")) {
@@ -89,26 +89,26 @@ public class FilePatternMatcher {
 		}
 		// replace **/ at start with (.*/)? and /** at end with (/.*)?
 		if (temp.startsWith("**/") && temp.endsWith("/**")) {
-			String inner = temp.substring(3, temp.length() - 3);
+			final String inner = temp.substring(3, temp.length() - 3);
 			return "(.*/)?" + buildInnerRegex(inner) + "(/.*)?";
 		}
 		if (temp.startsWith("**/")) {
-			String inner = temp.substring(3);
+			final String inner = temp.substring(3);
 			return "(.*/)?" + buildInnerRegex(inner);
 		}
 		if (temp.endsWith("/**")) {
-			String inner = temp.substring(0, temp.length() - 3);
+			final String inner = temp.substring(0, temp.length() - 3);
 			return buildInnerRegex(inner) + "(/.*)?";
 		}
 		return buildInnerRegex(temp);
 	}
 	
-	private String buildInnerRegex(String wildcardPattern) {
+	private String buildInnerRegex(final String wildcardPattern) {
 		// replace /**/ with /(.*/)?
-		int pos = wildcardPattern.indexOf("/**/");
+		final int pos = wildcardPattern.indexOf("/**/");
 		if (pos > -1) {
-			String before = wildcardPattern.substring(0, pos);
-			String after = wildcardPattern.substring(pos + 4);
+			final String before = wildcardPattern.substring(0, pos);
+			final String after = wildcardPattern.substring(pos + 4);
 			return buildInnerRegex(before) + "/(.*/)?" + buildInnerRegex(after);
 		}
 		// replace ? with [^/] and * with [^/]*

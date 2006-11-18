@@ -58,16 +58,16 @@ public class ModulePage extends HTMLPage {
 	 * @param locImageCreated <tt>true</tt> if a LOC image is available for this module
 	 * @throws IOException on error
 	 */
-	public ModulePage(Repository content, Directory directory,
-			boolean locImageCreated, final OutputRenderer renderer) throws IOException {
+	public ModulePage(final Repository content, final Directory directory,
+			final boolean locImageCreated, final OutputRenderer renderer) throws IOException {
 		super(content, renderer);
 		setFileName(renderer.getDirectoryPageFilename(directory, false));
 		setPageName("Module " + directory.getPath());
 		this.directory = directory;
 		this.locImageCreated = locImageCreated;
-		Iterator it = directory.getFiles().iterator();
+		final Iterator it = directory.getFiles().iterator();
 		while (it.hasNext()) {
-			VersionedFile file = (VersionedFile) it.next();
+			final VersionedFile file = (VersionedFile) it.next();
 			locInModule += file.getCurrentLinesOfCode();
 		}
 		createPage();
@@ -89,8 +89,8 @@ public class ModulePage extends HTMLPage {
 		if (directory.getRevisions().isEmpty()) {
 			return "";
 		}
-		Revision firstRev = (Revision) directory.getRevisions().first();
-		Revision lastRev = (Revision) directory.getRevisions().last();
+		final Revision firstRev = (Revision) directory.getRevisions().first();
+		final Revision lastRev = (Revision) directory.getRevisions().last();
 		return HTMLTagger.getSummaryPeriod(
 				firstRev.getDate(),
 				lastRev.getDate());
@@ -100,18 +100,18 @@ public class ModulePage extends HTMLPage {
 		if (ConfigurationOptions.getWebRepository() == null) {
 			return "";
 		}
-		WebRepositoryIntegration rep = ConfigurationOptions.getWebRepository();
-		String text = Messages.getString("BROWSE_WEB_REPOSITORY") + " " + rep.getName();
+		final WebRepositoryIntegration rep = ConfigurationOptions.getWebRepository();
+		final String text = Messages.getString("BROWSE_WEB_REPOSITORY") + " " + rep.getName();
 		return p(a(rep.getDirectoryUrl(directory), text));
 	}
 
 	private String getModuleLinks() {
-		StringBuffer result = new StringBuffer();
-		Iterator it = directory.getSubdirectoriesRecursive().iterator();
-		Directory current = (Directory) it.next();
+		final StringBuffer result = new StringBuffer();
+		final Iterator it = directory.getSubdirectoriesRecursive().iterator();
+		final Directory current = (Directory) it.next();
 		result.append(getRootLinks(current)).append("<br/>");
 		while (it.hasNext()) {
-			Directory dir = (Directory) it.next();
+			final Directory dir = (Directory) it.next();
 			result.append(getFolderHtml(dir, directory.getDepth()));
 		}
 		return result.toString();
@@ -121,7 +121,7 @@ public class ModulePage extends HTMLPage {
 		if (!locImageCreated) {
 			return "";
 		}
-		StringBuffer result = new StringBuffer(startSection2(Messages.getString("LOC_TITLE")));
+		final StringBuffer result = new StringBuffer(startSection2(Messages.getString("LOC_TITLE")));
 		result.append(p(img(HTMLOutput.getDirectoryLocChartFilename(directory), 640, 480)
 				+ br() + strong("Total Lines Of Code: ") + locInModule
 				+ " (" + HTMLTagger.getDateAndTime(getContent().getLastDate()) + ")"));
@@ -133,24 +133,24 @@ public class ModulePage extends HTMLPage {
 		if (directory.getRevisions().isEmpty()) {
 			return "";
 		}
-		StringBuffer result = new StringBuffer(startSection2(Messages.getString("CPU_TITLE")));
-		TableReport report = 
+		final StringBuffer result = new StringBuffer(startSection2(Messages.getString("CPU_TITLE")));
+		final TableReport report = 
 				new AuthorsForDirectoryTableReport(getContent(), directory);
 		report.calculate();
-		Table table = report.getTable();
+		final Table table = report.getTable();
 		result.append(new TableRenderer(table, getRenderer()).getRenderedTable());
         result.append(endSection2());
 		return result.toString();
 	}
 
 	private String getLastCommits() {
-		List dirCommits = getCommitsInDirectory();
-		int commitCount = dirCommits.size();
+		final List dirCommits = getCommitsInDirectory();
+		final int commitCount = dirCommits.size();
 		if (commitCount == 0) {
 			return "";
 		}
-		StringBuffer result = new StringBuffer(startSection2(Messages.getString("MOST_RECENT_COMMITS")));
-		CommitLogRenderer renderer = new CommitLogRenderer(dirCommits);
+		final StringBuffer result = new StringBuffer(startSection2(Messages.getString("MOST_RECENT_COMMITS")));
+		final CommitLogRenderer renderer = new CommitLogRenderer(dirCommits);
 		result.append(renderer.renderMostRecentCommits(HTMLOutput.MOST_RECENT_COMMITS_LENGTH, getRenderer()));
         result.append(endSection2());
 		return result.toString();
@@ -161,21 +161,21 @@ public class ModulePage extends HTMLPage {
 				? strong(Messages.getString("NAVIGATION_ROOT"))
 				: strong(dir.getName());
 		while (!dir.isRoot()) {
-			Directory parent = dir.getParent();
-			String caption = parent.isRoot()
+			final Directory parent = dir.getParent();
+			final String caption = parent.isRoot()
 					? Messages.getString("NAVIGATION_ROOT")
 					: parent.getName();
-			String parentPageFilename = getRenderer().getDirectoryPageFilename(parent, true);
+			final String parentPageFilename = getRenderer().getDirectoryPageFilename(parent, true);
 			result = a(parentPageFilename, caption) + "/" + result;
 			dir = parent;
 		}
 		return result;
 	}
 	
-	private Commit getCommit(Revision rev) {
-		Iterator it = getContent().getCommits().iterator();
+	private Commit getCommit(final Revision rev) {
+		final Iterator it = getContent().getCommits().iterator();
 		while (it.hasNext()) {
-			Commit commit = (Commit) it.next();
+			final Commit commit = (Commit) it.next();
 			if (commit.getRevisions().contains(rev)) {
 				return commit;
 			}
@@ -184,23 +184,23 @@ public class ModulePage extends HTMLPage {
 	}
 	
 	private List getCommitsInDirectory() {
-		Map commitsToFilteredCommits = new HashMap();
-		Iterator it = this.directory.getRevisions().iterator();
+		final Map commitsToFilteredCommits = new HashMap();
+		final Iterator it = this.directory.getRevisions().iterator();
 		while (it.hasNext()) {
-			Revision rev = (Revision) it.next();
-			Commit commit = getCommit(rev);
+			final Revision rev = (Revision) it.next();
+			final Commit commit = getCommit(rev);
 			if (commit == null) {
 				continue;
 			}
 			if (commitsToFilteredCommits.containsKey(commit)) {
-				Commit filteredCommit = (Commit) commitsToFilteredCommits.get(commit);
+				final Commit filteredCommit = (Commit) commitsToFilteredCommits.get(commit);
 				filteredCommit.addRevision(rev);
 			} else {
-				Commit filteredCommit = new Commit(rev);
+				final Commit filteredCommit = new Commit(rev);
 				commitsToFilteredCommits.put(commit, filteredCommit);
 			}
 		}
-		List commits = new ArrayList(commitsToFilteredCommits.values());
+		final List commits = new ArrayList(commitsToFilteredCommits.values());
 		Collections.sort(commits);
 		return commits;
 	}

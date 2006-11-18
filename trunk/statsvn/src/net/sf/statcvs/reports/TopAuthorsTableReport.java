@@ -63,8 +63,8 @@ public class TopAuthorsTableReport extends AbstractLocTableReport
 			summary = Messages.getString("TOP_AUTHORS_TABLE_SUMMARY2");
 		}
 		table = new Table(summary);
-		AuthorColumn authors = new AuthorColumn();
-		IntegerColumn linesOfCode =
+		final AuthorColumn authors = new AuthorColumn();
+		final IntegerColumn linesOfCode =
 				new IntegerColumn(Messages.getString("COLUMN_LOC"));
 		linesOfCode.setShowPercentages(true);
 		table.addColumn(authors);
@@ -72,12 +72,12 @@ public class TopAuthorsTableReport extends AbstractLocTableReport
 		table.setKeysInFirstColumn(true);
 
 		calculateChangesAndLinesPerAuthor(getContent().getRevisions());
-		Iterator it = getLinesMap().iteratorSortedByValueReverse();
+		final Iterator it = getLinesMap().iteratorSortedByValueReverse();
 		for (int i = 0; i < 10; i++) {
 			if (!it.hasNext()) {
 				break;
 			}
-			Author author = (Author) it.next();
+			final Author author = (Author) it.next();
 			authors.addValue(author);
 			linesOfCode.addValue(getLinesMap().get(author));
 		}

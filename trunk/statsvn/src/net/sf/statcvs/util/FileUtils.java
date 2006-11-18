@@ -23,7 +23,6 @@
 package net.sf.statcvs.util;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -36,8 +35,17 @@ import java.io.InputStream;
  * @author Lukasz Pekacki
  * @version $Id$
  */
-public class FileUtils {
-    /**
+public final class FileUtils {
+	private static final int ONE_KB = 1024;
+
+	/**
+	 * A utility class (only static methods) should be final and have
+	 * a private constructor.
+	 */
+	private FileUtils() {
+	}
+
+	/**
      * Copyies a file to a specified desitination
      * 
      * @param inputName
@@ -49,11 +57,11 @@ public class FileUtils {
      * @throws IOException
      *             if cannot read or write
      */
-    public static void copyFile(String inputName, String destination) throws IOException {
-        File input = new File(inputName);
-        File outputFile = new File(destination);
-        FileReader in = new FileReader(input);
-        FileWriter out = new FileWriter(outputFile);
+    public static void copyFile(final String inputName, final String destination) throws IOException {
+        final File input = new File(inputName);
+        final File outputFile = new File(destination);
+        final FileReader in = new FileReader(input);
+        final FileWriter out = new FileWriter(outputFile);
         int c;
         while ((c = in.read()) != -1) {
             out.write(c);
@@ -74,11 +82,11 @@ public class FileUtils {
      * @throws IOException
      *             if read/write error
      */
-    public static void copyFile(InputStream in, File out) throws IOException {
+    public static void copyFile(final InputStream in, final File out) throws IOException {
 
-        InputStream fis = in;
-        FileOutputStream fos = new FileOutputStream(out);
-        byte[] buf = new byte[1024];
+        final InputStream fis = in;
+        final FileOutputStream fos = new FileOutputStream(out);
+        final byte[] buf = new byte[ONE_KB];
         int i = 0;
         while ((i = fis.read(buf)) != -1) {
             fos.write(buf, 0, i);
@@ -94,8 +102,8 @@ public class FileUtils {
      *            a filename with path
      * @return just the filename part
      */
-    public static String getFilenameWithoutPath(String filename) {
-        File f = new File(filename);
+    public static String getFilenameWithoutPath(final String filename) {
+        final File f = new File(filename);
         return f.getName();
     }
 
@@ -130,9 +138,9 @@ public class FileUtils {
      * @return The <code>path</code> without the ending directory separator.
      * @see net.sf.statcvs.util.FileUtils#getDirSeparator
      */
-    public static String getPathWithoutEndingSlash(String path) {
+    public static String getPathWithoutEndingSlash(final String path) {
         if (path.endsWith(getDefaultDirSeparator())) {
-            int pos = path.lastIndexOf(getDefaultDirSeparator());
+            final int pos = path.lastIndexOf(getDefaultDirSeparator());
             return path.substring(0, pos);
         }
         return path;
@@ -147,7 +155,7 @@ public class FileUtils {
      *            The filename for concatenation.
      * @return The concatenated absolute filename.
      */
-    public static String getAbsoluteName(String path, String filename) {
+    public static String getAbsoluteName(final String path, final String filename) {
         return path + getDirSeparator() + filename;
     }
 
@@ -158,12 +166,12 @@ public class FileUtils {
      *            a directory, ending in "/", for example "src/net/sf/statcvs/"
      * @return the last component of the path, for example "statcvs"
      */
-    public static String getDirectoryName(String path) {
+    public static String getDirectoryName(final String path) {
         if ("".equals(path)) {
             throw new IllegalArgumentException("can't get directory name for root");
         }
-        String pathWithoutLastSlash = path.substring(0, path.length() - 1);
-        int lastSlash = pathWithoutLastSlash.lastIndexOf('/');
+        final String pathWithoutLastSlash = path.substring(0, path.length() - 1);
+        final int lastSlash = pathWithoutLastSlash.lastIndexOf('/');
         if (lastSlash == -1) {
             return pathWithoutLastSlash;
         }
@@ -177,12 +185,12 @@ public class FileUtils {
      *            a directory, ending in "/", for example "src/net/sf/statcvs/"
      * @return all but the last component of the path, for example "src/net/sf/"
      */
-    public static String getParentDirectoryPath(String path) {
+    public static String getParentDirectoryPath(final String path) {
         if ("".equals(path)) {
             throw new IllegalArgumentException("can't get directory name for root");
         }
-        String pathWithoutLastSlash = path.substring(0, path.length() - 1);
-        int lastSlash = pathWithoutLastSlash.lastIndexOf('/');
+        final String pathWithoutLastSlash = path.substring(0, path.length() - 1);
+        final int lastSlash = pathWithoutLastSlash.lastIndexOf('/');
         if (lastSlash == -1) {
             return "";
         }

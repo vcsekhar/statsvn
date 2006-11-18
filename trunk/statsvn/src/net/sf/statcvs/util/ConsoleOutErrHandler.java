@@ -40,8 +40,8 @@ import java.util.logging.LogRecord;
  */
 public class ConsoleOutErrHandler extends Handler {
 
-	private Handler errHandler = new ConsoleHandler();
-	private Handler outHandler = new ConsoleOutHandler();
+	private final Handler errHandler = new ConsoleHandler();
+	private final Handler outHandler = new ConsoleOutHandler();
 
 	/**
 	 * Constructor for ConsoleOutErrHandler.
@@ -54,7 +54,7 @@ public class ConsoleOutErrHandler extends Handler {
 	 * @see java.util.logging.Handler#publish(LogRecord)
 	 * @param record a log record
 	 */
-	public void publish(LogRecord record) {
+	public void publish(final LogRecord record) {
 		if (record.getLevel().intValue() >= Level.WARNING.intValue()) {
 			errHandler.publish(record);
 		} else {

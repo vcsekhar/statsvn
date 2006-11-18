@@ -149,11 +149,11 @@ public class HTMLOutput implements OutputRenderer {
 	 */
 	public static final int LOC_IMAGE_HEIGHT = 300;
 
-	private String[] categoryNamesHours = new String[] { "0", "1", "2", "3",
+	private final String[] categoryNamesHours = new String[] { "0", "1", "2", "3",
 			"4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15",
 			"16", "17", "18", "19", "20", "21", "22", "23" };
 
-	private String[] categoryNamesDays = new String[] { "Sunday", "Monday",
+	private final String[] categoryNamesDays = new String[] { "Sunday", "Monday",
 			"Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 
 	private Repository content;
@@ -189,9 +189,9 @@ public class HTMLOutput implements OutputRenderer {
 		createIcon(DELETED_DIRECTORY_ICON);
 		createIcon(FILE_ICON);
 		createIcon(DELETED_FILE_ICON);
-		boolean authorsPageCreated = (content.getAuthors().size() > 1);
-		boolean locImageCreated = createLOCChart();
-		boolean commitScatterImageCreated = createCommitScatterChartPerAuthor();
+		final boolean authorsPageCreated = (content.getAuthors().size() > 1);
+		final boolean locImageCreated = createLOCChart();
+		final boolean commitScatterImageCreated = createCommitScatterChartPerAuthor();
 		createFileCountChart();
 		createModuleSizesChart();
 		if (authorsPageCreated) {
@@ -202,7 +202,7 @@ public class HTMLOutput implements OutputRenderer {
 					.getString("ACTIVITY_DAY_TITLE"), "activity_day.png",
 					categoryNamesDays);
 			createAuthorActivityChart();
-			boolean locPerAuthorImageCreated = createLOCPerAuthorChart();
+			final boolean locPerAuthorImageCreated = createLOCPerAuthorChart();
 			new CPAPage(content, AbstractLocTableReport.SORT_BY_LINES,
 					locPerAuthorImageCreated, this);
 			new CPAPage(content, AbstractLocTableReport.SORT_BY_NAME,
@@ -229,7 +229,7 @@ public class HTMLOutput implements OutputRenderer {
 	 * @see net.sf.statcvs.output.OutputRenderer#getDirectoryPageFilename(net.sf.statcvs.model.Directory,
 	 *      boolean)
 	 */
-	public String getDirectoryPageFilename(Directory directory,
+	public String getDirectoryPageFilename(final Directory directory,
 			final boolean asLink) {
 		return "module" + escapeDirectoryName(directory.getPath())
 				+ (asLink ? getLinkExtension() : getFileExtension());
@@ -242,7 +242,7 @@ public class HTMLOutput implements OutputRenderer {
 	 *            a directory
 	 * @return filename for directory's LOC chart
 	 */
-	public static String getDirectoryLocChartFilename(Directory directory) {
+	public static String getDirectoryLocChartFilename(final Directory directory) {
 		return "loc_module" + escapeDirectoryName(directory.getPath()) + ".png";
 	}
 
@@ -252,7 +252,7 @@ public class HTMLOutput implements OutputRenderer {
 	 * @see net.sf.statcvs.output.OutputRenderer#getAuthorPageFilename(net.sf.statcvs.model.Author,
 	 *      boolean)
 	 */
-	public String getAuthorPageFilename(Author author, final boolean asLink) {
+	public String getAuthorPageFilename(final Author author, final boolean asLink) {
 		return "user_" + escapeAuthorName(author.getName())
 				+ (asLink ? getLinkExtension() : getFileExtension());
 	}
@@ -262,7 +262,7 @@ public class HTMLOutput implements OutputRenderer {
 	 *            an author
 	 * @return filename for author's activity by hour of day chart
 	 */
-	public static String getActivityTimeChartFilename(Author author) {
+	public static String getActivityTimeChartFilename(final Author author) {
 		return "activity_time_" + escapeAuthorName(author.getName()) + ".png";
 	}
 
@@ -271,7 +271,7 @@ public class HTMLOutput implements OutputRenderer {
 	 *            an author
 	 * @return filename for author's activity by day of week chart
 	 */
-	public static String getActivityDayChartFilename(Author author) {
+	public static String getActivityDayChartFilename(final Author author) {
 		return "activity_day_" + escapeAuthorName(author.getName()) + ".png";
 	}
 
@@ -280,7 +280,7 @@ public class HTMLOutput implements OutputRenderer {
 	 *            an author
 	 * @return filename for author's code distribution chart
 	 */
-	public static String getCodeDistributionChartFilename(Author author) {
+	public static String getCodeDistributionChartFilename(final Author author) {
 		return "module_sizes_" + escapeAuthorName(author.getName()) + ".png";
 	}
 
@@ -306,12 +306,12 @@ public class HTMLOutput implements OutputRenderer {
 	 *            an author's name
 	 * @return a version safe for creation of files and URLs
 	 */
-	private static String escapeAuthorName(String authorName) {
+	private static String escapeAuthorName(final String authorName) {
 		return authorName.replaceAll("#", "_").replaceAll("\\\\", "_");
 	}
 
-	private void createIcon(String iconFilename) throws IOException {
-		InputStream stream = Main.class.getResourceAsStream(WEB_FILE_PATH
+	private void createIcon(final String iconFilename) throws IOException {
+		final InputStream stream = Main.class.getResourceAsStream(WEB_FILE_PATH
 				+ iconFilename);
 		FileUtils.copyFile(stream, new File(ConfigurationOptions.getOutputDir()
 				+ iconFilename));
@@ -319,26 +319,26 @@ public class HTMLOutput implements OutputRenderer {
 	}
 
 	private boolean createLOCChart() {
-		String subtitle = Messages.getString("TIME_LOC_SUBTITLE");
-		TimeSeries series = getLOCTimeSeries(content.getRevisions(), subtitle);
+		final String subtitle = Messages.getString("TIME_LOC_SUBTITLE");
+		final TimeSeries series = getLOCTimeSeries(content.getRevisions(), subtitle);
 		if (series == null) {
 			return false;
 		}
-		List annotations = createSymbolicNames(content.getSymbolicNames());
+		final List annotations = createSymbolicNames(content.getSymbolicNames());
 		new LOCChart(series, subtitle, "loc.png", 640, 480, annotations);
 		new LOCChart(series, subtitle, "loc_small.png", 400, 300, annotations);
 		return true;
 	}
 
-	private List createSymbolicNames(Set symbolicNames) {
+	private List createSymbolicNames(final Set symbolicNames) {
 		final Pattern pattern = ConfigurationOptions.getSymbolicNamesPattern();
 		if (pattern == null) {
 			return null;
 		}
 
-		List annotations = new ArrayList();
-		for (Iterator it = symbolicNames.iterator(); it.hasNext();) {
-			SymbolicName sn = (SymbolicName) it.next();
+		final List annotations = new ArrayList();
+		for (final Iterator it = symbolicNames.iterator(); it.hasNext();) {
+			final SymbolicName sn = (SymbolicName) it.next();
 			if (sn.getDate() != null && pattern.matcher(sn.getName()).matches()) {
 				annotations.add(new SymbolicNameAnnotation(sn));
 			}
@@ -347,59 +347,59 @@ public class HTMLOutput implements OutputRenderer {
 	}
 
 	private boolean createCommitScatterChartPerAuthor() {
-		String subtitle = Messages.getString("TIME_CSC_SUBTITLE");
+		final String subtitle = Messages.getString("TIME_CSC_SUBTITLE");
 
-		Iterator it_all = content.getRevisions().iterator();
-		TimeSeries series_all = new TimeSeries("Test", Second.class);
-		Date lastDate_all = new Date();
-		while (it_all.hasNext()) {
-			Revision rev = (Revision) it_all.next();
-			if (lastDate_all != null) {
-				Calendar cal = Calendar.getInstance();
-				cal.setTime(lastDate_all);
-				double lastDateSeconds = cal.get(Calendar.SECOND);
+		final Iterator itAll = content.getRevisions().iterator();
+		final TimeSeries seriesAll = new TimeSeries("Test", Second.class);
+		Date lastDateAll = new Date();
+		while (itAll.hasNext()) {
+			final Revision rev = (Revision) itAll.next();
+			if (lastDateAll != null) {
+				final Calendar cal = Calendar.getInstance();
+				cal.setTime(lastDateAll);
+				final double lastDateSeconds = cal.get(Calendar.SECOND);
 				cal.setTime(rev.getDate());
-				double dateSeconds = cal.get(Calendar.SECOND);
+				final double dateSeconds = cal.get(Calendar.SECOND);
 				if (lastDateSeconds == dateSeconds) {
 					continue;
 				}
 			}
-			lastDate_all = rev.getDate();
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(lastDate_all);
-			double hour = cal.get(Calendar.HOUR_OF_DAY);
-			double minutes = cal.get(Calendar.MINUTE);
-			series_all.add(new Second(lastDate_all), hour + minutes / 60.0);
+			lastDateAll = rev.getDate();
+			final Calendar cal = Calendar.getInstance();
+			cal.setTime(lastDateAll);
+			final double hour = cal.get(Calendar.HOUR_OF_DAY);
+			final double minutes = cal.get(Calendar.MINUTE);
+			seriesAll.add(new Second(lastDateAll), hour + minutes / 60.0);
 		}
-		if (series_all == null) {
+		if (seriesAll == null) {
 			return false;
 		}
 
-		Iterator authorsIt = content.getAuthors().iterator();
-		Map authorSeriesMap = new HashMap();
+		final Iterator authorsIt = content.getAuthors().iterator();
+		final Map authorSeriesMap = new HashMap();
 		while (authorsIt.hasNext()) {
-			Author author = (Author) authorsIt.next();
+			final Author author = (Author) authorsIt.next();
 
-			Iterator it = author.getRevisions().iterator();
-			TimeSeries series = new TimeSeries("Test", Second.class);
+			final Iterator it = author.getRevisions().iterator();
+			final TimeSeries series = new TimeSeries("Test", Second.class);
 			Date lastDate = new Date();
 			while (it.hasNext()) {
-				Revision rev = (Revision) it.next();
+				final Revision rev = (Revision) it.next();
 				if (lastDate != null) {
-					Calendar cal = Calendar.getInstance();
+					final Calendar cal = Calendar.getInstance();
 					cal.setTime(lastDate);
-					double lastDateSeconds = cal.get(Calendar.SECOND);
+					final double lastDateSeconds = cal.get(Calendar.SECOND);
 					cal.setTime(rev.getDate());
-					double dateSeconds = cal.get(Calendar.SECOND);
+					final double dateSeconds = cal.get(Calendar.SECOND);
 					if (lastDateSeconds == dateSeconds) {
 						continue;
 					}
 				}
 				lastDate = rev.getDate();
-				Calendar cal = Calendar.getInstance();
+				final Calendar cal = Calendar.getInstance();
 				cal.setTime(lastDate);
-				double hour = cal.get(Calendar.HOUR_OF_DAY);
-				double minutes = cal.get(Calendar.MINUTE);
+				final double hour = cal.get(Calendar.HOUR_OF_DAY);
+				final double minutes = cal.get(Calendar.MINUTE);
 				series.add(new Second(lastDate), hour + minutes / 60.0);
 			}
 			if (series == null) {
@@ -408,26 +408,26 @@ public class HTMLOutput implements OutputRenderer {
 			authorSeriesMap.put(author, series);
 		}
 
-		new CombinedCommitScatterChart(series_all, authorSeriesMap, subtitle,
+		new CombinedCommitScatterChart(seriesAll, authorSeriesMap, subtitle,
 				"commitscatterauthors.png", 640,
 				70 * (authorSeriesMap.size() + 1) + 110);
 		return true;
 	}
 
 	private void createModulePagesAndCharts() throws IOException {
-		Iterator it = content.getDirectories().iterator();
+		final Iterator it = content.getDirectories().iterator();
 		while (it.hasNext()) {
-			Directory dir = (Directory) it.next();
-			boolean moduleImageCreated = createLOCChart(dir);
+			final Directory dir = (Directory) it.next();
+			final boolean moduleImageCreated = createLOCChart(dir);
 			new ModulePage(content, dir, moduleImageCreated, this);
 		}
 	}
 
 	private void createAuthorPages() throws IOException {
-		Collection authors = content.getAuthors();
-		Iterator it = authors.iterator();
+		final Collection authors = content.getAuthors();
+		final Iterator it = authors.iterator();
 		while (it.hasNext()) {
-			Author author = (Author) it.next();
+			final Author author = (Author) it.next();
 			createActivityChart(author.getRevisions(), Messages
 					.getString("ACTIVITY_TIME_FOR_AUTHOR_TITLE")
 					+ " " + author.getName(),
@@ -436,36 +436,36 @@ public class HTMLOutput implements OutputRenderer {
 					.getString("ACTIVITY_DAY_FOR_AUTHOR_TITLE")
 					+ " " + author.getName(),
 					getActivityDayChartFilename(author), categoryNamesDays);
-			boolean chartCreated = createCodeDistributionChart(author);
+			final boolean chartCreated = createCodeDistributionChart(author);
 			new AuthorPage(content, author, chartCreated, this);
 		}
 	}
 
 	private void createCommitLogPages() throws IOException {
-		List commits = content.getCommits();
-		CommitLogRenderer logRenderer = new CommitLogRenderer(commits);
-		int pages = logRenderer.getPages();
+		final List commits = content.getCommits();
+		final CommitLogRenderer logRenderer = new CommitLogRenderer(commits);
+		final int pages = logRenderer.getPages();
 		for (int i = 1; i <= pages; i++) {
 			new CommitLogPage(content, logRenderer, i, pages, this);
 		}
 	}
 
-	private boolean createLOCChart(Directory dir) {
-		String subtitle = Messages.getString("TIME_LOC_SUBTITLE");
-		TimeSeries series = getLOCTimeSeries(dir.getRevisions(), subtitle);
+	private boolean createLOCChart(final Directory dir) {
+		final String subtitle = Messages.getString("TIME_LOC_SUBTITLE");
+		final TimeSeries series = getLOCTimeSeries(dir.getRevisions(), subtitle);
 		if (series == null) {
 			return false;
 		}
-		String fileName = getDirectoryLocChartFilename(dir);
-		List annotations = this.createSymbolicNames(content.getSymbolicNames());
+		final String fileName = getDirectoryLocChartFilename(dir);
+		final List annotations = this.createSymbolicNames(content.getSymbolicNames());
 		new LOCChart(series, dir.getPath() + " " + subtitle, fileName, 640,
 				480, annotations);
 		return true;
 	}
 
-	private TimeSeries getLOCTimeSeries(SortedSet revisions, String title) {
-		Iterator it = revisions.iterator();
-		LOCSeriesBuilder locCounter = new LOCSeriesBuilder(title, true);
+	private TimeSeries getLOCTimeSeries(final SortedSet revisions, final String title) {
+		final Iterator it = revisions.iterator();
+		final LOCSeriesBuilder locCounter = new LOCSeriesBuilder(title, true);
 		while (it.hasNext()) {
 			locCounter.addRevision((Revision) it.next());
 		}
@@ -473,13 +473,13 @@ public class HTMLOutput implements OutputRenderer {
 	}
 
 	private void createFileCountChart() {
-		SortedSet files = content.getFiles();
-		List annotations = this.createSymbolicNames(this.content
+		final SortedSet files = content.getFiles();
+		final List annotations = this.createSymbolicNames(this.content
 				.getSymbolicNames());
-		TimeLine fileCount = new FileCountTimeLineReport(files).getTimeLine();
+		final TimeLine fileCount = new FileCountTimeLineReport(files).getTimeLine();
 		new TimeLineChart(fileCount, "file_count.png", IMAGE_WIDTH,
 				IMAGE_HEIGHT, annotations);
-		TimeLine avgFileSize = new AvgFileSizeTimeLineReport(files)
+		final TimeLine avgFileSize = new AvgFileSizeTimeLineReport(files)
 				.getTimeLine();
 		new TimeLineChart(avgFileSize, "file_size.png", IMAGE_WIDTH,
 				IMAGE_HEIGHT, annotations);
@@ -490,39 +490,39 @@ public class HTMLOutput implements OutputRenderer {
 				"module_sizes.png", null, PieChart.FILTERED_BY_REPOSITORY);
 	}
 
-	private void createActivityChart(SortedSet revisions, String title,
-			String fileName, String[] categoryNames) {
+	private void createActivityChart(final SortedSet revisions, final String title,
+			final String fileName, final String[] categoryNames) {
 		new BarChart(revisions, title, fileName, categoryNames.length,
 				categoryNames);
 	}
 
 	private boolean createLOCPerAuthorChart() {
 		Iterator authorsIt = content.getAuthors().iterator();
-		Map authorSeriesMap = new HashMap();
+		final Map authorSeriesMap = new HashMap();
 		while (authorsIt.hasNext()) {
-			Author author = (Author) authorsIt.next();
+			final Author author = (Author) authorsIt.next();
 			authorSeriesMap.put(author, new LOCSeriesBuilder(author.getName(),
 					false));
 		}
-		Iterator allRevs = content.getRevisions().iterator();
+		final Iterator allRevs = content.getRevisions().iterator();
 		while (allRevs.hasNext()) {
-			Revision rev = (Revision) allRevs.next();
+			final Revision rev = (Revision) allRevs.next();
 			if (rev.isBeginOfLog()) {
 				continue;
 			}
-			LOCSeriesBuilder builder = (LOCSeriesBuilder) authorSeriesMap
+			final LOCSeriesBuilder builder = (LOCSeriesBuilder) authorSeriesMap
 					.get(rev.getAuthor());
 			builder.addRevision(rev);
 		}
-		List authors = new ArrayList(authorSeriesMap.keySet());
+		final List authors = new ArrayList(authorSeriesMap.keySet());
 		Collections.sort(authors);
-		List seriesList = new ArrayList();
+		final List seriesList = new ArrayList();
 		authorsIt = authors.iterator();
 		while (authorsIt.hasNext()) {
-			Author author = (Author) authorsIt.next();
-			LOCSeriesBuilder builder = (LOCSeriesBuilder) authorSeriesMap
+			final Author author = (Author) authorsIt.next();
+			final LOCSeriesBuilder builder = (LOCSeriesBuilder) authorSeriesMap
 					.get(author);
-			TimeSeries series = builder.getTimeSeries();
+			final TimeSeries series = builder.getTimeSeries();
 			if (series != null) {
 				seriesList.add(series);
 			}
@@ -530,17 +530,17 @@ public class HTMLOutput implements OutputRenderer {
 		if (seriesList.isEmpty()) {
 			return false;
 		}
-		String subtitle = Messages.getString("TIME_LOCPERAUTHOR_SUBTITLE");
+		final String subtitle = Messages.getString("TIME_LOCPERAUTHOR_SUBTITLE");
 		new LOCChart(seriesList, subtitle, "loc_per_author.png", 640, 480,
 				createSymbolicNames(content.getSymbolicNames()));
 		return true;
 	}
 
-	private boolean createCodeDistributionChart(Author author) {
-		Iterator it = author.getRevisions().iterator();
+	private boolean createCodeDistributionChart(final Author author) {
+		final Iterator it = author.getRevisions().iterator();
 		int totalLinesOfCode = 0;
 		while (it.hasNext()) {
-			Revision rev = (Revision) it.next();
+			final Revision rev = (Revision) it.next();
 			totalLinesOfCode += rev.getNewLines();
 		}
 		if (totalLinesOfCode == 0) {

@@ -37,7 +37,7 @@ public class AllTests {
 	 * @return Test suite
 	 */
 	public static Test suite() {
-		TestSuite suite = new TestSuite("Test for net.sf.statcvs.reportmodel");
+		final TestSuite suite = new TestSuite("Test for net.sf.statcvs.reportmodel");
 		//$JUnit-BEGIN$
 		suite.addTest(new TestSuite(TimeLineTest.class));
 		//$JUnit-END$

@@ -32,6 +32,8 @@ import java.awt.Color;
  */
 public final class OutputUtils {
 
+	private static final int MAX_COLOR_VALUE = 255;
+	private static final int NUMBER_OF_COLORS = 256;
 	private static final String MAGIC_SEED_1 = "0 Ax-!";
 	private static final String MAGIC_SEED_2 = "!Z x5";
 	
@@ -52,20 +54,20 @@ public final class OutputUtils {
 	 * will return equal colors for equal strings. The colors will all have
 	 * similar brightness and maximum intensity. Useful for chart coloring.
 	 */
-	public static Color getStringColor(String s) {
+	public static Color getStringColor(final String s) {
 		double d = (MAGIC_SEED_1 + s + MAGIC_SEED_2).hashCode();
 		d -= Integer.MIN_VALUE;
 		d /= ((double) Integer.MAX_VALUE - (double) Integer.MIN_VALUE);
 		d *= 3;
 		if (d < 1) {
-			int i = (int) (d * 256);
-			return new Color(255 - i, i, 0);
+			final int i = (int) (d * NUMBER_OF_COLORS);
+			return new Color(MAX_COLOR_VALUE - i, i, 0);
 		} else if (d < 2) {
-			int i = (int) ((d - 1) * 256);
-			return new Color(0, 255 - i, i);
+			final int i = (int) ((d - 1) * NUMBER_OF_COLORS);
+			return new Color(0, MAX_COLOR_VALUE - i, i);
 		} else {
-			int i = (int) ((d - 2) * 256);
-			return new Color(i, 0, 255 - i);
+			final int i = (int) ((d - 2) * NUMBER_OF_COLORS);
+			return new Color(i, 0, MAX_COLOR_VALUE - i);
 		}
 	}
 	
@@ -75,7 +77,7 @@ public final class OutputUtils {
 	 * @param text some string, for example "x > 0 && y < 100"
 	 * @return HTML-escaped string, for example "x &gt; 0 &amp;&amp; y &lt; 100"
 	 */
-	public static String escapeHtml(String text) {
+	public static String escapeHtml(final String text) {
 		String result = text.replaceAll("&", "&amp;");
 		result = result.replaceAll("<", "&lt;");
 		result = result.replaceAll(">", "&gt;");

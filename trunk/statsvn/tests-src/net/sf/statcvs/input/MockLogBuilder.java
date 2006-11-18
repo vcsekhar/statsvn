@@ -32,8 +32,8 @@ import junit.framework.Assert;
  * @version $Id: MockLogBuilder.java,v 1.4 2004/12/14 13:38:13 squig Exp $
  */
 public class MockLogBuilder implements SvnLogBuilder {
-	private LinkedList expectedMethods = new LinkedList();
-	private LinkedList expectedData = new LinkedList();
+	private final LinkedList expectedMethods = new LinkedList();
+	private final LinkedList expectedData = new LinkedList();
 
     
 
@@ -41,14 +41,14 @@ public class MockLogBuilder implements SvnLogBuilder {
      *  (non-Javadoc)
      * @see net.sf.statcvs.input.SvnLogBuilder#addToAttic(java.lang.String)
      */
-    public void addToAttic(String filename) {
+    public void addToAttic(final String filename) {
         // TODO Auto-generated method stub       
     }
     
 	/* (non-Javadoc)
 	 * @see net.sf.statcvs.input.SvnLogBuilder#buildModule(java.lang.String)
 	 */
-	public void buildModule(String moduleName) {
+	public void buildModule(final String moduleName) {
 		Assert.assertEquals(expectedMethods.removeFirst(), "buildModule");
 		Assert.assertEquals(expectedData.removeFirst(), moduleName);
 	}
@@ -56,7 +56,7 @@ public class MockLogBuilder implements SvnLogBuilder {
 	/* (non-Javadoc)
 	 * @see net.sf.statcvs.input.SvnLogBuilder#buildFile(java.lang.String, boolean, boolean)
 	 */
-	public void buildFile(String filename, boolean isBinary, boolean isInAttic, Map revBySymnames) {
+	public void buildFile(final String filename, final boolean isBinary, final boolean isInAttic, final Map revBySymnames) {
 		Assert.assertEquals(expectedMethods.removeFirst(), "buildFile");
 		Assert.assertEquals(expectedData.removeFirst(), filename);
 		Assert.assertEquals(expectedData.removeFirst(), Boolean.valueOf(isBinary));
@@ -66,7 +66,7 @@ public class MockLogBuilder implements SvnLogBuilder {
 	/* (non-Javadoc)
 	 * @see net.sf.statcvs.input.SvnLogBuilder#buildRevision(net.sf.statcvs.input.RevisionData)
 	 */
-	public void buildRevision(RevisionData data) {
+	public void buildRevision(final RevisionData data) {
 		if (expectedMethods.isEmpty()) {
 			Assert.fail("expected no more revisions");
 		}
@@ -77,7 +77,7 @@ public class MockLogBuilder implements SvnLogBuilder {
 		}
 		if ("buildRevision".equals(expectedMethods.getFirst())) {
 			Assert.assertEquals(expectedMethods.removeFirst(), "buildRevision");
-			RevisionData expected = (RevisionData) expectedData.removeFirst();
+			final RevisionData expected = (RevisionData) expectedData.removeFirst();
 			Assert.assertEquals(expected.getRevisionNumber(), data.getRevisionNumber());
 			Assert.assertEquals(expected.getDate().getTime() / 1000, data.getDate().getTime() / 1000);
 			Assert.assertEquals(expected.getLoginName(), data.getLoginName());
@@ -91,7 +91,7 @@ public class MockLogBuilder implements SvnLogBuilder {
 			return;
 		}
 		while (!expectedMethods.isEmpty() && ((String) expectedMethods.getFirst()).startsWith("current")) {
-			String expected = (String) expectedMethods.removeFirst();
+			final String expected = (String) expectedMethods.removeFirst();
 			if ("currentRevisionNumber".equals(expected)) {
 				Assert.assertEquals(expectedData.removeFirst(), data.getRevisionNumber());
 			} else if ("currentDate".equals(expected)) {
@@ -118,19 +118,19 @@ public class MockLogBuilder implements SvnLogBuilder {
 		}
 	}
 
-	public void expectBuildModule(String moduleName) {
+	public void expectBuildModule(final String moduleName) {
 		expectedMethods.add("buildModule");
 		expectedData.add(moduleName);
 	}
 
-	public void expectBuildFile(String filename, boolean isBinary, boolean isInAttic) {
+	public void expectBuildFile(final String filename, final boolean isBinary, final boolean isInAttic) {
 		expectedMethods.add("buildFile");
 		expectedData.add(filename);
 		expectedData.add(Boolean.valueOf(isBinary));
 		expectedData.add(Boolean.valueOf(isInAttic));
 	}
 
-	public void expectBuildRevision(RevisionData data) {
+	public void expectBuildRevision(final RevisionData data) {
 		expectedMethods.add("buildRevision");
 		expectedData.add(data);
 	}
@@ -139,22 +139,22 @@ public class MockLogBuilder implements SvnLogBuilder {
 		expectedMethods.add("nextRevision");
 	}
 	
-	public void expectCurrentRevisionNumber(String revision) {
+	public void expectCurrentRevisionNumber(final String revision) {
 		expectedMethods.add("currentRevisionNumber");
 		expectedData.add(revision);
 	}
 	
-	public void expectCurrentDate(Date date) {
+	public void expectCurrentDate(final Date date) {
 		expectedMethods.add("currentDate");
 		expectedData.add(date);
 	}
 	
-	public void expectCurrentAuthor(String name) {
+	public void expectCurrentAuthor(final String name) {
 		expectedMethods.add("currentAuthor");
 		expectedData.add(name);
 	}
 	
-	public void expectCurrentComment(String comment) {
+	public void expectCurrentComment(final String comment) {
 		expectedMethods.add("currentComment");
 		expectedData.add(comment);
 	}
@@ -171,7 +171,7 @@ public class MockLogBuilder implements SvnLogBuilder {
 		expectedMethods.add("currentNoLines");
 	}
 	
-	public void expectCurrentLines(int added, int removed) {
+	public void expectCurrentLines(final int added, final int removed) {
 		expectedMethods.add("currentLines");
 		expectedData.add(new Integer(added));
 		expectedData.add(new Integer(removed));
@@ -188,7 +188,7 @@ public class MockLogBuilder implements SvnLogBuilder {
 		return null;
 	}
     
-    public void updateRevision(String filename, String revisionNumber, int linesAdded, int linesRemoved)
+    public void updateRevision(final String filename, final String revisionNumber, final int linesAdded, final int linesRemoved)
     {
         // TODO Auto-generated method stub
     }

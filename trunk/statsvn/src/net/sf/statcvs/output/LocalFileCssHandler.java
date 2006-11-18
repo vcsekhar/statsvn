@@ -35,7 +35,7 @@ import net.sf.statcvs.util.FileUtils;
  */
 public class LocalFileCssHandler implements CssHandler {
 
-	private static Logger logger =
+	private static final Logger LOGGER =
 		Logger.getLogger("net.sf.statcvs.output.CssHandler");
 
 	private String filename;
@@ -45,7 +45,7 @@ public class LocalFileCssHandler implements CssHandler {
 	 * The filename can be absoulte or relative.
 	 * @param filename Name of the CSS file
 	 */
-	public LocalFileCssHandler(String filename) {
+	public LocalFileCssHandler(final String filename) {
 		this.filename = filename;
 	}
 
@@ -62,8 +62,8 @@ public class LocalFileCssHandler implements CssHandler {
 	 * @throws ConfigurationException if the file is not found
 	 */
 	public void checkForMissingResources() throws ConfigurationException {
-		logger.finer("Checking if CSS file exists: '" + filename + "'");
-		File f = new File(filename);
+		LOGGER.finer("Checking if CSS file exists: '" + filename + "'");
+		final File f = new File(filename);
 		if (!f.exists()) {
 			throw new ConfigurationException("CSS file not found: " + filename);
 		}
@@ -74,8 +74,8 @@ public class LocalFileCssHandler implements CssHandler {
 	 * @see net.sf.statcvs.output.CssHandler#createOutputFiles()
 	 */
 	public void createOutputFiles() throws IOException {
-		String destination = ConfigurationOptions.getOutputDir() + getLink(); 
-		logger.info("Copying CSS file to '" + destination + "'");
+		final String destination = ConfigurationOptions.getOutputDir() + getLink(); 
+		LOGGER.info("Copying CSS file to '" + destination + "'");
 		FileUtils.copyFile(filename, destination);
 	}
 	

@@ -38,38 +38,38 @@ public class AuthorTest extends TestCase {
 	 * Constructor
 	 * @param arg0 input
 	 */
-	public AuthorTest(String arg0) {
+	public AuthorTest(final String arg0) {
 		super(arg0);
 	}
 
 	public void testCreation() {
-		Author author = new Author("author1");
+		final Author author = new Author("author1");
 		assertEquals("author1", author.getName());
 		assertTrue(author.getDirectories().isEmpty());
 		assertTrue(author.getRevisions().isEmpty());
 	}
 	
 	public void testCompare() {
-		Author author1 = new Author("author1");
-		Author author2 = new Author("author2");
+		final Author author1 = new Author("author1");
+		final Author author2 = new Author("author2");
 		assertEquals(-1, author1.compareTo(author2));
 		assertEquals(1, author2.compareTo(author1));
 		assertEquals(0, author2.compareTo(author2));
 	}
 	
 	public void testDirectories() {
-		Author author1 = new Author("author1");
-		Author author2 = new Author("author2");
-		Date date = new Date(100000000);
-		Directory root = Directory.createRoot();
-		Directory dir1 = root.createSubdirectory("dir1");
-		Directory dir2 = root.createSubdirectory("dir2");
-		Directory dir3 = root.createSubdirectory("dir3");
-		Directory dir1subdir = dir1.createSubdirectory("subdir");
-		VersionedFile file1 = new VersionedFile("dir1/file", dir1);
-		VersionedFile file2 = new VersionedFile("dir2/file", dir2);
-		VersionedFile file3 = new VersionedFile("dir3/file", dir3);
-		VersionedFile file4 = new VersionedFile("dir1/subdir/file", dir1subdir);
+		final Author author1 = new Author("author1");
+		final Author author2 = new Author("author2");
+		final Date date = new Date(100000000);
+		final Directory root = Directory.createRoot();
+		final Directory dir1 = root.createSubdirectory("dir1");
+		final Directory dir2 = root.createSubdirectory("dir2");
+		final Directory dir3 = root.createSubdirectory("dir3");
+		final Directory dir1subdir = dir1.createSubdirectory("subdir");
+		final VersionedFile file1 = new VersionedFile("dir1/file", dir1);
+		final VersionedFile file2 = new VersionedFile("dir2/file", dir2);
+		final VersionedFile file3 = new VersionedFile("dir3/file", dir3);
+		final VersionedFile file4 = new VersionedFile("dir1/subdir/file", dir1subdir);
 		new Revision(file1, "1.1", Revision.TYPE_CREATION, author2, date, null, 0, 0, 0, null);
 		new Revision(file2, "1.2", Revision.TYPE_CHANGE, author1, date, null, 0, 0, 0, null);
 		new Revision(file2, "1.1", Revision.TYPE_CREATION, author1, date, null, 0, 0, 0, null);
@@ -84,25 +84,25 @@ public class AuthorTest extends TestCase {
 	}
 	
 	public void testRevisions() {
-		Author author = new Author("author1");
-		Directory root = Directory.createRoot();
-		Date date1 = new Date(100000000);
-		Date date2 = new Date(200000000);
-		Date date3 = new Date(300000000);
-		VersionedFile file1 = new VersionedFile("file1", root);
-		VersionedFile file2 = new VersionedFile("file2", root);
-		Revision rev13 = new Revision(file1, "1.3", Revision.TYPE_CHANGE, author, date3, null, 0, 0, 0, null);
-		Revision rev12 = new Revision(file1, "1.2", Revision.TYPE_CHANGE, author, date2, null, 0, 0, 0, null);
-		Revision rev11 = new Revision(file1, "1.1", Revision.TYPE_CREATION, author, date1, null, 0, 0, 0, null);
-		Revision rev21 = new Revision(file2, "1.1", Revision.TYPE_CREATION, author, date2, null, 0, 0, 0, null);
-		Iterator it = author.getRevisions().iterator();
+		final Author author = new Author("author1");
+		final Directory root = Directory.createRoot();
+		final Date date1 = new Date(100000000);
+		final Date date2 = new Date(200000000);
+		final Date date3 = new Date(300000000);
+		final VersionedFile file1 = new VersionedFile("file1", root);
+		final VersionedFile file2 = new VersionedFile("file2", root);
+		final Revision rev13 = new Revision(file1, "1.3", Revision.TYPE_CHANGE, author, date3, null, 0, 0, 0, null);
+		final Revision rev12 = new Revision(file1, "1.2", Revision.TYPE_CHANGE, author, date2, null, 0, 0, 0, null);
+		final Revision rev11 = new Revision(file1, "1.1", Revision.TYPE_CREATION, author, date1, null, 0, 0, 0, null);
+		final Revision rev21 = new Revision(file2, "1.1", Revision.TYPE_CREATION, author, date2, null, 0, 0, 0, null);
+		final Iterator it = author.getRevisions().iterator();
 		assertTrue(it.hasNext());
 		assertSame(rev11, it.next());
 		assertTrue(it.hasNext());
-		Revision r1 = (Revision) it.next();
+		final Revision r1 = (Revision) it.next();
 		assertTrue(r1 == rev12 || r1 == rev21);
 		assertTrue(it.hasNext());
-		Revision r2 = (Revision) it.next();
+		final Revision r2 = (Revision) it.next();
 		assertTrue(r2 == rev12 || r2 == rev21);
 		assertTrue(r1 != r2);
 		assertTrue(it.hasNext());

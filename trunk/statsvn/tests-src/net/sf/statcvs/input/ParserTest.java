@@ -46,7 +46,7 @@ public class ParserTest extends TestCase {
 	private MockLogBuilder mock;
 	private RevisionData rev1;
 
-	public ParserTest(String arg0) {
+	public ParserTest(final String arg0) {
 		super(arg0);
 	}
 
@@ -168,13 +168,13 @@ public class ParserTest extends TestCase {
 	 * @throws Exception
 	 */
 	public void testEmptyLog() throws Exception {
-		ByteArrayInputStream stream = new ByteArrayInputStream("".getBytes());
+		final ByteArrayInputStream stream = new ByteArrayInputStream("".getBytes());
         // test needs to be changed to use the new mandatory repositoryFileManager
-		SvnLogfileParser parser = new SvnLogfileParser(null, stream, mock);
+		final SvnLogfileParser parser = new SvnLogfileParser(null, stream, mock);
 		try {
 			parser.parse();
 			fail("should have thrown LogSyntaxException");
-		} catch (LogSyntaxException expected) {
+		} catch (final LogSyntaxException expected) {
 			// expected
 		}
 	}
@@ -184,13 +184,13 @@ public class ParserTest extends TestCase {
 	 * @throws Exception
 	 */
 	public void testBogusLog() throws Exception {
-		ByteArrayInputStream stream = new ByteArrayInputStream("foo\nbar".getBytes());
+		final ByteArrayInputStream stream = new ByteArrayInputStream("foo\nbar".getBytes());
         // test needs to be changed to use the new mandatory repositoryFileManager
-		SvnLogfileParser parser = new SvnLogfileParser(null, stream, mock);
+		final SvnLogfileParser parser = new SvnLogfileParser(null, stream, mock);
 		try {
 			parser.parse();
 			fail("should have thrown LogSyntaxException");
-		} catch (LogSyntaxException expected) {
+		} catch (final LogSyntaxException expected) {
 			// expected
 		}
 	}
@@ -203,8 +203,8 @@ public class ParserTest extends TestCase {
 		mock.expectBuildModule("statcvs");
 		mock.expectBuildFile("LICENSE", false, false);
 		mock.expectCurrentRevisionNumber("1.1");
-		Reader reader = new InputStreamReader(getClass().getResourceAsStream("simple.log2"));
-		LookaheadReader lookahead = new LookaheadReader(reader);
+		final Reader reader = new InputStreamReader(getClass().getResourceAsStream("simple.log2"));
+		final LookaheadReader lookahead = new LookaheadReader(reader);
 		lookahead.nextLine();
 //		new FileBlockParser(lookahead, mock, true).parse();
 		mock.verify();
@@ -324,25 +324,25 @@ public class ParserTest extends TestCase {
 		try {
 			parseOneFile("premature-end.log2");
 			fail();
-		} catch (NoSuchElementException ex) {
+		} catch (final NoSuchElementException ex) {
 			// is expected because log ends right within a revision
 		}
 	}
-	private void parseLog(String name) throws Exception {
-		InputStream stream = getClass().getResourceAsStream(name);
+	private void parseLog(final String name) throws Exception {
+		final InputStream stream = getClass().getResourceAsStream(name);
         // test needs to be changed to use the new mandatory repositoryFileManager
 		new SvnLogfileParser(null, stream, mock).parse();
 	}
 
-	private void parseOneFile(String name) throws Exception {
-		Reader reader = new InputStreamReader(getClass().getResourceAsStream(name));
-		LookaheadReader lookahead = new LookaheadReader(reader);
+	private void parseOneFile(final String name) throws Exception {
+		final Reader reader = new InputStreamReader(getClass().getResourceAsStream(name));
+		final LookaheadReader lookahead = new LookaheadReader(reader);
 		lookahead.nextLine();
 //		new FileBlockParser(lookahead, mock, false).parse();
 		reader.close();
 	}
 
-	private Date createDate(int year, int month, int day, int hour, int minute, int second) {
+	private Date createDate(final int year, final int month, final int day, final int hour, final int minute, final int second) {
 		calendar.set(year, month - 1, day, hour, minute, second);
 		return calendar.getTime();
 	}

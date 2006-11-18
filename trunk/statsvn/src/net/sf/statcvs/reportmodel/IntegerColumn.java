@@ -36,7 +36,7 @@ import net.sf.statcvs.renderer.TableCellRenderer;
 public class IntegerColumn extends Column {
 
 	private String title;
-	private List values = new ArrayList();
+	private final List values = new ArrayList();
 	private int sum = 0;
 	private boolean showValues = true;
 	private boolean showPercentages = true;
@@ -53,7 +53,7 @@ public class IntegerColumn extends Column {
 	 * Set if the actual integer values should be shown
 	 * @param enable show values?
 	 */
-	public void setShowValues(boolean enable) {
+	public void setShowValues(final boolean enable) {
 		showValues = enable;
 	}
 
@@ -61,7 +61,7 @@ public class IntegerColumn extends Column {
 	 * Set if the values should be shown as percentages
 	 * @param enable show percentages?
 	 */
-	public void setShowPercentages(boolean enable) {
+	public void setShowPercentages(final boolean enable) {
 		showPercentages = enable;
 	}
 
@@ -69,7 +69,7 @@ public class IntegerColumn extends Column {
 	 * Adds a value to this column (in a new row)
 	 * @param value the new value
 	 */
-	public void addValue(int value) {
+	public void addValue(final int value) {
 		values.add(new Integer(value));
 		sum += value;
 	}
@@ -79,7 +79,7 @@ public class IntegerColumn extends Column {
 	 * @param rowIndex the row to get, starting at 0
 	 * @return the value of this row
 	 */
-	public int getValue(int rowIndex) {
+	public int getValue(final int rowIndex) {
 		return ((Integer) values.get(rowIndex)).intValue();
 	}
 
@@ -97,7 +97,7 @@ public class IntegerColumn extends Column {
 	 * the column total should reflect all values.
 	 * @param sum the column's total
 	 */
-	public void setSum(int sum) {
+	public void setSum(final int sum) {
 		this.sum = sum;
 	}
 
@@ -111,25 +111,25 @@ public class IntegerColumn extends Column {
 	/**
 	 * @see net.sf.statcvs.reportmodel.Column#renderHead(net.sf.statcvs.renderer.TableCellRenderer)
 	 */
-	public void renderHead(TableCellRenderer renderer) {
+	public void renderHead(final TableCellRenderer renderer) {
 		renderer.renderCell(title);
 	}
 
 	/**
 	 * @see net.sf.statcvs.reportmodel.Column#renderCell
 	 */
-	public void renderCell(int rowIndex, TableCellRenderer renderer) {
+	public void renderCell(final int rowIndex, final TableCellRenderer renderer) {
 		callRenderer(renderer, getValue(rowIndex));
 	}
 
 	/**
 	 * @see net.sf.statcvs.reportmodel.Column#renderTotal(net.sf.statcvs.renderer.TableCellRenderer)
 	 */
-	public void renderTotal(TableCellRenderer renderer) {
+	public void renderTotal(final TableCellRenderer renderer) {
 		callRenderer(renderer, sum);
 	}
 	
-	private void callRenderer(TableCellRenderer renderer, int value) {
+	private void callRenderer(final TableCellRenderer renderer, final int value) {
 		if (showValues && showPercentages) {
 			renderer.renderIntegerCell(value, sum);
 		} else if (showValues) {

@@ -44,7 +44,7 @@ public class SimpleTextColumn extends GenericColumn {
 	/**
 	 * @see net.sf.statcvs.reportmodel.Column#renderCell
 	 */
-	public void renderCell(int rowIndex, TableCellRenderer renderer) {
+	public void renderCell(final int rowIndex, final TableCellRenderer renderer) {
 		renderer.renderCell((String) getValue(rowIndex));
 	}
 }

@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 public final class SvnPropgetUtils {
 
 	private static List binaryFiles;
-	private static Logger _logger = Logger.getLogger(SvnPropgetUtils.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(SvnPropgetUtils.class.getName());
 
 	/**
 	 * A utility class (only static methods) should be final and have
@@ -31,7 +31,7 @@ public final class SvnPropgetUtils {
 	 * 
 	 * @return the inputstream from which to read the information.
 	 */
-	protected synchronized static InputStream getFileMimeTypes() {
+	protected static synchronized InputStream getFileMimeTypes() {
 		return getFileMimeTypes(null, null);
 	}
 
@@ -44,25 +44,27 @@ public final class SvnPropgetUtils {
 	 *            the filename (or null for all files)
 	 * @return the inputstream from which to read the information.
 	 */
-	protected synchronized static InputStream getFileMimeTypes(String revision, String filename) {
+	protected static synchronized InputStream getFileMimeTypes(final String revision, final String filename) {
 		String svnPropgetCommand = "svn propget svn:mime-type";
-		if (revision != null && revision.length() > 0)
-			svnPropgetCommand += " -r " + revision; 
+		if (revision != null && revision.length() > 0) {
+			svnPropgetCommand += " -r " + revision;
+		} 
 
 		if (filename != null && filename.length() > 0) {
 			svnPropgetCommand += " " + SvnInfoUtils.relativePathToUrl(filename);
             
-            if (revision != null && revision.length() > 0)
-                svnPropgetCommand += "@" + revision; 
-        }
-		else
+            if (revision != null && revision.length() > 0) {
+				svnPropgetCommand += "@" + revision;
+			} 
+        } else {
 			svnPropgetCommand += " -R ";
+		}
 
 		svnPropgetCommand += SvnCommandHelper.getAuthString();
 
 		try {
 			return ProcessUtils.call(svnPropgetCommand);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 			return null;
 		}
@@ -88,24 +90,24 @@ public final class SvnPropgetUtils {
 	 * @param stream
 	 *            stream equivalent to an svn propget command
 	 */
-	public static void loadBinaryFiles(InputStream stream) {
+	public static void loadBinaryFiles(final InputStream stream) {
 		// public for tests
 		binaryFiles = new ArrayList();
-		LookaheadReader mimeReader = new LookaheadReader(new InputStreamReader(stream));
+		final LookaheadReader mimeReader = new LookaheadReader(new InputStreamReader(stream));
 		try {
 			while (mimeReader.hasNextLine()) {
 				mimeReader.nextLine();
-				String file = getBinaryFilename(mimeReader.getCurrentLine(), false);
-				if (file != null)
+				final String file = getBinaryFilename(mimeReader.getCurrentLine(), false);
+				if (file != null) {
 					binaryFiles.add(file);
+				}
 			}
-			if (ProcessUtils.hasErrorOccured())
-			{
+			if (ProcessUtils.hasErrorOccured()) {
 				throw new IOException(ProcessUtils.getErrorMessage());
 			}
 			
-		} catch (IOException e) {
-			_logger.warning(e.getMessage());
+		} catch (final IOException e) {
+			LOGGER.warning(e.getMessage());
 		}
 	}
 
@@ -120,16 +122,17 @@ public final class SvnPropgetUtils {
 	 *            the filename
 	 * @return if that version of a file is binary
 	 */
-	public static boolean isBinaryFile(String revision, String filename) {
-		LookaheadReader mimeReader = new LookaheadReader(new InputStreamReader(getFileMimeTypes(revision, filename)));
+	public static boolean isBinaryFile(final String revision, final String filename) {
+		final LookaheadReader mimeReader = new LookaheadReader(new InputStreamReader(getFileMimeTypes(revision, filename)));
 		try {
 			while (mimeReader.hasNextLine()) {
 				mimeReader.nextLine();
-				String file = getBinaryFilename(mimeReader.getCurrentLine(), true);
-				if (file != null && file.equals(filename))
+				final String file = getBinaryFilename(mimeReader.getCurrentLine(), true);
+				if (file != null && file.equals(filename)) {
 					return true;
+				}
 			}
-		} catch (IOException e) {
+		} catch (final IOException e) {
 		}
 
 		return false;
@@ -149,18 +152,19 @@ public final class SvnPropgetUtils {
 	 * @return should return lib\junit.jar in both cases, given that
 	 *         removeRoot==true in the second case.
 	 */
-	private static String getBinaryFilename(String currentLine, boolean removeRoot) {
+	private static String getBinaryFilename(final String currentLine, final boolean removeRoot) {
 		// want to make sure we only have / in end result.
 		String line = removeRoot ? currentLine : currentLine.replace("\\", "/");
 
 		// HACK: See bug 18. if removeRoot==true, no - will be found because we
 		// are calling for one specific file.
-		String octetStream = " - application/octet-stream";
+		final String octetStream = " - application/octet-stream";
 		// if is common binary file or identified as something other than text
 		if (line.endsWith(octetStream) || line.lastIndexOf(" - text/") < 0 && line.lastIndexOf(" - text/") == line.lastIndexOf(" - ")) {
 			line = line.substring(0, line.lastIndexOf(" - "));
-			if (removeRoot)
+			if (removeRoot) {
 				line = SvnInfoUtils.urlToRelativePath(line);
+			}
 
 			return line;
 		}

@@ -38,7 +38,7 @@ public class AllTests {
 	 * @return Test suite
 	 */
 	public static Test suite() {
-		TestSuite suite = new TestSuite("Test for net.sf.statcvs.model");
+		final TestSuite suite = new TestSuite("Test for net.sf.statcvs.model");
 		//$JUnit-BEGIN$
 		suite.addTestSuite(CommitTest.class);
 		suite.addTestSuite(AuthorTest.class);

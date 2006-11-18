@@ -24,7 +24,14 @@ import org.xml.sax.helpers.DefaultHandler;
  * 
  * @version $Id$
  */
-public class SvnInfoUtils {
+public final class SvnInfoUtils {
+	/**
+	 * A utility class (only static methods) should be final and have
+	 * a private constructor.
+	 */
+	private SvnInfoUtils() {
+	}
+	
 	/**
 	 * SAX parser for the svn info --xml command.
 	 * 
@@ -32,28 +39,29 @@ public class SvnInfoUtils {
 	 */
 	protected static class SvnInfoHandler extends DefaultHandler {
 
-		protected boolean isRootFolder = false;
-		protected String sCurrentKind;
-		protected String sCurrentRevision;
-		protected String sCurrentUrl;
-		protected String stringData = "";
+		private boolean isRootFolder = false;
+		private String sCurrentKind;
+		private String sCurrentRevision;
+		private String sCurrentUrl;
+		private String stringData = "";
 		private String sCurrentPath;
 
 		/**
 		 * Builds the string that was read; default implementation can invoke
 		 * this function multiple times while reading the data.
 		 */
-		public void characters(char[] ch, int start, int length) throws SAXException {
+		public void characters(final char[] ch, final int start, final int length) throws SAXException {
 			stringData += new String(ch, start, length);
 		}
 
 		/**
 		 * End of xml element.
 		 */
-		public void endElement(String uri, String localName, String qName) throws SAXException {
+		public void endElement(final String uri, final String localName, final String qName) throws SAXException {
 			String eName = localName; // element name
-			if ("".equals(eName))
+			if ("".equals(eName)) {
 				eName = qName; // namespaceAware = false
+			}
 
 			if (isRootFolder && eName.equals("url")) {
 				isRootFolder = false;
@@ -62,31 +70,37 @@ public class SvnInfoUtils {
 			} else if (eName.equals("url")) {
 				sCurrentUrl = stringData;
 			} else if (eName.equals("entry")) {
-				if (sCurrentRevision == null || sCurrentUrl == null || sCurrentKind == null)
+				if (sCurrentRevision == null || sCurrentUrl == null || sCurrentKind == null) {
 					throw new SAXException("Invalid svn info xml; unable to find revision or url for path [" + sCurrentPath + "]" + " revision="
 							+ sCurrentRevision + " url:" + sCurrentUrl + " kind:" + sCurrentKind);
+				}
 
 				hmRevisions.put(urlToRelativePath(sCurrentUrl), sCurrentRevision);
-				if (sCurrentKind.equals("dir"))
+				if (sCurrentKind.equals("dir")) {
 					hsDirectories.add(urlToRelativePath(sCurrentUrl));
+				}
 			} else if (eName.equals("uuid")) {
 				sRepositoryUuid = stringData;
-			} else if (eName.equals("root"))
+			} else if (eName.equals("root")) {
 				setRepositoryUrl(stringData);
+			}
 		}
 
 		/**
 		 * Start of XML element.
 		 */
-		public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+		public void startElement(final String uri, final String localName, final String qName, final Attributes attributes) throws SAXException {
 			String eName = localName; // element name
-			if ("".equals(eName))
+			if ("".equals(eName)) {
 				eName = qName; // namespaceAware = false
+			}
 
 			if (eName.equals("entry")) {
 				sCurrentPath = attributes.getValue("path");
-				if (!isValidInfoEntry(attributes))
-					throw new SAXException("Invalid svn info xml for entry element. Please verify that you have checked out this project using Subversion 1.3 or above, not only that you are currently using this version.");
+				if (!isValidInfoEntry(attributes)) {
+					throw new SAXException("Invalid svn info xml for entry element. Please verify that you have checked out this project using "
+							+ "Subversion 1.3 or above, not only that you are currently using this version.");
+				}
 
 				if (sRootUrl == null && isRootFolder(attributes)) {
 					isRootFolder = true;
@@ -97,8 +111,10 @@ public class SvnInfoUtils {
 				sCurrentUrl = null;
 				sCurrentKind = attributes.getValue("kind");
 			} else if (eName.equals("commit")) {
-				if (!isValidCommit(attributes))
-					throw new SAXException("Invalid svn info xml for commit element. Please verify that you have checked out this project using Subversion 1.3 or above, not only that you are currently using this version.");
+				if (!isValidCommit(attributes)) {
+					throw new SAXException("Invalid svn info xml for commit element. Please verify that you have checked out this project using "
+							+ "Subversion 1.3 or above, not only that you are currently using this version.");
+				}
 				sCurrentRevision = attributes.getValue("revision");
 			}
 
@@ -112,7 +128,7 @@ public class SvnInfoUtils {
 		 *            the xml attributes
 		 * @return true if is the root folder.
 		 */
-		private static boolean isRootFolder(Attributes attributes) {
+		private static boolean isRootFolder(final Attributes attributes) {
 			return attributes.getValue("path").equals(".") && attributes.getValue("kind").equals("dir");
 		}
 
@@ -124,7 +140,7 @@ public class SvnInfoUtils {
 		 *            the xml attributes
 		 * @return true if is a valid commit.
 		 */
-		private static boolean isValidCommit(Attributes attributes) {
+		private static boolean isValidCommit(final Attributes attributes) {
 			return attributes != null && attributes.getValue("revision") != null;
 		}
 
@@ -136,35 +152,36 @@ public class SvnInfoUtils {
 		 *            the xml attributes.
 		 * @return true if is a valid info entry.
 		 */
-		private static boolean isValidInfoEntry(Attributes attributes) {
-			return attributes != null && attributes.getValue("path") != null && attributes.getValue("kind") != null && attributes.getValue("revision") != null;
+		private static boolean isValidInfoEntry(final Attributes attributes) {
+			return attributes != null && attributes.getValue("path") != null && attributes.getValue("kind") != null 
+				&& attributes.getValue("revision") != null;
 		}
 	}
 
 	// enable caching to speed up calculations
-	protected static final boolean ENABLE_CACHING = true;
+	private static final boolean ENABLE_CACHING = true;
 
 	// relative path -> Revision Number
-	protected static HashMap hmRevisions;
+	private static HashMap hmRevisions;
 
 	// if HashSet contains relative path, path is a directory.
-	protected static HashSet hsDirectories;
+	private static HashSet hsDirectories;
 
 	// Path of . in repository. Can only be calculated if given an element from
 	// the SVN log.
-	protected static String sModuleName = null;
+	private static String sModuleName = null;
 
 	// Revision number of root folder (.)
-	protected static String sRootRevisionNumber = null;
+	private static String sRootRevisionNumber = null;
 
 	// URL of root (.)
-	protected static String sRootUrl = null;
+	private static String sRootUrl = null;
 
 	// UUID of repository
-	protected static String sRepositoryUuid = null;
+	private static String sRepositoryUuid = null;
 
 	// URL of repository
-	protected static String sRepositoryUrl = null;
+	private static String sRepositoryUrl = null;
 
 	/**
 	 * Converts an absolute path in the repository to a path relative to the
@@ -178,15 +195,17 @@ public class SvnInfoUtils {
 	 * @return Example: package.html
 	 */
 	public static String absoluteToRelativePath(String absolute) {
-		if (absolute.endsWith("/"))
+		if (absolute.endsWith("/")) {
 			absolute = absolute.substring(0, absolute.length() - 1);
+		}
 
-		if (absolute.equals(getModuleName()))
+		if (absolute.equals(getModuleName())) {
 			return ".";
-		else if (!absolute.startsWith(getModuleName()))
+		} else if (!absolute.startsWith(getModuleName())) {
 			return null;
-		else
+		} else {
 			return absolute.substring(getModuleName().length() + 1);
+		}
 	}
 
 	/**
@@ -197,7 +216,7 @@ public class SvnInfoUtils {
 	 *            Example: /trunk/statsvn/package.html
 	 * @return Example: svn://svn.statsvn.org/statsvn/trunk/statsvn/package.html
 	 */
-	public static String absolutePathToUrl(String absolute) {
+	public static String absolutePathToUrl(final String absolute) {
 		return getRepositoryUrl() + (absolute.endsWith("/") ? absolute.substring(0, absolute.length() - 1) : absolute);
 	}
 
@@ -213,10 +232,11 @@ public class SvnInfoUtils {
 	 */
 	public static String relativePathToUrl(String relative) {
 		relative = relative.replace('\\', '/');
-		if (relative.equals(".") || relative.length() == 0)
+		if (relative.equals(".") || relative.length() == 0) {
 			return getRootUrl();
-		else
+		} else {
 			return getRootUrl() + "/" + (relative.endsWith("/") ? relative.substring(0, relative.length() - 1) : relative);
+		}
 	}
 
 	/**
@@ -228,7 +248,7 @@ public class SvnInfoUtils {
 	 * @return Example: /trunk/statsvn/src/Messages.java
 	 * 
 	 */
-	public static String relativeToAbsolutePath(String relative) {
+	public static String relativeToAbsolutePath(final String relative) {
 		return urlToAbsolutePath(relativePathToUrl(relative));
 	}
 
@@ -240,7 +260,7 @@ public class SvnInfoUtils {
 	 *            the path
 	 * @return <tt>true</tt> if it exists
 	 */
-	public static boolean existsInWorkingCopy(String relativePath) {
+	public static boolean existsInWorkingCopy(final String relativePath) {
 		return getRevisionNumber(relativePath) != null;
 	}
 
@@ -256,11 +276,12 @@ public class SvnInfoUtils {
 		if (sModuleName == null) {
 
 			if (getRootUrl().length() < getRepositoryUrl().length() || getRepositoryUrl().length() == 0) {
-				Logger logger = Logger.getLogger(SvnInfoUtils.class.getName());
+				final Logger logger = Logger.getLogger(SvnInfoUtils.class.getName());
 				logger.warning("Unable to process module name.");
 				sModuleName = "";
-			} else
+			} else {
 				sModuleName = getRootUrl().substring(getRepositoryUrl().length());
+			}
 
 		}
 		return sModuleName;
@@ -274,11 +295,12 @@ public class SvnInfoUtils {
 	 * @return the revision number if it exists in the working copy, null
 	 *         otherwise.
 	 */
-	public static String getRevisionNumber(String relativePath) {
-		if (hmRevisions.containsKey(relativePath))
+	public static String getRevisionNumber(final String relativePath) {
+		if (hmRevisions.containsKey(relativePath)) {
 			return hmRevisions.get(relativePath).toString();
-		else
+		} else {
 			return null;
+		}
 	}
 
 	/**
@@ -327,15 +349,16 @@ public class SvnInfoUtils {
 	 *            (recurse for all files)
 	 * @return the response.
 	 */
-	protected synchronized static InputStream getSvnInfo(boolean bRootOnly) {
+	protected static synchronized InputStream getSvnInfo(boolean bRootOnly) {
 		String svnInfoCommand = "svn info --xml";
-		if (!bRootOnly)
+		if (!bRootOnly) {
 			svnInfoCommand += " -R";
+		}
 		svnInfoCommand += SvnCommandHelper.getAuthString();
 
 		try {
 			return ProcessUtils.call(svnInfoCommand);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 			return null;
 		}
@@ -348,7 +371,7 @@ public class SvnInfoUtils {
 	 *            the path
 	 * @return true if it is a known directory.
 	 */
-	public static boolean isDirectory(String relativePath) {
+	public static boolean isDirectory(final String relativePath) {
 		return hsDirectories.contains(relativePath);
 	}
 
@@ -359,9 +382,10 @@ public class SvnInfoUtils {
 	 * @param relativePath
 	 *            the relative path.
 	 */
-	public static void addDirectory(String relativePath) {
-		if (!hsDirectories.contains(relativePath))
+	public static void addDirectory(final String relativePath) {
+		if (!hsDirectories.contains(relativePath)) {
 			hsDirectories.add(relativePath);
+		}
 	}
 
 	/**
@@ -385,7 +409,7 @@ public class SvnInfoUtils {
 	 * @throws IOException
 	 *             if we can't read from the response stream.
 	 */
-	protected static void loadInfo(boolean bRootOnly) throws LogSyntaxException, IOException {
+	protected static void loadInfo(final boolean bRootOnly) throws LogSyntaxException, IOException {
 		loadInfo(getSvnInfo(bRootOnly));
 	}
 
@@ -399,24 +423,24 @@ public class SvnInfoUtils {
 	 * @throws IOException
 	 *             if we can't read from the response stream.
 	 */
-	public static void loadInfo(InputStream stream) throws LogSyntaxException, IOException {
+	public static void loadInfo(final InputStream stream) throws LogSyntaxException, IOException {
 		// is public for tests
 		if (isQueryNeeded(true)) {
 			try {
 				hmRevisions = new HashMap();
 				hsDirectories = new HashSet();
 
-				SAXParserFactory factory = SAXParserFactory.newInstance();
-				SAXParser parser = factory.newSAXParser();
+				final SAXParserFactory factory = SAXParserFactory.newInstance();
+				final SAXParser parser = factory.newSAXParser();
 				parser.parse(stream, new SvnInfoHandler());
 
 				if (ProcessUtils.hasErrorOccured()) {
 					throw new IOException(ProcessUtils.getErrorMessage());
 				}
 
-			} catch (ParserConfigurationException e) {
+			} catch (final ParserConfigurationException e) {
 				throw new LogSyntaxException(e.getMessage());
-			} catch (SAXException e) {
+			} catch (final SAXException e) {
 				throw new LogSyntaxException(e.getMessage());
 			}
 
@@ -444,15 +468,18 @@ public class SvnInfoUtils {
 	 * @return Example: /trunk/statsvn, /trunk/statsvn/package.html
 	 */
 	public static String urlToAbsolutePath(String url) {
-		if (url.endsWith("/"))
+		if (url.endsWith("/")) {
 			url = url.substring(0, url.length() - 1);
+		}
 		if (getModuleName().length() <= 1) {
-			if (getRootUrl().equals(url))
+			if (getRootUrl().equals(url)) {
 				return "/";
-			else
+			} else {
 				return url.substring(getRootUrl().length());
-		} else
+			}
+		} else {
 			return url.substring(url.lastIndexOf(getModuleName()));
+		}
 	}
 
 	/**
@@ -463,7 +490,7 @@ public class SvnInfoUtils {
 	 *            svn://svn.statsvn.org/statsvn/trunk/statsvn/package.html
 	 * @return Example: ".", package.html
 	 */
-	public static String urlToRelativePath(String url) {
+	public static String urlToRelativePath(final String url) {
 		return absoluteToRelativePath(urlToAbsolutePath(url));
 	}
 
@@ -472,11 +499,12 @@ public class SvnInfoUtils {
 	 * 
 	 * @param rootUrl
 	 */
-	protected static void setRootUrl(String rootUrl) {
-		if (rootUrl.endsWith("/"))
+	protected static void setRootUrl(final String rootUrl) {
+		if (rootUrl.endsWith("/")) {
 			sRootUrl = rootUrl.substring(0, rootUrl.length() - 1);
-		else
+		} else {
 			sRootUrl = rootUrl;
+		}
 
 		sModuleName = null;
 	}
@@ -486,11 +514,12 @@ public class SvnInfoUtils {
 	 * 
 	 * @param repositoryUrl
 	 */
-	protected static void setRepositoryUrl(String repositoryUrl) {
-		if (repositoryUrl.endsWith("/"))
+	protected static void setRepositoryUrl(final String repositoryUrl) {
+		if (repositoryUrl.endsWith("/")) {
 			sRepositoryUrl = repositoryUrl.substring(0, repositoryUrl.length() - 1);
-		else
+		} else {
 			sRepositoryUrl = repositoryUrl;
+		}
 
 		sModuleName = null;
 	}

@@ -41,7 +41,7 @@ public class WebRepositoryIntegrationTest extends TestCase {
 
 	private WebRepositoryIntegration viewvc;
 	private WebRepositoryIntegration chora;
-	private Date date = new Date(100000000);
+	private final Date date = new Date(100000000);
 	private Directory root;
 	private Directory path;
 
@@ -49,7 +49,7 @@ public class WebRepositoryIntegrationTest extends TestCase {
 	 * Checkstyle drives me nuts
 	 * @param arg0 stuff
 	 */
-	public WebRepositoryIntegrationTest(String arg0) {
+	public WebRepositoryIntegrationTest(final String arg0) {
 		super(arg0);
 	}
 	
@@ -73,8 +73,8 @@ public class WebRepositoryIntegrationTest extends TestCase {
 	 * the base URL
 	 */
 	public void testViewvcForgivingBaseURL() {
-		ViewVcIntegration viewvc2 = new ViewVcIntegration("http://example.com");
-		VersionedFile file = new VersionedFile("file", root);
+		final ViewVcIntegration viewvc2 = new ViewVcIntegration("http://example.com");
+		final VersionedFile file = new VersionedFile("file", root);
 		file.addChangeRevision("1.1", null, date, null, 0, 0, 0, null);
 		assertEquals("http://example.com/file", viewvc2.getFileHistoryUrl(file));
 	}
@@ -83,7 +83,7 @@ public class WebRepositoryIntegrationTest extends TestCase {
 	 * test URLs for a normal file
 	 */
 	public void testViewvcNormalFile() {
-		VersionedFile file = new VersionedFile("path/file", path);
+		final VersionedFile file = new VersionedFile("path/file", path);
 		file.addChangeRevision("1.1", null, date, null, 0, 0, 0, null);
 		assertEquals(BASE + "path/file", viewvc.getFileHistoryUrl(file));
 		assertEquals(BASE + "path/file?rev=HEAD&content-type=text/vnd.viewcvs-markup",
@@ -95,7 +95,7 @@ public class WebRepositoryIntegrationTest extends TestCase {
 	 */
 	public void testViewvcWithCvsroot() {
 		this.viewvc = new ViewVcIntegration("http://example.com/cgi-bin/viewvc.cgi/module?cvsroot=CvsRoot");
-		VersionedFile file = new VersionedFile("path/file", this.path);
+		final VersionedFile file = new VersionedFile("path/file", this.path);
 		file.addChangeRevision("1.1", null, this.date, null, 0, 0, 0, null);
 		assertEquals(
 				"http://example.com/cgi-bin/viewvc.cgi/module/path/file?cvsroot=CvsRoot",
@@ -133,9 +133,9 @@ public class WebRepositoryIntegrationTest extends TestCase {
 	 * Test URLs for diff
 	 */
 	public void testViewvcDiff() {
-		VersionedFile file = new VersionedFile("file", root);
-		Revision rev1 = file.addChangeRevision("1.1", null, date, null, 0, 0, 0, null);
-		Revision rev2 = file.addChangeRevision("1.2", null, date, null, 0, 0, 0, null);
+		final VersionedFile file = new VersionedFile("file", root);
+		final Revision rev1 = file.addChangeRevision("1.1", null, date, null, 0, 0, 0, null);
+		final Revision rev2 = file.addChangeRevision("1.2", null, date, null, 0, 0, 0, null);
 		assertEquals(
 				"http://example.com/file.diff?r1=1.1&r2=1.2",
 				viewvc.getDiffUrl(rev1, rev2));
@@ -146,9 +146,9 @@ public class WebRepositoryIntegrationTest extends TestCase {
 	 */
 	public void testViewvcDiffWithCvsroot() {
 		this.viewvc = new ViewVcIntegration("http://example.com/cgi-bin/viewvc.cgi/module?cvsroot=CvsRoot");
-		VersionedFile file = new VersionedFile("file", this.root);
-		Revision rev1 = file.addChangeRevision("1.1", null, this.date, null, 0, 0, 0, null);
-		Revision rev2 = file.addChangeRevision("1.2", null, this.date, null, 0, 0, 0, null);
+		final VersionedFile file = new VersionedFile("file", this.root);
+		final Revision rev1 = file.addChangeRevision("1.1", null, this.date, null, 0, 0, 0, null);
+		final Revision rev2 = file.addChangeRevision("1.2", null, this.date, null, 0, 0, 0, null);
 		assertEquals(
 				"http://example.com/cgi-bin/viewvc.cgi/module/file.diff?r1=1.1&r2=1.2&cvsroot=CvsRoot",
 				this.viewvc.getDiffUrl(rev1, rev2));
@@ -168,8 +168,8 @@ public class WebRepositoryIntegrationTest extends TestCase {
 	 * the base URL
 	 */
 	public void testChoraForgivingBaseURL() {
-		ChoraIntegration chora2 = new ChoraIntegration("http://example.com");
-		VersionedFile file = new VersionedFile("file", root);
+		final ChoraIntegration chora2 = new ChoraIntegration("http://example.com");
+		final VersionedFile file = new VersionedFile("file", root);
 		file.addChangeRevision("1.1", null, date, null, 0, 0, 0, null);
 		assertEquals("http://example.com/?f=file", chora2.getFileHistoryUrl(file));
 	}
@@ -178,7 +178,7 @@ public class WebRepositoryIntegrationTest extends TestCase {
 	 * test URLs for a normal file
 	 */
 	public void testChoraNormalFile() {
-		VersionedFile file = new VersionedFile("path/file", path);
+		final VersionedFile file = new VersionedFile("path/file", path);
 		file.addChangeRevision("1.1", null, date, null, 0, 0, 0, null);
 		assertEquals(BASE + "?f=path/file", chora.getFileHistoryUrl(file));
 		assertEquals(BASE + "co.php?f=path/file&r=HEAD", chora.getFileViewUrl(file));
@@ -211,9 +211,9 @@ public class WebRepositoryIntegrationTest extends TestCase {
 	 * Test URLs for diff
 	 */
 	public void testChoraDiff() {
-		VersionedFile file = new VersionedFile("file", root);
-		Revision rev1 = file.addChangeRevision("1.1", null, date, null, 0, 0, 0, null);
-		Revision rev2 = file.addChangeRevision("1.2", null, date, null, 0, 0, 0, null);
+		final VersionedFile file = new VersionedFile("file", root);
+		final Revision rev1 = file.addChangeRevision("1.1", null, date, null, 0, 0, 0, null);
+		final Revision rev2 = file.addChangeRevision("1.2", null, date, null, 0, 0, 0, null);
 		assertEquals(
 				"http://example.com/diff.php?f=file&r1=1.1&r2=1.2&ty=h",
 				chora.getDiffUrl(rev1, rev2));

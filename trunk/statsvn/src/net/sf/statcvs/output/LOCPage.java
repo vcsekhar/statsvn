@@ -37,7 +37,7 @@ public class LOCPage extends HTMLPage {
 	/**
 	 * @see net.sf.statcvs.output.HTMLPage#HTMLPage(Repository)
 	 */
-	public LOCPage(Repository content, boolean locImageCreated, final OutputRenderer renderer) throws IOException {
+	public LOCPage(final Repository content, final boolean locImageCreated, final OutputRenderer renderer) throws IOException {
 		super(content, renderer);
 		this.locImageCreated = locImageCreated;
 		setFileName("loc" + renderer.getFileExtension());
@@ -54,8 +54,8 @@ public class LOCPage extends HTMLPage {
 		if (!locImageCreated) {
 			return p(Messages.getString("NO_LOC_AVAILABLE"));
 		}
-		StringBuffer result = new StringBuffer();
-		int loc = getContent().getCurrentLOC();
+		final StringBuffer result = new StringBuffer();
+		final int loc = getContent().getCurrentLOC();
 		result.append(img("loc.png", 640, 480)).append(br());
 		result.append(strong(Messages.getString("TOTAL_LOC"))).append(": ").append(loc);
 		result.append(" (").append(HTMLTagger.getDateAndTime(getContent().getLastDate()));

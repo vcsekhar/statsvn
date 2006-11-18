@@ -43,7 +43,7 @@ public class AllTests {
 	 */
 	public static Test suite() {
 		Logger.getLogger("net.sf.statcvs").setLevel(Level.OFF);
-		TestSuite suite = new TestSuite("Test for net.sf.statcvs");
+		final TestSuite suite = new TestSuite("Test for net.sf.statcvs");
 		//$JUnit-BEGIN$
 		suite.addTest(net.sf.statcvs.input.AllTests.suite());
 		suite.addTest(net.sf.statcvs.model.AllTests.suite());		
@@ -59,7 +59,7 @@ public class AllTests {
 	 * Runs all StatCvs unit tests with the text TestRunner
 	 * @param args Ignored.
 	 */
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		TestRunner.run(suite());
 	}
 }

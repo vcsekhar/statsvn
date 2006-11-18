@@ -49,8 +49,8 @@ import net.sf.statcvs.util.SvnPropgetUtils;
  * @version $Id$
  */
 public class RepositoryFileManager {
-	protected static Logger logger;
-	protected String path;
+	private Logger logger;
+	private String path;
 
 	/**
 	 * Creates a new instance with root at <code>pathName</code>.
@@ -71,7 +71,7 @@ public class RepositoryFileManager {
 	 *            Example: /trunk/statsvn/package.html
 	 * @return Example: svn://svn.statsvn.org/statsvn/trunk/statsvn/package.html
 	 */
-	public String absolutePathToUrl(String absolute) {
+	public String absolutePathToUrl(final String absolute) {
 		return SvnInfoUtils.absolutePathToUrl(absolute);
 	}
 
@@ -86,7 +86,7 @@ public class RepositoryFileManager {
 	 *            /trunk/statsvn/package.html
 	 * @return Example: package.html
 	 */
-	public String absoluteToRelativePath(String stringData) {
+	public String absoluteToRelativePath(final String stringData) {
 		return SvnInfoUtils.absoluteToRelativePath(stringData);
 	}
 
@@ -97,7 +97,7 @@ public class RepositoryFileManager {
 	 * @param relativePath
 	 *            the relative path.
 	 */
-	public void addDirectory(String relativePath) {
+	public void addDirectory(final String relativePath) {
 		SvnInfoUtils.addDirectory(relativePath);
 	}
 
@@ -109,7 +109,7 @@ public class RepositoryFileManager {
 	 *            the path
 	 * @return <tt>true</tt> if it exists
 	 */
-	public boolean existsInWorkingCopy(String relativePath) {
+	public boolean existsInWorkingCopy(final String relativePath) {
 		return SvnInfoUtils.existsInWorkingCopy(relativePath);
 	}
 
@@ -122,7 +122,7 @@ public class RepositoryFileManager {
 	 * @throws IOException
 	 *             error reading from reader
 	 */
-	protected int getLineCount(BufferedReader reader) throws IOException {
+	protected int getLineCount(final BufferedReader reader) throws IOException {
 		int linecount = 0;
 		while (reader.readLine() != null) {
 			linecount++;
@@ -146,7 +146,7 @@ public class RepositoryFileManager {
 	 *             if the error message is due to trying to diff binary files.
 	 * 
 	 */
-	public int[] getLineDiff(String oldRevNr, String newRevNr, String filename) throws IOException, BinaryDiffException {
+	public int[] getLineDiff(final String oldRevNr, final String newRevNr, final String filename) throws IOException, BinaryDiffException {
 		return SvnDiffUtils.getLineDiff(oldRevNr, newRevNr, filename);
 	}
 
@@ -161,16 +161,16 @@ public class RepositoryFileManager {
 	 *             when the line count could not be retrieved, for example when
 	 *             the file was not found.
 	 */
-	public int getLinesOfCode(String filename) throws NoLineCountException {
+	public int getLinesOfCode(final String filename) throws NoLineCountException {
 		final String absoluteName = FileUtils.getAbsoluteName(this.path, filename);
 		try {
-			FileReader freader = new FileReader(absoluteName);
-			BufferedReader reader = new BufferedReader(freader);
-			int linecount = getLineCount(reader);
+			final FileReader freader = new FileReader(absoluteName);
+			final BufferedReader reader = new BufferedReader(freader);
+			final int linecount = getLineCount(reader);
 			logger.finer("line count for '" + absoluteName + "': " + linecount);
 			freader.close();
 			return linecount;
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			throw new NoLineCountException("could not get line count for '" + absoluteName + "': " + e);
 		}
 	}
@@ -203,14 +203,15 @@ public class RepositoryFileManager {
 	 *            the filename
 	 * @return the revision of filename
 	 */
-	public String getRevision(String filename) throws IOException {
-		String rev = SvnInfoUtils.getRevisionNumber(filename);
+	public String getRevision(final String filename) throws IOException {
+		final String rev = SvnInfoUtils.getRevisionNumber(filename);
 		if (rev != null) {
 			return rev;
-		} else if (!SvnInfoUtils.isDirectory(filename))
+		} else if (!SvnInfoUtils.isDirectory(filename)) {
 			throw new IOException("File " + filename + " has no revision");
-		else
+		} else {
 			return null;
+		}
 	}
 	
 	/**
@@ -230,7 +231,7 @@ public class RepositoryFileManager {
 	 *            the directory
 	 * @return true if it is marked as a binary file
 	 */
-	public boolean isBinary(String relativePath) {
+	public boolean isBinary(final String relativePath) {
 		return SvnPropgetUtils.getBinaryFiles().contains(relativePath);
 	}
 
@@ -241,7 +242,7 @@ public class RepositoryFileManager {
 	 *            the path
 	 * @return true if it is a known directory.
 	 */
-	public boolean isDirectory(String relativePath) {
+	public boolean isDirectory(final String relativePath) {
 		return SvnInfoUtils.isDirectory(relativePath);
 	}
 
@@ -267,7 +268,7 @@ public class RepositoryFileManager {
 	 *         svn://svn.statsvn.org/statsvn/trunk/statsvn/src/Messages.java
 	 * 
 	 */
-	public String relativePathToUrl(String relative) {
+	public String relativePathToUrl(final String relative) {
 		return SvnInfoUtils.relativePathToUrl(relative);
 	}
 
@@ -280,7 +281,7 @@ public class RepositoryFileManager {
 	 * @return Example: /trunk/statsvn/src/Messages.java
 	 * 
 	 */
-	public String relativeToAbsolutePath(String relative) {
+	public String relativeToAbsolutePath(final String relative) {
 		return SvnInfoUtils.relativeToAbsolutePath(relative);
 	}
 
@@ -292,7 +293,7 @@ public class RepositoryFileManager {
 	 *            svn://svn.statsvn.org/statsvn/trunk/statsvn/package.html
 	 * @return Example: /trunk/statsvn, /trunk/statsvn/package.html
 	 */
-	public String urlToAbsolutePath(String url) {
+	public String urlToAbsolutePath(final String url) {
 		return SvnInfoUtils.urlToAbsolutePath(url);
 	}
 
@@ -304,7 +305,7 @@ public class RepositoryFileManager {
 	 *            svn://svn.statsvn.org/statsvn/trunk/statsvn/package.html
 	 * @return Example: ".", package.html
 	 */
-	public String urlToRelativePath(String url) {
+	public String urlToRelativePath(final String url) {
 		return SvnInfoUtils.urlToRelativePath(url);
 	}
 }

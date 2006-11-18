@@ -57,7 +57,7 @@ import org.xml.sax.SAXException;
 public class SvnLogfileParser {
 
     private static final String REPOSITORIES_XML = "repositories.xml";
-	private static Logger logger = Logger.getLogger(SvnLogfileParser.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(SvnLogfileParser.class.getName());
     private SvnLogBuilder builder;
     private InputStream logFile;
     private RepositoryFileManager repositoryFileManager;
@@ -72,7 +72,7 @@ public class SvnLogfileParser {
      * @param builder
      *            the builder that will process the log information
      */
-    public SvnLogfileParser(RepositoryFileManager repositoryFileManager, InputStream logFile, SvnLogBuilder builder) {
+    public SvnLogfileParser(final RepositoryFileManager repositoryFileManager, final InputStream logFile, final SvnLogBuilder builder) {
         this.logFile = logFile;
         this.builder = builder;
         this.repositoryFileManager = repositoryFileManager;
@@ -87,49 +87,50 @@ public class SvnLogfileParser {
      *            the factory used to create SAX parsers.
      * @throws IOException
      */
-    protected void handleLineCounts(SAXParserFactory factory) throws IOException {
+    protected void handleLineCounts(final SAXParserFactory factory) throws IOException {
         long startTime = System.currentTimeMillis();
-    	String xmlFile = ConfigurationOptions.getCacheDir() + REPOSITORIES_XML;
+    	final String xmlFile = ConfigurationOptions.getCacheDir() + REPOSITORIES_XML;
     	
-        RepositoriesBuilder repositoriesBuilder = new RepositoriesBuilder();
+        final RepositoriesBuilder repositoriesBuilder = new RepositoriesBuilder();
         try {
-            FileInputStream repositoriesFile = new FileInputStream(xmlFile);
-            SAXParser parser = factory.newSAXParser();
+            final FileInputStream repositoriesFile = new FileInputStream(xmlFile);
+            final SAXParser parser = factory.newSAXParser();
             parser.parse(repositoriesFile, new SvnXmlRepositoriesFileHandler(repositoriesBuilder));
-        } catch (ParserConfigurationException e) {
-        } catch (SAXException e) {
-        } catch (IOException e) {
+        } catch (final ParserConfigurationException e) {
+        } catch (final SAXException e) {
+        } catch (final IOException e) {
         }
-        String cacheFileName = ConfigurationOptions.getCacheDir() + repositoriesBuilder.getFileName(repositoryFileManager.getRepositoryUuid());
+        final String cacheFileName = ConfigurationOptions.getCacheDir() + repositoriesBuilder.getFileName(repositoryFileManager.getRepositoryUuid());
         XMLUtil.writeXmlFile(repositoriesBuilder.getDocument(), xmlFile);
-        logger.fine("parsing repositories finished in " + (System.currentTimeMillis() - startTime) + " ms.");
+        LOGGER.fine("parsing repositories finished in " + (System.currentTimeMillis() - startTime) + " ms.");
         startTime = System.currentTimeMillis();
         
-        CacheBuilder cacheBuilder = new CacheBuilder(builder, repositoryFileManager);
+        final CacheBuilder cacheBuilder = new CacheBuilder(builder, repositoryFileManager);
         try {
-            FileInputStream cacheFile = new FileInputStream(cacheFileName);
-            SAXParser parser = factory.newSAXParser();
+            final FileInputStream cacheFile = new FileInputStream(cacheFileName);
+            final SAXParser parser = factory.newSAXParser();
             parser.parse(cacheFile, new SvnXmlCacheFileHandler(cacheBuilder));
             cacheFile.close();
-        } catch (ParserConfigurationException e) {
-        } catch (SAXException e) {
-        } catch (IOException e) {
+        } catch (final ParserConfigurationException e) {
+        } catch (final SAXException e) {
+        } catch (final IOException e) {
         }
-        logger.fine("parsing line counts finished in " + (System.currentTimeMillis() - startTime) + " ms.");
+        LOGGER.fine("parsing line counts finished in " + (System.currentTimeMillis() - startTime) + " ms.");
         startTime = System.currentTimeMillis();
 
         // update the cache xml file with the latest binary status information
         // from the working copy
         cacheBuilder.updateBinaryStatus(builder.getFileBuilders().values(), repositoryFileManager.getRootRevisionNumber());
         
-        Collection fileBuilders = builder.getFileBuilders().values();
+        final Collection fileBuilders = builder.getFileBuilders().values();
         boolean isFirstDiff=true;
-        for (Iterator iter = fileBuilders.iterator(); iter.hasNext();) {
-            FileBuilder fileBuilder = (FileBuilder) iter.next();
-            if (fileBuilder.isBinary())
-                continue;
-            String fileName = fileBuilder.getName();
-            List revisions = fileBuilder.getRevisions();
+        for (final Iterator iter = fileBuilders.iterator(); iter.hasNext();) {
+            final FileBuilder fileBuilder = (FileBuilder) iter.next();
+            if (fileBuilder.isBinary()) {
+				continue;
+			}
+            final String fileName = fileBuilder.getName();
+            final List revisions = fileBuilder.getRevisions();
             for (int i = 0; i < revisions.size(); i++) {
 				// line diffs are expensive operations. therefore, the result is stored in the
 				// cacheBuilder and eventually persisted in the cache xml file. the next time
@@ -137,26 +138,29 @@ public class SvnLogfileParser {
 				// in the RevisionData. this cause hasNoLines to be false which in turn causes the 
             	// if clause below to be skipped.
                 if (i + 1 < revisions.size() && ((RevisionData) revisions.get(i)).hasNoLines() && !((RevisionData) revisions.get(i)).isDeletion()) {
-                    if (((RevisionData) revisions.get(i + 1)).isDeletion())
-                        continue;
-                    String revNrNew = ((RevisionData) revisions.get(i)).getRevisionNumber();
-                    if (cacheBuilder.isBinary(fileName, revNrNew))
-                    	continue;
-                    String revNrOld = ((RevisionData) revisions.get(i + 1)).getRevisionNumber();
-					int lineDiff[];
+                    if (((RevisionData) revisions.get(i + 1)).isDeletion()) {
+						continue;
+					}
+                    final String revNrNew = ((RevisionData) revisions.get(i)).getRevisionNumber();
+                    if (cacheBuilder.isBinary(fileName, revNrNew)) {
+						continue;
+					}
+                    final String revNrOld = ((RevisionData) revisions.get(i + 1)).getRevisionNumber();
+					int[] lineDiff;
 					try {
 						if (isFirstDiff) {
 							System.out.println("Contacting server to obtain line count information.");
-							System.out.println("This information will be cached so that the next time you run StatSVN, results will be returned more quickly.");
+							System.out.println("This information will be cached so that the next time you run StatSVN, "
+									+"results will be returned more quickly.");
 							isFirstDiff=false;
 						}
 						lineDiff = repositoryFileManager.getLineDiff(revNrOld, revNrNew, fileName);
-					} catch (BinaryDiffException e) {
+					} catch (final BinaryDiffException e) {
 						// file is binary and has been deleted
 						cacheBuilder.newRevision(fileName, revNrNew, "0", "0", true);
 						fileBuilder.setBinary(true);
 						break;
-					} catch (IOException e) {
+					} catch (final IOException e) {
 					   System.out.println("Unable to obtain diff: " + e.getMessage());
                        continue;
                     }
@@ -170,7 +174,7 @@ public class SvnLogfileParser {
             }
         }
         XMLUtil.writeXmlFile(cacheBuilder.getDocument(), cacheFileName);
-        logger.fine("parsing svn diff finished in " + (System.currentTimeMillis() - startTime) + " ms.");
+        LOGGER.fine("parsing svn diff finished in " + (System.currentTimeMillis() - startTime) + " ms.");
     }
 
     /**
@@ -183,7 +187,7 @@ public class SvnLogfileParser {
      */
     public void parse() throws LogSyntaxException, IOException {
 
-        SAXParserFactory factory = parseSvnLog();
+        final SAXParserFactory factory = parseSvnLog();
 
         verifyImplicitActions();
 
@@ -206,16 +210,16 @@ public class SvnLogfileParser {
 
         // this method most certainly has issues with implicit actions on root folder.
 
-        long startTime = System.currentTimeMillis();
-        logger.fine("verifying implicit actions ...");
+        final long startTime = System.currentTimeMillis();
+        LOGGER.fine("verifying implicit actions ...");
 
-        HashSet implicitActions = new HashSet();
+        final HashSet implicitActions = new HashSet();
 
         // get all filenames
-        ArrayList files = new ArrayList();
-        Collection fileBuilders = builder.getFileBuilders().values();
-        for (Iterator iter = fileBuilders.iterator(); iter.hasNext();) {
-            FileBuilder fileBuilder = (FileBuilder) iter.next();
+        final ArrayList files = new ArrayList();
+        final Collection fileBuilders = builder.getFileBuilders().values();
+        for (final Iterator iter = fileBuilders.iterator(); iter.hasNext();) {
+            final FileBuilder fileBuilder = (FileBuilder) iter.next();
             files.add(fileBuilder.getName());
         }
 
@@ -239,11 +243,11 @@ public class SvnLogfileParser {
                 child = files.get(j).toString();
                 childBuilder = (FileBuilder) builder.getFileBuilders().get(child);
                 // for all revisions in the the parent folder
-                for (Iterator iter = parentBuilder.getRevisions().iterator(); iter.hasNext();) {
+                for (final Iterator iter = parentBuilder.getRevisions().iterator(); iter.hasNext();) {
                     parentData = (RevisionData) iter.next();
                     try {
                         parentRevision = Integer.parseInt(parentData.getRevisionNumber());
-                    } catch (Exception e) {
+                    } catch (final Exception e) {
                         continue;
                     }
 
@@ -262,19 +266,20 @@ public class SvnLogfileParser {
                                 break;
                             }
 
-                            if (parentRevision > childRevision)
-                                break; // we must insert it here!
+                            if (parentRevision > childRevision) {
+								break; // we must insert it here!
+							}
                         }
 
                         // we found something to insert
                         if (k < childBuilder.getRevisions().size()) {
                             // we want to memorize this implicit action.
-                            RevisionData implicit = (RevisionData) parentData.clone();
+                            final RevisionData implicit = (RevisionData) parentData.clone();
                             implicitActions.add(implicit);
 
                             // avoid concurrent modification errors.
-                            List toMove = new ArrayList();
-                            for (Iterator it = childBuilder.getRevisions().subList(k, childBuilder.getRevisions().size()).iterator(); it.hasNext();) {
+                            final List toMove = new ArrayList();
+                            for (final Iterator it = childBuilder.getRevisions().subList(k, childBuilder.getRevisions().size()).iterator(); it.hasNext();) {
                                 toMove.add(it.next());
                             }
 
@@ -286,7 +291,7 @@ public class SvnLogfileParser {
                             builder.buildRevision(implicit);
 
                             // copy back the revisions we removed.
-                            for (Iterator it = toMove.iterator(); it.hasNext();) {
+                            for (final Iterator it = toMove.iterator(); it.hasNext();) {
                                 builder.buildRevision((RevisionData) it.next());
                             }
                         }
@@ -306,38 +311,40 @@ public class SvnLogfileParser {
         // Examples:
         // IA ID IA ID M A -> ID M A
         // IA ID A D M A -> ID A D M A
-        for (Iterator iter = fileBuilders.iterator(); iter.hasNext();) {
-            FileBuilder filebuilder = (FileBuilder) iter.next();
+        for (final Iterator iter = fileBuilders.iterator(); iter.hasNext();) {
+            final FileBuilder filebuilder = (FileBuilder) iter.next();
 
             // make sure our attic is well set, with our new deletions that we might have added.
-            if (!repositoryFileManager.existsInWorkingCopy(filebuilder.getName()))
-                builder.addToAttic(filebuilder.getName());
+            if (!repositoryFileManager.existsInWorkingCopy(filebuilder.getName())) {
+				builder.addToAttic(filebuilder.getName());
+			}
 
             // do we detect an inconsistency?
             if (!repositoryFileManager.existsInWorkingCopy(filebuilder.getName()) && !filebuilder.finalRevisionIsDead()) {
                 int earliestDelete = -1;
                 for (int i = 0; i < filebuilder.getRevisions().size(); i++) {
-                    RevisionData data = (RevisionData) filebuilder.getRevisions().get(i);
+                    final RevisionData data = (RevisionData) filebuilder.getRevisions().get(i);
 
                     if (data.isDeletion()) {
                         earliestDelete = i;
                     }
 
-                    if ((!data.isCreationOrRestore() && data.isChange()) || !implicitActions.contains(data))
-                        break;
+                    if ((!data.isCreationOrRestore() && data.isChange()) || !implicitActions.contains(data)) {
+						break;
+					}
                 }
 
                 if (earliestDelete > 0) {
                     // avoid concurrent modification errors.
-                    List toRemove = new ArrayList();
-                    for (Iterator it = filebuilder.getRevisions().subList(0, earliestDelete).iterator(); it.hasNext();) {
+                    final List toRemove = new ArrayList();
+                    for (final Iterator it = filebuilder.getRevisions().subList(0, earliestDelete).iterator(); it.hasNext();) {
                         toRemove.add(it.next());
                     }
                     filebuilder.getRevisions().removeAll(toRemove);
                 }
             }
         }
-        logger.fine("verifying implicit actions finished in " + (System.currentTimeMillis() - startTime) + " ms.");
+        LOGGER.fine("verifying implicit actions finished in " + (System.currentTimeMillis() - startTime) + " ms.");
     }
 
     /**
@@ -348,16 +355,16 @@ public class SvnLogfileParser {
      * #verifyImplicitActions())
      */
     protected void removeDirectories() {
-        Collection fileBuilders = builder.getFileBuilders().values();
-        ArrayList toRemove = new ArrayList();
-        for (Iterator iter = fileBuilders.iterator(); iter.hasNext();) {
-            FileBuilder fileBuilder = (FileBuilder) iter.next();
+        final Collection fileBuilders = builder.getFileBuilders().values();
+        final ArrayList toRemove = new ArrayList();
+        for (final Iterator iter = fileBuilders.iterator(); iter.hasNext();) {
+            final FileBuilder fileBuilder = (FileBuilder) iter.next();
             if (repositoryFileManager.isDirectory(fileBuilder.getName())) {
                 toRemove.add(fileBuilder.getName());
             }
         }
 
-        for (Iterator iter = toRemove.iterator(); iter.hasNext();) {
+        for (final Iterator iter = toRemove.iterator(); iter.hasNext();) {
             builder.getFileBuilders().remove(iter.next());
         }
 
@@ -373,20 +380,20 @@ public class SvnLogfileParser {
      *             invalid log syntax.
      */
     protected SAXParserFactory parseSvnLog() throws IOException, LogSyntaxException {
-        long startTime = System.currentTimeMillis();
-        logger.fine("starting to parse...");
+        final long startTime = System.currentTimeMillis();
+        LOGGER.fine("starting to parse...");
 
-        SAXParserFactory factory = SAXParserFactory.newInstance();
+        final SAXParserFactory factory = SAXParserFactory.newInstance();
         try {
-            SAXParser parser = factory.newSAXParser();
+            final SAXParser parser = factory.newSAXParser();
             parser.parse(logFile, new SvnXmlLogFileHandler(builder, repositoryFileManager));
-        } catch (ParserConfigurationException e) {
+        } catch (final ParserConfigurationException e) {
             throw new LogSyntaxException(e.getMessage());
-        } catch (SAXException e) {
+        } catch (final SAXException e) {
             throw new LogSyntaxException(e.getMessage());
         }
 
-        logger.fine("parsing svn log finished in " + (System.currentTimeMillis() - startTime) + " ms.");
+        LOGGER.fine("parsing svn log finished in " + (System.currentTimeMillis() - startTime) + " ms.");
         return factory;
     }
 

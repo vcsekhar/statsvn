@@ -47,7 +47,7 @@ public class FileSizesPage extends HTMLPage {
 	/**
 	 * @see net.sf.statcvs.output.HTMLPage#HTMLPage(Repository)
 	 */
-	public FileSizesPage(Repository content, final OutputRenderer renderer) throws IOException {
+	public FileSizesPage(final Repository content, final OutputRenderer renderer) throws IOException {
 		super(content, renderer);
 		setFileName("file_sizes" + renderer.getFileExtension());
 		setPageName(Messages.getString("FILE_SIZES_TITLE"));
@@ -67,9 +67,9 @@ public class FileSizesPage extends HTMLPage {
 	}
 
 	private String getLargestFilesSection() {
-		StringBuffer result = new StringBuffer();
+		final StringBuffer result = new StringBuffer();
 		result.append(startSection2(Messages.getString("LARGEST_FILES_TITLE")));
-		TableReport report = new LargestFilesTableReport(
+		final TableReport report = new LargestFilesTableReport(
 				getContent().getFiles(), 
 				MAX_LARGEST_FILES);
 		report.calculate();
@@ -79,9 +79,9 @@ public class FileSizesPage extends HTMLPage {
 	}
 
 	private String getFilesWithMostRevisionsSection() {
-		StringBuffer result = new StringBuffer();
+		final StringBuffer result = new StringBuffer();
 		result.append(startSection2(Messages.getString("FILES_WITH_MOST_REVISIONS_TITLE")));
-		TableReport report = new FilesWithMostRevisionsTableReport(
+		final TableReport report = new FilesWithMostRevisionsTableReport(
 				getContent().getFiles(), 
 				MAX_FILES_WITH_MOST_REVISIONS);
 		report.calculate();
@@ -91,8 +91,8 @@ public class FileSizesPage extends HTMLPage {
 	}
 
 	private String getFileCountImage() {
-		int fileCount = getCurrentFileCount();
-		StringBuffer result = new StringBuffer(img("file_count.png", 640, 480)).append(br());
+		final int fileCount = getCurrentFileCount();
+		final StringBuffer result = new StringBuffer(img("file_count.png", 640, 480)).append(br());
 		result.append(strong(Messages.getString("TOTAL_FILE_COUNT") + ": ")).append(fileCount);
 		result.append(" (").append(HTMLTagger.getDateAndTime(getContent().getLastDate())).append(")");
 		return p(result.toString());
@@ -104,9 +104,9 @@ public class FileSizesPage extends HTMLPage {
 	
 	private int getCurrentFileCount() {
 		int result = 0;
-		Iterator fileIt = getContent().getFiles().iterator();
+		final Iterator fileIt = getContent().getFiles().iterator();
 		while (fileIt.hasNext()) {
-			VersionedFile file = (VersionedFile) fileIt.next();
+			final VersionedFile file = (VersionedFile) fileIt.next();
 			if (!file.isDead()) {
 				result++;
 			}

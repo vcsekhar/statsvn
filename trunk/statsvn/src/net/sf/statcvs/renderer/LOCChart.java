@@ -51,7 +51,7 @@ import org.jfree.data.xy.XYDataset;
  * @version $Id: LOCChart.java,v 1.40 2006/06/14 10:25:33 mungady Exp $
  */
 public class LOCChart extends Chart {
-	private static Logger logger =
+	private static final Logger LOGGER =
 			Logger.getLogger("net.sf.statcvs.renderer.LOCChart");
 
 	/**
@@ -68,10 +68,10 @@ public class LOCChart extends Chart {
 			final String fileName, final int width, final int height, final List annotations) {
 		super(title, fileName);
 		
-		Paint[] colors = new Paint[1];
+		final Paint[] colors = new Paint[1];
 		colors[0] = Color.blue;
 
-		TimeSeriesCollection collection = new TimeSeriesCollection();
+		final TimeSeriesCollection collection = new TimeSeriesCollection();
 		collection.addSeries(locSeries);
 		createLOCChart(collection, colors, title, annotations);
 		createChart();
@@ -91,12 +91,12 @@ public class LOCChart extends Chart {
 			final String fileName, final int width, final int height, final List annotations) {
 		super(title, fileName);
 		
-		Paint[] colors = new Paint[locSeriesList.size()];
+		final Paint[] colors = new Paint[locSeriesList.size()];
 		int i = 0;
-		TimeSeriesCollection collection = new TimeSeriesCollection();
-		Iterator it = locSeriesList.iterator();
+		final TimeSeriesCollection collection = new TimeSeriesCollection();
+		final Iterator it = locSeriesList.iterator();
 		while (it.hasNext()) {
-			TimeSeries series = (TimeSeries) it.next();
+			final TimeSeries series = (TimeSeries) it.next();
 			collection.addSeries(series);
 			colors[i] = OutputUtils.getStringColor(series.getKey().toString()); 
 			i++;
@@ -106,32 +106,32 @@ public class LOCChart extends Chart {
 		saveChart(width, height);
 	}
 
-	private void createLOCChart(TimeSeriesCollection collection, Paint[] colors, 
-			String title, List annotations) {
-		logger.finer("creating LOC chart for " + title);
+	private void createLOCChart(final TimeSeriesCollection collection, final Paint[] colors, 
+			final String title, final List annotations) {
+		LOGGER.finer("creating LOC chart for " + title);
 
-		String domain = Messages.getString("TIME_LOC_DOMAIN");
-		String range = Messages.getString("TIME_LOC_RANGE");
+		final String domain = Messages.getString("TIME_LOC_DOMAIN");
+		final String range = Messages.getString("TIME_LOC_RANGE");
 
-		XYDataset data = collection;
-		boolean legend = (collection.getSeriesCount() > 1);
+		final XYDataset data = collection;
+		final boolean legend = (collection.getSeriesCount() > 1);
 		setChart(ChartFactory.createTimeSeriesChart(
 				ConfigurationOptions.getProjectName(), domain, range, data, legend, false, false
 		));
 
 		// getChart().getPlot().setSeriesPaint(colors);
-		XYPlot plot = getChart().getXYPlot();
+		final XYPlot plot = getChart().getXYPlot();
 		for (int i = 0; i < colors.length; i++) {
 			plot.getRenderer().setSeriesPaint(0, colors[i]);   
 		}
-		DateAxis domainAxis = (DateAxis) plot.getDomainAxis();
+		final DateAxis domainAxis = (DateAxis) plot.getDomainAxis();
 		domainAxis.setVerticalTickLabels(true);
-		ValueAxis valueAxis = plot.getRangeAxis();
+		final ValueAxis valueAxis = plot.getRangeAxis();
 		valueAxis.setLowerBound(0);
 		plot.setRenderer(new XYStepRenderer());
 		
 		if (annotations != null) {
-		    for (Iterator it = annotations.iterator(); it.hasNext();) {
+		    for (final Iterator it = annotations.iterator(); it.hasNext();) {
                 plot.addAnnotation((XYAnnotation)it.next());
             }
 		}

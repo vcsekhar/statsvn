@@ -44,11 +44,11 @@ public class RevisionData {
     private int linesAdded;
     private int linesRemoved;
     private String comment = "";
-    private String copyfromPath, copyfromRevision;
+    private String copyfromPath;
+    private String copyfromRevision;
     
     
     public RevisionData() {
-
     }
 
     /**
@@ -62,7 +62,7 @@ public class RevisionData {
      * @param authorName
      *            The loginName to set.
      */
-    public void setLoginName(String authorName) {
+    public void setLoginName(final String authorName) {
         this.loginName = authorName;
     }
 
@@ -77,7 +77,7 @@ public class RevisionData {
      * @param date
      *            The date to set.
      */
-    public void setDate(Date date) {
+    public void setDate(final Date date) {
         this.date = date;
     }
 
@@ -112,7 +112,7 @@ public class RevisionData {
      * @param removed
      *            The number of removed lines
      */
-    public void setLines(int added, int removed) {
+    public void setLines(final int added, final int removed) {
         this.linesAdded = added;
         this.linesRemoved = removed;
         hasNoLines = false;
@@ -131,7 +131,7 @@ public class RevisionData {
      * @param revision
      *            The revision number
      */
-    public void setRevisionNumber(String revision) {
+    public void setRevisionNumber(final String revision) {
         this.revisionNumber = revision;
     }
 
@@ -141,7 +141,7 @@ public class RevisionData {
      * @param isDead
      *            <tt>true</tt> if revision is a deletion.
      */
-    public void setStateDead(boolean isDead) {
+    public void setStateDead(final boolean isDead) {
         stateDead = isDead;
     }
 
@@ -154,7 +154,7 @@ public class RevisionData {
      * @param isExposed
      *            <tt>true</tt> true if the revision is not a deletion.
      */
-    public void setStateExp(boolean isExposed) {
+    public void setStateExp(final boolean isExposed) {
         stateExp = isExposed;
     }
 
@@ -165,7 +165,7 @@ public class RevisionData {
      * 
      * @param isAdded
      */
-    public void setStateAdded(boolean isAdded) {
+    public void setStateAdded(final boolean isAdded) {
         stateAdded = isAdded;
     }
 
@@ -180,7 +180,7 @@ public class RevisionData {
      * @param comment
      *            The comment to set.
      */
-    public void setComment(String comment) {
+    public void setComment(final String comment) {
         this.comment = comment;
     }
 
@@ -301,7 +301,7 @@ public class RevisionData {
         return copyfromPath;
     }
 
-    public void setCopyfromPath(String copyfromPath) {
+    public void setCopyfromPath(final String copyfromPath) {
         this.copyfromPath = copyfromPath;
     }
 
@@ -309,7 +309,7 @@ public class RevisionData {
         return copyfromRevision;
     }
 
-    public void setCopyfromRevision(String copyfromRevision) {
+    public void setCopyfromRevision(final String copyfromRevision) {
         this.copyfromRevision = copyfromRevision;
     }
 

@@ -43,11 +43,11 @@ import org.jfree.util.UnitType;
  *
  */
 public class Chart {
-	private static Logger logger =
+	private static final Logger LOGGER =
 		Logger.getLogger("sf.net.statcvs.renderer.ChartRenderer");
 	private String title;
 	private String fileName;
-	private Font font = new Font("SansSerif", Font.PLAIN, 12);
+	private final Font font = new Font("SansSerif", Font.PLAIN, 12);
 	private JFreeChart chart;
 	
 	/**
@@ -76,8 +76,8 @@ public class Chart {
 	 * @param imageHeight image height
 	 * @param filename file name
 	 */
-	public void saveChart(int imageWidth, int imageHeight, String filename) {
-		String oldFileName = this.fileName;
+	public void saveChart(final int imageWidth, final int imageHeight, final String filename) {
+		final String oldFileName = this.fileName;
 		this.fileName = filename;
 		saveChart(imageWidth, imageHeight);
 		this.fileName = oldFileName;
@@ -88,16 +88,16 @@ public class Chart {
 	 * @param imageWidth image width
 	 * @param imageHeight image height
 	 */
-	public void saveChart(int imageWidth, int imageHeight) {
+	public void saveChart(final int imageWidth, final int imageHeight) {
 		try {
 			ChartUtilities.saveChartAsPNG(
 				new File(ConfigurationOptions.getOutputDir() + fileName),
 				chart,
 				imageWidth,
 				imageHeight);
-			logger.fine("saved chart '" + title + "' as '" + fileName + "'");
-		} catch (IOException e) {
-			logger.warning(
+			LOGGER.fine("saved chart '" + title + "' as '" + fileName + "'");
+		} catch (final IOException e) {
+			LOGGER.warning(
 				"Could not save Chart as png Image: "
 					+ fileName
 					+ e.toString());
@@ -105,7 +105,7 @@ public class Chart {
 	}
 
 	private void addTitles() {
-		TextTitle title2 = new TextTitle(title, font);
+		final TextTitle title2 = new TextTitle(title, font);
 		title2.setMargin(new RectangleInsets(UnitType.RELATIVE, 0.05, 0.05, 
                 0.05, 0.0));
 		chart.addSubtitle(title2);
@@ -123,7 +123,7 @@ public class Chart {
 	 * set chart
 	 * @param chart the chart
 	 */
-	public void setChart(JFreeChart chart) {
+	public void setChart(final JFreeChart chart) {
 		this.chart = chart;
 	}
 	

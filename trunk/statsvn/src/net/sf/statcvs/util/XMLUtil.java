@@ -45,7 +45,7 @@ public final class XMLUtil {
 	 * @throws ParseException
 	 */
 	public static Date parseXsdDateTime(String sDateTime) throws ParseException {
-		DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+		final DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
 		int iDotPosition = 19;
 		if (sDateTime.charAt(0) == '-') {
@@ -91,18 +91,18 @@ public final class XMLUtil {
 	 * 		date in GMT timezone
 	 * @return the date in local timezone
 	 */
-	public static Date offsetDateFromGMT(Date date) {
+	public static Date offsetDateFromGMT(final Date date) {
 		// Create a calendar - it will default to the current OS timezone.
-		GregorianCalendar gc = new GregorianCalendar();
+		final GregorianCalendar gc = new GregorianCalendar();
 
 		// Calculate the total offset from GMT
-		int totalOffset = gc.get(Calendar.ZONE_OFFSET) + gc.get(Calendar.DST_OFFSET);
+		final int totalOffset = gc.get(Calendar.ZONE_OFFSET) + gc.get(Calendar.DST_OFFSET);
 
 		// Calculate the time in GMT
-		long localTime = date.getTime() + totalOffset;
+		final long localTime = date.getTime() + totalOffset;
 
 		// Create a date using the calculated GMT time
-		Date localDate = new Date(localTime);
+		final Date localDate = new Date(localTime);
 
 		return localDate;
 
@@ -116,20 +116,20 @@ public final class XMLUtil {
 	 * @param filename
 	 *            the target file.
 	 */
-	public static void writeXmlFile(Document doc, String filename) {
+	public static void writeXmlFile(final Document doc, final String filename) {
 		try {
 			// Prepare the DOM document for writing
-			Source source = new DOMSource(doc);
+			final Source source = new DOMSource(doc);
 
 			// Prepare the output file
-			File file = new File(filename);
-			Result result = new StreamResult(file);
+			final File file = new File(filename);
+			final Result result = new StreamResult(file);
 
 			// Write the DOM document to the file
-			Transformer xformer = TransformerFactory.newInstance().newTransformer();
+			final Transformer xformer = TransformerFactory.newInstance().newTransformer();
 			xformer.transform(source, result);
-		} catch (TransformerConfigurationException e) {
-		} catch (TransformerException e) {
+		} catch (final TransformerConfigurationException e) {
+		} catch (final TransformerException e) {
 		}
 	}
 

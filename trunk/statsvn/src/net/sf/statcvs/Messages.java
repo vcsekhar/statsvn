@@ -31,7 +31,9 @@ import java.util.ResourceBundle;
  * @author Lukasz Pekacki
  * @version $Id: Messages.java,v 1.7 2003/03/18 10:33:56 lukasz Exp $
  */
-public class Messages {
+public final class Messages {
+	private Messages() {
+	}
 	/**
 	 * Whitespace constant
 	 */
@@ -51,10 +53,10 @@ public class Messages {
 	 * @param key key of the requested string
 	 * @return String
 	 */
-	public static String getString(String key) {
+	public static String getString(final String key) {
 		try {
 			return RESOURCE_BUNDLE.getString(key);
-		}   catch (MissingResourceException e) {
+		}   catch (final MissingResourceException e) {
 			return '!' + key + '!';
 		}
 	}

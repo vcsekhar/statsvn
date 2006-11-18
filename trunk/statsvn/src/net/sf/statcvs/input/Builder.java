@@ -62,7 +62,7 @@ import net.sf.statcvs.util.FileUtils;
  * 
  */
 public class Builder implements SvnLogBuilder {
-    private static Logger logger = Logger.getLogger(Builder.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(Builder.class.getName());
     private final Set atticFileNames = new HashSet();
     private final Map authors = new HashMap();
     private FileBuilder currentFileBuilder = null;
@@ -85,7 +85,7 @@ public class Builder implements SvnLogBuilder {
      * @param excludePattern
      *            a list of Ant-style wildcard patterns, seperated by : or ;
      */
-    public Builder(RepositoryFileManager repositoryFileManager, FilePatternMatcher includePattern, FilePatternMatcher excludePattern) {
+    public Builder(final RepositoryFileManager repositoryFileManager, final FilePatternMatcher includePattern, final FilePatternMatcher excludePattern) {
         this.repositoryFileManager = repositoryFileManager;
         this.includePattern = includePattern;
         this.excludePattern = excludePattern;
@@ -101,7 +101,7 @@ public class Builder implements SvnLogBuilder {
      * @param filename
      *            the filename to add to the attic.
      */
-    public void addToAttic(String filename) {
+    public void addToAttic(final String filename) {
         if (!atticFileNames.contains(filename)) {
             atticFileNames.add(filename);
         }
@@ -126,14 +126,15 @@ public class Builder implements SvnLogBuilder {
      * @param revBySymnames
      *            maps revision (string) by symbolic name (string) (Not used in StatSVN; kept for compatibility with StatCVS)
      */
-    public void buildFile(String filename, boolean isBinary, boolean isInAttic, Map revBySymnames) {
-        if (fileBuilders.containsKey(filename))
-            currentFileBuilder = (FileBuilder) fileBuilders.get(filename);
-        else {
+    public void buildFile(final String filename, final boolean isBinary, final boolean isInAttic, final Map revBySymnames) {
+        if (fileBuilders.containsKey(filename)) {
+			currentFileBuilder = (FileBuilder) fileBuilders.get(filename);
+		} else {
             currentFileBuilder = new FileBuilder(this, filename, isBinary, revBySymnames);
             fileBuilders.put(filename, currentFileBuilder);
-            if (isInAttic)
-                addToAttic(filename);
+            if (isInAttic) {
+				addToAttic(filename);
+			}
         }
     }
 
@@ -143,7 +144,7 @@ public class Builder implements SvnLogBuilder {
      * @param moduleName
      *            name of the module
      */
-    public void buildModule(String moduleName) {
+    public void buildModule(final String moduleName) {
         this.projectName = moduleName;
     }
 
@@ -153,7 +154,7 @@ public class Builder implements SvnLogBuilder {
      * @param data
      *            the revision
      */
-    public void buildRevision(RevisionData data) {
+    public void buildRevision(final RevisionData data) {
 
         currentFileBuilder.addRevisionData(data);
 
@@ -175,16 +176,16 @@ public class Builder implements SvnLogBuilder {
             throw new EmptyRepositoryException();
         }
 
-        Repository result = new Repository();
-        Iterator it = fileBuilders.values().iterator();
+        final Repository result = new Repository();
+        final Iterator it = fileBuilders.values().iterator();
         while (it.hasNext()) {
-            FileBuilder fileBuilder = (FileBuilder) it.next();
-            VersionedFile file = fileBuilder.createFile(startDate);
+            final FileBuilder fileBuilder = (FileBuilder) it.next();
+            final VersionedFile file = fileBuilder.createFile(startDate);
             if (file == null) {
                 continue;
             }
             result.addFile(file);
-            logger.finer("adding " + file.getFilenameWithPath() + " (" + file.getRevisions().size() + " revisions)");
+            LOGGER.finer("adding " + file.getFilenameWithPath() + " (" + file.getRevisions().size() + " revisions)");
         }
 
         if (result.isEmpty()) {
@@ -192,8 +193,8 @@ public class Builder implements SvnLogBuilder {
         }
 
         // Uh oh...
-        SortedSet revisions = result.getRevisions();
-        List commits = new CommitListBuilder(revisions).createCommitList();
+        final SortedSet revisions = result.getRevisions();
+        final List commits = new CommitListBuilder(revisions).createCommitList();
         result.setCommits(commits);
 
         result.setSymbolicNames(new TreeSet(symbolicNames.values()));
@@ -218,12 +219,14 @@ public class Builder implements SvnLogBuilder {
      * @return a corresponding <tt>Author</tt> object
      */
     public Author getAuthor(String name) {
-    	if (name==null || name.length()==0) name=Messages.getString("AUTHOR_UNKNOWN");
+    	if (name==null || name.length()==0) {
+			name=Messages.getString("AUTHOR_UNKNOWN");
+		}
     	
         if (this.authors.containsKey(name.toLowerCase())) {
             return (Author) this.authors.get(name.toLowerCase());
         }
-        Author newAuthor = new Author(name);
+        final Author newAuthor = new Author(name);
         this.authors.put(name.toLowerCase(), newAuthor);
         return newAuthor;
     }
@@ -235,8 +238,8 @@ public class Builder implements SvnLogBuilder {
      *            the name and path of a file, for example "src/Main.java"
      * @return a corresponding <tt>Directory</tt> object
      */
-    public Directory getDirectory(String filename) {
-        int lastSlash = filename.lastIndexOf('/');
+    public Directory getDirectory(final String filename) {
+        final int lastSlash = filename.lastIndexOf('/');
         if (lastSlash == -1) {
             return getDirectoryForPath("");
         }
@@ -248,12 +251,12 @@ public class Builder implements SvnLogBuilder {
      *            for example "src/net/sf/statcvs/"
      * @return the <tt>Directory</tt> corresponding to <tt>statcvs</tt>
      */
-    private Directory getDirectoryForPath(String path) {
+    private Directory getDirectoryForPath(final String path) {
         if (directories.containsKey(path)) {
             return (Directory) directories.get(path);
         }
-        Directory parent = getDirectoryForPath(FileUtils.getParentDirectoryPath(path));
-        Directory newDirectory = parent.createSubdirectory(FileUtils.getDirectoryName(path));
+        final Directory parent = getDirectoryForPath(FileUtils.getParentDirectoryPath(path));
+        final Directory newDirectory = parent.createSubdirectory(FileUtils.getDirectoryName(path));
         directories.put(path, newDirectory);
         return newDirectory;
     }
@@ -272,7 +275,7 @@ public class Builder implements SvnLogBuilder {
     /**
      * @see RepositoryFileManager#getLinesOfCode(String)
      */
-    public int getLOC(String filename) throws NoLineCountException {
+    public int getLOC(final String filename) throws NoLineCountException {
         if (repositoryFileManager == null) {
             throw new NoLineCountException("no RepositoryFileManager");
         }
@@ -287,7 +290,7 @@ public class Builder implements SvnLogBuilder {
     /**
      * @see RepositoryFileManager#getRevision(String)
      */
-    public String getRevision(String filename) throws IOException {
+    public String getRevision(final String filename) throws IOException {
         if (repositoryFileManager == null) {
             throw new IOException("no RepositoryFileManager");
         }
@@ -301,7 +304,7 @@ public class Builder implements SvnLogBuilder {
      *            the symbolic name's name
      * @return the corresponding symbolic name object
      */
-    public SymbolicName getSymbolicName(String name) {
+    public SymbolicName getSymbolicName(final String name) {
         SymbolicName sym = (SymbolicName) symbolicNames.get(name);
 
         if (sym != null) {
@@ -323,7 +326,7 @@ public class Builder implements SvnLogBuilder {
      * @return <tt>true</tt> if the filename matches one of the include patterns and does not match any of the exclude patterns. If it matches an include and
      *         an exclude pattern, <tt>false</tt> will be returned.
      */
-    public boolean matchesPatterns(String filename) {
+    public boolean matchesPatterns(final String filename) {
         if (excludePattern != null && excludePattern.matches(filename)) {
             return false;
         }
@@ -348,8 +351,8 @@ public class Builder implements SvnLogBuilder {
      * @param linesRemoved
      *            the lines that were removed
      */
-    public void updateRevision(String filename, String revisionNumber, int linesAdded, int linesRemoved) {
-        FileBuilder fb = (FileBuilder) fileBuilders.get(filename);
+    public void updateRevision(final String filename, final String revisionNumber, final int linesAdded, final int linesRemoved) {
+        final FileBuilder fb = (FileBuilder) fileBuilders.get(filename);
         if (fb != null) {
             fb.updateRevision(revisionNumber, linesAdded, linesRemoved);
         }

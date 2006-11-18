@@ -39,7 +39,7 @@ public class Table {
 	private String summary;
 	private boolean keysInFirstColumn = false;
 	private boolean showTotals = false;
-	private List columns = new ArrayList();
+	private final List columns = new ArrayList();
 
 	/**
 	 * Creates a new table model
@@ -54,7 +54,7 @@ public class Table {
 	 * set if the first column contains keys that identify each row
 	 * @param enabled <tt>true</tt> if first column contains keys
 	 */
-	public void setKeysInFirstColumn(boolean enabled) {
+	public void setKeysInFirstColumn(final boolean enabled) {
 		keysInFirstColumn = enabled;
 	}
 
@@ -70,7 +70,7 @@ public class Table {
 	 * set if totals of each column should be shown
 	 * @param enabled <tt>true</tt> if totals should be shown
 	 */
-	public void setShowTotals(boolean enabled) {
+	public void setShowTotals(final boolean enabled) {
 		showTotals = enabled;
 	}
 
@@ -97,9 +97,9 @@ public class Table {
 	 */
 	public int getRowCount() {
 		int result = 0;
-		Iterator it = columns.iterator();
+		final Iterator it = columns.iterator();
 		while (it.hasNext()) {
-			Column column = (Column) it.next();
+			final Column column = (Column) it.next();
 			if (column.getRows() > result) {
 				result = column.getRows();
 			}
@@ -111,7 +111,7 @@ public class Table {
 	 * Adds a column to the table
 	 * @param column the column
 	 */
-	public void addColumn(Column column) {
+	public void addColumn(final Column column) {
 		columns.add(column);
 	}
 	

@@ -45,7 +45,7 @@ public class FileColumn extends GenericColumn {
 	/**
 	 * @see net.sf.statcvs.reportmodel.Column#renderCell
 	 */
-	public void renderCell(int rowIndex, TableCellRenderer renderer) {
+	public void renderCell(final int rowIndex, final TableCellRenderer renderer) {
 		renderer.renderFileCell((VersionedFile) getValue(rowIndex), withIcon);
 	}
 
@@ -54,7 +54,7 @@ public class FileColumn extends GenericColumn {
 	 * the file
 	 * @param withIcon render with icon? 
 	 */
-	public void setWithIcon(boolean withIcon) {
+	public void setWithIcon(final boolean withIcon) {
 		this.withIcon = withIcon;
 	}
 }

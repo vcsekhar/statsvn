@@ -37,9 +37,9 @@ public class FilesLocComparator implements Comparator {
 	/**
 	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 	 */
-	public int compare(Object o1, Object o2) {
-		VersionedFile file1 = (VersionedFile) o1;
-		VersionedFile file2 = (VersionedFile) o2;
+	public int compare(final Object o1, final Object o2) {
+		final VersionedFile file1 = (VersionedFile) o1;
+		final VersionedFile file2 = (VersionedFile) o2;
 		if (file1.getCurrentLinesOfCode() < file2.getCurrentLinesOfCode()) {
 			return 1;
 		} else if (file1.getCurrentLinesOfCode() == file2.getCurrentLinesOfCode()) {

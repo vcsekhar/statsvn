@@ -41,7 +41,7 @@ import java.util.TreeMap;
  * @version $Id: TimeLine.java,v 1.3 2004/10/12 07:22:42 cyganiak Exp $
  */
 public class TimeLine {
-	private TreeMap dataPoints = new TreeMap();
+	private final TreeMap dataPoints = new TreeMap();
 	private Date minimumDate = null;
 	private int initialValue;
 	private boolean hasInitialValue = false;
@@ -63,7 +63,7 @@ public class TimeLine {
 	 * the first data point.
 	 * @param initialValue the time line's initial value
 	 */	
-	public void setInitialValue(int initialValue) {
+	public void setInitialValue(final int initialValue) {
 		this.initialValue = initialValue;
 		this.hasInitialValue = true;
 	}
@@ -74,7 +74,7 @@ public class TimeLine {
 	 * @param date the data point's date
 	 * @param value the data point's value
 	 */
-	public void addTimePoint(Date date, int value) {
+	public void addTimePoint(final Date date, final int value) {
 		addTimePoint(HelperTimePoint.createAbsoluteValueTimePoint(date, value));
 	}
 	
@@ -84,7 +84,7 @@ public class TimeLine {
 	 * @param date the data point's date
 	 * @param delta the value change at this time
 	 */
-	public void addChange(Date date, int delta) {
+	public void addChange(final Date date, final int delta) {
 		addTimePoint(HelperTimePoint.createDeltaTimePoint(date, delta));
 	}
 	
@@ -107,7 +107,7 @@ public class TimeLine {
 		int currentValue;
 		if (hasInitialValue && dataPoints.size() > 0) {
 			result = new ArrayList(dataPoints.size() + 1);
-			Date beforeMinimum = new Date(minimumDate.getTime() - 1); 
+			final Date beforeMinimum = new Date(minimumDate.getTime() - 1); 
 			result.add(new TimePoint(beforeMinimum, initialValue, 0));
 			currentValue = initialValue;
 		} else {
@@ -115,7 +115,7 @@ public class TimeLine {
 			if (dataPoints.size() == 0) {
 				return result;
 			}
-			HelperTimePoint firstPoint =
+			final HelperTimePoint firstPoint =
 					(HelperTimePoint) dataPoints.get(dataPoints.firstKey());
 			if (!firstPoint.isAbsolute()) {
 				throw new IllegalStateException(
@@ -123,11 +123,11 @@ public class TimeLine {
 			}
 			currentValue = firstPoint.getValue();
 		}
-		Iterator it = dataPoints.values().iterator();
+		final Iterator it = dataPoints.values().iterator();
 		while (it.hasNext()) {
-			HelperTimePoint point = (HelperTimePoint) it.next();
+			final HelperTimePoint point = (HelperTimePoint) it.next();
 			if (point.isAbsolute()) {
-				int delta = point.getValue() - currentValue;
+				final int delta = point.getValue() - currentValue;
 				result.add(new TimePoint(point.getDate(), point.getValue(), delta));
 				currentValue = point.getValue();
 			} else {

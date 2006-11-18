@@ -31,13 +31,13 @@ import net.sf.statcvs.model.Directory;
  * @version $Id: DummyBuilder.java,v 1.3 2004/02/19 23:15:44 cyganiak Exp $
  */
 public class DummyBuilder extends Builder {
-	private Author author1 = new Author("author1");
-	private Author author2 = new Author("author2");
-	private Author author3 = new Author("author3");
-	private Directory root = Directory.createRoot();
-	private Directory dir1 = root.createSubdirectory("dir1");
-	private Directory dir2 = root.createSubdirectory("dir2");
-	private Directory subdir = dir1.createSubdirectory("subdir");
+	private final Author author1 = new Author("author1");
+	private final Author author2 = new Author("author2");
+	private final Author author3 = new Author("author3");
+	private final Directory root = Directory.createRoot();
+	private final Directory dir1 = root.createSubdirectory("dir1");
+	private final Directory dir2 = root.createSubdirectory("dir2");
+	private final Directory subdir = dir1.createSubdirectory("subdir");
 
 	public DummyBuilder() {
 		super(null, null, null);
@@ -46,7 +46,7 @@ public class DummyBuilder extends Builder {
 	/* (non-Javadoc)
 	 * @see net.sf.statcvs.input.Builder#getAuthor(java.lang.String)
 	 */
-	public Author getAuthor(String name) {
+	public Author getAuthor(final String name) {
 		if ("author1".equals(name)) {
 			return author1;
 		} else if ("author2".equals(name)) {
@@ -60,7 +60,7 @@ public class DummyBuilder extends Builder {
 	/* (non-Javadoc)
 	 * @see net.sf.statcvs.input.Builder#getDirectory(java.lang.String)
 	 */
-	public Directory getDirectory(String filename) {
+	public Directory getDirectory(final String filename) {
 		if ("file".equals(filename) || "nolinecount".equals(filename)) {
 			return root;
 		} else if ("dir1/file".equals(filename)) {
@@ -76,7 +76,7 @@ public class DummyBuilder extends Builder {
 	/* (non-Javadoc)
 	 * @see net.sf.statcvs.input.Builder#getLOC(java.lang.String)
 	 */
-	public int getLOC(String filename) throws NoLineCountException {
+	public int getLOC(final String filename) throws NoLineCountException {
 		if ("file".equals(filename)) {
 			return 100;
 		} else if ("nolinecount".equals(filename)) {
