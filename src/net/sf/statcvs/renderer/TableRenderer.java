@@ -38,7 +38,7 @@ import net.sf.statcvs.util.OutputUtils;
 public class TableRenderer {
 
 	private Table table;
-	private HTMLTableCellRenderer renderer = new HTMLTableCellRenderer();
+	private final HTMLTableCellRenderer renderer = new HTMLTableCellRenderer();
 
 	/**
 	 * Creates a new table renderer for the given table model
@@ -54,7 +54,7 @@ public class TableRenderer {
 	 * @return a String of HTML
 	 */
 	public String getRenderedTable() {
-		StringBuffer result = new StringBuffer("  <table ").append(renderer.getOutput().getTableFormat());
+		final StringBuffer result = new StringBuffer("  <table ").append(renderer.getOutput().getTableFormat());
 		result.append(" rules=\"groups\" summary=\"").append(OutputUtils.escapeHtml(table.getSummary()));
 		result.append("\">\n");
 		result.append(getColumnDescriptions());
@@ -68,8 +68,8 @@ public class TableRenderer {
 	}
 	
 	private String getColumnDescriptions() {
-		StringBuffer result = new StringBuffer();
-		Iterator it = table.getColumnIterator();
+		final StringBuffer result = new StringBuffer();
+		final Iterator it = table.getColumnIterator();
 		boolean isFirstColumn = true;
 		while (it.hasNext()) {
 			it.next();
@@ -84,10 +84,10 @@ public class TableRenderer {
 	}
 
 	private String getTableHead() {
-		StringBuffer result = new StringBuffer("    <thead>\n      <tr>\n");
-		Iterator it = table.getColumnIterator();
+		final StringBuffer result = new StringBuffer("    <thead>\n      <tr>\n");
+		final Iterator it = table.getColumnIterator();
 		while (it.hasNext()) {
-			Column column = (Column) it.next();
+			final Column column = (Column) it.next();
 			column.renderHead(renderer);
 			result.append("        ").append(renderer.getColumnHead()).append("\n");
 		}
@@ -96,11 +96,11 @@ public class TableRenderer {
 	}
 
 	private String getTableTotals() {
-		StringBuffer result = new StringBuffer("    <tfoot>\n      <tr>\n");
-		Iterator it = table.getColumnIterator();
+		final StringBuffer result = new StringBuffer("    <tfoot>\n      <tr>\n");
+		final Iterator it = table.getColumnIterator();
 		boolean isFirstColumn = true;
 		while (it.hasNext()) {
-			Column column = (Column) it.next();
+			final Column column = (Column) it.next();
 			column.renderTotal(renderer);
 			if (isFirstColumn && table.hasKeysInFirstColumn()) {
 				result.append("        ").append(renderer.getRowHead()).append("\n");
@@ -114,7 +114,7 @@ public class TableRenderer {
 	}
 
 	private String getTableBody() {
-		StringBuffer result = new StringBuffer("    <tbody>\n");
+		final StringBuffer result = new StringBuffer("    <tbody>\n");
 		for (int i = 0; i < table.getRowCount(); i++) {
 			result.append(getTableRow(i));
 		}
@@ -122,17 +122,17 @@ public class TableRenderer {
 		return result.toString();
 	}
 
-	private String getTableRow(int rowIndex) {
-		StringBuffer result = new StringBuffer();
+	private String getTableRow(final int rowIndex) {
+		final StringBuffer result = new StringBuffer();
 		if (rowIndex % 2 == 0) {
 			result.append("      <tr ").append(renderer.getEvenRowFormat()).append(">\n");
 		} else {
 			result.append("      <tr ").append(renderer.getOddRowFormat()).append(">\n");
 		}
-		Iterator it = table.getColumnIterator();
+		final Iterator it = table.getColumnIterator();
 		boolean isFirstColumn = true;
 		while (it.hasNext()) {
-			Column column = (Column) it.next();
+			final Column column = (Column) it.next();
 			column.renderCell(rowIndex, renderer);
 			if (isFirstColumn && table.hasKeysInFirstColumn()) {
 				result.append("        ").append(renderer.getRowHead()).append("\n");

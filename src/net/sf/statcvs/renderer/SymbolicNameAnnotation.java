@@ -69,10 +69,12 @@ public class SymbolicNameAnnotation implements XYAnnotation {
     }
     
     /**
-     * @see org.jfree.chart.annotations.XYAnnotation#draw(java.awt.Graphics2D, org.jfree.chart.plot.XYPlot, java.awt.geom.Rectangle2D, org.jfree.chart.axis.ValueAxis, org.jfree.chart.axis.ValueAxis, int, org.jfree.chart.plot.PlotRenderingInfo)
+     * @see org.jfree.chart.annotations.XYAnnotation#draw(java.awt.Graphics2D, org.jfree.chart.plot.XYPlot, 
+     * java.awt.geom.Rectangle2D, org.jfree.chart.axis.ValueAxis, org.jfree.chart.axis.ValueAxis, int, org.jfree.chart.plot.PlotRenderingInfo)
      */
-    public void draw(Graphics2D g2d, XYPlot xyPlot, Rectangle2D dataArea, ValueAxis domainAxis, ValueAxis rangeAxis, int rendererIndex, PlotRenderingInfo info) {
-        PlotOrientation orientation = xyPlot.getOrientation();
+    public void draw(final Graphics2D g2d, final XYPlot xyPlot, final Rectangle2D dataArea, final ValueAxis domainAxis, final ValueAxis rangeAxis, 
+    		final int rendererIndex, final PlotRenderingInfo info) {
+        final PlotOrientation orientation = xyPlot.getOrientation();
         
 		// don't draw the annotation if symbolic names date is out of axis' bounds.
 		if (domainAxis.getUpperBound() < symbolicName.getDate().getTime()
@@ -81,22 +83,22 @@ public class SymbolicNameAnnotation implements XYAnnotation {
 			return;
 		}
 		
-        RectangleEdge domainEdge = Plot.resolveDomainAxisLocation(
+        final RectangleEdge domainEdge = Plot.resolveDomainAxisLocation(
                                             xyPlot.getDomainAxisLocation(),
                                             orientation);
-        RectangleEdge rangeEdge = Plot.resolveRangeAxisLocation(
+        final RectangleEdge rangeEdge = Plot.resolveRangeAxisLocation(
                                             xyPlot.getRangeAxisLocation(), 
                                             orientation);
 
-        float x = (float)domainAxis.valueToJava2D(
+        final float x = (float)domainAxis.valueToJava2D(
                                         symbolicName.getDate().getTime(), 
                                         dataArea, 
                                         domainEdge);
-        float y1 = (float)rangeAxis.valueToJava2D(
+        final float y1 = (float)rangeAxis.valueToJava2D(
                                         rangeAxis.getUpperBound(),
                                         dataArea, 
                                         rangeEdge);
-        float y2 = (float)rangeAxis.valueToJava2D(
+        final float y2 = (float)rangeAxis.valueToJava2D(
                                         rangeAxis.getLowerBound(), 
                                         dataArea, 
                                         rangeEdge);            
@@ -104,11 +106,11 @@ public class SymbolicNameAnnotation implements XYAnnotation {
         g2d.setPaint(linePaint);
         g2d.setStroke(stroke);
         
-        Line2D line = new Line2D.Float(x, y1, x, y2);
+        final Line2D line = new Line2D.Float(x, y1, x, y2);
         g2d.draw(line);
         
-        float anchorX = x;
-        float anchorY = y1 + 2;
+        final float anchorX = x;
+        final float anchorY = y1 + 2;
 
         g2d.setFont(font);
         g2d.setPaint(textPaint);

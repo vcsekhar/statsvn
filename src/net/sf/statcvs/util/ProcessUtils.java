@@ -19,12 +19,19 @@ import net.sf.statcvs.output.ConfigurationOptions;
  * @author jkealey <jkealey@shade.ca>
  * 
  */
-public class ProcessUtils {
-	protected static Process lastProcess;
-	protected static BufferedInputStream lastInputStream;
-	protected static BufferedInputStream lastErrorStream;
+public final class ProcessUtils {
+	private static Process lastProcess;
+	private static BufferedInputStream lastInputStream;
+	private static BufferedInputStream lastErrorStream;
 
-	public synchronized static InputStream call(String sCommand) throws IOException {
+	/**
+	 * A utility class (only static methods) should be final and have
+	 * a private constructor.
+	 */
+	private ProcessUtils() {
+	}
+
+	public static synchronized InputStream call(final String sCommand) throws IOException {
 		lastProcess = Runtime.getRuntime().exec(sCommand, null, getWorkingFolder());
 		lastErrorStream = new BufferedInputStream(lastProcess.getErrorStream());
 		lastInputStream = new BufferedInputStream(lastProcess.getInputStream());
@@ -41,16 +48,16 @@ public class ProcessUtils {
 	}
 
 	protected static String getErrorMessage() {
-		if (lastErrorStream == null)
+		if (lastErrorStream == null) {
 			return null;
-		else {
-			LookaheadReader diffReader = new LookaheadReader(new InputStreamReader(lastErrorStream));
-			StringBuilder builder = new StringBuilder();
+		} else {
+			final LookaheadReader diffReader = new LookaheadReader(new InputStreamReader(lastErrorStream));
+			final StringBuilder builder = new StringBuilder();
 			try {
 				while (diffReader.hasNextLine()) {
 					builder.append(diffReader.nextLine());
 				}
-			} catch (IOException e) {
+			} catch (final IOException e) {
 			}
 
 			return builder.toString();

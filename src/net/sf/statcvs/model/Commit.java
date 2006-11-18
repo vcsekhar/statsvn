@@ -43,7 +43,7 @@ public class Commit implements Comparable {
 	 * @param revision the single revision out of which the commit will
 	 * 				   be created
 	 */
-	public Commit(Revision revision) {
+	public Commit(final Revision revision) {
 		revisions.add(revision);
 		aRevision = revision;
 	}
@@ -54,7 +54,7 @@ public class Commit implements Comparable {
 	 * as all other revisions in the commit.
 	 * @param revision the <code>Revision</code> to add.
 	 */
-	public void addRevision(Revision revision) {
+	public void addRevision(final Revision revision) {
 		revisions.add(revision);
 	}
 
@@ -98,10 +98,10 @@ public class Commit implements Comparable {
 	 * @return a <code>Set</code> of <code>String</code>s
 	 */
 	public Set getAffectedFiles() {
-		Set result = new HashSet();
-		Iterator it = revisions.iterator();
+		final Set result = new HashSet();
+		final Iterator it = revisions.iterator();
 		while (it.hasNext()) {
-			Revision element = (Revision) it.next();
+			final Revision element = (Revision) it.next();
 			result.add(element.getFile().getFilenameWithPath());
 		}
 		return result;
@@ -111,8 +111,8 @@ public class Commit implements Comparable {
 	 * Compares this commit to another revision, based on their date. 
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
-	public int compareTo(Object other) {
-		Commit otherCommit = (Commit) other;
+	public int compareTo(final Object other) {
+		final Commit otherCommit = (Commit) other;
 		return getDate().compareTo(otherCommit.getDate());
 	}
 }

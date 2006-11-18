@@ -55,7 +55,7 @@ public class CommitTest extends TestCase {
 	 * Constructor for CommitTest.
 	 * @param arg0 input
 	 */
-	public CommitTest(String arg0) {
+	public CommitTest(final String arg0) {
 		super(arg0);
 	}
 
@@ -66,7 +66,7 @@ public class CommitTest extends TestCase {
 		super.setUp();
 		author1 = new Author("author1");
 		author2 = new Author("author2");
-		Directory root = Directory.createRoot();
+		final Directory root = Directory.createRoot();
 		file1 = new VersionedFile("file1", root);
 		file2 = new VersionedFile("file2", root);
 		file3 = new VersionedFile("file3", root);
@@ -131,7 +131,7 @@ public class CommitTest extends TestCase {
 		commit.addRevision(rev6);
 		commit.addRevision(rev7);
 		commit.addRevision(rev8);
-		Set affectedFiles = commit.getAffectedFiles();
+		final Set affectedFiles = commit.getAffectedFiles();
 		assertEquals(4, affectedFiles.size());
 		assertTrue("should contain file1", affectedFiles.contains("file1"));
 		assertTrue("should contain file2", affectedFiles.contains("file2"));
@@ -140,16 +140,16 @@ public class CommitTest extends TestCase {
 	}
 
 	public void testCompareTo() {
-		Commit commit1 = new Commit(rev1);
-		Commit commit2 = new Commit(rev1);
-		Commit commit3 = new Commit(rev2);
+		final Commit commit1 = new Commit(rev1);
+		final Commit commit2 = new Commit(rev1);
+		final Commit commit3 = new Commit(rev2);
 		assertEquals(0, commit1.compareTo(commit2));
 		assertEquals(0, commit2.compareTo(commit1));
 		assertTrue(commit1.compareTo(commit3) < 0);
 		assertTrue(commit3.compareTo(commit1) > 0);
 	}
 
-	private Revision createRevision(VersionedFile file, String revision, long time, Author author, String message) {
+	private Revision createRevision(final VersionedFile file, final String revision, final long time, final Author author, final String message) {
 		return new Revision(file, revision, Revision.TYPE_CHANGE, author, new Date(time), message, 0, 0, 0, null);
 	}
 }

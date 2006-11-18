@@ -34,17 +34,17 @@ import junit.framework.TestCase;
  * @version $Id: TimeLineTest.java,v 1.1 2003/06/05 10:51:53 cyganiak Exp $
  */
 public class TimeLineTest extends TestCase {
-	private Date date1 = new Date(100000000);
-	private Date date2 = new Date(200000000);
-	private Date date3 = new Date(300000000);
-	private Date date4 = new Date(400000000);
-	private Date beforeDate1 = new Date(99999999);
+	private final Date date1 = new Date(100000000);
+	private final Date date2 = new Date(200000000);
+	private final Date date3 = new Date(300000000);
+	private final Date date4 = new Date(400000000);
+	private final Date beforeDate1 = new Date(99999999);
 
 	/**
 	 * Constructor
 	 * @param arg0 stuff
 	 */
-	public TimeLineTest(String arg0) {
+	public TimeLineTest(final String arg0) {
 		super(arg0);
 	}
 	
@@ -56,13 +56,13 @@ public class TimeLineTest extends TestCase {
 	 * Tests the {@link HelperTimePoint} helper class 
 	 */
 	public void testHelperTimePoint() {
-		HelperTimePoint p1 =
+		final HelperTimePoint p1 =
 				HelperTimePoint.createAbsoluteValueTimePoint(date1, 100);
-		HelperTimePoint p2 =
+		final HelperTimePoint p2 =
 				HelperTimePoint.createAbsoluteValueTimePoint(date1, 200);
-		HelperTimePoint p3 =
+		final HelperTimePoint p3 =
 				HelperTimePoint.createDeltaTimePoint(date1, 50);
-		HelperTimePoint p4 =
+		final HelperTimePoint p4 =
 				HelperTimePoint.createDeltaTimePoint(date1, 20);
 		assertTrue(p1.isAbsolute());
 		assertTrue(!p3.isAbsolute());
@@ -70,9 +70,9 @@ public class TimeLineTest extends TestCase {
 		assertEquals(50, p3.getValue());
 		assertEquals(date1, p1.getDate());
 		assertEquals(date1, p3.getDate());
-		HelperTimePoint p1p2 = p1.join(p2);
-		HelperTimePoint p1p3 = p1.join(p3);
-		HelperTimePoint p3p4 = p3.join(p4);
+		final HelperTimePoint p1p2 = p1.join(p2);
+		final HelperTimePoint p1p3 = p1.join(p3);
+		final HelperTimePoint p3p4 = p3.join(p4);
 		assertTrue(p1p2.isAbsolute());
 		assertTrue(p1p3.isAbsolute());
 		assertTrue(!p3p4.isAbsolute());
@@ -85,7 +85,7 @@ public class TimeLineTest extends TestCase {
 	 * Tests an empty TimeLine
 	 */
 	public void testCreation() {
-		TimeLine tl = new TimeLine("title", "domain");
+		final TimeLine tl = new TimeLine("title", "domain");
 		assertTrue(tl.isEmpty());
 		assertTrue(tl.getDataPoints().isEmpty());
 		assertEquals("title", tl.getTitle());
@@ -96,11 +96,11 @@ public class TimeLineTest extends TestCase {
 	 * Tests a TimeLine with one data point
 	 */
 	public void testOneDataPoint() {
-		TimeLine tl = new TimeLine("title", "domain");
+		final TimeLine tl = new TimeLine("title", "domain");
 		tl.addTimePoint(date1, 100);
 		assertTrue(tl.isEmpty());
 		assertEquals(1, tl.getDataPoints().size());
-		TimePoint tp = (TimePoint) tl.getDataPoints().get(0);
+		final TimePoint tp = (TimePoint) tl.getDataPoints().get(0);
 		assertEquals(date1, tp.getDate());
 		assertEquals(100, tp.getValue());
 	}
@@ -109,7 +109,7 @@ public class TimeLineTest extends TestCase {
 	 * Test if the time points will be sorted if added in a non-ascending order 
 	 */
 	public void testSorting() {
-		TimeLine tl = new TimeLine("title", "domain");
+		final TimeLine tl = new TimeLine("title", "domain");
 		tl.addTimePoint(date2, 100);
 		tl.addTimePoint(date1, 110);
 		tl.addTimePoint(date4, 120);
@@ -122,11 +122,11 @@ public class TimeLineTest extends TestCase {
 	 * Test a time line with only relative values
 	 */
 	public void testDeltaTimeLine() {
-		TimeLine t1 = new TimeLine("title", "domain");
+		final TimeLine t1 = new TimeLine("title", "domain");
 		t1.setInitialValue(100);
 		t1.addChange(date1, 10);
 		t1.addChange(date2, -5);
-		List points = t1.getDataPoints();
+		final List points = t1.getDataPoints();
 		assertEquals(3, points.size());
 		assertEquals(beforeDate1, ((TimePoint) points.get(0)).getDate()); 
 		assertEquals(100, ((TimePoint) points.get(0)).getValue()); 
@@ -142,13 +142,13 @@ public class TimeLineTest extends TestCase {
 	 * Test a time line with only relative values and no initial value
 	 */
 	public void testIllegalDeltaTimeLine() {
-		TimeLine t1 = new TimeLine("title", "domain");
+		final TimeLine t1 = new TimeLine("title", "domain");
 		t1.addChange(date1, 10);
 		t1.addChange(date2, -5);
 		try {
 			t1.getDataPoints();
 			fail("expected IllegalStateException because of missing setInitialValue");
-		} catch (IllegalStateException expected) {
+		} catch (final IllegalStateException expected) {
 			// expected
 		}
 	}
@@ -157,12 +157,12 @@ public class TimeLineTest extends TestCase {
 	 * Test a time line with multiple relative values at the same time
 	 */
 	public void testDeltaTimeLineMultipleValues() {
-		TimeLine t1 = new TimeLine("title", "domain");
+		final TimeLine t1 = new TimeLine("title", "domain");
 		t1.setInitialValue(100);
 		t1.addChange(date1, 10);
 		t1.addChange(date2, -5);
 		t1.addChange(date1, 20);
-		List points = t1.getDataPoints();
+		final List points = t1.getDataPoints();
 		assertEquals(3, points.size());
 		assertEquals(beforeDate1, ((TimePoint) points.get(0)).getDate()); 
 		assertEquals(100, ((TimePoint) points.get(0)).getValue()); 

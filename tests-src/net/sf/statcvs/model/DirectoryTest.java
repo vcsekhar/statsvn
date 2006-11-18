@@ -48,7 +48,7 @@ public class DirectoryTest extends TestCase {
 	 * Constructor
 	 * @param arg0 input
 	 */
-	public DirectoryTest(String arg0) {
+	public DirectoryTest(final String arg0) {
 		super(arg0);
 	}
 
@@ -105,14 +105,14 @@ public class DirectoryTest extends TestCase {
 	 * tests {@link Directory.getRevisions()}
 	 */
 	public void testRevisions() {
-		VersionedFile file1 = new VersionedFile("src/net/sf/statcvs/Main.java", rootSrcNetSfStatcvs);
-		Revision rev11 = file1.addInitialRevision("1.1", author, date1, null, 0, null);
-		Revision rev12 = file1.addChangeRevision("1.2", author, date3, null, 0, 0, 0, null);
-		VersionedFile file2 = new VersionedFile("src/net/sf/statcvs/README", rootSrcNetSfStatcvs);
-		Revision rev21 = file2.addInitialRevision("2.1", author, date2, null, 0, null);
-		VersionedFile file3 = new VersionedFile("fileInRoot", root);
+		final VersionedFile file1 = new VersionedFile("src/net/sf/statcvs/Main.java", rootSrcNetSfStatcvs);
+		final Revision rev11 = file1.addInitialRevision("1.1", author, date1, null, 0, null);
+		final Revision rev12 = file1.addChangeRevision("1.2", author, date3, null, 0, 0, 0, null);
+		final VersionedFile file2 = new VersionedFile("src/net/sf/statcvs/README", rootSrcNetSfStatcvs);
+		final Revision rev21 = file2.addInitialRevision("2.1", author, date2, null, 0, null);
+		final VersionedFile file3 = new VersionedFile("fileInRoot", root);
 		file3.addInitialRevision("3.1", author, date4, null, 0, null);
-		Iterator revIt = rootSrcNetSfStatcvs.getRevisions().iterator();
+		final Iterator revIt = rootSrcNetSfStatcvs.getRevisions().iterator();
 		assertTrue(revIt.hasNext());
 		assertEquals(rev11, revIt.next());
 		assertTrue(revIt.hasNext());
@@ -133,9 +133,9 @@ public class DirectoryTest extends TestCase {
 	 * tests {@link Directory.compareTo(Object)
 	 */
 	public void testCompareDifferent() {
-		Directory dir1 = root.createSubdirectory("abc");
-		Directory dir2 = root.createSubdirectory("abc");
-		Directory dir3 = root.createSubdirectory("xyz");
+		final Directory dir1 = root.createSubdirectory("abc");
+		final Directory dir2 = root.createSubdirectory("abc");
+		final Directory dir3 = root.createSubdirectory("xyz");
 		assertEquals(0, dir1.compareTo(dir2));
 		assertTrue(dir1.compareTo(dir3) < 0);
 		assertTrue(dir3.compareTo(dir2) > 0);
@@ -172,7 +172,7 @@ public class DirectoryTest extends TestCase {
 	}
 	
 	public void testNonEmptyRepository() {
-		VersionedFile file1 = new VersionedFile("src/README", rootSrc);
+		final VersionedFile file1 = new VersionedFile("src/README", rootSrc);
 		file1.addInitialRevision("1.1", author, date1, null, 100, null);
 		assertTrue(!root.isEmpty());
 		assertTrue(!rootSrc.isEmpty());
@@ -186,7 +186,7 @@ public class DirectoryTest extends TestCase {
 	}
 
 	public void testEmptyRepositoryWithDeletedFile() {
-		VersionedFile file1 = new VersionedFile("src/README", rootSrc);
+		final VersionedFile file1 = new VersionedFile("src/README", rootSrc);
 		file1.addInitialRevision("1.1", author, date1, null, 100, null);
 		file1.addDeletionRevision("1.2", author, date2, null, 100, null);
 		assertTrue(root.isEmpty());
@@ -197,13 +197,13 @@ public class DirectoryTest extends TestCase {
 	}
 
 	public void testNonEmptyRepositoryWithDeletedFile() {
-		VersionedFile file1 = new VersionedFile("src/README", rootSrc);
+		final VersionedFile file1 = new VersionedFile("src/README", rootSrc);
 		file1.addInitialRevision("1.1", author, date1, null, 100, null);
-		VersionedFile file2 = new VersionedFile("src/README2", rootSrc);
+		final VersionedFile file2 = new VersionedFile("src/README2", rootSrc);
 		file2.addInitialRevision("1.1", author, date1, null, 100, null);
-		VersionedFile file3 = new VersionedFile("fileInRoot", root);
+		final VersionedFile file3 = new VersionedFile("fileInRoot", root);
 		file3.addInitialRevision("1.1", author, date1, null, 100, null);
-		VersionedFile file4 = new VersionedFile("src/deleted", rootSrc);
+		final VersionedFile file4 = new VersionedFile("src/deleted", rootSrc);
 		file4.addInitialRevision("1.1", author, date1, null, 100, null);
 		file4.addDeletionRevision("1.2", author, date2, null, 100, null);
 		assertTrue(!root.isEmpty());
@@ -218,13 +218,13 @@ public class DirectoryTest extends TestCase {
 	}
 
 	public void testGetSubdirectoriesRecursive() {
-		Directory rootDir = Directory.createRoot();
-		Directory dir2 = rootDir.createSubdirectory("dir2");
-		Directory dir2sub = dir2.createSubdirectory("sub");
-		Directory dir1 = rootDir.createSubdirectory("dir1");
-		Directory dir1sub2 = dir1.createSubdirectory("sub2");
-		Directory dir1sub1 = dir1.createSubdirectory("sub1");
-		Iterator dirIt = rootDir.getSubdirectoriesRecursive().iterator();
+		final Directory rootDir = Directory.createRoot();
+		final Directory dir2 = rootDir.createSubdirectory("dir2");
+		final Directory dir2sub = dir2.createSubdirectory("sub");
+		final Directory dir1 = rootDir.createSubdirectory("dir1");
+		final Directory dir1sub2 = dir1.createSubdirectory("sub2");
+		final Directory dir1sub1 = dir1.createSubdirectory("sub1");
+		final Iterator dirIt = rootDir.getSubdirectoriesRecursive().iterator();
 		assertEquals(rootDir, dirIt.next());
 		assertEquals(dir1, dirIt.next());
 		assertEquals(dir1sub1, dirIt.next());

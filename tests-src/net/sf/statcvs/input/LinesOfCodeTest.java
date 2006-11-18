@@ -63,7 +63,7 @@ public class LinesOfCodeTest extends TestCase {
 	 * Constructor
 	 * @param arg0 input
 	 */
-	public LinesOfCodeTest(String arg0) {
+	public LinesOfCodeTest(final String arg0) {
 		super(arg0);
 	}
 
@@ -267,9 +267,9 @@ public class LinesOfCodeTest extends TestCase {
 		assertRevisionLines(rev1, 50, 0, 0);
 	}
 
-	private void buildRevision(String revision, Date date,
-			int linesAdded, int linesRemoved) {
-		RevisionData data = new RevisionData();
+	private void buildRevision(final String revision, final Date date,
+			final int linesAdded, final int linesRemoved) {
+		final RevisionData data = new RevisionData();
 		data.setStateExp(true);
 		data.setRevisionNumber(revision);
 		data.setLoginName("author1");
@@ -279,8 +279,8 @@ public class LinesOfCodeTest extends TestCase {
 		builder.buildRevision(data);
 	}
 
-	private void buildRevisionInitial(String revision, Date date) {
-		RevisionData data = new RevisionData();
+	private void buildRevisionInitial(final String revision, final Date date) {
+		final RevisionData data = new RevisionData();
 		data.setStateExp(true);
 		data.setStateAdded(true);
 		data.setRevisionNumber(revision);
@@ -290,8 +290,8 @@ public class LinesOfCodeTest extends TestCase {
 		builder.buildRevision(data);
 	}
 
-	private void buildRevisionDead(String revision, Date date) {
-		RevisionData data = new RevisionData();
+	private void buildRevisionDead(final String revision, final Date date) {
+		final RevisionData data = new RevisionData();
 		data.setStateDead(true);
 		data.setRevisionNumber(revision);
 		data.setLoginName("author1");
@@ -306,9 +306,9 @@ public class LinesOfCodeTest extends TestCase {
 	}
 
 	private void finishBuilder() throws EmptyRepositoryException {
-		Iterator it = builder.createRepository().getFiles().iterator();
+		final Iterator it = builder.createRepository().getFiles().iterator();
 		while (it.hasNext()) {
-			VersionedFile f = (VersionedFile) it.next();
+			final VersionedFile f = (VersionedFile) it.next();
 			if (f.getFilename().equals("file")) {
 				file = f;
 			}
@@ -316,7 +316,7 @@ public class LinesOfCodeTest extends TestCase {
 		if (file == null) {
 			return;
 		}
-		List revisions = new ArrayList(file.getRevisions());
+		final List revisions = new ArrayList(file.getRevisions());
 		Collections.reverse(revisions);
 		try {
 			rev0 = (Revision) revisions.get(0);
@@ -324,13 +324,13 @@ public class LinesOfCodeTest extends TestCase {
 			rev2 = (Revision) revisions.get(2);
 			rev3 = (Revision) revisions.get(3);
 			rev4 = (Revision) revisions.get(4);
-		} catch (IndexOutOfBoundsException mightHappen) {
+		} catch (final IndexOutOfBoundsException mightHappen) {
 			// do nothing
 		}
 	}
 	
-	private void assertRevisionLines(Revision revision, 
-			int effectiveLinesOfCode, int locChange, int lineValue) {
+	private void assertRevisionLines(final Revision revision, 
+			final int effectiveLinesOfCode, final int locChange, final int lineValue) {
 		assertEquals("effective lines of code", effectiveLinesOfCode,
 				revision.getLines());
 		assertEquals("lines of code change", locChange, revision.getLinesDelta());

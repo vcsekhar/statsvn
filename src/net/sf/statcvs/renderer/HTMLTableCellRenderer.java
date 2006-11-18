@@ -47,7 +47,7 @@ public class HTMLTableCellRenderer implements TableCellRenderer {
 	 * Render a generic table cell to HTML
 	 * @param content the cell's content
 	 */
-	public void renderCell(String content) {
+	public void renderCell(final String content) {
 		html = content;
 	}
 	
@@ -62,7 +62,7 @@ public class HTMLTableCellRenderer implements TableCellRenderer {
 	 * Render an integer cell to HTML
 	 * @param value the cell's content
 	 */
-	public void renderIntegerCell(int value) {
+	public void renderIntegerCell(final int value) {
 		html = Integer.toString(value);
 	}
 
@@ -72,7 +72,7 @@ public class HTMLTableCellRenderer implements TableCellRenderer {
 	 * @param value the cell's content
 	 * @param total the total, worth 100%
 	 */
-	public void renderIntegerCell(int value, int total) {
+	public void renderIntegerCell(final int value, final int total) {
 		html = Integer.toString(value) + " ("
 				+ getPercentage((double) value / (double) total) + ")";
 	}
@@ -81,7 +81,7 @@ public class HTMLTableCellRenderer implements TableCellRenderer {
 	 * Render a percentage cell to HTML
 	 * @param ratio the cell's content
 	 */
-	public void renderPercentageCell(double ratio) {
+	public void renderPercentageCell(final double ratio) {
 		html = getPercentage(ratio);
 	}
 
@@ -89,7 +89,7 @@ public class HTMLTableCellRenderer implements TableCellRenderer {
 	 * Render a cell containing an author to HTML
 	 * @param author the author
 	 */
-	public void renderAuthorCell(Author author) {
+	public void renderAuthorCell(final Author author) {
 		html = HTMLTagger.getAuthorLink(author, output);
 	}
 
@@ -97,7 +97,7 @@ public class HTMLTableCellRenderer implements TableCellRenderer {
 	 * Render a cell containing a directory to HTML
 	 * @param directory the directory
 	 */
-	public void renderDirectoryCell(Directory directory) {
+	public void renderDirectoryCell(final Directory directory) {
 		html = HTMLTagger.getDirectoryLink(directory, getOutput());
 	}
 
@@ -106,7 +106,7 @@ public class HTMLTableCellRenderer implements TableCellRenderer {
 	 * @param file the file
 	 * @param withIcon display an icon in front of the filename?
 	 */
-	public void renderFileCell(VersionedFile file, boolean withIcon) {
+	public void renderFileCell(final VersionedFile file, final boolean withIcon) {
 		html = HTMLTagger.getFileLink(file);
 		if (withIcon) {
 			if (file.isDead()) {
@@ -143,16 +143,16 @@ public class HTMLTableCellRenderer implements TableCellRenderer {
 		return getHtml("td");
 	}
 	
-	private String getPercentage(double ratio) {
+	private String getPercentage(final double ratio) {
 		if (Double.isNaN(ratio)) {
 			return "-";
 		}
-		int percentTimes10 = (int) Math.round(ratio * 1000);
-		double percent = percentTimes10 / 10.0;
+		final int percentTimes10 = (int) Math.round(ratio * 1000);
+		final double percent = percentTimes10 / 10.0;
 		return Double.toString(percent) + "%";
 	}
 	
-	private String getHtml(String tag) {
+	private String getHtml(final String tag) {
 		if (html == null) {
 			return "<" + tag + "></" + tag + ">";
 		}
@@ -169,7 +169,7 @@ public class HTMLTableCellRenderer implements TableCellRenderer {
     /**
      * @param output the output to set
      */
-    public void setOutput(OutputRenderer output) {
+    public void setOutput(final OutputRenderer output) {
         this.output = output;
     }
     

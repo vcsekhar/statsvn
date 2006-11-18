@@ -48,7 +48,7 @@ final class HelperTimePoint implements Comparable {
 	 * @param value the time point's value
 	 * @return a new time point
 	 */
-	public static HelperTimePoint createAbsoluteValueTimePoint(Date date, int value) {
+	public static HelperTimePoint createAbsoluteValueTimePoint(final Date date, final int value) {
 		return new HelperTimePoint(date, value, true);
 	}
 	
@@ -59,7 +59,7 @@ final class HelperTimePoint implements Comparable {
 	 * @param delta the time point's change relative to the previous value
 	 * @return a new time point
 	 */
-	public static HelperTimePoint createDeltaTimePoint(Date date, int delta) {
+	public static HelperTimePoint createDeltaTimePoint(final Date date, final int delta) {
 		return new HelperTimePoint(date, delta, false);
 	}
 
@@ -71,7 +71,7 @@ final class HelperTimePoint implements Comparable {
 	 * @param other a <tt>HelperTimePoint</tt>
 	 * @return a time point representing both <tt>this</tt> and <tt>other</tt>
 	 */
-	public HelperTimePoint join(HelperTimePoint other) {
+	public HelperTimePoint join(final HelperTimePoint other) {
 		if (!date.equals(other.getDate())) {
 			throw new IllegalArgumentException(
 					"Can only add time points having the same date");
@@ -114,8 +114,8 @@ final class HelperTimePoint implements Comparable {
 	 * @param o another time point
 	 * @return See {@link java.lang.Comparable#compareTo(java.lang.Object)}
 	 */
-	public int compareTo(Object o) {
-		HelperTimePoint other = (HelperTimePoint) o;
+	public int compareTo(final Object o) {
+		final HelperTimePoint other = (HelperTimePoint) o;
 		return getDate().compareTo(other.getDate());
 	}
 }

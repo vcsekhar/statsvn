@@ -39,7 +39,7 @@ public class Author implements Comparable {
 	 * Creates a new author.
 	 * @param name the author's login name
 	 */
-	public Author(String name) {
+	public Author(final String name) {
 		this.name = name;
 	}
 
@@ -47,7 +47,7 @@ public class Author implements Comparable {
 	 * Adds a revision for this author; called by {@link Revision} constructor
 	 * @param revision a revision committed by this author
 	 */
-	protected void addRevision(Revision revision) {
+	protected void addRevision(final Revision revision) {
 		revisions.add(revision);
 		directories.add(revision.getFile().getDirectory());
 	}
@@ -82,7 +82,7 @@ public class Author implements Comparable {
 	 * Compares the instance to another author, using their login names.
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
-	public int compareTo(Object o) {
+	public int compareTo(final Object o) {
 		return name.compareTo(((Author) o).getName());
 	}
 	

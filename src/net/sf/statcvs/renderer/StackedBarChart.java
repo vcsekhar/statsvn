@@ -56,7 +56,7 @@ public class StackedBarChart extends Chart {
 	private static final int ADDING = 1;
 	private Repository content;
 	private double[][] categories;
-	private ArrayList categoryNames = new ArrayList();
+	private final ArrayList categoryNames = new ArrayList();
 	
 	/**
 	 * creates an Stacked Bar Chart
@@ -64,13 +64,13 @@ public class StackedBarChart extends Chart {
 	 * @param title chart title
 	 * @param fileName fileName for chart
 	 */
-	public StackedBarChart(Repository content, String title, String fileName) {
+	public StackedBarChart(final Repository content, final String title, final String fileName) {
 		super(title, fileName);
 		this.content = content;
-		Collection authors = content.getAuthors();
-		Iterator it = authors.iterator();
+		final Collection authors = content.getAuthors();
+		final Iterator it = authors.iterator();
 		while (it.hasNext()) {
-			Author author = (Author) it.next();
+			final Author author = (Author) it.next();
 			categoryNames.add(author.getName());
 		}
 		Collections.sort(categoryNames);
@@ -81,20 +81,20 @@ public class StackedBarChart extends Chart {
 			categories[ADDING][j] = 0;
 		}
 										
-		Iterator commitIt = content.getCommits().iterator();
+		final Iterator commitIt = content.getCommits().iterator();
 		while (commitIt.hasNext()) {
-			Commit commit = (Commit) commitIt.next();
-			Set commitRevList = commit.getRevisions();
-			Iterator commitRevIt = commitRevList.iterator();
-			String authorName = commit.getAuthor().getName();
+			final Commit commit = (Commit) commitIt.next();
+			final Set commitRevList = commit.getRevisions();
+			final Iterator commitRevIt = commitRevList.iterator();
+			final String authorName = commit.getAuthor().getName();
 			if (authorName == null) {
 				continue;
 			}
-			int author = categoryNames.indexOf(authorName);
+			final int author = categoryNames.indexOf(authorName);
 			int linesAdded = 0;
 			int linesRemoved = 0;
 			while (commitRevIt.hasNext()) {
-				Revision revision = (Revision) commitRevIt.next();
+				final Revision revision = (Revision) commitRevIt.next();
 				if (revision.getLinesDelta() > 0) {
 					linesAdded += revision.getLinesDelta() + revision.getReplacedLines();
 					linesRemoved += revision.getReplacedLines();
@@ -116,7 +116,7 @@ public class StackedBarChart extends Chart {
 		}
 		
 		for (int i = 0; i < authors.size(); i++) {
-			double maxLines = categories[MODIFYING][i] + categories[ADDING][i];
+			final double maxLines = categories[MODIFYING][i] + categories[ADDING][i];
 			for (int k = 0; k < 2; k++) {
 				categories[k][i] *= (100 / maxLines);
 			}
@@ -125,7 +125,7 @@ public class StackedBarChart extends Chart {
 	}
 
 	private void createStackedBarChart() {
-		DefaultCategoryDataset data = new DefaultCategoryDataset();
+		final DefaultCategoryDataset data = new DefaultCategoryDataset();
 		for (int i = 0; i < categories[MODIFYING].length; i++) {
 			data.addValue(categories[MODIFYING][i], "modifying", (Comparable) categoryNames.get(i));   
 		}
@@ -141,17 +141,17 @@ public class StackedBarChart extends Chart {
 			PlotOrientation.HORIZONTAL, true, false, false
 		));
 		
-		CategoryPlot plot = getChart().getCategoryPlot();
+		final CategoryPlot plot = getChart().getCategoryPlot();
 		//plot.setSeriesPaint(new Paint[] { Color.yellow, Color.green });
-		CategoryItemRenderer renderer = plot.getRenderer();
+		final CategoryItemRenderer renderer = plot.getRenderer();
 		renderer.setSeriesPaint(0, Color.yellow);
 		renderer.setSeriesPaint(1, Color.green);
 
-		NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
+		final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
 		rangeAxis.setTickUnit(new NumberTickUnit(20.0, new DecimalFormat("0")));
 		rangeAxis.setUpperBound(100.0);
 		
-		LegendTitle legend = getChart().getLegend();
+		final LegendTitle legend = getChart().getLegend();
 		legend.setPosition(RectangleEdge.TOP);
 		
 		createChart();

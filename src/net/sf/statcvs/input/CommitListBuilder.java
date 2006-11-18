@@ -45,7 +45,7 @@ public class CommitListBuilder {
     private static final int MAX_TIME_BETWEEN_CHANGES_MILLISECONDS = 300000;
 
     private Iterator revisions;
-    private Map currentCommits = new HashMap();
+    private final Map currentCommits = new HashMap();
     private List commits;
 
     /**
@@ -54,11 +54,11 @@ public class CommitListBuilder {
      * @param revisions
      *            a set of {@link Revision}s
      */
-    public CommitListBuilder(SortedSet revisions) {
+    public CommitListBuilder(final SortedSet revisions) {
         this(revisions.iterator());
     }
 
-    public CommitListBuilder(Iterator revisions) {
+    public CommitListBuilder(final Iterator revisions) {
         this.revisions = revisions;
     }
 
@@ -79,11 +79,11 @@ public class CommitListBuilder {
         return commits;
     }
 
-    protected void processRevision(Revision rev) {
+    protected void processRevision(final Revision rev) {
         if (rev.getAuthor() == null) {
             return;
         }
-        Commit commit = (Commit) currentCommits.get(rev.getAuthor());
+        final Commit commit = (Commit) currentCommits.get(rev.getAuthor());
         if (commit == null || !isSameCommit(commit, rev)) {
             addNewCommit(rev);
         } else {
@@ -91,13 +91,13 @@ public class CommitListBuilder {
         }
     }
 
-    protected void addNewCommit(Revision rev) {
-        Commit newCommit = new Commit(rev);
+    protected void addNewCommit(final Revision rev) {
+        final Commit newCommit = new Commit(rev);
         currentCommits.put(rev.getAuthor(), newCommit);
         commits.add(newCommit);
     }
 
-    protected void addRevToCommit(Commit commit, Revision rev) {
+    protected void addRevToCommit(final Commit commit, final Revision rev) {
         commit.addRevision(rev);
     }
 
@@ -110,7 +110,7 @@ public class CommitListBuilder {
      *            the revision to check against this commit
      * @return <code>true</code> if change is part of this commit
      */
-    public static boolean isSameCommit(Commit commit, Revision rev) {
+    public static boolean isSameCommit(final Commit commit, final Revision rev) {
         return commit.getAuthor().equals(rev.getAuthor()) && commit.getComment().equals(rev.getComment()) && isInTimeFrame(commit, rev.getDate());
     }
 
@@ -121,7 +121,7 @@ public class CommitListBuilder {
      *            the date to check against this commit
      * @return <code>true</code> if the date lies within the timespan of the commit
      */
-    public static boolean isInTimeFrame(Commit commit, Date date) {
+    public static boolean isInTimeFrame(final Commit commit, final Date date) {
         return date.getTime() > (commit.getDate().getTime() - MAX_TIME_BETWEEN_CHANGES_MILLISECONDS)
                 && (date.getTime() < commit.getDate().getTime() + MAX_TIME_BETWEEN_CHANGES_MILLISECONDS);
     }

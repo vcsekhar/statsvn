@@ -97,8 +97,9 @@ public class Revision implements Comparable {
 	 * @param linesReplaced How many lines were removed and replaced by other lines, without the delta changing?
 	 * @param symbolicNames list of symbolic names for this revision or null if this revision has no symbolic names	 
  	 */
-	Revision(VersionedFile file, String revisionNumber, int type,
-			Author author, Date date, String comment, int lines, int linesDelta, int linesReplaced, SortedSet symbolicNames) {
+	Revision(final VersionedFile file, final String revisionNumber, final int type,
+			final Author author, final Date date, final String comment, final int lines, final int linesDelta, final int linesReplaced, 
+			final SortedSet symbolicNames) {
 		this.file = file;
 		this.revisionNumber = revisionNumber;
 		this.type = type;
@@ -115,7 +116,7 @@ public class Revision implements Comparable {
 		}
         
         if (symbolicNames != null) {
-            Iterator it = symbolicNames.iterator();
+            final Iterator it = symbolicNames.iterator();
             while (it.hasNext()) {
                 ((SymbolicName)it.next()).addRevision(this);
             }
@@ -279,8 +280,7 @@ public class Revision implements Comparable {
 	 *
 	 * @return list of symbolic names 
 	 */
-	public SortedSet getSymbolicNames()
-	{
+	public SortedSet getSymbolicNames()	{
 		return symbolicNames;		
 	}
 	
@@ -289,11 +289,11 @@ public class Revision implements Comparable {
 	 * smaller if its date is smaller. If the dates are identical, the filename,
 	 * author name, revision number and comment will be used to break the tie.
 	 */
-	public int compareTo(Object other) {
+	public int compareTo(final Object other) {
 		if (this == other) {
 			return 0;
 		}
-		Revision otherRevision = (Revision) other;
+		final Revision otherRevision = (Revision) other;
 		int result = date.compareTo(otherRevision.getDate());
 		if (result != 0) {
 			return result;

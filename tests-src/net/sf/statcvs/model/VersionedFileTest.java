@@ -36,16 +36,16 @@ import junit.framework.TestCase;
 public class VersionedFileTest extends TestCase {
 	private Directory dirRoot;
 	private Directory dirTest;
-	private Date date1 = new Date(1100000000);
-	private Date date2 = new Date(1200000000);
-	private Date date3 = new Date(1300000000);
+	private final Date date1 = new Date(1100000000);
+	private final Date date2 = new Date(1200000000);
+	private final Date date3 = new Date(1300000000);
 	private Author author;
 	
 	/**
 	 * Constructor for VersionedFileTest.
 	 * @param arg0 input
 	 */
-	public VersionedFileTest(String arg0) {
+	public VersionedFileTest(final String arg0) {
 		super(arg0);
 	}
 
@@ -63,8 +63,8 @@ public class VersionedFileTest extends TestCase {
 	 * Method testCreation.
 	 */
 	public void testCreation() {
-		VersionedFile file = new VersionedFile("file", dirRoot);
-		Revision rev1 = file.addInitialRevision("1.1", author, date1, "message", 0, null);
+		final VersionedFile file = new VersionedFile("file", dirRoot);
+		final Revision rev1 = file.addInitialRevision("1.1", author, date1, "message", 0, null);
 		assertEquals("file", file.getFilenameWithPath());
 		assertEquals(1, file.getRevisions().size());
 		assertSame(rev1, file.getLatestRevision());
@@ -77,11 +77,11 @@ public class VersionedFileTest extends TestCase {
 	 * Method testMultipleRevisions.
 	 */
 	public void testMultipleRevisions() {
-		VersionedFile file = new VersionedFile("file", dirRoot);
-		Revision rev1 = file.addInitialRevision("1.1", author, date1, "message1", 0, null);
-		Revision rev2 = file.addChangeRevision("1.2", author, date2, "message2", 0, 0, 0, null);
-		Revision rev3 = file.addChangeRevision("1.3", author, date3, "message3", 0, 0, 0, null);
-		Iterator revIt = file.getRevisions().iterator();
+		final VersionedFile file = new VersionedFile("file", dirRoot);
+		final Revision rev1 = file.addInitialRevision("1.1", author, date1, "message1", 0, null);
+		final Revision rev2 = file.addChangeRevision("1.2", author, date2, "message2", 0, 0, 0, null);
+		final Revision rev3 = file.addChangeRevision("1.3", author, date3, "message3", 0, 0, 0, null);
+		final Iterator revIt = file.getRevisions().iterator();
 		assertEquals(rev1, revIt.next());
 		assertEquals(rev2, revIt.next());
 		assertEquals(rev3, revIt.next());
@@ -98,11 +98,11 @@ public class VersionedFileTest extends TestCase {
 	 * Test the assertion that revisions can be added to a file in any order.
 	 */
 	public void testMultipleRevisionsAnyOrder() {
-		VersionedFile file = new VersionedFile("file", dirRoot);
-		Revision rev2 = file.addChangeRevision("1.2", author, date2, null, 0, 0, 0, null);
-		Revision rev3 = file.addDeletionRevision("1.3", author, date3, null, 0, null);
-		Revision rev1 = file.addInitialRevision("1.1", author, date1, null, 0, null);
-		Iterator revIt = file.getRevisions().iterator();
+		final VersionedFile file = new VersionedFile("file", dirRoot);
+		final Revision rev2 = file.addChangeRevision("1.2", author, date2, null, 0, 0, 0, null);
+		final Revision rev3 = file.addDeletionRevision("1.3", author, date3, null, 0, null);
+		final Revision rev1 = file.addInitialRevision("1.1", author, date1, null, 0, null);
+		final Iterator revIt = file.getRevisions().iterator();
 		assertEquals(rev1, revIt.next());
 		assertEquals(rev2, revIt.next());
 		assertEquals(rev3, revIt.next());
@@ -113,9 +113,9 @@ public class VersionedFileTest extends TestCase {
 	 * Method testModuleName.
 	 */
 	public void testDirectories() {
-		VersionedFile file1 = new VersionedFile("rootfile.file", dirRoot);
+		final VersionedFile file1 = new VersionedFile("rootfile.file", dirRoot);
 		file1.addInitialRevision("1.1", author, date1, null, 0, null);
-		VersionedFile file2 = new VersionedFile("test/file.file", dirTest);
+		final VersionedFile file2 = new VersionedFile("test/file.file", dirTest);
 		assertEquals(dirRoot, file1.getDirectory());
 		assertEquals(dirTest, file2.getDirectory());
 	}
@@ -137,10 +137,10 @@ public class VersionedFileTest extends TestCase {
 	 * test getPreviousRevision()
 	 */
 	public void testGetPreviousRevision() {
-		VersionedFile file = new VersionedFile("file", dirRoot);
-		Revision rev1 = file.addInitialRevision("1.1", author, date1, "message1", 0, null);
-		Revision rev2 = file.addChangeRevision("1.2", author, date2, "message2", 0, 0, 0, null);
-		Revision rev3 = file.addChangeRevision("1.3", author, date3, "message3", 0, 0, 0, null);
+		final VersionedFile file = new VersionedFile("file", dirRoot);
+		final Revision rev1 = file.addInitialRevision("1.1", author, date1, "message1", 0, null);
+		final Revision rev2 = file.addChangeRevision("1.2", author, date2, "message2", 0, 0, 0, null);
+		final Revision rev3 = file.addChangeRevision("1.3", author, date3, "message3", 0, 0, 0, null);
 		assertNull(rev1.getPreviousRevision());
 		assertNull(file.getPreviousRevision(rev1));
 		assertEquals(rev1, rev2.getPreviousRevision());
@@ -150,7 +150,7 @@ public class VersionedFileTest extends TestCase {
 		try {
 			file.getPreviousRevision(new Revision(new VersionedFile("foo", dirRoot), "1.1", Revision.TYPE_CHANGE, null, date3, null, 0, 0, 0, null));
 			fail("should have thrown IllegalArgumentException");
-		} catch (IllegalArgumentException expected) {
+		} catch (final IllegalArgumentException expected) {
 			// expected
 		}
 	}
@@ -159,7 +159,7 @@ public class VersionedFileTest extends TestCase {
 	 * Test if files are added to their directory's file list
 	 */
 	public void testLinkToDirectory() {
-		VersionedFile file = new VersionedFile("test/file", dirTest);
+		final VersionedFile file = new VersionedFile("test/file", dirTest);
 		file.addInitialRevision("1.1", author, date1, "message1", 0, null);
 		assertEquals(dirTest, file.getDirectory());		
 		assertTrue(dirTest.getFiles().contains(file));		
@@ -170,7 +170,7 @@ public class VersionedFileTest extends TestCase {
 	 * in the authors list
 	 */
 	public void testIgnoreNullAuthor() {
-		VersionedFile file = new VersionedFile("file", dirRoot);
+		final VersionedFile file = new VersionedFile("file", dirRoot);
 		new Revision(file, "1.5", Revision.TYPE_CHANGE, new Author("author"),
 				new Date(200000000), null, 0, 0, 0, null);
 		new Revision(file, "0.0", Revision.TYPE_BEGIN_OF_LOG, null,

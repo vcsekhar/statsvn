@@ -43,8 +43,8 @@ public class CommitLogPage extends HTMLPage {
 	 * @param totalPages total number of log pages
 	 * @throws IOException on IOError
 	 */
-	public CommitLogPage(Repository content, CommitLogRenderer logRenderer,
-			int pageNr, int totalPages, final OutputRenderer output) throws IOException {
+	public CommitLogPage(final Repository content, final CommitLogRenderer logRenderer,
+			final int pageNr, final int totalPages, final OutputRenderer output) throws IOException {
 		super(content, output);
 		this.logRenderer = logRenderer;
 		setFileName(CommitLogRenderer.getFilename(pageNr, output, false));

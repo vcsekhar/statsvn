@@ -37,7 +37,7 @@ public class SvnXmlCacheFileHandler extends DefaultHandler {
      * @throws SAXException
      *             unexpected event.
      */
-    private void checkLastElement(String last) throws SAXException {
+    private void checkLastElement(final String last) throws SAXException {
         if (!lastElement.equals(last)) {
             fatalError(FATAL_ERROR_MESSAGE);
         }
@@ -49,7 +49,7 @@ public class SvnXmlCacheFileHandler extends DefaultHandler {
      * @throws SAXException
      *             unexpected event.
      */
-    public void endElement(String uri, String localName, String qName) throws SAXException {
+    public void endElement(final String uri, final String localName, final String qName) throws SAXException {
         super.endElement(uri, localName, qName);
         String eName = localName; // element name
         if ("".equals(eName)) {
@@ -107,7 +107,7 @@ public class SvnXmlCacheFileHandler extends DefaultHandler {
      * @throws SAXException
      *             the error
      */
-    private void fatalError(String message) throws SAXException {
+    private void fatalError(final String message) throws SAXException {
         fatalError(new SAXParseException(message, null));
     }
 
@@ -117,7 +117,7 @@ public class SvnXmlCacheFileHandler extends DefaultHandler {
      * @throws SAXException
      *             unexpected event.
      */
-    public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+    public void startElement(final String uri, final String localName, final String qName, final Attributes attributes) throws SAXException {
         super.startElement(uri, localName, qName, attributes);
 
         String eName = localName; // element name
@@ -147,7 +147,7 @@ public class SvnXmlCacheFileHandler extends DefaultHandler {
         lastElement = CacheConfiguration.CACHE;
         try {
             cacheBuilder.buildRoot();
-        } catch (ParserConfigurationException e) {
+        } catch (final ParserConfigurationException e) {
             fatalError(FATAL_ERROR_MESSAGE);
         }
     }
@@ -160,17 +160,19 @@ public class SvnXmlCacheFileHandler extends DefaultHandler {
      * @throws SAXException
      *             missing some data.
      */
-    private void startPath(Attributes attributes) throws SAXException {
+    private void startPath(final Attributes attributes) throws SAXException {
         checkLastElement(CacheConfiguration.CACHE);
         lastElement = CacheConfiguration.PATH;
         if (attributes != null && attributes.getValue(CacheConfiguration.NAME) != null) {
-            String name = attributes.getValue(CacheConfiguration.NAME);
+            final String name = attributes.getValue(CacheConfiguration.NAME);
         	String revision = "0";
-            if (attributes.getValue(CacheConfiguration.LATEST_REVISION) != null)
-            	revision = attributes.getValue(CacheConfiguration.LATEST_REVISION);
+            if (attributes.getValue(CacheConfiguration.LATEST_REVISION) != null) {
+				revision = attributes.getValue(CacheConfiguration.LATEST_REVISION);
+			}
             String binaryStatus = CacheConfiguration.UNKNOWN;
-            if (attributes.getValue(CacheConfiguration.BINARY_STATUS) != null)
-            	binaryStatus = attributes.getValue(CacheConfiguration.BINARY_STATUS);
+            if (attributes.getValue(CacheConfiguration.BINARY_STATUS) != null) {
+				binaryStatus = attributes.getValue(CacheConfiguration.BINARY_STATUS);
+			}
             cacheBuilder.buildPath(name, revision, binaryStatus);
         } else {
             fatalError(FATAL_ERROR_MESSAGE);
@@ -185,17 +187,18 @@ public class SvnXmlCacheFileHandler extends DefaultHandler {
      * @throws SAXException
      *             missing some data.
      */
-    private void startRevision(Attributes attributes) throws SAXException {
+    private void startRevision(final Attributes attributes) throws SAXException {
         checkLastElement(CacheConfiguration.PATH);
         if (attributes != null && attributes.getValue(CacheConfiguration.NUMBER) != null 
         		&& attributes.getValue(CacheConfiguration.ADDED) != null 
         		&& attributes.getValue(CacheConfiguration.REMOVED) != null) {
-            String number = attributes.getValue(CacheConfiguration.NUMBER);
-            String added = attributes.getValue(CacheConfiguration.ADDED);
-            String removed = attributes.getValue(CacheConfiguration.REMOVED);
+            final String number = attributes.getValue(CacheConfiguration.NUMBER);
+            final String added = attributes.getValue(CacheConfiguration.ADDED);
+            final String removed = attributes.getValue(CacheConfiguration.REMOVED);
         	String binaryStatus = CacheConfiguration.UNKNOWN;
-            if (attributes.getValue(CacheConfiguration.BINARY_STATUS) != null)
-            	binaryStatus = attributes.getValue(CacheConfiguration.BINARY_STATUS);
+            if (attributes.getValue(CacheConfiguration.BINARY_STATUS) != null) {
+				binaryStatus = attributes.getValue(CacheConfiguration.BINARY_STATUS);
+			}
             cacheBuilder.buildRevision(number, added, removed, binaryStatus);
         } else {
             fatalError(FATAL_ERROR_MESSAGE);

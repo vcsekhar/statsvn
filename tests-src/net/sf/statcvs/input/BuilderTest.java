@@ -56,7 +56,7 @@ public class BuilderTest extends TestCase {
 	 * @param arg0
 	 *            input
 	 */
-	public BuilderTest(String arg0) {
+	public BuilderTest(final String arg0) {
 		super(arg0);
 	}
 
@@ -93,7 +93,7 @@ public class BuilderTest extends TestCase {
 	 * Test if the module name is correctly passed on
 	 */
 	public void testBuildModule() {
-		Builder b = new Builder(null, null, null);
+		final Builder b = new Builder(null, null, null);
 		b.buildModule("test");
 		assertEquals("test", b.getProjectName());
 		assertTrue(b.getAtticFileNames().isEmpty());
@@ -103,9 +103,9 @@ public class BuilderTest extends TestCase {
 	 * test {@link Builder.getAuthor(String)}
 	 */
 	public void testGetAuthor() {
-		Author author1 = builder.getAuthor("author1");
-		Author author2 = builder.getAuthor("author2");
-		Author author1b = builder.getAuthor("author1");
+		final Author author1 = builder.getAuthor("author1");
+		final Author author2 = builder.getAuthor("author2");
+		final Author author1b = builder.getAuthor("author1");
 		assertEquals(author1, author1b);
 		assertTrue(!author1.equals(author2));
 		assertTrue(!author1b.equals(author2));
@@ -116,8 +116,8 @@ public class BuilderTest extends TestCase {
 	 * same login
 	 */
 	public void testGetAuthorCase() {
-		Author upper = this.builder.getAuthor("richard");
-		Author lower = this.builder.getAuthor("Richard");
+		final Author upper = this.builder.getAuthor("richard");
+		final Author lower = this.builder.getAuthor("Richard");
 		assertSame(upper, lower);
 	}
 
@@ -125,8 +125,8 @@ public class BuilderTest extends TestCase {
 	 * test {@link Builder.getDirectory(String)}
 	 */
 	public void testGetDirectoryRoot() {
-		Directory dir1 = builder.getDirectory("fileInRoot");
-		Directory dir2 = builder.getDirectory("anotherFileInRoot");
+		final Directory dir1 = builder.getDirectory("fileInRoot");
+		final Directory dir2 = builder.getDirectory("anotherFileInRoot");
 		assertEquals(dir1, dir2);
 		assertTrue(dir1.isRoot());
 		assertEquals("", dir1.getName());
@@ -137,8 +137,8 @@ public class BuilderTest extends TestCase {
 	 * test {@link Builder.getDirectory(String)}
 	 */
 	public void testGetDirectoryDeepPath() {
-		Directory dir1 = builder.getDirectory("src/file");
-		Directory dir2 = builder.getDirectory("src/net/sf/statcvs/Main.java");
+		final Directory dir1 = builder.getDirectory("src/file");
+		final Directory dir2 = builder.getDirectory("src/net/sf/statcvs/Main.java");
 		assertEquals(dir1, dir2.getParent().getParent().getParent());
 		assertTrue(dir1.getParent().isRoot());
 	}
@@ -147,9 +147,9 @@ public class BuilderTest extends TestCase {
 	 * test {@link Builder.getDirectory(String)}
 	 */
 	public void testGetDirectorySeveralPaths() {
-		Directory dir1 = builder.getDirectory("src/net/sf/statcvs/Main.java");
-		Directory dir2 = builder.getDirectory("src/com/microsoft/Windows95.java");
-		Directory dir3 = builder.getDirectory("src/com/microsoft/Windows98.java");
+		final Directory dir1 = builder.getDirectory("src/net/sf/statcvs/Main.java");
+		final Directory dir2 = builder.getDirectory("src/com/microsoft/Windows95.java");
+		final Directory dir3 = builder.getDirectory("src/com/microsoft/Windows98.java");
 		assertEquals(dir2, dir3);
 		assertEquals(dir1.getParent().getParent().getParent(), dir2.getParent().getParent());
 	}
@@ -159,11 +159,11 @@ public class BuilderTest extends TestCase {
 	 * {@link Builder.getFiles()}
 	 */
 	public void testFilesEmpty() throws Exception {
-		Builder builder1 = new Builder(null, null, null);
+		final Builder builder1 = new Builder(null, null, null);
 		try {
 			builder1.createRepository();
 			fail("should have thrown EmptyRepositoryException");
-		} catch (EmptyRepositoryException expected) {
+		} catch (final EmptyRepositoryException expected) {
 			// is expected
 		}
 	}
@@ -175,11 +175,11 @@ public class BuilderTest extends TestCase {
 	public void testFilesOneFile() throws Exception {
 		builder.buildFile("file1", false, false, new HashMap());
 		builder.buildRevision(rev1);
-		Repository content = builder.createRepository();
+		final Repository content = builder.createRepository();
 
 		assertNotNull(content.getFiles());
 		assertEquals(1, content.getFiles().size());
-		VersionedFile file1 = (VersionedFile) content.getFiles().first();
+		final VersionedFile file1 = (VersionedFile) content.getFiles().first();
 		assertEquals("file1", file1.getFilenameWithPath());
 		assertEquals(builder.getDirectory(""), file1.getDirectory());
 		assertEquals(1, file1.getRevisions().size());
@@ -194,12 +194,12 @@ public class BuilderTest extends TestCase {
 		builder.buildRevision(rev1);
 		builder.buildFile("file3", false, false, new HashMap());
 		builder.buildRevision(rev2);
-		Repository content = builder.createRepository();
+		final Repository content = builder.createRepository();
 
 		assertNotNull(content.getFiles());
 		assertEquals(2, content.getFiles().size());
-		VersionedFile file2 = (VersionedFile) content.getFiles().first();
-		VersionedFile file3 = (VersionedFile) content.getFiles().last();
+		final VersionedFile file2 = (VersionedFile) content.getFiles().first();
+		final VersionedFile file3 = (VersionedFile) content.getFiles().last();
 		assertEquals("file2", file2.getFilenameWithPath());
 		assertEquals("file3", file3.getFilenameWithPath());
 	}
@@ -212,16 +212,16 @@ public class BuilderTest extends TestCase {
 		builder.buildRevision(rev3);
 		builder.buildRevision(rev2);
 		builder.buildRevision(rev1);
-		Repository content = builder.createRepository();
+		final Repository content = builder.createRepository();
 
-		VersionedFile file = (VersionedFile) content.getFiles().first();
-		Iterator it = file.getRevisions().iterator();
+		final VersionedFile file = (VersionedFile) content.getFiles().first();
+		final Iterator it = file.getRevisions().iterator();
 		assertTrue(it.hasNext());
-		Revision r1 = (Revision) it.next();
+		final Revision r1 = (Revision) it.next();
 		assertTrue(it.hasNext());
-		Revision r2 = (Revision) it.next();
+		final Revision r2 = (Revision) it.next();
 		assertTrue(it.hasNext());
-		Revision r3 = (Revision) it.next();
+		final Revision r3 = (Revision) it.next();
 		assertTrue(!it.hasNext());
 
 		assertEquals("1.1", r1.getRevisionNumber());
@@ -243,7 +243,7 @@ public class BuilderTest extends TestCase {
 	}
 
 	public void testStartDateForPartialLog() throws Exception {
-		RevisionData rev4 = new RevisionData();
+		final RevisionData rev4 = new RevisionData();
 		rev4.setRevisionNumber("1.5");
 		rev4.setLines(10, 5);
 		rev4.setStateExp(true);
@@ -255,16 +255,16 @@ public class BuilderTest extends TestCase {
 		builder.buildRevision(rev1);
 		builder.buildFile("partial_logged_file", true, false, new HashMap());
 		builder.buildRevision(rev4);
-		Repository content = builder.createRepository();
+		final Repository content = builder.createRepository();
 
-		VersionedFile file = (VersionedFile) content.getRoot().getFiles().iterator().next();
+		final VersionedFile file = (VersionedFile) content.getRoot().getFiles().iterator().next();
 		assertTrue(file.getInitialRevision().isBeginOfLog());
-		Date beforeRev1 = new Date(rev1.getDate().getTime() - 60000);
+		final Date beforeRev1 = new Date(rev1.getDate().getTime() - 60000);
 		assertEquals(beforeRev1, file.getInitialRevision().getDate());
 	}
 
 	public void testIncludePattern() throws Exception {
-		Builder b = new Builder(null, new FilePatternMatcher("a*"), new FilePatternMatcher("*z"));
+		final Builder b = new Builder(null, new FilePatternMatcher("a*"), new FilePatternMatcher("*z"));
 		assertTrue(b.matchesPatterns("abc"));
 		assertTrue(!b.matchesPatterns("xyz"));
 		assertTrue(!b.matchesPatterns("az"));
@@ -282,7 +282,7 @@ public class BuilderTest extends TestCase {
 		builder.buildFile("file2", false, true, new HashMap());
 		builder.buildFile("file3", false, true, new HashMap());
 		builder.buildFile("file4", false, false, new HashMap());
-		Set attic = builder.getAtticFileNames();
+		final Set attic = builder.getAtticFileNames();
 		assertTrue(attic.contains("file2"));
 		assertTrue(attic.contains("file3"));
 		assertEquals(2, attic.size());

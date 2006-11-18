@@ -43,7 +43,7 @@ public class DirectorySizesPage extends HTMLPage {
 	/**
 	 * @see net.sf.statcvs.output.HTMLPage#HTMLPage(Repository)
 	 */
-	public DirectorySizesPage(Repository content, final OutputRenderer output) throws IOException {
+	public DirectorySizesPage(final Repository content, final OutputRenderer output) throws IOException {
 		super(content, output);
 		setFileName("dir_sizes" + output.getFileExtension());
 		setPageName(Messages.getString("DIRECTORY_SIZES_TITLE"));
@@ -53,9 +53,9 @@ public class DirectorySizesPage extends HTMLPage {
 	protected void printBody() throws IOException {
 		printBackLink();
 		printParagraph(img("module_sizes.png", 640, 480));
-		TableReport report = new DirectoriesTableReport(getContent());
+		final TableReport report = new DirectoriesTableReport(getContent());
 		report.calculate();
-		Table table = report.getTable();
+		final Table table = report.getTable();
 		print(new TableRenderer(table, getRenderer()).getRenderedTable());
 	}
 }

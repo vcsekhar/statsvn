@@ -40,16 +40,16 @@ import org.apache.tools.ant.Task;
  */
 public class StatCvsTask extends Task {
 	private String title;
-	private String logFile;
+	private String cvsLogFile;
 	private String pDir;
-	private String outDir;
-	private String cacheDir;
+	private String outputDirectory;
+	private String cacheDirectory;
 	private String cssFile;
 	private String notesFile;
-	private String viewcvs;
-	private String chora;
-	private String include = null;
-	private String exclude = null;
+	private String viewcvsUrl;
+	private String choraUrl;
+	private String includeFiles = null;
+	private String excludeFiles = null;
     private String tags;
 	
 	/**
@@ -67,13 +67,13 @@ public class StatCvsTask extends Task {
 		try {
 			this.initProperties();
 			Main.generateDefaultHTMLSuite();
-		} catch (ConfigurationException e) {
+		} catch (final ConfigurationException e) {
 			throw new BuildException(e.getMessage());
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			throw new BuildException(e.getMessage());
-		} catch (LogSyntaxException e) {
+		} catch (final LogSyntaxException e) {
 			throw new BuildException(e.getMessage());
-		} catch (EmptyRepositoryException e) {
+		} catch (final EmptyRepositoryException e) {
 			throw new BuildException("No revisions in the log!");
 		}
 	}
@@ -85,18 +85,18 @@ public class StatCvsTask extends Task {
 	private void initProperties() throws ConfigurationException {
 
 		// required params
-		ConfigurationOptions.setLogFileName(this.logFile);
+		ConfigurationOptions.setLogFileName(this.cvsLogFile);
 		ConfigurationOptions.setCheckedOutDirectory(this.pDir);
 
 		// optional params
 		if (this.title != null) {
 			ConfigurationOptions.setProjectName(this.title);
 		}
-		if (this.outDir != null) {
-			ConfigurationOptions.setOutputDir(this.outDir);
+		if (this.outputDirectory != null) {
+			ConfigurationOptions.setOutputDir(this.outputDirectory);
 		}
-		if (this.cacheDir != null) {
-			ConfigurationOptions.setCacheDir(this.cacheDir);
+		if (this.cacheDirectory != null) {
+			ConfigurationOptions.setCacheDir(this.cacheDirectory);
 		}
 		if (cssFile != null) {
 			ConfigurationOptions.setCssFile(this.cssFile);
@@ -104,17 +104,17 @@ public class StatCvsTask extends Task {
 		if (notesFile != null) {
 			ConfigurationOptions.setNotesFile(this.notesFile);
 		}
-		if (viewcvs != null) {
-			ConfigurationOptions.setViewVcURL(this.viewcvs);
+		if (viewcvsUrl != null) {
+			ConfigurationOptions.setViewVcURL(this.viewcvsUrl);
 		}
-		if (chora != null) {
-			ConfigurationOptions.setChoraURL(this.chora);
+		if (choraUrl != null) {
+			ConfigurationOptions.setChoraURL(this.choraUrl);
 		}
-		if (include != null) {
-			ConfigurationOptions.setIncludePattern(this.include);
+		if (includeFiles != null) {
+			ConfigurationOptions.setIncludePattern(this.includeFiles);
 		}
-		if (exclude != null) {
-			ConfigurationOptions.setExcludePattern(this.exclude);
+		if (excludeFiles != null) {
+			ConfigurationOptions.setExcludePattern(this.excludeFiles);
 		}
         if (tags != null) {
             ConfigurationOptions.setSymbolicNamesPattern(this.tags);
@@ -124,91 +124,91 @@ public class StatCvsTask extends Task {
 	/**
 	 * @param title String representing the title to be used in the reports
 	 */
-	public void setTitle(String title) {
+	public void setTitle(final String title) {
 		this.title = title;
 	}
 	
 	/**
-	 * @param logFile String representing the cvs log file
+	 * @param cvsLogFile String representing the cvs log file
 	 */
-	public void setCvsLogFile(String logFile) {
-		this.logFile = logFile;
+	public void setCvsLogFile(final String logFile) {
+		this.cvsLogFile = logFile;
 	}
 	
 	/**
 	 * @param modDir String representing the directory containing the CVS project
 	 */
-	public void setProjectDirectory(String modDir) {
+	public void setProjectDirectory(final String modDir) {
 		this.pDir = modDir;
 	}
 	
 	/**
-	 * @param outDir String representing the output directory of the report
+	 * @param outputDirectory String representing the output directory of the report
 	 */
-	public void setOutputDirectory(String outDir) {
-		this.outDir = outDir;
+	public void setOutputDirectory(final String outDir) {
+		this.outputDirectory = outDir;
 	}
 	
 	/**
-	 * @param cacheDir String representing the cache directory of the program
+	 * @param cacheDirectory String representing the cache directory of the program
 	 */
-	public void setCacheDirectory(String cacheDir) {
-		this.cacheDir = cacheDir;
+	public void setCacheDirectory(final String cacheDir) {
+		this.cacheDirectory = cacheDir;
 	}
 	
 	/**
 	 * @param cssFile String representing the CSS file to use for the report
 	 */
-	public void setCssFile(String cssFile) {
+	public void setCssFile(final String cssFile) {
 		this.cssFile = cssFile;
 	}
 	
 	/**
-	 * @param notesFile String representing the notes file to include on
+	 * @param notesFile String representing the notes file to includeFiles on
 	 * the report's index page
 	 */
-	public void setNotesFile(String notesFile) {
+	public void setNotesFile(final String notesFile) {
 		this.notesFile = notesFile;
 	}
 	
 	/**
-	 * @param viewcvs String representing the URL of a ViewCVS installation
+	 * @param viewcvsUrl String representing the URL of a ViewCVS installation
 	 */
-	public void setViewcvsURL(String viewcvs) {
-		this.viewcvs = viewcvs;
+	public void setViewcvsURL(final String viewcvs) {
+		this.viewcvsUrl = viewcvs;
 	}
 
 	/**
-	 * @param chora String representing the URL of a Chora installation
+	 * @param choraUrl String representing the URL of a Chora installation
 	 */
-	public void setChoraURL(String chora) {
-		this.chora = chora;
+	public void setChoraURL(final String chora) {
+		this.choraUrl = chora;
 	}
 	
 	/**
-	 * Specifies files to include in the analysis.
-	 * @param include a list of Ant-style wildcard patterns, delimited by : or ;
+	 * Specifies files to includeFiles in the analysis.
+	 * @param includeFiles a list of Ant-style wildcard patterns, delimited by : or ;
 	 * @see net.sf.statcvs.util.FilePatternMatcher
 	 */
-	public void setIncludeFiles(String include) {
-		this.include = include;
+	public void setIncludeFiles(final String include) {
+		this.includeFiles = include;
 	}
 	
 	/**
-	 * Specifies files to exclude from the analysis.
-	 * @param exclude a list of Ant-style wildcard patterns, delimited by : or ;
+	 * Specifies files to excludeFiles from the analysis.
+	 * @param excludeFiles a list of Ant-style wildcard patterns, delimited by : or ;
 	 * @see net.sf.statcvs.util.FilePatternMatcher
 	 */
-	public void setExcludeFiles(String exclude) {
-		this.exclude = exclude;
+	public void setExcludeFiles(final String exclude) {
+		this.excludeFiles = exclude;
 	}
 
     /**
-     * Specifies regular expression to include tag to lines
+     * Specifies regular expression to includeFiles tag to lines
      * of code graph.
      * @param tags regular expression to included tags names.
      */
-    public void setTags(String tags) {
+    public void setTags(final String tags) {
         this.tags = tags;
     }
 }

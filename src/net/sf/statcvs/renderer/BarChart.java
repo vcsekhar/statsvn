@@ -70,22 +70,22 @@ public class BarChart extends Chart {
 			categories[i] = 0;
 		}
 
-		Iterator it = revisions.iterator();
+		final Iterator it = revisions.iterator();
  		while (it.hasNext()) {
-			Revision rev = (Revision) it.next();
-			Date date = rev.getDate();
-			Calendar cal = new GregorianCalendar();
+			final Revision rev = (Revision) it.next();
+			final Date date = rev.getDate();
+			final Calendar cal = new GregorianCalendar();
 			cal.setTime(date);
 			if (categoryCount == 7) {
-				int day = cal.get(Calendar.DAY_OF_WEEK);
+				final int day = cal.get(Calendar.DAY_OF_WEEK);
 				categories[day - 1]++;
 			} else if (categoryCount == 24) {
-				int hour = cal.get(Calendar.HOUR_OF_DAY);
+				final int hour = cal.get(Calendar.HOUR_OF_DAY);
 				categories[hour]++;
 			} 
 		}
 
- 		DefaultCategoryDataset data = new DefaultCategoryDataset();
+ 		final DefaultCategoryDataset data = new DefaultCategoryDataset();
  		for (int i = 0; i < categoryCount; i++) {
  			data.addValue(categories[i], "Commits", categoryNames[i]);  
  		}
@@ -94,7 +94,7 @@ public class BarChart extends Chart {
  			ConfigurationOptions.getProjectName(), "", "commits", data, PlotOrientation.VERTICAL, 
 				false, false, false));
 
-		CategoryPlot plot = getChart().getCategoryPlot();
+		final CategoryPlot plot = getChart().getCategoryPlot();
 		plot.getDomainAxis().setCategoryLabelPositions(CategoryLabelPositions.UP_45);
 		plot.getRenderer().setSeriesPaint(0, Color.blue);
 		

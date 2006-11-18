@@ -57,12 +57,14 @@ import net.sf.statcvs.model.VersionedFile;
  * @version $Id$
  */
 public class FileBuilder {
-    private static Logger logger = Logger.getLogger(FileBuilder.class.getName());
+    private static final int ONE_MIN_IN_MS = 60000;
+
+	private static final Logger LOGGER = Logger.getLogger(FileBuilder.class.getName());
 
     private Builder builder;
     private String name;
     private boolean isBinary;
-    private List revisions = new ArrayList();
+    private final List revisions = new ArrayList();
     private Map revBySymnames;
     private int locDelta;
 
@@ -82,7 +84,7 @@ public class FileBuilder {
         this.isBinary = isBinary;
         this.revBySymnames = revBySymnames;
 
-        logger.fine("logging " + name);
+        LOGGER.fine("logging " + name);
     }
 
     /**
@@ -91,7 +93,7 @@ public class FileBuilder {
      * @param data
      *            the revision
      */
-    public void addRevisionData(RevisionData data) {
+    public void addRevisionData(final RevisionData data) {
         if (isBinary && !data.isCreationOrRestore()) {
             data.setLines(0, 0);
         }
@@ -108,19 +110,19 @@ public class FileBuilder {
      *            the date of the begin of the log
      * @return a <tt>VersionedFile</tt> representation of the file.
      */
-    public VersionedFile createFile(Date beginOfLogDate) {
+    public VersionedFile createFile(final Date beginOfLogDate) {
         if (isFilteredFile() || !fileExistsInLogPeriod()) {
             return null;
         }
 
-        VersionedFile file = new VersionedFile(name, builder.getDirectory(name));
+        final VersionedFile file = new VersionedFile(name, builder.getDirectory(name));
 
         if (revisions.isEmpty()) {
             buildBeginOfLogRevision(file, beginOfLogDate, getFinalLOC(), null);
             return file;
         }
 
-        Iterator it = revisions.iterator();
+        final Iterator it = revisions.iterator();
         RevisionData currentData = (RevisionData) it.next();
         int currentLOC = getFinalLOC();
         RevisionData previousData;
@@ -145,14 +147,14 @@ public class FileBuilder {
             } else if (previousData.isDeletion()) {
                 buildDeletionRevision(file, previousData, previousLOC, symbolicNames);
             } else {
-                logger.warning("illegal state in " + file.getFilenameWithPath() + ":" + previousData.getRevisionNumber());
+                LOGGER.warning("illegal state in " + file.getFilenameWithPath() + ":" + previousData.getRevisionNumber());
             }
         }
 
         // symbolic names for currentData
         symbolicNames = createSymbolicNamesCollection(currentData);
 
-        int nextLinesOfCode = currentLOC - getLOCChange(currentData);
+        final int nextLinesOfCode = currentLOC - getLOCChange(currentData);
         if (currentData.isCreationOrRestore()) {
             buildCreationRevision(file, currentData, currentLOC, symbolicNames);
         } else if (currentData.isDeletion()) {
@@ -162,7 +164,7 @@ public class FileBuilder {
             buildChangeRevision(file, currentData, currentLOC, symbolicNames);
             buildBeginOfLogRevision(file, beginOfLogDate, nextLinesOfCode, symbolicNames);
         } else {
-            logger.warning("illegal state in " + file.getFilenameWithPath() + ":" + currentData.getRevisionNumber());
+            LOGGER.warning("illegal state in " + file.getFilenameWithPath() + ":" + currentData.getRevisionNumber());
         }
         return file;
     }
@@ -181,9 +183,9 @@ public class FileBuilder {
         String revision = null;
         try {
             revision = builder.getRevision(name);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             if (!finalRevisionIsDead()) {
-                logger.warning(e.getMessage());
+                LOGGER.warning(e.getMessage());
             }
         }
 
@@ -192,16 +194,16 @@ public class FileBuilder {
             // return builder.getLOC(name) + locDelta;
             // } else {
             if (!revisions.isEmpty()) {
-                RevisionData firstAdded = (RevisionData) revisions.get(0);
+                final RevisionData firstAdded = (RevisionData) revisions.get(0);
                 if (!finalRevisionIsDead() && !firstAdded.getRevisionNumber().equals(revision)) {
-                    logger.warning("Revision of " + name + " does not match expected revision");
+                    LOGGER.warning("Revision of " + name + " does not match expected revision");
                 }
             }
             return builder.getLOC(name);
             // }
-        } catch (NoLineCountException e) {
+        } catch (final NoLineCountException e) {
             if (!finalRevisionIsDead()) {
-                logger.warning(e.getMessage());
+                LOGGER.warning(e.getMessage());
             }
             return approximateFinalLOC();
         }
@@ -237,9 +239,9 @@ public class FileBuilder {
     private int approximateFinalLOC() {
         int max = 0;
         int current = 0;
-        Iterator it = revisions.iterator();
+        final Iterator it = revisions.iterator();
         while (it.hasNext()) {
-            RevisionData data = (RevisionData) it.next();
+            final RevisionData data = (RevisionData) it.next();
             current += data.getLinesAdded();
             max = Math.max(current, max);
             current -= data.getLinesRemoved();
@@ -255,25 +257,25 @@ public class FileBuilder {
      *            a revision
      * @return the change in LOC count
      */
-    private int getLOCChange(RevisionData data) {
+    private int getLOCChange(final RevisionData data) {
         return data.getLinesAdded() - data.getLinesRemoved();
     }
 
-    private void buildCreationRevision(VersionedFile file, RevisionData data, int loc, SortedSet symbolicNames) {
+    private void buildCreationRevision(final VersionedFile file, final RevisionData data, final int loc, final SortedSet symbolicNames) {
         file.addInitialRevision(data.getRevisionNumber(), builder.getAuthor(data.getLoginName()), data.getDate(), data.getComment(), loc, symbolicNames);
     }
 
-    private void buildChangeRevision(VersionedFile file, RevisionData data, int loc, SortedSet symbolicNames) {
+    private void buildChangeRevision(final VersionedFile file, final RevisionData data, final int loc, final SortedSet symbolicNames) {
         file.addChangeRevision(data.getRevisionNumber(), builder.getAuthor(data.getLoginName()), data.getDate(), data.getComment(), loc, data.getLinesAdded()
                 - data.getLinesRemoved(), Math.min(data.getLinesAdded(), data.getLinesRemoved()), symbolicNames);
     }
 
-    private void buildDeletionRevision(VersionedFile file, RevisionData data, int loc, SortedSet symbolicNames) {
+    private void buildDeletionRevision(final VersionedFile file, final RevisionData data, final int loc, final SortedSet symbolicNames) {
         file.addDeletionRevision(data.getRevisionNumber(), builder.getAuthor(data.getLoginName()), data.getDate(), data.getComment(), loc, symbolicNames);
     }
 
-    private void buildBeginOfLogRevision(VersionedFile file, Date beginOfLogDate, int loc, SortedSet symbolicNames) {
-        Date date = new Date(beginOfLogDate.getTime() - 60000);
+    private void buildBeginOfLogRevision(final VersionedFile file, final Date beginOfLogDate, final int loc, final SortedSet symbolicNames) {
+        final Date date = new Date(beginOfLogDate.getTime() - ONE_MIN_IN_MS);
         file.addBeginOfLogRevision(date, loc, symbolicNames);
     }
 
@@ -300,7 +302,7 @@ public class FileBuilder {
         try {
             builder.getLOC(name);
             return true;
-        } catch (NoLineCountException fileDoesNotExistInTimespan) {
+        } catch (final NoLineCountException fileDoesNotExistInTimespan) {
             return false;
         }
     }
@@ -312,18 +314,18 @@ public class FileBuilder {
      *            this revision
      * @return the sorted set or null
      */
-    private SortedSet createSymbolicNamesCollection(RevisionData revisionData) {
+    private SortedSet createSymbolicNamesCollection(final RevisionData revisionData) {
         SortedSet symbolicNames = null;
 
-        Iterator symIt = revBySymnames.keySet().iterator();
+        final Iterator symIt = revBySymnames.keySet().iterator();
         while (symIt.hasNext()) {
-            String symName = (String) symIt.next();
-            String rev = (String) revBySymnames.get(symName);
+            final String symName = (String) symIt.next();
+            final String rev = (String) revBySymnames.get(symName);
             if (revisionData.getRevisionNumber().equals(rev)) {
                 if (symbolicNames == null) {
                     symbolicNames = new TreeSet();
                 }
-                logger.fine("adding revision " + name + "," + revisionData.getRevisionNumber() + " to symname " + symName);
+                LOGGER.fine("adding revision " + name + "," + revisionData.getRevisionNumber() + " to symname " + symName);
                 symbolicNames.add(builder.getSymbolicName(symName));
             }
         }
@@ -358,9 +360,9 @@ public class FileBuilder {
      * 
      * @return a particular revision made on this file or <tt>null</tt> if it doesn't exist.
      */
-    private RevisionData findRevision(String revisionNumber) {
+    private RevisionData findRevision(final String revisionNumber) {
         for (int i = 0; i < revisions.size(); i++) {
-            RevisionData data = (RevisionData) revisions.get(i);
+            final RevisionData data = (RevisionData) revisions.get(i);
             if (data.getRevisionNumber().equals(revisionNumber)) {
                 return data;
             }
@@ -387,7 +389,7 @@ public class FileBuilder {
      * @param isBinary
      *            is the file binary?
      */
-    public void setBinary(boolean isBinary) {
+    public void setBinary(final boolean isBinary) {
         this.isBinary = isBinary;
     }
 
@@ -403,10 +405,11 @@ public class FileBuilder {
      * @param linesRemoved
      *            the lines that were removed
      */
-    public void updateRevision(String revisionNumber, int linesAdded, int linesRemoved) {
-        RevisionData data = findRevision(revisionNumber);
-        if (data != null)
-            data.setLines(linesAdded, linesRemoved);
+    public void updateRevision(final String revisionNumber, final int linesAdded, final int linesRemoved) {
+        final RevisionData data = findRevision(revisionNumber);
+        if (data != null) {
+			data.setLines(linesAdded, linesRemoved);
+		}
     }
 
 }

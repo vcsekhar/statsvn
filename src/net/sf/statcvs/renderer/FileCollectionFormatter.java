@@ -57,20 +57,20 @@ public class FileCollectionFormatter {
 	}
 
 	private IntegerMap createFilesPerDirCount() {
-		IntegerMap result = new IntegerMap();
-		Iterator it = files.iterator();
+		final IntegerMap result = new IntegerMap();
+		final Iterator it = files.iterator();
 		while (it.hasNext()) {
-			String file = (String) it.next();
+			final String file = (String) it.next();
 			result.addInt(getDirectory(file), 1);
 		}
 		return result;
 	}
 
 	private IntegerMap createDirDepths() {
-		IntegerMap result = new IntegerMap();
-		Iterator it = filesPerDir.iteratorSortedByKey();
+		final IntegerMap result = new IntegerMap();
+		final Iterator it = filesPerDir.iteratorSortedByKey();
 		while (it.hasNext()) {
-			String dir = (String) it.next();
+			final String dir = (String) it.next();
 			result.put(dir, getDepth(dir));
 		}
 		return result;
@@ -83,10 +83,10 @@ public class FileCollectionFormatter {
 	 * directories in the file set, ordered by name.
 	 */
 	public List getDirectories() {
-		List result = new ArrayList();
-		Iterator it = dirDepths.iteratorSortedByKey();
+		final List result = new ArrayList();
+		final Iterator it = dirDepths.iteratorSortedByKey();
 		while (it.hasNext()) {
-			String directory = (String) it.next();
+			final String directory = (String) it.next();
 			result.add(directory);
 		}
 		return result;
@@ -103,24 +103,24 @@ public class FileCollectionFormatter {
 	 * list. Files will be relative to the directory. They will be
 	 * ordered by name.
 	 */
-	public List getFiles(String directory) {
+	public List getFiles(final String directory) {
 		if (!dirDepths.contains(directory)) {
 			throw new NoSuchElementException(
 					"doesn't contain directory '" + directory + "'");
 		}
-		List result = new ArrayList(getFilesInDir(directory));
+		final List result = new ArrayList(getFilesInDir(directory));
 		Collections.sort(result);
-		List allSubdirFiles = getFilesInSubdirs(directory);
+		final List allSubdirFiles = getFilesInSubdirs(directory);
 		Collections.sort(allSubdirFiles);
 		result.addAll(allSubdirFiles);
 		return result;
 	}
 
-	private List getFilesInSubdirs(String directory) {
-		List result = new ArrayList();
-		Iterator it = files.iterator();
+	private List getFilesInSubdirs(final String directory) {
+		final List result = new ArrayList();
+		final Iterator it = files.iterator();
 		while (it.hasNext()) {
-			String filename = (String) it.next();
+			final String filename = (String) it.next();
 			if (isInDirectory(filename, directory)
 				&& !getDirectory(filename).equals(directory)
 				&& !isInDeeperDirectory(filename, directory)) {
@@ -130,10 +130,10 @@ public class FileCollectionFormatter {
 		return result;
 	}
 
-	private boolean isInDeeperDirectory(String filename, String directory) {
+	private boolean isInDeeperDirectory(final String filename, final String directory) {
 		String currentDir = getDirectory(filename);
 		int currentDepth = getDepth(currentDir);
-		int directoryDepth = getDepth(directory);
+		final int directoryDepth = getDepth(directory);
 		while (currentDepth > directoryDepth) {
 			if (dirDepths.contains(currentDir)) {
 				return true;
@@ -144,11 +144,11 @@ public class FileCollectionFormatter {
 		return false;
 	}
 
-	private List getFilesInDir(String directory) {
-		List result = new ArrayList();
-		Iterator it = files.iterator();
+	private List getFilesInDir(final String directory) {
+		final List result = new ArrayList();
+		final Iterator it = files.iterator();
 		while (it.hasNext()) {
-			String filename = (String) it.next();
+			final String filename = (String) it.next();
 			if (getDirectory(filename).equals(directory)) {
 				result.add(getRelativeFilename(filename, directory));
 			}
@@ -162,7 +162,7 @@ public class FileCollectionFormatter {
 	 * @param directory Directory to test
 	 * @return boolean TRUE if file is in specified directroy, FALSE otherwise
 	 */
-	protected static boolean isInDirectory(String filename, String directory) {
+	protected static boolean isInDirectory(final String filename, final String directory) {
 		return getDirectory(filename).startsWith(directory);
 	}
 
@@ -172,7 +172,7 @@ public class FileCollectionFormatter {
 	 * @param dir directory
 	 * @return String relative filename for specified file and directory
 	 */
-	protected static String getRelativeFilename(String filename, String dir) {
+	protected static String getRelativeFilename(final String filename, final String dir) {
 		return filename.substring(dir.length());
 	}
 
@@ -181,7 +181,7 @@ public class FileCollectionFormatter {
 	 * @param filename file to compute
 	 * @return String directory name of specified file
 	 */
-	protected static String getDirectory(String filename) {
+	protected static String getDirectory(final String filename) {
 		return filename.substring(0, filename.lastIndexOf("/") + 1);
 	}
 
@@ -190,8 +190,8 @@ public class FileCollectionFormatter {
 	 * @param directory to use
 	 * @return String name of parent directory to specified directory
 	 */
-	protected static String getParent(String directory) {
-		int lastIndex = directory.lastIndexOf("/");
+	protected static String getParent(final String directory) {
+		final int lastIndex = directory.lastIndexOf("/");
 		if (lastIndex == -1) {
 			return "";
 		}
@@ -203,7 +203,7 @@ public class FileCollectionFormatter {
 	 * @param directory to be analysed
 	 * @return int the depth of the directory
 	 */
-	protected static int getDepth(String directory) {
+	protected static int getDepth(final String directory) {
 		int result = 0;
 		int index = 0;
 		while (directory.indexOf("/", index) != -1) {

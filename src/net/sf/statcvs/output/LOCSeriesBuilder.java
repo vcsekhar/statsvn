@@ -54,7 +54,7 @@ public class LOCSeriesBuilder {
 	 *                       be counted. If <tt>false</tt>, the contributed
 	 *                       value of new lines will be counted. 
 	 */
-	public LOCSeriesBuilder(String seriesTitle, boolean countEffective) {
+	public LOCSeriesBuilder(final String seriesTitle, final boolean countEffective) {
 		series = new TimeSeries(seriesTitle, Minute.class);
 		this.countEffective = countEffective;
 	}
@@ -64,7 +64,7 @@ public class LOCSeriesBuilder {
 	 * be at a later date than all previously added revisions.
 	 * @param revision the revision to add to the series
 	 */
-	public void addRevision(Revision revision) {
+	public void addRevision(final Revision revision) {
 		if (finished) {
 			throw new IllegalStateException("can't add more revisions after getTimeSeries()");
 		}
@@ -77,7 +77,7 @@ public class LOCSeriesBuilder {
 			series.add(minute.previous(), loc);
 			hasRevisions = true;
 		} else {
-			Minute currentMinute = new Minute(revision.getDate());
+			final Minute currentMinute = new Minute(revision.getDate());
 			if (!currentMinute.equals(minute)) {
 				series.add(minute, loc);
 				minute = currentMinute;

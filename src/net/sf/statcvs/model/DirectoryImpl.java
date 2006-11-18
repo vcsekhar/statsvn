@@ -40,7 +40,7 @@ class DirectoryImpl extends Directory {
 	 * @param parent the parent directory
 	 * @param name the directory's name without path or slashes
 	 */
-	DirectoryImpl(Directory parent, String name) {
+	DirectoryImpl(final Directory parent, final String name) {
 		this.parent = parent;
 		this.name = name;
 	}

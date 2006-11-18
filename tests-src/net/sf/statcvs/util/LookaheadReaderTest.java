@@ -41,7 +41,7 @@ public class LookaheadReaderTest extends TestCase {
 	 * Constructor
 	 * @param arg arg
 	 */
-	public LookaheadReaderTest(String arg) {
+	public LookaheadReaderTest(final String arg) {
 		super(arg);
 	}
 	
@@ -63,7 +63,7 @@ public class LookaheadReaderTest extends TestCase {
 		try {
 			this.l.getCurrentLine();
 			fail();
-		} catch (NoSuchElementException ex) {
+		} catch (final NoSuchElementException ex) {
 			// is expected
 		}
 	}
@@ -91,7 +91,7 @@ public class LookaheadReaderTest extends TestCase {
 		try {
 			this.l.nextLine();
 			fail();
-		} catch (NoSuchElementException ex) {
+		} catch (final NoSuchElementException ex) {
 			// is expected
 		}
 	}

@@ -49,7 +49,7 @@ public class VersionedFile implements Comparable {
 	 * @param name The full name of the file
 	 * @param directory the directory where the file resides
 	 */
-	public VersionedFile(String name, Directory directory) {
+	public VersionedFile(final String name, final Directory directory) {
 		this.filename = name;
 		this.directory = directory;
 		if (directory != null) {
@@ -61,8 +61,7 @@ public class VersionedFile implements Comparable {
 	 * Returns a list of authors that have commited at least one revision of the file.
 	 * @return a list of authors
 	 */
-	public Set getAuthors()
-	{
+	public Set getAuthors()	{
 		return authors;
 	}
 
@@ -79,7 +78,7 @@ public class VersionedFile implements Comparable {
 	 * @return the filename without path
 	 */
 	public String getFilename () {
-		int lastDelim = this.filename.lastIndexOf("/");
+		final int lastDelim = this.filename.lastIndexOf("/");
 		return this.filename.substring(lastDelim + 1, this.filename.length());
 	}
 
@@ -140,7 +139,7 @@ public class VersionedFile implements Comparable {
 	 * @return <code>true</code>, if the author is listed in one of
 	 * this file's revisions
 	 */
-	public boolean hasAuthor(Author author) {
+	public boolean hasAuthor(final Author author) {
 		return authors.contains(author);
 	}
 	
@@ -151,11 +150,11 @@ public class VersionedFile implements Comparable {
 	 * @param revision a revision of this file
 	 * @return this revision's predecessor
 	 */
-	public Revision getPreviousRevision(Revision revision) {
+	public Revision getPreviousRevision(final Revision revision) {
 		if (!revisions.contains(revision)) {
 			throw new IllegalArgumentException("revision not containted in file");
 		}
-		SortedSet headSet = revisions.headSet(revision);
+		final SortedSet headSet = revisions.headSet(revision);
 		if (headSet.isEmpty()) {
 			return null;
 		}
@@ -173,7 +172,7 @@ public class VersionedFile implements Comparable {
 	 * Compares this file to another one, based on filename.
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
-	public int compareTo(Object other) {
+	public int compareTo(final Object other) {
 		return filename.compareTo(((VersionedFile) other).filename);
 	}
 
@@ -187,9 +186,9 @@ public class VersionedFile implements Comparable {
 	 * @param comment the commit message
 	 * @param lines the number of lines of the new file
 	 */
-	public Revision addInitialRevision(String revisionNumber, Author author,
-									Date date, String comment, int lines, SortedSet symbolicNames) {
-		Revision result = new Revision(this, revisionNumber,
+	public Revision addInitialRevision(final String revisionNumber, final Author author,
+									final Date date, final String comment, final int lines, final SortedSet symbolicNames) {
+		final Revision result = new Revision(this, revisionNumber,
 				Revision.TYPE_CREATION, author, date, comment,
 				lines, lines, 0, symbolicNames);
 		addRevision(result);
@@ -206,10 +205,10 @@ public class VersionedFile implements Comparable {
 	 * @param linesDelta the change in the number of lines
 	 * @param replacedLines number of lines that were removed and replaced by others
 	 */
-	public Revision addChangeRevision(String revisionNumber, Author author,
-								  Date date, String comment, int lines,
-								  int linesDelta, int replacedLines, SortedSet symbolicNames) {
-		Revision result = new Revision(this, revisionNumber,
+	public Revision addChangeRevision(final String revisionNumber, final Author author,
+								  final Date date, final String comment, final int lines,
+								  final int linesDelta, final int replacedLines, final SortedSet symbolicNames) {
+		final Revision result = new Revision(this, revisionNumber,
 				Revision.TYPE_CHANGE, author, date, comment,
 				lines, linesDelta, replacedLines, symbolicNames);
 		addRevision(result);
@@ -224,9 +223,9 @@ public class VersionedFile implements Comparable {
 	 * @param comment the commit message
 	 * @param lines the number of lines in the file before it was deleted
 	 */
-	public Revision addDeletionRevision(String revisionNumber, Author author,
-									Date date, String comment, int lines, SortedSet symbolicNames) {
-		Revision result = new Revision(this, revisionNumber,
+	public Revision addDeletionRevision(final String revisionNumber, final Author author,
+									final Date date, final String comment, int lines, final SortedSet symbolicNames) {
+		final Revision result = new Revision(this, revisionNumber,
 				Revision.TYPE_DELETION, author, date, comment,
 				0, -lines, 0, symbolicNames);
 		addRevision(result);
@@ -241,15 +240,15 @@ public class VersionedFile implements Comparable {
 	 * @param date the begin of the log
 	 * @param lines the number of lines in the file at that time
 	 */
-	public Revision addBeginOfLogRevision(Date date, int lines, SortedSet symbolicNames) {
-		Revision result = new Revision(this, "0.0",
+	public Revision addBeginOfLogRevision(final Date date, final int lines, final SortedSet symbolicNames) {
+		final Revision result = new Revision(this, "0.0",
 				Revision.TYPE_BEGIN_OF_LOG, null, date, null,
 				lines, 0, 0, symbolicNames);
 		addRevision(result);
 		return result;
 	}
 
-	private void addRevision(Revision revision) {
+	private void addRevision(final Revision revision) {
 		revisions.add(revision);
 		if (revision.getAuthor() != null) {
 			authors.add(revision.getAuthor());

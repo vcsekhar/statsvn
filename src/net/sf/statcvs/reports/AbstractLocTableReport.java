@@ -55,8 +55,8 @@ public abstract class AbstractLocTableReport {
 
 	private Repository content;
 
-	private IntegerMap changesMap = new IntegerMap();
-	private IntegerMap linesMap = new IntegerMap();
+	private final IntegerMap changesMap = new IntegerMap();
+	private final IntegerMap linesMap = new IntegerMap();
 	
 	/**
      * Constructor
@@ -66,10 +66,10 @@ public abstract class AbstractLocTableReport {
 		this.content = content;
 	}
 
-	protected void calculateChangesAndLinesPerAuthor(Collection revs) {
-		Iterator it = revs.iterator();
+	protected void calculateChangesAndLinesPerAuthor(final Collection revs) {
+		final Iterator it = revs.iterator();
 		while (it.hasNext()) {
-			Revision rev = (Revision) it.next();
+			final Revision rev = (Revision) it.next();
 			if (rev.getAuthor() == null) {
 				continue;
 			}
@@ -78,25 +78,25 @@ public abstract class AbstractLocTableReport {
 		}
 	}
 
-	protected void calculateChangesAndLinesPerDirectory(Collection revisions) {
-		Iterator it = revisions.iterator();
+	protected void calculateChangesAndLinesPerDirectory(final Collection revisions) {
+		final Iterator it = revisions.iterator();
 		while (it.hasNext()) {
-			Revision rev = (Revision) it.next();
-			Directory dir = rev.getFile().getDirectory();
+			final Revision rev = (Revision) it.next();
+			final Directory dir = rev.getFile().getDirectory();
 			changesMap.addInt(dir, 1);
 			linesMap.addInt(dir, rev.getNewLines()); 
 		}
 	}
 
 	protected Table createChangesAndLinesTable(
-			GenericColumn keys, int sortedBy, String summary) {
+			final GenericColumn keys, final int sortedBy, final String summary) {
 
-		Table result = new Table(summary);
-		IntegerColumn changes =
+		final Table result = new Table(summary);
+		final IntegerColumn changes =
 				new IntegerColumn(Messages.getString("COLUMN_CHANGES"));
-		IntegerColumn linesOfCode =
+		final IntegerColumn linesOfCode =
 				new IntegerColumn(Messages.getString("COLUMN_LOC"));
-		RatioColumn linesPerChange = new RatioColumn(
+		final RatioColumn linesPerChange = new RatioColumn(
 				Messages.getString("COLUMN_LOC_PER_CHANGE"),
 				linesOfCode,
 				changes);
@@ -116,7 +116,7 @@ public abstract class AbstractLocTableReport {
 			it = linesMap.iteratorSortedByValueReverse();
 		}
 		while (it.hasNext()) {
-			Object key = it.next();
+			final Object key = it.next();
 			keys.addValue(key);
 			changes.addValue(changesMap.get(key));
 			linesOfCode.addValue(linesMap.get(key));

@@ -35,8 +35,8 @@ import java.util.TreeSet;
  * @version $Id: Directory.java,v 1.9 2004/02/20 01:33:29 cyganiak Exp $
  */
 public abstract class Directory implements Comparable {
-	private SortedSet files = new TreeSet();
-	private SortedSet directories = new TreeSet();
+	private final SortedSet files = new TreeSet();
+	private final SortedSet directories = new TreeSet();
 
 	/**
 	 * Factory method for creating a new root directory.
@@ -51,8 +51,8 @@ public abstract class Directory implements Comparable {
 	 * @param name the subdirectory's name
 	 * @return the subdirectory instance
 	 */
-	public Directory createSubdirectory(String name) {
-		Directory result = new DirectoryImpl(this, name);
+	public Directory createSubdirectory(final String name) {
+		final Directory result = new DirectoryImpl(this, name);
 		directories.add(result);
 		return result;
 	}
@@ -105,10 +105,10 @@ public abstract class Directory implements Comparable {
 	 * @return list of <tt>CvsRevision</tt>s for this directory
 	 */
 	public SortedSet getRevisions() {
-		SortedSet result = new TreeSet();
-		Iterator iterator = files.iterator();
+		final SortedSet result = new TreeSet();
+		final Iterator iterator = files.iterator();
 		while (iterator.hasNext()) {
-			VersionedFile file = (VersionedFile) iterator.next();
+			final VersionedFile file = (VersionedFile) iterator.next();
 			result.addAll(file.getRevisions());
 		}
 		return result;
@@ -130,11 +130,11 @@ public abstract class Directory implements Comparable {
 	 * @return <tt>SortedSet</tt> of {@link Directory} objects
 	 */
 	public SortedSet getSubdirectoriesRecursive() {
-		SortedSet result = new TreeSet();
+		final SortedSet result = new TreeSet();
 		result.add(this);
-		Iterator it = directories.iterator();
+		final Iterator it = directories.iterator();
 		while (it.hasNext()) {
-			Directory dir = (Directory) it.next();
+			final Directory dir = (Directory) it.next();
 			result.addAll(dir.getSubdirectoriesRecursive());
 		}
 		return result;
@@ -147,9 +147,9 @@ public abstract class Directory implements Comparable {
 	 */
 	public int getCurrentLOC() {
 		int result = 0;
-		Iterator it = files.iterator();
+		final Iterator it = files.iterator();
 		while (it.hasNext()) {
-			VersionedFile file = (VersionedFile) it.next();
+			final VersionedFile file = (VersionedFile) it.next();
 			result += file.getCurrentLinesOfCode();
 		}
 		return result;
@@ -162,9 +162,9 @@ public abstract class Directory implements Comparable {
 	 */
 	public int getCurrentFileCount() {
 		int result = 0;
-		Iterator it = files.iterator();
+		final Iterator it = files.iterator();
 		while (it.hasNext()) {
-			VersionedFile file = (VersionedFile) it.next();
+			final VersionedFile file = (VersionedFile) it.next();
 			if (!file.isDead()) {
 				result++;
 			}
@@ -181,14 +181,14 @@ public abstract class Directory implements Comparable {
 	public boolean isEmpty() {
 		Iterator it = files.iterator();
 		while (it.hasNext()) {
-			VersionedFile file = (VersionedFile) it.next();
+			final VersionedFile file = (VersionedFile) it.next();
 			if (!file.isDead()) {
 				return false;
 			}
 		}
 		it = directories.iterator();
 		while (it.hasNext()) {
-			Directory subdir = (Directory) it.next();
+			final Directory subdir = (Directory) it.next();
 			if (!subdir.isEmpty()) {
 				return false;
 			}
@@ -200,7 +200,7 @@ public abstract class Directory implements Comparable {
 	 * Compares this directory to another one, based on their full names.
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
-	public int compareTo(Object o) {
+	public int compareTo(final Object o) {
 		return getPath().compareTo(((Directory) o).getPath());
 	}
 
@@ -208,7 +208,7 @@ public abstract class Directory implements Comparable {
 	 * Adds a file to this directory.
 	 * @param file a file in this directory
 	 */
-	void addFile(VersionedFile file) {
+	void addFile(final VersionedFile file) {
 		files.add(file);
 	}
 }

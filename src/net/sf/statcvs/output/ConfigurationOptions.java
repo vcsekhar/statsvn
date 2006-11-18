@@ -43,7 +43,7 @@ import net.sf.statcvs.util.FileUtils;
  * @author jentzsch
  * @version $Id: ConfigurationOptions.java,v 1.17 2005/03/20 19:12:25 squig Exp $
  */
-public class ConfigurationOptions {
+public final class ConfigurationOptions {
 
     private static final String LOGGING_CONFIG_DEFAULT = "logging.properties";
     private static final String LOGGING_CONFIG_VERBOSE = "logging-verbose.properties";
@@ -54,7 +54,7 @@ public class ConfigurationOptions {
     private static String projectName = null;
     private static String outputDir = "";
     private static String cacheDir = "";
-    private static String defaultCacheDir = System.getProperty("user.home") + FileUtils.getDirSeparator() + ".statsvn" + FileUtils.getDirSeparator();
+    private static final String DEFAULT_CACHE_DIR = System.getProperty("user.home") + FileUtils.getDirSeparator() + ".statsvn" + FileUtils.getDirSeparator();
     private static String loggingProperties = LOGGING_CONFIG_DEFAULT;
     private static String notesFile = null;
     private static String notes = null;
@@ -70,7 +70,14 @@ public class ConfigurationOptions {
     private static Pattern symbolicNamesPattern;
     private static String outputFormat = "html";
 
-    /**
+	/**
+	 * A utility class (only static methods) should be final and have
+	 * a private constructor.
+	 */
+	private ConfigurationOptions() {
+	}
+
+	/**
      * returns the {@link CssHandler}
      * 
      * @return the CssHandler
@@ -150,8 +157,8 @@ public class ConfigurationOptions {
      * @throws ConfigurationException
      *             if directory does not exist
      */
-    public static void setCheckedOutDirectory(String checkedOutDirectory) throws ConfigurationException {
-        File directory = new File(checkedOutDirectory);
+    public static void setCheckedOutDirectory(final String checkedOutDirectory) throws ConfigurationException {
+        final File directory = new File(checkedOutDirectory);
         if (!directory.exists() || !directory.isDirectory()) {
             throw new ConfigurationException("directory does not exist: " + checkedOutDirectory);
         }
@@ -168,14 +175,14 @@ public class ConfigurationOptions {
      *             if the specified CSS file can not be accessed from local file system or from URL source, or if the specified CSS file is local and does not
      *             exist
      */
-    public static void setCssFile(String cssFile) throws ConfigurationException {
+    public static void setCssFile(final String cssFile) throws ConfigurationException {
         try {
-            URL url = new URL(cssFile);
+            final URL url = new URL(cssFile);
             if (!url.getProtocol().equals("http")) {
                 throw new ConfigurationException("Only HTTP URLs or local files allowed for -css");
             }
             cssHandler = new UrlCssHandler(url);
-        } catch (MalformedURLException isLocalFile) {
+        } catch (final MalformedURLException isLocalFile) {
             cssHandler = new LocalFileCssHandler(cssFile);
         }
         cssHandler.checkForMissingResources();
@@ -185,7 +192,7 @@ public class ConfigurationOptions {
      * Allow change between css that are shipped with StatSvn.
      * @param cssName statcvs.css or objectlab-statcvs-xdoc.css
      */
-    public static void setDefaultCssFile(String cssName) {
+    public static void setDefaultCssFile(final String cssName) {
         cssHandler = new DefaultCssHandler(cssName);
     }
 
@@ -197,8 +204,8 @@ public class ConfigurationOptions {
      * @throws ConfigurationException
      *             if the file does not exist
      */
-    public static void setLogFileName(String logFileName) throws ConfigurationException {
-        File inputFile = new File(logFileName);
+    public static void setLogFileName(final String logFileName) throws ConfigurationException {
+        final File inputFile = new File(logFileName);
         if (!inputFile.exists()) {
             throw new ConfigurationException("Specified logfile not found: " + logFileName);
         }
@@ -217,7 +224,7 @@ public class ConfigurationOptions {
         if (!outputDir.endsWith(FileUtils.getDirSeparator())) {
             outputDir += FileUtils.getDefaultDirSeparator();
         }
-        File outDir = new File(outputDir);
+        final File outDir = new File(outputDir);
         if (!outDir.exists() && !outDir.mkdirs()) {
             throw new ConfigurationException("Can't create output directory: " + outputDir);
         }
@@ -236,7 +243,7 @@ public class ConfigurationOptions {
         if (!cacheDir.endsWith(FileUtils.getDirSeparator())) {
             cacheDir += FileUtils.getDefaultDirSeparator();
         }
-        File cDir = new File(cacheDir);
+        final File cDir = new File(cacheDir);
         if (!cDir.exists() && !cDir.mkdirs()) {
             throw new ConfigurationException("Can't create cache directory: " + cacheDir);
         }
@@ -244,13 +251,13 @@ public class ConfigurationOptions {
     }
     
     /**
-     * Sets the cacheDir to the defaultCacheDir
+     * Sets the cacheDir to the DEFAULT_CACHE_DIR
      * 
      * @throws ConfigurationException
      *             if the cache directory cannot be created
      */
     public static void setCacheDirToDefault() throws ConfigurationException {
-    	setCacheDir(defaultCacheDir);
+    	setCacheDir(DEFAULT_CACHE_DIR);
     }
     
     /**
@@ -262,8 +269,8 @@ public class ConfigurationOptions {
      * @throws ConfigurationException
      *             if the file is not found or can't be read
      */
-    public static void setNotesFile(String notesFile) throws ConfigurationException {
-        File f = new File(notesFile);
+    public static void setNotesFile(final String notesFile) throws ConfigurationException {
+        final File f = new File(notesFile);
         if (!f.exists()) {
             throw new ConfigurationException("Notes file not found: " + notesFile);
         }
@@ -273,7 +280,7 @@ public class ConfigurationOptions {
         ConfigurationOptions.notesFile = notesFile;
         try {
             notes = readNotesFile();
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new ConfigurationException(e.getMessage());
         }
     }
@@ -285,19 +292,20 @@ public class ConfigurationOptions {
      * @param url
      *            URL to a ViewVC repository
      */
-    public static void setViewVcURL(String url) {
+    public static void setViewVcURL(final String url) {
         ConfigurationOptions.webRepository = new ViewVcIntegration(url);
     }
 
 
     /**
-     * Sets the URL to a <a href="http://www.horde.org/chora/">Chora</a> web-based CVS/SVN browser. This must be the URL at which the checked-out module's root can
+     * Sets the URL to a <a href="http://www.horde.org/chora/">Chora</a> web-based CVS/SVN browser. 
+     * This must be the URL at which the checked-out module's root can
      * be viewed in Chora.
      * 
      * @param url
      *            URL to a cvsweb repository
      */
-    public static void setChoraURL(String url) {
+    public static void setChoraURL(final String url) {
         ConfigurationOptions.webRepository = new ChoraIntegration(url);
     }
 
@@ -307,7 +315,7 @@ public class ConfigurationOptions {
      * @param projectName
      *            The project title to be used in the reports
      */
-    public static void setProjectName(String projectName) {
+    public static void setProjectName(final String projectName) {
         ConfigurationOptions.projectName = projectName;
     }
 
@@ -335,10 +343,10 @@ public class ConfigurationOptions {
     }
 
     private static String readNotesFile() throws IOException {
-    	FileReader fileReader = new FileReader(notesFile);
-        BufferedReader r = new BufferedReader(fileReader);
+    	final FileReader fileReader = new FileReader(notesFile);
+        final BufferedReader r = new BufferedReader(fileReader);
         String line = r.readLine();
-        StringBuffer result = new StringBuffer();
+        final StringBuffer result = new StringBuffer();
         while (line != null) {
             result.append(line);
             line = r.readLine();
@@ -354,7 +362,7 @@ public class ConfigurationOptions {
      *            a list of Ant-style wildcard patterns, seperated by : or ;
      * @see net.sf.statcvs.util.FilePatternMatcher
      */
-    public static void setIncludePattern(String patternList) {
+    public static void setIncludePattern(final String patternList) {
         includePattern = new FilePatternMatcher(patternList);
     }
 
@@ -365,7 +373,7 @@ public class ConfigurationOptions {
      *            a list of Ant-style wildcard patterns, seperated by : or ;
      * @see net.sf.statcvs.util.FilePatternMatcher
      */
-    public static void setExcludePattern(String patternList) {
+    public static void setExcludePattern(final String patternList) {
         excludePattern = new FilePatternMatcher(patternList);
     }
 
@@ -383,10 +391,10 @@ public class ConfigurationOptions {
         return includePattern;
     }
 
-    public static void setSymbolicNamesPattern(String symbolicNamesPattern) throws ConfigurationException {
+    public static void setSymbolicNamesPattern(final String symbolicNamesPattern) throws ConfigurationException {
         try {
             ConfigurationOptions.symbolicNamesPattern = Pattern.compile(symbolicNamesPattern);
-        } catch (PatternSyntaxException e) {
+        } catch (final PatternSyntaxException e) {
             throw new ConfigurationException("Invalid regular expression for tags: " + e.getLocalizedMessage());
         }
     }
@@ -409,7 +417,7 @@ public class ConfigurationOptions {
 	/**
 	 * @param svnPassword The svnPassword to set.
 	 */
-	public static void setSvnPassword(String svnPassword) {
+	public static void setSvnPassword(final String svnPassword) {
 		ConfigurationOptions.svnPassword = svnPassword;
 	}
 
@@ -423,12 +431,12 @@ public class ConfigurationOptions {
 	/**
 	 * @param svnUsername The svnUsername to set.
 	 */
-	public static void setSvnUsername(String svnUsername) {
+	public static void setSvnUsername(final String svnUsername) {
 		ConfigurationOptions.svnUsername = svnUsername;
 	}
 
 
-	public static void setBugzillaUrl(String bugzillaUrl) {
+	public static void setBugzillaUrl(final String bugzillaUrl) {
 		ConfigurationOptions.webBugTracker = new BugzillaIntegration(bugzillaUrl);
 	}
 	

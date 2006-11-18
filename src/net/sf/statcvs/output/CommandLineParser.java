@@ -35,7 +35,7 @@ import java.util.List;
 public class CommandLineParser {
 
 	private String[] argsArray;
-	private List args = new ArrayList();
+	private final List args = new ArrayList();
 	private int argCount = 0;
 	private boolean setCacheDir = false;
     private boolean givenCss = false;
@@ -45,7 +45,7 @@ public class CommandLineParser {
 	 * 
 	 * @param args the command line parameters
 	 */
-	public CommandLineParser(String[] args) {
+	public CommandLineParser(final String[] args) {
 		argsArray = args;
 	}
 	
@@ -60,7 +60,7 @@ public class CommandLineParser {
 			args.add(argsArray[i]);
 		}
 		while (!args.isEmpty()) {
-			String currentArg = popNextArg();
+			final String currentArg = popNextArg();
 			if (currentArg.startsWith("-")) {
 				parseSwitch(currentArg.substring(1));
 			} else {
@@ -78,8 +78,8 @@ public class CommandLineParser {
 		return (String) args.remove(0);
 	}
 
-	private void parseSwitch(String switchName) throws ConfigurationException {
-		String s = switchName.toLowerCase();
+	private void parseSwitch(final String switchName) throws ConfigurationException {
+		final String s = switchName.toLowerCase();
 		if (s.equals("css")) {
 			if (args.isEmpty()) {
 				throw new ConfigurationException("Missing argument for -css");
@@ -177,7 +177,7 @@ public class CommandLineParser {
 		}
 	}
 	
-	private void parseArgument(String arg) throws ConfigurationException {
+	private void parseArgument(final String arg) throws ConfigurationException {
 		argCount++;
 		switch (argCount) {
 			case 1:
@@ -197,6 +197,9 @@ public class CommandLineParser {
 				throw new ConfigurationException("Not enough arguments - <logfile> is missing");
 			case 1:
 				throw new ConfigurationException("Not enough arguments - <directory> is missing");
+			default:
+				// all A-ok
+				break;
 		}
 	}
 }

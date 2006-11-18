@@ -39,7 +39,7 @@ public class ConfigurationException extends Exception {
 	 * Constructor
 	 * @param message error message
 	 */
-	public ConfigurationException(String message) {
+	public ConfigurationException(final String message) {
 		super(message);
 	}
 }

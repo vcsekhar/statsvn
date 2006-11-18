@@ -36,13 +36,13 @@ import junit.framework.TestCase;
 public class FileCollectionFormatterTest extends TestCase {
 
 	private FileCollectionFormatter fcf;
-	private List files = new ArrayList();
+	private final List files = new ArrayList();
 
 	/**
 	 * Constructor for FileCollectionFormatterTest.
 	 * @param arg0 filename
 	 */
-	public FileCollectionFormatterTest(String arg0) {
+	public FileCollectionFormatterTest(final String arg0) {
 		super(arg0);
 	}
 
@@ -91,7 +91,7 @@ public class FileCollectionFormatterTest extends TestCase {
 	 */
 	public void testEmpty() {
 		fcf = new FileCollectionFormatter(files);
-		List dirs = fcf.getDirectories();
+		final List dirs = fcf.getDirectories();
 		assertNotNull(dirs);
 		assertTrue(dirs.isEmpty());
 	}
@@ -102,10 +102,10 @@ public class FileCollectionFormatterTest extends TestCase {
 	public void testOneFile() {
 		files.add("directory/file.txt");
 		fcf = new FileCollectionFormatter(files);
-		List dirs = fcf.getDirectories();
+		final List dirs = fcf.getDirectories();
 		assertEquals(1, dirs.size());
 		assertEquals("directory/", dirs.get(0));
-		List names = fcf.getFiles("directory/");
+		final List names = fcf.getFiles("directory/");
 		assertEquals(1, names.size());
 		assertEquals("file.txt", names.get(0));
 	}
@@ -116,10 +116,10 @@ public class FileCollectionFormatterTest extends TestCase {
 	public void testOneFileDeep() {
 		files.add("sub1/sub2/sub3/file.txt");
 		fcf = new FileCollectionFormatter(files);
-		List dirs = fcf.getDirectories();
+		final List dirs = fcf.getDirectories();
 		assertEquals(1, dirs.size());
 		assertEquals("sub1/sub2/sub3/", dirs.get(0));
-		List names = fcf.getFiles("sub1/sub2/sub3/");
+		final List names = fcf.getFiles("sub1/sub2/sub3/");
 		assertEquals(1, names.size());
 		assertEquals("file.txt", names.get(0));
 	}
@@ -131,7 +131,7 @@ public class FileCollectionFormatterTest extends TestCase {
 		files.add("directory/file.txt");
 		files.add("inRoot.txt");
 		fcf = new FileCollectionFormatter(files);
-		List dirs = fcf.getDirectories();
+		final List dirs = fcf.getDirectories();
 		assertEquals(2, dirs.size());
 		assertEquals("", dirs.get(0));
 		assertEquals("directory/", dirs.get(1));
@@ -150,10 +150,10 @@ public class FileCollectionFormatterTest extends TestCase {
 		files.add("directory/file2.txt");
 		files.add("directory/file1.txt");
 		fcf = new FileCollectionFormatter(files);
-		List dirs = fcf.getDirectories();
+		final List dirs = fcf.getDirectories();
 		assertEquals(1, dirs.size());
 		assertEquals("directory/", dirs.get(0));
-		List names = fcf.getFiles("directory/");
+		final List names = fcf.getFiles("directory/");
 		assertEquals(2, names.size());
 		assertEquals("file1.txt", names.get(0));
 		assertEquals("file2.txt", names.get(1));
@@ -168,7 +168,7 @@ public class FileCollectionFormatterTest extends TestCase {
 		try {
 			fcf.getFiles("nonexistingDirectory/");
 			fail("should have thrown exception");
-		} catch (NoSuchElementException e) {
+		} catch (final NoSuchElementException e) {
 			// do nothing
 		}
 	}
@@ -181,7 +181,7 @@ public class FileCollectionFormatterTest extends TestCase {
 		files.add("directory/file1.txt");
 		files.add("fileInRoot");
 		fcf = new FileCollectionFormatter(files);
-		List dirs = fcf.getDirectories();
+		final List dirs = fcf.getDirectories();
 		assertEquals(2, dirs.size());
 		assertEquals("", dirs.get(0));
 		assertEquals("directory/", dirs.get(1));

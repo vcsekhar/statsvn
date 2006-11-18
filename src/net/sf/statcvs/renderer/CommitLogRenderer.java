@@ -53,7 +53,7 @@ public class CommitLogRenderer {
 	private List commits;
 	private int currentPage;
 	private List pageCommits;
-	private HashMap commitHashMap = new HashMap();
+	private final HashMap commitHashMap = new HashMap();
 	private WebRepositoryIntegration webRepository;
 	private WebBugtrackerIntegration webBugtracker;
 
@@ -62,8 +62,8 @@ public class CommitLogRenderer {
 	 * 
 	 * @param commits A list of {@link Commit} objects
 	 */
-	public CommitLogRenderer(final List commits) {
-		this.commits = new ArrayList(commits);
+	public CommitLogRenderer(final List commit) {
+		this.commits = new ArrayList(commit);
 		Collections.reverse(this.commits);
 		webRepository = ConfigurationOptions.getWebRepository();
 	}
@@ -77,9 +77,9 @@ public class CommitLogRenderer {
 	 * are more, only the most recent will be used
 	 * @return HTML code for the commit log
 	 */
-	public String renderMostRecentCommits(int maxCommits, final OutputRenderer renderer) {
+	public String renderMostRecentCommits(final int maxCommits, final OutputRenderer renderer) {
 		if (commits.size() > maxCommits) {
-			List recentCommits = commits.subList(0, maxCommits);
+			final List recentCommits = commits.subList(0, maxCommits);
 			return renderCommitList(recentCommits, renderer)
 					+ "<p>(" + (commits.size() - maxCommits) + " "
 					+ Messages.getString("MORE_COMMITS") + ")</p>\n";
@@ -92,11 +92,11 @@ public class CommitLogRenderer {
 	 * @param page the page number
 	 * @return HTML code
 	 */
-	public String renderPage(int page, final OutputRenderer renderer) {
+	public String renderPage(final int page, final OutputRenderer renderer) {
 		this.currentPage = page;
 		this.pageCommits =
 			commits.subList(getFirstCommitOfPage(page), getLastCommitOfPage(page) + 1);
-		StringBuffer result = new StringBuffer();
+		final StringBuffer result = new StringBuffer();
 		if (getPages() > 1) {
 			result.append(renderNavigation(renderer));
 		}
@@ -109,9 +109,9 @@ public class CommitLogRenderer {
 	}
 
 	private String renderTimespan() {
-		Date time1 = ((Commit) pageCommits.get(0)).getDate();
-		Date time2 = ((Commit) pageCommits.get(pageCommits.size() - 1)).getDate();
-		StringBuffer commitsText = new StringBuffer();
+		final Date time1 = ((Commit) pageCommits.get(0)).getDate();
+		final Date time2 = ((Commit) pageCommits.get(pageCommits.size() - 1)).getDate();
+		final StringBuffer commitsText = new StringBuffer();
 		if (getPages() > 1) {
 			commitsText.append(Messages.getString("COMMITS"))
 					.append(" ")
@@ -127,7 +127,7 @@ public class CommitLogRenderer {
 	}
 
 	private String renderNavigation(final OutputRenderer renderer) {
-		StringBuffer result = new StringBuffer("<p>").append(Messages.getString("PAGES")).append(": ");
+		final StringBuffer result = new StringBuffer("<p>").append(Messages.getString("PAGES")).append(": ");
 		if (currentPage > 1) {
 			result.append(HTMLTagger.getLink(
 					getFilename(currentPage - 1, renderer, true),
@@ -150,11 +150,11 @@ public class CommitLogRenderer {
 		return result.toString();
 	}
 
-	private int getFirstCommitOfPage(int page) {
+	private int getFirstCommitOfPage(final int page) {
 		return (page - 1) * PAGE_SIZE;
 	}
 
-	private int getLastCommitOfPage(int page) {
+	private int getLastCommitOfPage(final int page) {
 		return Math.min(commits.size(), (page * PAGE_SIZE)) - 1;
 	}
 
@@ -171,30 +171,30 @@ public class CommitLogRenderer {
 	 * @param page specified page
 	 * @return the filename for a commit log page
 	 */
-	public static String getFilename(int page, final OutputRenderer renderer, final boolean asLink) {
+	public static String getFilename(final int page, final OutputRenderer renderer, final boolean asLink) {
 		if (page == 1) {
 			return "commit_log" + (asLink ? renderer.getLinkExtension() : renderer.getFileExtension());
 		}
 		return "commit_log_page_" + page + (asLink ? renderer.getLinkExtension() : renderer.getFileExtension());
 	}
 
-	private String renderCommitList(List commitList, final OutputRenderer renderer) {
+	private String renderCommitList(final List commitList, final OutputRenderer renderer) {
 		if (commitList.isEmpty()) {
 			return "<p>No commits</p>\n";
 		}
-		Iterator it = commitList.iterator();
-		StringBuffer result = new StringBuffer("<dl class=\"commitlist\">\n");
+		final Iterator it = commitList.iterator();
+		final StringBuffer result = new StringBuffer("<dl class=\"commitlist\">\n");
 
 		while (it.hasNext()) {
-			Commit commit = (Commit) it.next();
+			final Commit commit = (Commit) it.next();
 			result.append(renderCommit(commit, renderer));
 		}
 		result.append("</dl>\n\n");
 		return result.toString();
 	}
 
-	private String renderCommit(Commit commit, final OutputRenderer renderer) {
-		StringBuffer result = new StringBuffer("  <dt>\n    ").append(getAuthor(commit, renderer)).append("\n");
+	private String renderCommit(final Commit commit, final OutputRenderer renderer) {
+		final StringBuffer result = new StringBuffer("  <dt>\n    ").append(getAuthor(commit, renderer)).append("\n");
 		result.append("    ").append(getDate(commit)).append("\n  </dt>\n");
 		result.append("  <dd>\n    <p class=\"comment\">\n").append(getComment(commit)).append("\n    </p>\n");
 		result.append("    <p class=\"commitdetails\"><strong>");
@@ -207,58 +207,58 @@ public class CommitLogRenderer {
 		return result.toString();
 	}
 
-	private String getDate(Commit commit) {
+	private String getDate(final Commit commit) {
 		return HTMLTagger.getDateAndTime(commit.getDate());
 	}
 
-	private String getAuthor(Commit commit, final OutputRenderer renderer) {
+	private String getAuthor(final Commit commit, final OutputRenderer renderer) {
 		return HTMLTagger.getAuthorLink(commit.getAuthor(), renderer);
 	}
 
-	private String getComment(Commit commit) {
+	private String getComment(final Commit commit) {
 		return OutputUtils.escapeHtml(commit.getComment());
 	}
 
-	private String getLinesOfCode(Commit commit) {
-		Iterator it = commit.getRevisions().iterator();
+	private String getLinesOfCode(final Commit commit) {
+		final Iterator it = commit.getRevisions().iterator();
 		int locSum = 0;
 		while (it.hasNext()) {
-			Revision each = (Revision) it.next();
+			final Revision each = (Revision) it.next();
 			locSum += each.getNewLines();
 			saveRevision(each);
 		}
 		return Integer.toString(locSum);
 	}
 
-	private void saveRevision(Revision revision) {
+	private void saveRevision(final Revision revision) {
 		commitHashMap.put(revision.getFile().getFilenameWithPath(), revision);
 	}
 	
-	private String getAffectedFiles(Commit commit) {
-		StringBuffer result = new StringBuffer("    <ul class=\"commitdetails\">\n");
-		FileCollectionFormatter formatter =
+	private String getAffectedFiles(final Commit commit) {
+		final StringBuffer result = new StringBuffer("    <ul class=\"commitdetails\">\n");
+		final FileCollectionFormatter formatter =
 				new FileCollectionFormatter(commit.getAffectedFiles());
-		Iterator it = formatter.getDirectories().iterator();
+		final Iterator it = formatter.getDirectories().iterator();
 		while (it.hasNext()) {
 			result.append("      <li>\n");
-			String directory = (String) it.next();
+			final String directory = (String) it.next();
 			if (!directory.equals("")) {
 				result.append("        <strong>")
 					.append(directory.substring(0, directory.length() - 1))
 					.append("</strong>:\n");
 			}
-			Iterator files = formatter.getFiles(directory).iterator();
-			StringBuffer fileList = new StringBuffer();
+			final Iterator files = formatter.getFiles(directory).iterator();
+			final StringBuffer fileList = new StringBuffer();
 			while (files.hasNext()) {
 				if (fileList.length()>0) {
 					fileList.append(",\n");
 				}
 				fileList.append("        ");
-				String file = (String) files.next();
-				Revision revision =
+				final String file = (String) files.next();
+				final Revision revision =
 						(Revision) commitHashMap.get(directory + file);
 				if (webRepository != null) {
-					Revision previous = revision.getPreviousRevision();
+					final Revision previous = revision.getPreviousRevision();
 					String url; 
 					if (previous == null || revision.isInitialRevision()) {
 						url = webRepository.getFileViewUrl(revision);
@@ -273,7 +273,7 @@ public class CommitLogRenderer {
 					fileList.append(file);
 				}
 				if (revision.isInitialRevision()) {
-					int linesAdded = revision.getLines();
+					final int linesAdded = revision.getLines();
 					fileList.append("&#160;<span class=\"new\">(new");
 					if (linesAdded > 0) {
 						fileList.append("&#160;").append(linesAdded);
@@ -282,9 +282,9 @@ public class CommitLogRenderer {
 				} else if (revision.isDead()) {
 					fileList.append("&#160;<span class=\"del\">(del)</span>");
 				} else {
-					int delta = revision.getLinesDelta();
-					int linesAdded = revision.getReplacedLines() + ((delta > 0) ? delta : 0);
-					int linesRemoved = revision.getReplacedLines() - ((delta < 0) ? delta : 0);
+					final int delta = revision.getLinesDelta();
+					final int linesAdded = revision.getReplacedLines() + ((delta > 0) ? delta : 0);
+					final int linesRemoved = revision.getReplacedLines() - ((delta < 0) ? delta : 0);
 					fileList.append("&#160;<span class=\"change\">(");
 					if (linesAdded > 0) {
 						fileList.append("+").append(linesAdded);

@@ -45,10 +45,10 @@ public class RepositoriesBuilder {
 	 *            the uuid of the repository
 	 * @return the repository or null if the repository does not exist
 	 */
-	private Element findRepository(String uuid) {
-		NodeList paths = repositories.getChildNodes();
+	private Element findRepository(final String uuid) {
+		final NodeList paths = repositories.getChildNodes();
 		for (int i = 0; i < paths.getLength(); i++) {
-			Element path = (Element) paths.item(i);
+			final Element path = (Element) paths.item(i);
 			if (uuid.equals(path.getAttribute(UUID))) {
 				return path;
 			}
@@ -64,12 +64,12 @@ public class RepositoriesBuilder {
 	 * @param file
 	 *            the filename for the XML line counts file
 	 */
-	public Element buildRepository(String uuid, String file) {
-		Element repository = (Element) document.createElement(REPOSITORY);
-		Attr attr = document.createAttribute(UUID);
+	public Element buildRepository(final String uuid, final String file) {
+		final Element repository = document.createElement(REPOSITORY);
+		final Attr attr = document.createAttribute(UUID);
 		attr.setTextContent(uuid);
 		repository.setAttributeNode(attr);
-		Attr attr2 = document.createAttribute(FILE);
+		final Attr attr2 = document.createAttribute(FILE);
 		attr2.setTextContent(file);
 		repository.setAttributeNode(attr2);
 		repositories.appendChild(repository);
@@ -82,12 +82,12 @@ public class RepositoriesBuilder {
 	 * @throws ParserConfigurationException
 	 */
 	public void buildRoot() throws ParserConfigurationException {
-		DocumentBuilderFactory factoryDOM = DocumentBuilderFactory
+		final DocumentBuilderFactory factoryDOM = DocumentBuilderFactory
 				.newInstance();
 		DocumentBuilder builderDOM;
 		builderDOM = factoryDOM.newDocumentBuilder();
 		document = builderDOM.newDocument();
-		repositories = (Element) document.createElement(REPOSITORIES);
+		repositories = document.createElement(REPOSITORIES);
 		document.appendChild(repositories);
 	}
 
@@ -103,11 +103,11 @@ public class RepositoriesBuilder {
 	 *            
 	 * @return the file name or "" if an unexpected error occurs          
 	 */
-	public String getFileName(String uuid) {
+	public String getFileName(final String uuid) {
 		if (document == null) {
 			try {
 				buildRoot();
-			} catch (ParserConfigurationException e) {
+			} catch (final ParserConfigurationException e) {
 				document = null;
 			}
 		}

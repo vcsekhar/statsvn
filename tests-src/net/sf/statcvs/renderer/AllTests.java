@@ -39,7 +39,7 @@ public class AllTests {
 	 * @return Test suite
 	 */
 	public static Test suite() {
-		TestSuite suite = new TestSuite("Test for net.sf.statcvs.renderer");
+		final TestSuite suite = new TestSuite("Test for net.sf.statcvs.renderer");
 		//$JUnit-BEGIN$
 		suite.addTest(new TestSuite(FileCollectionFormatterTest.class));
 		//$JUnit-END$

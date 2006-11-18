@@ -22,7 +22,6 @@
 */
 package net.sf.statcvs.output;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import net.sf.statcvs.Messages;
@@ -30,17 +29,20 @@ import net.sf.statcvs.model.Author;
 import net.sf.statcvs.model.VersionedFile;
 import net.sf.statcvs.model.Directory;
 import net.sf.statcvs.util.OutputUtils;
+import net.sf.statcvs.util.StatSvnConstants;
 
 /**
  * //TODO: lots of duplicate code here and in HTMLPage 
  * @author Anja Jentzsch
  * @version $Id: HTMLTagger.java,v 1.40 2006/10/10 09:23:45 cyganiak Exp $
  */
-public class HTMLTagger {
-	private static SimpleDateFormat outputDateFormat =
-		new SimpleDateFormat(Messages.getString("DATE_FORMAT"));
-	private static SimpleDateFormat outputDateTimeFormat =
-		new SimpleDateFormat(Messages.getString("DATE_TIME_FORMAT"));
+public final class HTMLTagger {
+	/**
+	 * A utility class (only static methods) should be final and have
+	 * a private constructor.
+	 */
+	private HTMLTagger() {
+	}
 
 	/**
 	 * Creates a HTML representation of a hyperlink
@@ -48,7 +50,7 @@ public class HTMLTagger {
 	 * @param linkName Name of the Link
 	 * @return String HTML code of the hyperlink
 	 */
-	public static String getLink(String link, String linkName) {
+	public static String getLink(final String link, final String linkName) {
 		return getLink(link, linkName, "", "");
 	}
 
@@ -60,7 +62,7 @@ public class HTMLTagger {
 	 * @param prefix A suffix to be inserted after the link label; no HTML escaping is performed
 	 * @return String HTML code of the hyperlink
 	 */
-	public static String getLink(String link, String linkName, String prefix, String suffix) {
+	public static String getLink(final String link, final String linkName, final String prefix, final String suffix) {
 	    return "<a href=\"" + OutputUtils.escapeHtml(link) + "\">"
 	            + prefix + OutputUtils.escapeHtml(linkName) + suffix + "</a>";
 	}
@@ -70,7 +72,7 @@ public class HTMLTagger {
 	 * @param author the author
 	 * @return HTML code for the link
 	 */
-	public static String getAuthorLink(Author author, final OutputRenderer renderer) {
+	public static String getAuthorLink(final Author author, final OutputRenderer renderer) {
 		return "<a href=\""
 		+ OutputUtils.escapeHtml(renderer.getAuthorPageFilename(author, true))
 		+ "\" class=\"author\">" + OutputUtils.escapeHtml(author.getName()) + "</a>";
@@ -81,8 +83,8 @@ public class HTMLTagger {
 	 * @param date the date
 	 * @return HTML code for the date
 	 */
-	public static String getDate(Date date) {
-		return "<span class=\"date\">" + outputDateFormat.format(date) + "</span>";
+	public static String getDate(final Date date) {
+		return "<span class=\"date\">" + StatSvnConstants.OUTPUT_DATE_FORMAT.format(date) + "</span>";
 	}
 
 	/**
@@ -90,8 +92,8 @@ public class HTMLTagger {
 	 * @param date the date
 	 * @return HTML code for the date
 	 */
-	public static String getDateAndTime(Date date) {
-		return "<span class=\"date\">" + outputDateTimeFormat.format(date) + "</span>";
+	public static String getDateAndTime(final Date date) {
+		return "<span class=\"date\">" + StatSvnConstants.OUTPUT_DATE_TIME_FORMAT.format(date) + "</span>";
 	}
 
 	/**
@@ -99,8 +101,8 @@ public class HTMLTagger {
 	 * @param directory a directory
 	 * @return HTML code for the link
 	 */
-	public static String getDirectoryLink(Directory directory, final OutputRenderer renderer) {
-		String caption = directory.isRoot() ? "/" : directory.getPath();
+	public static String getDirectoryLink(final Directory directory, final OutputRenderer renderer) {
+		final String caption = directory.isRoot() ? "/" : directory.getPath();
 		return "<a href=\""
 				+ OutputUtils.escapeHtml(renderer.getDirectoryPageFilename(directory, true))
 				+ "\" class=\"directory\">"
@@ -113,8 +115,8 @@ public class HTMLTagger {
 	 * @param file a file
 	 * @return HTML code for the file
 	 */
-	public static String getFileLink(VersionedFile file) {
-		WebRepositoryIntegration wri = ConfigurationOptions.getWebRepository();
+	public static String getFileLink(final VersionedFile file) {
+		final WebRepositoryIntegration wri = ConfigurationOptions.getWebRepository();
 		if (wri == null) {
 			return file.getFilenameWithPath();
 		}
@@ -129,7 +131,7 @@ public class HTMLTagger {
 	 * @param endDate end date of the period
 	 * @return HTML string
 	 */
-	public static String getSummaryPeriod(Date startDate, Date endDate) {
+	public static String getSummaryPeriod(final Date startDate, final Date endDate) {
 		return getSummaryPeriod(startDate, endDate, null, false);
 	}
 
@@ -141,8 +143,8 @@ public class HTMLTagger {
 	 * @param newLine should additionalText be placed on a new line?
 	 * @return HTML string
 	 */
-	public static String getSummaryPeriod(Date startDate, Date endDate, String additionalText, boolean newLine) {
-		StringBuffer result = new StringBuffer("<p class=\"summaryperiod\">\n  ");
+	public static String getSummaryPeriod(final Date startDate, final Date endDate, final String additionalText, final boolean newLine) {
+		final StringBuffer result = new StringBuffer("<p class=\"summaryperiod\">\n  ");
 		result.append(Messages.getString("SUMMARY_PERIOD")).append(":\n  ");
 		result.append(HTMLTagger.getDate(startDate)).append(" to\n  ");
 		result.append(HTMLTagger.getDate(endDate));
@@ -158,8 +160,8 @@ public class HTMLTagger {
 	 * @param iconFilename an icon filename (HTMLOutput.XXXX_ICON constants)
 	 * @return HTML string
 	 */
-	public static String getIcon(String iconFilename) {
-		StringBuffer result = new StringBuffer("<img src=\"");
+	public static String getIcon(final String iconFilename) {
+		final StringBuffer result = new StringBuffer("<img src=\"");
 		result.append(OutputUtils.escapeHtml(iconFilename)).append("\" width=\"");
 		result.append(HTMLOutput.ICON_WIDTH).append("\" height=\"");
 		result.append(HTMLOutput.ICON_HEIGHT).append("\" alt=\"\"/>");

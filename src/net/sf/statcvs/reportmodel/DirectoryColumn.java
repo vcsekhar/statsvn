@@ -45,7 +45,7 @@ public class DirectoryColumn extends GenericColumn {
 	/**
 	 * @see net.sf.statcvs.reportmodel.Column#renderCell
 	 */
-	public void renderCell(int rowIndex, TableCellRenderer renderer) {
+	public void renderCell(final int rowIndex, final TableCellRenderer renderer) {
 		renderer.renderDirectoryCell((Directory) getValue(rowIndex));
 	}
 }

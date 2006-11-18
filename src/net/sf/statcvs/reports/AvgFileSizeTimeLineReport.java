@@ -49,21 +49,21 @@ public class AvgFileSizeTimeLineReport {
 	public AvgFileSizeTimeLineReport(final SortedSet files) {
 		timeLine = new TimeLine(Messages.getString("AVERAGE_FILE_SIZE_TITLE"),
 				Messages.getString("RANGE_LOC_PER_FILE"));
-		List revisions = new ArrayList();
-		Iterator filesIt = files.iterator();
+		final List revisions = new ArrayList();
+		final Iterator filesIt = files.iterator();
 		while (filesIt.hasNext()) {
-			VersionedFile file = (VersionedFile) filesIt.next();
+			final VersionedFile file = (VersionedFile) filesIt.next();
 			revisions.addAll(file.getRevisions());
 		}
 		Collections.sort(revisions);
-		Iterator it = revisions.iterator();
+		final Iterator it = revisions.iterator();
 		int loc = 0;
 		int fileCount = 0;
 		while (it.hasNext()) {
-			Revision rev = (Revision) it.next();
+			final Revision rev = (Revision) it.next();
 			loc += rev.getLinesDelta();
 			fileCount += rev.getFileCountDelta();
-			int ratio = (fileCount == 0) ? 0 : loc / fileCount;
+			final int ratio = (fileCount == 0) ? 0 : loc / fileCount;
 			timeLine.addTimePoint(rev.getDate(), ratio);
 		}
 	}

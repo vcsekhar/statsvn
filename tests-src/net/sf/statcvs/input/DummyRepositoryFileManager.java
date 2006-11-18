@@ -72,24 +72,25 @@ public class DummyRepositoryFileManager extends RepositoryFileManager {
 	 *            command.
 	 * @throws IOException
 	 */
-	public DummyRepositoryFileManager(String checkedOutPath, String sSvnInfoUtilPath, String sSvnPropgetPath, String sFinalLineCountsFile) throws IOException {
+	public DummyRepositoryFileManager(final String checkedOutPath, final String sSvnInfoUtilPath, final String sSvnPropgetPath, final String sFinalLineCountsFile) throws IOException {
 		super(checkedOutPath);
 		this.sSvnInfoUtilPath = sSvnInfoUtilPath;
 		this.sSvnPropgetPath = sSvnPropgetPath;
 		this.sFinalLineCountsFile = sFinalLineCountsFile;
 
-		InputStream stream = new FileInputStream(sSvnPropgetPath);
+		final InputStream stream = new FileInputStream(sSvnPropgetPath);
 		SvnPropgetUtils.loadBinaryFiles(stream);
 		stream.close();
 
-		FileReader freader = new FileReader(sFinalLineCountsFile);
-		BufferedReader reader = new BufferedReader(freader);
+		final FileReader freader = new FileReader(sFinalLineCountsFile);
+		final BufferedReader reader = new BufferedReader(freader);
 		String s;
 		hmFinalLineCounts = new HashMap();
 		while ((s = reader.readLine()) != null) {
-			String[] vals = s.split(" ");
-			if (vals.length == 1)
+			final String[] vals = s.split(" ");
+			if (vals.length == 1) {
 				continue;
+			}
 
 			setLinesOfCode(vals[1], Integer.parseInt(vals[0]));
 		}
@@ -111,9 +112,9 @@ public class DummyRepositoryFileManager extends RepositoryFileManager {
 	 * @throws IOException
 	 *             problem parsing the stream
 	 */
-	public int[] getLineDiff(String oldRevNr, String newRevNr, String filename) throws IOException {
+	public int[] getLineDiff(final String oldRevNr, final String newRevNr, final String filename) throws IOException {
 		// return SvnDiffUtils.getLineDiff(oldRevNr, newRevNr, filename);
-		int[] lines = new int[2];
+		final int[] lines = new int[2];
 		lines[0] = 0;
 		lines[1] = 0;
 		return lines;
@@ -123,18 +124,19 @@ public class DummyRepositoryFileManager extends RepositoryFileManager {
 	/**
 	 * @see net.sf.statcvs.input.RepositoryFileManager#getLinesOfCode(String)
 	 */
-	public int getLinesOfCode(String filename) throws NoLineCountException {
+	public int getLinesOfCode(final String filename) throws NoLineCountException {
 		if (hmFinalLineCounts.containsKey(filename)) {
 			return ((Integer) hmFinalLineCounts.get(filename)).intValue();
 		}
 		throw new NoLineCountException();
 	}
 
-	public String getRevision(String filename) throws IOException {
-		if (sSvnInfoUtilPath != null)
+	public String getRevision(final String filename) throws IOException {
+		if (sSvnInfoUtilPath != null) {
 			return super.getRevision(filename);
-		else
+		} else {
 			return "";
+		}
 	}
 
 	/**
@@ -144,7 +146,7 @@ public class DummyRepositoryFileManager extends RepositoryFileManager {
 	 *            the directory
 	 * @return true if it is marked as a binary file
 	 */
-	public boolean isBinary(String relativePath) {
+	public boolean isBinary(final String relativePath) {
 		return SvnPropgetUtils.getBinaryFiles().contains(relativePath);
 	}
 
@@ -158,7 +160,7 @@ public class DummyRepositoryFileManager extends RepositoryFileManager {
 	 */
 	public void loadInfo() throws LogSyntaxException, IOException {
 
-		FileInputStream stream = new FileInputStream(sSvnInfoUtilPath);
+		final FileInputStream stream = new FileInputStream(sSvnInfoUtilPath);
 		SvnInfoUtils.loadInfo(stream);
 		stream.close();
 
@@ -172,7 +174,7 @@ public class DummyRepositoryFileManager extends RepositoryFileManager {
 	 * @param lines
 	 *            lines of code for specified file
 	 */
-	public void setLinesOfCode(String filename, int lines) {
+	public void setLinesOfCode(final String filename, final int lines) {
 		hmFinalLineCounts.put(filename, new Integer(lines));
 	}
 }

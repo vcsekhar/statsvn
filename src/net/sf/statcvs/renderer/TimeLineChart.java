@@ -52,7 +52,7 @@ import org.jfree.data.xy.XYDataset;
  * @version $Id: TimeLineChart.java,v 1.7 2005/03/29 23:22:28 cyganiak Exp $
  */
 public class TimeLineChart extends Chart {
-	private static Logger logger =
+	private static final Logger LOGGER =
 			Logger.getLogger("net.sf.statcvs.renderer.LOCChart");
 
 	/**
@@ -70,27 +70,27 @@ public class TimeLineChart extends Chart {
 		//Paint[] colors = new Paint[1];
 		//colors[0] = Color.blue;
 
-		TimeSeriesCollection collection = new TimeSeriesCollection();
+		final TimeSeriesCollection collection = new TimeSeriesCollection();
 		collection.addSeries(createTimeSeries(timeLine));
 
-		logger.finer("creating time line chart for "
+		LOGGER.finer("creating time line chart for "
 				+ timeLine.getTitle() + " / " + timeLine.getTitle());
 
-		String range = timeLine.getRangeLabel();
-		String domain = Messages.getString("DOMAIN_TIME");
+		final String range = timeLine.getRangeLabel();
+		final String domain = Messages.getString("DOMAIN_TIME");
 
-		XYDataset data = collection;
+		final XYDataset data = collection;
 		setChart(ChartFactory.createTimeSeriesChart(
 			ConfigurationOptions.getProjectName(), domain, range, data, false, false, false
 		));
 		
-		XYPlot plot = (XYPlot) getChart().getPlot();
+		final XYPlot plot = (XYPlot) getChart().getPlot();
 		plot.getRenderer().setSeriesPaint(0, Color.blue);
-		DateAxis axis = (DateAxis) plot.getDomainAxis();
+		final DateAxis axis = (DateAxis) plot.getDomainAxis();
 		axis.setVerticalTickLabels(true);
 		plot.setRenderer(new XYStepRenderer());
 		if (annotations != null) {
-		    for (Iterator it = annotations.iterator(); it.hasNext();) {
+		    for (final Iterator it = annotations.iterator(); it.hasNext();) {
                 plot.addAnnotation((XYAnnotation)it.next());
             }
 		}
@@ -98,11 +98,11 @@ public class TimeLineChart extends Chart {
 		saveChart(width, height);
 	}
 
-	private TimeSeries createTimeSeries(TimeLine timeLine) {
-		TimeSeries result = new TimeSeries("!??!SERIES_LABEL!??!", Millisecond.class);
-		Iterator it = timeLine.getDataPoints().iterator();
+	private TimeSeries createTimeSeries(final TimeLine timeLine) {
+		final TimeSeries result = new TimeSeries("!??!SERIES_LABEL!??!", Millisecond.class);
+		final Iterator it = timeLine.getDataPoints().iterator();
 		while (it.hasNext()) {
-			TimePoint timePoint = (TimePoint) it.next();
+			final TimePoint timePoint = (TimePoint) it.next();
 			result.add(new Millisecond(timePoint.getDate()), timePoint.getValue());
 		}
 		return result;

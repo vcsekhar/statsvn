@@ -36,7 +36,7 @@ public class FilePatternMatcherTest extends TestCase {
 	 * Constructor for OutputUtilsTest.
 	 * @param arg0 input 
 	 */
-	public FilePatternMatcherTest(String arg0) {
+	public FilePatternMatcherTest(final String arg0) {
 		super(arg0);
 	}
 
@@ -44,7 +44,7 @@ public class FilePatternMatcherTest extends TestCase {
 	 * Test a pattern without wildcards
 	 */
 	public void testSimplePattern() {
-		FilePatternMatcher fpm = new FilePatternMatcher("test");
+		final FilePatternMatcher fpm = new FilePatternMatcher("test");
 		assertTrue(fpm.matches("test"));
 		assertTrue(!fpm.matches("foo"));
 		assertTrue(!fpm.matches("atest"));
@@ -58,7 +58,7 @@ public class FilePatternMatcherTest extends TestCase {
 	 * Test a pattern with a ? wildcard, matching exactly one char
 	 */
 	public void testQuestionMarkPattern1() {
-		FilePatternMatcher fpm = new FilePatternMatcher("test?");
+		final FilePatternMatcher fpm = new FilePatternMatcher("test?");
 		assertTrue(fpm.matches("test1"));
 		assertTrue(fpm.matches("test2"));
 		assertTrue(fpm.matches("test "));
@@ -76,7 +76,7 @@ public class FilePatternMatcherTest extends TestCase {
 	 * Test a pattern with a ??? wildcard, matching exactly three chars
 	 */
 	public void testQuestionMarkPattern2() {
-		FilePatternMatcher fpm = new FilePatternMatcher("???");
+		final FilePatternMatcher fpm = new FilePatternMatcher("???");
 		assertTrue(fpm.matches("abc"));
 		assertTrue(fpm.matches("123"));
 		assertTrue(fpm.matches("   "));
@@ -91,7 +91,7 @@ public class FilePatternMatcherTest extends TestCase {
 	 * not containing /
 	 */
 	public void testAsteriskPattern1() {
-		FilePatternMatcher fpm = new FilePatternMatcher("*.java");
+		final FilePatternMatcher fpm = new FilePatternMatcher("*.java");
 		assertTrue(fpm.matches(".java"));
 		assertTrue(fpm.matches("AllTests.java"));
 		assertTrue(fpm.matches("FilePatternMatcher.java"));
@@ -106,7 +106,7 @@ public class FilePatternMatcherTest extends TestCase {
 	 * not containing /
 	 */
 	public void testAsteriskPattern2() {
-		FilePatternMatcher fpm = new FilePatternMatcher("*");
+		final FilePatternMatcher fpm = new FilePatternMatcher("*");
 		assertTrue(fpm.matches("AllTests.java"));
 		assertTrue(!fpm.matches("foo/bar"));
 	}
@@ -116,7 +116,7 @@ public class FilePatternMatcherTest extends TestCase {
 	 * not containing /
 	 */
 	public void testAsteriskPattern3() {
-		FilePatternMatcher fpm = new FilePatternMatcher("A*T**.java");
+		final FilePatternMatcher fpm = new FilePatternMatcher("A*T**.java");
 		assertTrue(fpm.matches("AT.java"));
 		assertTrue(fpm.matches("AllTests.java"));
 		assertTrue(!fpm.matches("All.java"));
@@ -130,7 +130,7 @@ public class FilePatternMatcherTest extends TestCase {
 	 * any subdirectory
 	 */
 	public void testDirWildcardEnd() {
-		FilePatternMatcher fpm = new FilePatternMatcher("src/**");
+		final FilePatternMatcher fpm = new FilePatternMatcher("src/**");
 		assertTrue(fpm.matches("src"));
 		assertTrue(fpm.matches("src/foo"));
 		assertTrue(fpm.matches("src/foo/bar"));
@@ -146,7 +146,7 @@ public class FilePatternMatcherTest extends TestCase {
 	 * the same files.
 	 */
 	public void testImplicitDirWildcardEnd() {
-		FilePatternMatcher fpm = new FilePatternMatcher("src/");
+		final FilePatternMatcher fpm = new FilePatternMatcher("src/");
 		assertTrue(fpm.matches("src"));
 		assertTrue(fpm.matches("src/foo"));
 		assertTrue(fpm.matches("src/foo/bar"));
@@ -162,7 +162,7 @@ public class FilePatternMatcherTest extends TestCase {
 	 * nothing or any directory
 	 */
 	public void testDirWildcardBegin() {
-		FilePatternMatcher fpm = new FilePatternMatcher("**/AllTests.java");
+		final FilePatternMatcher fpm = new FilePatternMatcher("**/AllTests.java");
 		assertTrue(fpm.matches("AllTests.java"));
 		assertTrue(fpm.matches("src/AllTests.java"));
 		assertTrue(fpm.matches("src/foo/AllTests.java"));
@@ -178,7 +178,7 @@ public class FilePatternMatcherTest extends TestCase {
 	 * so they are interpreted as two normal asterisk wildcards
 	 */
 	public void testBogus1() {
-		FilePatternMatcher fpm = new FilePatternMatcher("**AllTests.java");
+		final FilePatternMatcher fpm = new FilePatternMatcher("**AllTests.java");
 		assertTrue(fpm.matches("ReallyAllTests.java"));
 		assertTrue(!fpm.matches("src/AllTests.java"));
 	}
@@ -187,7 +187,7 @@ public class FilePatternMatcherTest extends TestCase {
 	 * Test a pattern with a ** wildcard, matching zero or more directories
 	 */
 	public void testDirWildcard() {
-		FilePatternMatcher fpm = new FilePatternMatcher("src/**/AllTests.java");
+		final FilePatternMatcher fpm = new FilePatternMatcher("src/**/AllTests.java");
 		assertTrue(fpm.matches("src/AllTests.java"));
 		assertTrue(fpm.matches("src/foo/AllTests.java"));
 		assertTrue(fpm.matches("src/foo/bar/AllTests.java"));
@@ -201,7 +201,7 @@ public class FilePatternMatcherTest extends TestCase {
 	 * Test a really complex pattern
 	 */
 	public void testComplexPattern() {
-		FilePatternMatcher fpm = new FilePatternMatcher("**/*o*/**/*a*/**/");
+		final FilePatternMatcher fpm = new FilePatternMatcher("**/*o*/**/*a*/**/");
 		assertTrue(fpm.matches("o/a"));
 		assertTrue(fpm.matches("1o1/1a1"));
 		assertTrue(fpm.matches("1/2/3/1o1/4/5/6/1a1/7/8/9"));
@@ -212,7 +212,7 @@ public class FilePatternMatcherTest extends TestCase {
 	 * Test a pattern list with : as delimiter
 	 */
 	public void testMultiplePatterns1() {
-		FilePatternMatcher fpm = new FilePatternMatcher("a:b:c");
+		final FilePatternMatcher fpm = new FilePatternMatcher("a:b:c");
 		assertTrue(!fpm.matches("a:b:c"));
 		assertTrue(fpm.matches("a"));
 		assertTrue(fpm.matches("b"));
@@ -224,7 +224,7 @@ public class FilePatternMatcherTest extends TestCase {
 	 * Test a pattern list with ; as delimiter
 	 */
 	public void testMultiplePatterns2() {
-		FilePatternMatcher fpm = new FilePatternMatcher("a;b;c");
+		final FilePatternMatcher fpm = new FilePatternMatcher("a;b;c");
 		assertTrue(!fpm.matches("a;b;c"));
 		assertTrue(fpm.matches("a"));
 		assertTrue(fpm.matches("b"));

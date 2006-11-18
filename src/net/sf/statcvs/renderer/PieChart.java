@@ -77,7 +77,7 @@ public class PieChart extends Chart {
 		final int filter) {
 		super(title, fileName);
 
-		DefaultPieDataset data = new DefaultPieDataset();
+		final DefaultPieDataset data = new DefaultPieDataset();
 
 		List directories;
 		if (filter == FILTERED_BY_USER) {
@@ -87,10 +87,10 @@ public class PieChart extends Chart {
 		}
 		Collections.sort(directories);
 
-		IntegerMap dirSizes = new IntegerMap();
+		final IntegerMap dirSizes = new IntegerMap();
 		Iterator it = directories.iterator();
 		while (it.hasNext()) {
-			Directory dir = (Directory) it.next();
+			final Directory dir = (Directory) it.next();
 			if (filter == FILTERED_BY_USER) {
 				dirSizes.addInt(dir, getLineValueOfAuthorInDir(author, dir));
 			} else {	// file sizes in entire repository
@@ -99,13 +99,13 @@ public class PieChart extends Chart {
 		}
 
 		int otherSum = 0;
-		List colors = new ArrayList();
-		List outlines = new ArrayList();
+		final List colors = new ArrayList();
+		final List outlines = new ArrayList();
 		it = dirSizes.iteratorSortedByValue();
 		while (it.hasNext()) {
-			Directory dir = (Directory) it.next();
+			final Directory dir = (Directory) it.next();
 			if (dirSizes.getPercent(dir) >= SLICE_MIN_PERCENT) {
-				String dirName = dir.isRoot() ? "/" : dir.getPath();
+				final String dirName = dir.isRoot() ? "/" : dir.getPath();
 				data.setValue(dirName, dirSizes.getInteger(dir));
 				colors.add(OutputUtils.getStringColor(dirName));
 				outlines.add(Color.BLACK);
@@ -125,7 +125,7 @@ public class PieChart extends Chart {
 		//plot.setSeriesPaint((Color[]) colors.toArray(new Color[colors.size()]));
 		//plot.setSeriesOutlinePaint((Color[]) outlines.toArray(new Color[colors.size()]));
 		
-		PiePlot plot = (PiePlot) getChart().getPlot();
+		final PiePlot plot = (PiePlot) getChart().getPlot();
 		
 		plot.setShadowPaint(null);
 		plot.setLabelShadowPaint(null);
@@ -143,11 +143,11 @@ public class PieChart extends Chart {
 		saveChart(HTMLOutput.IMAGE_WIDTH, HTMLOutput.IMAGE_HEIGHT); 
 	}
 	
-	private int getLineValueOfAuthorInDir(Author author, Directory dir) {
+	private int getLineValueOfAuthorInDir(final Author author, final Directory dir) {
 		int result = 0;
-		Iterator it = dir.getRevisions().iterator();
+		final Iterator it = dir.getRevisions().iterator();
 		while (it.hasNext()) {
-			Revision rev = (Revision) it.next();
+			final Revision rev = (Revision) it.next();
 			if (!author.equals(rev.getAuthor())) {
 				continue;
 			}
@@ -156,11 +156,11 @@ public class PieChart extends Chart {
 		return result;
 	}
 	
-	private int getLOCInDir(Directory dir) {
+	private int getLOCInDir(final Directory dir) {
 		int result = 0;
-		Iterator fileIt = dir.getFiles().iterator();
+		final Iterator fileIt = dir.getFiles().iterator();
 		while (fileIt.hasNext()) {
-			VersionedFile element = (VersionedFile) fileIt.next();
+			final VersionedFile element = (VersionedFile) fileIt.next();
 			result += element.getCurrentLinesOfCode();
 		}
 		return result;

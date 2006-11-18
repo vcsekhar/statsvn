@@ -32,7 +32,7 @@ public class SvnXmlRepositoriesFileHandler extends DefaultHandler {
      * @param repositoriesBuilder
      *            the RepositoriesBuilder to which to send back the repository information.
      */
-    public SvnXmlRepositoriesFileHandler(RepositoriesBuilder repositoriesBuilder) {
+    public SvnXmlRepositoriesFileHandler(final RepositoriesBuilder repositoriesBuilder) {
         this.repositoriesBuilder = repositoriesBuilder;
     }
 
@@ -44,7 +44,7 @@ public class SvnXmlRepositoriesFileHandler extends DefaultHandler {
      * @throws SAXException
      *             unexpected event.
      */
-    private void checkLastElement(String last) throws SAXException {
+    private void checkLastElement(final String last) throws SAXException {
         if (!lastElement.equals(last)) {
             fatalError(FATAL_ERROR_MESSAGE);
         }
@@ -56,11 +56,12 @@ public class SvnXmlRepositoriesFileHandler extends DefaultHandler {
      * @throws SAXException
      *             unexpected event.
      */
-    public void endElement(String uri, String localName, String qName) throws SAXException {
+    public void endElement(final String uri, final String localName, final String qName) throws SAXException {
         super.endElement(uri, localName, qName);
         String eName = localName; // element name
-        if ("".equals(eName))
-            eName = qName; // namespaceAware = false
+        if ("".equals(eName)) {
+			eName = qName; // namespaceAware = false
+		}
 
         if (eName.equals(REPOSITORIES)) {
             endRepositories();
@@ -101,7 +102,7 @@ public class SvnXmlRepositoriesFileHandler extends DefaultHandler {
      * @throws SAXException
      *             the error
      */
-    private void fatalError(String message) throws SAXException {
+    private void fatalError(final String message) throws SAXException {
         fatalError(new SAXParseException(message, null));
     }
 
@@ -111,12 +112,13 @@ public class SvnXmlRepositoriesFileHandler extends DefaultHandler {
      * @throws SAXException
      *             unexpected event.
      */
-    public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+    public void startElement(final String uri, final String localName, final String qName, final Attributes attributes) throws SAXException {
         super.startElement(uri, localName, qName, attributes);
 
         String eName = localName; // element name
-        if ("".equals(eName))
-            eName = qName; // namespaceAware = false
+        if ("".equals(eName)) {
+			eName = qName; // namespaceAware = false
+		}
 
         if (eName.equals(REPOSITORIES)) {
             startRepositories();
@@ -138,7 +140,7 @@ public class SvnXmlRepositoriesFileHandler extends DefaultHandler {
         lastElement = REPOSITORIES;
         try {
             repositoriesBuilder.buildRoot();
-        } catch (ParserConfigurationException e) {
+        } catch (final ParserConfigurationException e) {
             fatalError(FATAL_ERROR_MESSAGE);
         }
     }
@@ -151,15 +153,16 @@ public class SvnXmlRepositoriesFileHandler extends DefaultHandler {
      * @throws SAXException
      *             missing some data.
      */
-    private void startRepository(Attributes attributes) throws SAXException {
+    private void startRepository(final Attributes attributes) throws SAXException {
         checkLastElement(REPOSITORIES);
         lastElement = REPOSITORY;
         if (attributes != null && attributes.getValue(UUID) != null && attributes.getValue(FILE) != null) {
-            String uuid = attributes.getValue(UUID);
-            String file = attributes.getValue(FILE);
+            final String uuid = attributes.getValue(UUID);
+            final String file = attributes.getValue(FILE);
             repositoriesBuilder.buildRepository(uuid, file);
-        } else
-            fatalError(FATAL_ERROR_MESSAGE);
+        } else {
+			fatalError(FATAL_ERROR_MESSAGE);
+		}
     }
 
 }

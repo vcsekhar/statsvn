@@ -63,15 +63,15 @@ public class LargestFilesTableReport implements TableReport {
 		Collections.sort(files, new FilesLocComparator());
 		table = new Table(Messages.getString("LARGEST_FILES_TABLE_SUMMARY"));
 		table.setKeysInFirstColumn(true);
-		FileColumn filesCol = new FileColumn();
-		IntegerColumn locCol = new IntegerColumn(Messages.getString("COLUMN_LOC"));
+		final FileColumn filesCol = new FileColumn();
+		final IntegerColumn locCol = new IntegerColumn(Messages.getString("COLUMN_LOC"));
 		locCol.setShowPercentages(false);
 		table.addColumn(filesCol);
 		table.addColumn(locCol);
 		int lines = 0;
-		Iterator it = files.iterator();
+		final Iterator it = files.iterator();
 		while (it.hasNext() && lines < maxRows) {
-			VersionedFile file = (VersionedFile) it.next();
+			final VersionedFile file = (VersionedFile) it.next();
 			if (file.isDead()) {
 				continue;
 			}

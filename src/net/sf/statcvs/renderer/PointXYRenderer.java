@@ -21,7 +21,7 @@ public class PointXYRenderer extends StandardXYItemRenderer {
 		super(type, toolTipGenerator);
 	}
 	
-	protected double getShapeScale(Plot plot, int series, int item, double x, double y) {
+	protected double getShapeScale(final Plot plot, final int series, final int item, final double x, final double y) {
 	  return 5;
 	}
 }

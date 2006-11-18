@@ -53,7 +53,7 @@ public class ConsoleOutHandler extends StreamHandler {
      * <p>
      * @param  record  description of the log event
      */
-    public void publish(LogRecord record) {
+    public void publish(final LogRecord record) {
 		super.publish(record);	
 		flush();
     }

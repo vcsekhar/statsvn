@@ -45,7 +45,7 @@ import net.sf.statcvs.reports.TableReport;
  * @author anja
  */
 public class AuthorPage extends HTMLPage {
-	private static Logger logger = Logger.getLogger("net.sf.statcvs.output.UserPage");
+	private static final Logger LOGGER = Logger.getLogger("net.sf.statcvs.output.UserPage");
 	private Author author;
 	private boolean codeDistributionChartCreated;
 	private int userChangeCount = 0;
@@ -61,14 +61,14 @@ public class AuthorPage extends HTMLPage {
 	 *                                     pie chart was created
 	 * @throws IOException on error
 	 */
-	public AuthorPage(Repository content, Author author,
-			boolean codeDistributionChartCreated, final OutputRenderer output) throws IOException {
+	public AuthorPage(final Repository content, final Author author,
+			final boolean codeDistributionChartCreated, final OutputRenderer output) throws IOException {
 		super(content, output);
 		this.author = author;
 		this.codeDistributionChartCreated = codeDistributionChartCreated;
 		setFileName(output.getAuthorPageFilename(author, false));
 		setPageName("User statistics for " + author.getName());
-		logger.fine("creating author page for '" + author.getName() + "'");
+		LOGGER.fine("creating author page for '" + author.getName() + "'");
 
 		totalChangeCount = getContent().getRevisions().size();
 		totalLineCount = getLineValue(getContent().getRevisions());
@@ -79,11 +79,11 @@ public class AuthorPage extends HTMLPage {
 		createPage();
 	}
 
-	private int getLineValue(Collection revisions) {
+	private int getLineValue(final Collection revisions) {
 		int result = 0;
-		Iterator it = revisions.iterator();
+		final Iterator it = revisions.iterator();
 		while (it.hasNext()) {
-			Revision element = (Revision) it.next();
+			final Revision element = (Revision) it.next();
 			result += element.getNewLines();
 		}
 		return result;
@@ -104,7 +104,7 @@ public class AuthorPage extends HTMLPage {
 	}
 
 	private String getActivitySection() {
-		StringBuffer result = new StringBuffer();
+		final StringBuffer result = new StringBuffer();
 		result.append(startSection2(Messages.getString("ACTIVITY_TITLE")));
 		result.append(p(img(HTMLOutput.getActivityTimeChartFilename(author), 500, 300)));
 		result.append(p(img(HTMLOutput.getActivityDayChartFilename(author), 500, 300)));
@@ -113,16 +113,16 @@ public class AuthorPage extends HTMLPage {
 	}
 
 	private String getAuthorInfo() {
-		Revision firstRev = (Revision) author.getRevisions().first();
-		Revision lastRev = (Revision) author.getRevisions().last();
+		final Revision firstRev = (Revision) author.getRevisions().first();
+		final Revision lastRev = (Revision) author.getRevisions().last();
 		return HTMLTagger.getSummaryPeriod(
 				firstRev.getDate(),
 				lastRev.getDate());
 	}
 
 	private String getChangesSection() {
-		StringBuffer result = new StringBuffer(startSection2("Total Changes"));
-		String percentage = getPercentage(totalChangeCount, userChangeCount); 
+		final StringBuffer result = new StringBuffer(startSection2("Total Changes"));
+		final String percentage = getPercentage(totalChangeCount, userChangeCount); 
 		result.append(p(userChangeCount + " (" + percentage + ")"));
         result.append(endSection2());
 		return result.toString();
@@ -132,38 +132,38 @@ public class AuthorPage extends HTMLPage {
 		if (totalLineCount == 0) {
 			return "";
 		}
-		StringBuffer result = new StringBuffer(startSection2(Messages.getString("LOC_TITLE")));
+		final StringBuffer result = new StringBuffer(startSection2(Messages.getString("LOC_TITLE")));
 		result.append(p(userLineCount + " (" + getPercentage(totalLineCount, userLineCount) + ")"));
         result.append(endSection2());
 		return result.toString();
 	}
 
 	private String getModulesSection() {
-		StringBuffer result = new StringBuffer(startSection2("Modules"));
+		final StringBuffer result = new StringBuffer(startSection2("Modules"));
 		if (codeDistributionChartCreated) {
 			result.append(p(img(HTMLOutput.getCodeDistributionChartFilename(author), 640, 480)));
 		}
-		TableReport report = 
+		final TableReport report = 
 				new DirectoriesForAuthorTableReport(getContent(), author);
 		report.calculate();
-		Table table = report.getTable();
+		final Table table = report.getTable();
 		result.append(new TableRenderer(table, getRenderer()).getRenderedTable());
         result.append(endSection2());
 		return result.toString();
 	}
 
 	private String getLastCommits() {
-		StringBuffer result = new StringBuffer(startSection2(Messages.getString("MOST_RECENT_COMMITS")));
-		List authorCommits = new ArrayList();
-		Iterator it = getContent().getCommits().iterator();
+		final StringBuffer result = new StringBuffer(startSection2(Messages.getString("MOST_RECENT_COMMITS")));
+		final List authorCommits = new ArrayList();
+		final Iterator it = getContent().getCommits().iterator();
 		while (it.hasNext()) {
-			Commit commit = (Commit) it.next();
+			final Commit commit = (Commit) it.next();
 			if (!author.equals(commit.getAuthor())) {
 				continue;
 			}
 			authorCommits.add(commit);
 		}
-		CommitLogRenderer renderer = new CommitLogRenderer(authorCommits);
+		final CommitLogRenderer renderer = new CommitLogRenderer(authorCommits);
 		result.append(renderer.renderMostRecentCommits(HTMLOutput.MOST_RECENT_COMMITS_LENGTH, getRenderer()));
         result.append(endSection2());
 		return result.toString();
@@ -175,9 +175,9 @@ public class AuthorPage extends HTMLPage {
 	 * @param count 
 	 * @return String percentage string
 	 */
-	private String getPercentage(int totalCount, int count) {
-		int percentTimes10 = (count * 1000) / totalCount;
-		double percent = percentTimes10 / 10.0;
+	private String getPercentage(final int totalCount, final int count) {
+		final int percentTimes10 = (count * 1000) / totalCount;
+		final double percent = percentTimes10 / 10.0;
 		return Double.toString(percent) + "%";
 	}
 }

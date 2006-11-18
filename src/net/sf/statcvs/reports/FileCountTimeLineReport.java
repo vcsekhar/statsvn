@@ -47,9 +47,9 @@ public class FileCountTimeLineReport {
 		timeLine = new TimeLine(Messages.getString("FILE_COUNT_TITLE"),
 				Messages.getString("RANGE_FILES"));
 		timeLine.setInitialValue(0);
-		Iterator filesIt = files.iterator();
+		final Iterator filesIt = files.iterator();
 		while (filesIt.hasNext()) {
-			VersionedFile file = (VersionedFile) filesIt.next();
+			final VersionedFile file = (VersionedFile) filesIt.next();
 			addRevisions(file);
 		}
 	}
@@ -62,10 +62,10 @@ public class FileCountTimeLineReport {
 		return timeLine;
 	}
 
-	private void addRevisions(VersionedFile file) {
-		Iterator it = file.getRevisions().iterator();
+	private void addRevisions(final VersionedFile file) {
+		final Iterator it = file.getRevisions().iterator();
 		while (it.hasNext()) {
-			Revision revision = (Revision) it.next();
+			final Revision revision = (Revision) it.next();
 			if (revision.getFileCountDelta() != 0 || !it.hasNext()) {
 				this.timeLine.addChange(
 				        revision.getDate(), revision.getFileCountDelta());

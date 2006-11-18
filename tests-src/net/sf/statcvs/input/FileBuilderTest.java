@@ -37,13 +37,13 @@ import net.sf.statcvs.model.Revision;
 public class FileBuilderTest extends TestCase {
 	private FileBuilder fb;
 	private DummyBuilder builder;
-	private Date date1 = new Date(100000000);
-	private Date date2 = new Date(200000000);
+	private final Date date1 = new Date(100000000);
+	private final Date date2 = new Date(200000000);
 	private RevisionData rev1;
 	private RevisionData rev1dead;
 	private RevisionData rev1branch;
 
-	public FileBuilderTest(String arg0) {
+	public FileBuilderTest(final String arg0) {
 		super(arg0);
 		builder = new DummyBuilder();
 		rev1 = new RevisionData();
@@ -88,7 +88,7 @@ public class FileBuilderTest extends TestCase {
 	public void testSimple() throws Exception {
 		initBuilder("file", false);
 		fb.addRevisionData(rev1);
-		VersionedFile file = fb.createFile(date1);
+		final VersionedFile file = fb.createFile(date1);
 		assertNotNull(file);
 		assertEquals("file", file.getFilenameWithPath());
 		assertEquals(builder.getDirectory("file"), file.getDirectory());
@@ -97,7 +97,7 @@ public class FileBuilderTest extends TestCase {
 
 	public void testFileWithoutRevs() throws Exception {
 		initBuilder("file", false);
-		VersionedFile file = fb.createFile(date1);
+		final VersionedFile file = fb.createFile(date1);
 		assertNotNull(file);
 		assertEquals(1, file.getRevisions().size());
 		assertTrue(file.getInitialRevision().isBeginOfLog());
@@ -108,9 +108,9 @@ public class FileBuilderTest extends TestCase {
 	public void testOneRev() throws Exception {
 		initBuilder("file", false);
 		fb.addRevisionData(rev1);
-		VersionedFile file = fb.createFile(date1);
+		final VersionedFile file = fb.createFile(date1);
 		assertEquals(1, file.getRevisions().size());
-		Revision rev = file.getInitialRevision();
+		final Revision rev = file.getInitialRevision();
 		assertEquals(date1, rev.getDate());
 		assertEquals("1.1", rev.getRevisionNumber());
 		assertEquals(builder.getAuthor("author1"), rev.getAuthor());
@@ -143,7 +143,7 @@ public class FileBuilderTest extends TestCase {
 //		assertEquals("1.1", file.getInitialRevision().getRevisionNumber());
 //	}
 
-	private void initBuilder(String filename, boolean isBinary) {
+	private void initBuilder(final String filename, final boolean isBinary) {
 		fb = new FileBuilder(builder, filename, isBinary, new HashMap()); 
 	}
 }

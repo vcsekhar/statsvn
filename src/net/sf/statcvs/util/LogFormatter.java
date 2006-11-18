@@ -36,15 +36,15 @@ import java.util.logging.LogRecord;
  */
 public class LogFormatter extends Formatter {
 
-	private String lineSeparator =
+	private final String lineSeparator =
 		(String) java.security.AccessController.doPrivileged(
 			new sun.security.action.GetPropertyAction("line.separator"));
 
 	/**
 	 * @see java.util.logging.Formatter#format(LogRecord)
 	 */
-	public String format(LogRecord record) {
-		StringBuffer sb = new StringBuffer();
+	public String format(final LogRecord record) {
+		final StringBuffer sb = new StringBuffer();
 		if (record.getLevel().intValue() < Level.INFO.intValue()) {
 			sb.append(record.getLevel().getLocalizedName());
 			sb.append(" ");
@@ -61,17 +61,17 @@ public class LogFormatter extends Formatter {
 			}
 			sb.append("(): ");
 		}
-		String message = formatMessage(record);
+		final String message = formatMessage(record);
 		sb.append(message);
 		sb.append(lineSeparator);
 		if (record.getThrown() != null) {
 			try {
-				StringWriter sw = new StringWriter();
-				PrintWriter pw = new PrintWriter(sw);
+				final StringWriter sw = new StringWriter();
+				final PrintWriter pw = new PrintWriter(sw);
 				record.getThrown().printStackTrace(pw);
 				pw.close();
 				sb.append(sw.toString());
-			} catch (Exception ex) {
+			} catch (final Exception ex) {
 				System.err.println("Error formatting logmessage! " + ex.toString());
 			}
 		}

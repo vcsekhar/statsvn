@@ -25,7 +25,7 @@ public class XDocOutput extends HTMLOutput {
     /* (non-Javadoc)
      * @see net.sf.statcvs.output.HTMLOutput#getHeader(java.lang.String)
      */
-    public String getHeader(String pageName) {
+    public String getHeader(final String pageName) {
         return "<?xml version=\"1.0\" encoding=\"US-ASCII\"?>\n"
             + "<document xmlns:lxslt=\"http://xml.apache.org/xslt\">\n"
             + "<properties><title>" + pageName + "</title></properties>\n"

@@ -41,9 +41,9 @@ public class FilesRevisionCountComparator implements Comparator {
 	/**
 	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 	 */
-	public int compare(Object o1, Object o2) {
-		VersionedFile file1 = (VersionedFile) o1;
-		VersionedFile file2 = (VersionedFile) o2;
+	public int compare(final Object o1, final Object o2) {
+		final VersionedFile file1 = (VersionedFile) o1;
+		final VersionedFile file2 = (VersionedFile) o2;
 		if (file1.getRevisions().size() < file2.getRevisions().size()) {
 			return 2;
 		} else if (file1.getRevisions().size() > file2.getRevisions().size()) {
@@ -52,13 +52,13 @@ public class FilesRevisionCountComparator implements Comparator {
 			int lines1 = 0;
 			Iterator it = file1.getRevisions().iterator();
 			while (it.hasNext()) {
-				Revision rev = (Revision) it.next();
+				final Revision rev = (Revision) it.next();
 				lines1 += rev.getNewLines();
 			}
 			int lines2 = 0;
 			it = file2.getRevisions().iterator();
 			while (it.hasNext()) {
-				Revision rev = (Revision) it.next();
+				final Revision rev = (Revision) it.next();
 				lines2 += rev.getNewLines();
 			}
 			if (lines1 < lines2) {

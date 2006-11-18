@@ -12,12 +12,19 @@ import java.io.InputStreamReader;
  * 
  * @version $Id$
  */
-public class SvnDiffUtils {
+public final class SvnDiffUtils {
 
 	private static final String PROPERTY_CHANGE = "Property changes on:";
     private static final String BINARY_TYPE = "Cannot display: file marked as a binary type.";
 
-    /**
+	/**
+	 * A utility class (only static methods) should be final and have
+	 * a private constructor.
+	 */
+	private SvnDiffUtils() {
+	}
+
+	/**
 	 * Calls svn diff for the filename and revisions given. Will use URL
 	 * invocation, to ensure that we get diffs even for deleted files.
 	 * 
@@ -31,7 +38,7 @@ public class SvnDiffUtils {
 	 *         non-empty, will return the error stream instead of the default
 	 *         input stream.
 	 */
-	private synchronized static InputStream callSvnDiff(String oldRevNr, String newRevNr, String filename) throws IOException {
+	private static synchronized InputStream callSvnDiff(final String oldRevNr, final String newRevNr, String filename) throws IOException {
 		String svnDiffCommand = null;
 		filename = SvnInfoUtils.relativePathToUrl(filename);
 		svnDiffCommand = "svn diff  --old " + filename + "@" + oldRevNr + "  --new " + filename + "@" + newRevNr + SvnCommandHelper.getAuthString();
@@ -53,14 +60,14 @@ public class SvnDiffUtils {
 	 * @throws BinaryDiffException
 	 *             if the error message is due to trying to diff binary files.
 	 */
-	public static int[] getLineDiff(String oldRevNr, String newRevNr, String filename) throws IOException, BinaryDiffException {
-		InputStream diffStream = callSvnDiff(oldRevNr, newRevNr, filename);
-		LookaheadReader diffReader = new LookaheadReader(new InputStreamReader(diffStream));
-		int[] lineDiff = parseDiff(diffReader);
+	public static int[] getLineDiff(final String oldRevNr, final String newRevNr, final String filename) throws IOException, BinaryDiffException {
+		final InputStream diffStream = callSvnDiff(oldRevNr, newRevNr, filename);
+		final LookaheadReader diffReader = new LookaheadReader(new InputStreamReader(diffStream));
+		final int[] lineDiff = parseDiff(diffReader);
 
 		if (ProcessUtils.hasErrorOccured()) {
             // The binary checking code here might be useless... as it may be output on the standard out. 
-			String msg = ProcessUtils.getErrorMessage();
+			final String msg = ProcessUtils.getErrorMessage();
 			if (isBinaryErrorMessage(msg)) {
 				throw new BinaryDiffException();
 			} else {
@@ -80,7 +87,7 @@ public class SvnDiffUtils {
 	 * @param msg the error message given by ProcessUtils.getErrorMessage();
 	 * @return true if the file is binary
 	 */
-	private static boolean isBinaryErrorMessage(String msg) {
+	private static boolean isBinaryErrorMessage(final String msg) {
 		/*
 		 * Index: junit.jar
 		 * ===================================================================
@@ -101,8 +108,8 @@ public class SvnDiffUtils {
 	 * @throws IOException
 	 *             problem parsing the stream
 	 */
-	private static int[] parseDiff(LookaheadReader diffReader) throws IOException, BinaryDiffException {
-		int[] lineDiff = { -1, -1 };
+	private static int[] parseDiff(final LookaheadReader diffReader) throws IOException, BinaryDiffException {
+		final int[] lineDiff = { -1, -1 };
 		boolean propertyChange = false;
 		if (!diffReader.hasNextLine()) {
 			// diff has no output because we modified properties or the changes

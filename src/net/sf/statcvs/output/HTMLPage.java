@@ -35,10 +35,10 @@ import net.sf.statcvs.model.Directory;
  * @author anja
  */
 public abstract class HTMLPage {
-	private static Logger logger =
+	private static final Logger LOGGER =
 		Logger.getLogger("net.sf.statcvs.output.HTMLPage");
 
-	protected static final int SPACE_COUNT = 4;
+	private static final int SPACE_COUNT = 4;
 	private FileWriter htmlFileWriter;
 	private Repository content;
 	private String fileName;
@@ -49,13 +49,13 @@ public abstract class HTMLPage {
 	 * Method HTMLPage.
 	 * @param content of the Page
 	 */
-	public HTMLPage(Repository content, final OutputRenderer renderer) {
+	public HTMLPage(final Repository content, final OutputRenderer renderer) {
 		this.content = content;
         this.renderer = renderer;
 	}
 
 	protected void createPage() throws IOException {
-		logger.info("Creating page '" + getPageName() + "'");
+		LOGGER.info("Creating page '" + getPageName() + "'");
 		initFileWriter();
 		printHeader();
 		printHeadline();
@@ -63,7 +63,7 @@ public abstract class HTMLPage {
 		printFooter();
 	}
 
-	protected void print(String printStream) throws IOException {
+	protected void print(final String printStream) throws IOException {
 		htmlFileWriter.write(printStream);
 	}
 
@@ -76,21 +76,7 @@ public abstract class HTMLPage {
 	 * Method printHeader.
 	 */
 	private void printHeader() throws IOException {
-		print( renderer.getHeader(getPageName()) );
-//				"<?xml version=\"1.0\"?>\n"
-//				+ "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" "
-//				+ "\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-//				+ "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n"
-//				+ "<head>\n    <title>"
-//				+ Messages.getString("PROJECT_SHORTNAME") + " - " + getPageName() + "</title>\n"
-//				+ "    <meta http-equiv=\"Content-Type\" content=\"text/html; "
-//				+ "charset=ISO-8859-1\"/>\n"
-//				+ "    <meta name=\"Generator\" content=\"StatSVN v0.1.2\"/>\n"
-//				+ "    <link rel=\"stylesheet\" href=\""
-//				+ ConfigurationOptions.getCssHandler().getLink()
-//				+ "\" type=\"text/css\"/>\n"
-//				+ "  </head>\n\n"
-//				+ "<body>\n");
+		print(renderer.getHeader(getPageName()));
 	}
 
 	private void printHeadline() throws IOException {
@@ -98,7 +84,7 @@ public abstract class HTMLPage {
 	}
 
 	//TODO: Remove this! It feels bad.
-    protected void printStartSection2(String h2) throws IOException {
+    protected void printStartSection2(final String h2) throws IOException {
         print(startSection2(h2));
     }
 
@@ -121,7 +107,7 @@ public abstract class HTMLPage {
 	}
 
 	//TODO: Remove this! It feels bad.
-	protected void printParagraph(String paragraphContent) throws IOException {
+	protected void printParagraph(final String paragraphContent) throws IOException {
 		print(p(paragraphContent));
 	}
 
@@ -133,15 +119,15 @@ public abstract class HTMLPage {
 		return "<br/>\n";
 	}
 
-	protected String p(String p) {
+	protected String p(final String p) {
 		return tag("p", p);
 	}
 
-	protected String h1(String h1) {
+	protected String h1(final String h1) {
 		return renderer.startSection1(h1);
 	}
 
-	protected String startSection2(String h2) {
+	protected String startSection2(final String h2) {
         return renderer.startSection2(h2);
 //		return "\n" + tag("h2", h2) + "\n";
 	}
@@ -150,19 +136,19 @@ public abstract class HTMLPage {
         return renderer.endSection2();
     }
 
-	protected String strong(String b) {
+	protected String strong(final String b) {
 		return tag("strong", b);
 	}
 
-	protected String a(String target, String html) {
+	protected String a(final String target, final String html) {
 		return "<a href=\"" + target + "\">" + html + "</a>";
 	}
 
-	protected String ul(String ul) {
+	protected String ul(final String ul) {
 		return tag("ul", ul);
 	}
 
-	protected String li(String li) {
+	protected String li(final String li) {
 		return tag("li", li);
 	}
 
@@ -173,7 +159,7 @@ public abstract class HTMLPage {
 	 * @param height height of the Image to be hyperlinked
 	 * @return HTML code for the image tag
 	 */
-	protected String img(String image, int width, int height) {
+	protected String img(final String image, final int width, final int height) {
 		return "<img src=\"" + image + "\" width=\"" + width + "\" height=\"" + height
 			+ "\" alt=\"\"/>";
 	}
@@ -183,11 +169,11 @@ public abstract class HTMLPage {
 	 * @param image URL of the Image to be hyperlinked
 	 * @return HTML code for the image tag
 	 */
-	protected String img(String image) {
+	protected String img(final String image) {
 		return "<img src=\"" + image + "\" alt=\"\"/>";
 	}
 
-	protected String tag(String elementName, String elementContent) {
+	protected String tag(final String elementName, final String elementContent) {
 		return ("<" + elementName + ">" + elementContent + "</" + elementName + ">\n");
 	}
 
@@ -198,36 +184,36 @@ public abstract class HTMLPage {
 	 * @param userName userName to be tagged
 	 * @return HTML code for the userPage link tag
 	 */
-	public String getUserLink(String userName) {
+	public String getUserLink(final String userName) {
 		return a("user_" + userName + ".html", userName);
 	}
 
-	private String getSpaces(int count) {
-		StringBuffer result = new StringBuffer();
+	private String getSpaces(final int count) {
+		final StringBuffer result = new StringBuffer();
 		for (int i = 0; i < count * SPACE_COUNT; i++) {
 			result.append("&#160;");
 		}
 		return result.toString();
 	}
 
-	protected String deleteEndingSlash(String path) {
+	protected String deleteEndingSlash(final String path) {
 		if (path.endsWith("/")) {
 			return path.substring(0, path.length() - 1);
 		}
 		return path;
 	}
 
-	protected String getFolderHtml(Directory dir, int currentDepth) {
-		String name = dir.isRoot()
+	protected String getFolderHtml(final Directory dir, final int currentDepth) {
+		final String name = dir.isRoot()
 				? Messages.getString("NAVIGATION_ROOT")
 				: dir.getName();
-		StringBuffer result = new StringBuffer(getSpaces(dir.getDepth() - currentDepth));
+		final StringBuffer result = new StringBuffer(getSpaces(dir.getDepth() - currentDepth));
 		if (dir.isEmpty()) {
 			result.append(HTMLTagger.getIcon(HTMLOutput.DELETED_DIRECTORY_ICON));
 		} else {
 			result.append(HTMLTagger.getIcon(HTMLOutput.DIRECTORY_ICON));
 		}
-		String pageFilename = getRenderer().getDirectoryPageFilename(dir, true);
+		final String pageFilename = getRenderer().getDirectoryPageFilename(dir, true);
 		result.append(" \n").append(a(pageFilename, name));
 		result.append(" \n(").append(dir.getCurrentFileCount()).append(" ");
 		result.append(Messages.getString("DIRECTORY_TREE_FILES")).append(", ");
@@ -236,18 +222,18 @@ public abstract class HTMLPage {
 		return result.toString();
 	}
 	/**
-	 * Returns the logger.
+	 * Returns the LOGGER.
 	 * @return Logger
 	 */
-	public static Logger getLogger() {
-		return logger;
+	public static Logger getLOGGER() {
+		return LOGGER;
 	}
 
 	protected Repository getContent() {
 		return content;
 	}
 
-	protected void setFileName(String fileName) {
+	protected void setFileName(final String fileName) {
 		this.fileName = fileName;
 	}
 
@@ -255,7 +241,7 @@ public abstract class HTMLPage {
 		return fileName;
 	}
 
-	protected void setPageName(String pageName) {
+	protected void setPageName(final String pageName) {
 		this.pageName = pageName;
 	}
 

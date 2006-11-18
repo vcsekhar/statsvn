@@ -37,7 +37,7 @@ import net.sf.statcvs.util.FileUtils;
  */
 public class DefaultCssHandler implements CssHandler {
 
-	private static Logger logger =
+	private static final Logger LOGGER =
 		Logger.getLogger("net.sf.statcvs.output.CssHandler");
 
 	private String filename;
@@ -48,7 +48,7 @@ public class DefaultCssHandler implements CssHandler {
 	 * This must be a filename only, without a directory.
 	 * @param filename Name of the css file
 	 */
-	public DefaultCssHandler(String filename) {
+	public DefaultCssHandler(final String filename) {
 		this.filename = filename;
 	}
 
@@ -74,9 +74,9 @@ public class DefaultCssHandler implements CssHandler {
 	 * @see net.sf.statcvs.output.CssHandler#createOutputFiles()
 	 */
 	public void createOutputFiles() throws IOException {
-		String destination = ConfigurationOptions.getOutputDir() + filename;
-		logger.info("Creating CSS file at '" + destination + "'");
-		InputStream stream = Main.class.getResourceAsStream(HTMLOutput.WEB_FILE_PATH + filename);
+		final String destination = ConfigurationOptions.getOutputDir() + filename;
+		LOGGER.info("Creating CSS file at '" + destination + "'");
+		final InputStream stream = Main.class.getResourceAsStream(HTMLOutput.WEB_FILE_PATH + filename);
 		FileUtils.copyFile(
 			stream,
 			new File(destination));

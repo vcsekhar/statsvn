@@ -37,6 +37,8 @@ import net.sf.statcvs.reports.TableReport;
  * @author anja
  */
 public class CPAPage extends HTMLPage {
+	private static final int ACTIVITY_CHART_HEIGHT = 300;
+	private static final int ACTIVITY_CHART_WIDTH = 500;
 	private int sortType;
 	private boolean withImage;
 
@@ -47,7 +49,7 @@ public class CPAPage extends HTMLPage {
 	 * @param withImage <tt>true</tt> if the LOC per Author image was generated
 	 * @throws IOException on error
 	 */
-	public CPAPage(Repository content, int sortType, boolean withImage, final OutputRenderer renderer)
+	public CPAPage(final Repository content, final int sortType, final boolean withImage, final OutputRenderer renderer)
 			throws IOException {
 
 		super(content, renderer);
@@ -64,9 +66,9 @@ public class CPAPage extends HTMLPage {
 
 	protected void printBody() throws IOException {
 		printBackLink();
-		TableReport report = new AuthorsTableReport(getContent(), sortType);
+		final TableReport report = new AuthorsTableReport(getContent(), sortType);
 		report.calculate();
-		Table table = report.getTable();
+		final Table table = report.getTable();
 		print(new TableRenderer(table, getRenderer()).getRenderedTable());
 		if (sortType == AbstractLocTableReport.SORT_BY_LINES) {
 			printParagraph(Messages.getString("NAVIGATION_ORDER_BY") + ": "
@@ -85,14 +87,14 @@ public class CPAPage extends HTMLPage {
             printEndSection2();
 		}
 		printStartSection2(Messages.getString("ACTIVITY_TITLE"));
-		printParagraph(img("activity_time.png", 500, 300));
-		printParagraph(img("activity_day.png", 500, 300));
+		printParagraph(img("activity_time.png", ACTIVITY_CHART_WIDTH, ACTIVITY_CHART_HEIGHT));
+		printParagraph(img("activity_day.png", ACTIVITY_CHART_WIDTH, ACTIVITY_CHART_HEIGHT));
 		print(getAuthorActivityChartSection());
         printEndSection2();
 	}
 	
 	private String getAuthorActivityChartSection() {
-		StringBuffer result = new StringBuffer();
+		final StringBuffer result = new StringBuffer();
 		result.append(startSection2(Messages.getString("AUTHOR_ACTIVITY_TITLE")));
 		result.append(p(img("commitscatterauthors.png")));
 		result.append(p(img("activity.png")));
