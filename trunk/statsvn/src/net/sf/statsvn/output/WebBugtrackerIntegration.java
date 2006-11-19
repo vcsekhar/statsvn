@@ -1,4 +1,4 @@
-package net.sf.statcvs.output;
+package net.sf.statsvn.output;
 
 
 public interface WebBugtrackerIntegration {

@@ -20,7 +20,7 @@
  $RCSfile: HTMLOutput.java,v $
  $Date: 2005/05/19 13:49:45 $
  */
-package net.sf.statcvs.output;
+package net.sf.statsvn.output;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,26 +38,26 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.regex.Pattern;
 
-import net.sf.statcvs.Main;
-import net.sf.statcvs.Messages;
-import net.sf.statcvs.model.Author;
-import net.sf.statcvs.model.Directory;
-import net.sf.statcvs.model.Repository;
-import net.sf.statcvs.model.Revision;
-import net.sf.statcvs.model.SymbolicName;
-import net.sf.statcvs.renderer.BarChart;
-import net.sf.statcvs.renderer.CombinedCommitScatterChart;
-import net.sf.statcvs.renderer.CommitLogRenderer;
-import net.sf.statcvs.renderer.LOCChart;
-import net.sf.statcvs.renderer.PieChart;
-import net.sf.statcvs.renderer.StackedBarChart;
-import net.sf.statcvs.renderer.SymbolicNameAnnotation;
-import net.sf.statcvs.renderer.TimeLineChart;
-import net.sf.statcvs.reportmodel.TimeLine;
-import net.sf.statcvs.reports.AbstractLocTableReport;
-import net.sf.statcvs.reports.AvgFileSizeTimeLineReport;
-import net.sf.statcvs.reports.FileCountTimeLineReport;
-import net.sf.statcvs.util.FileUtils;
+import net.sf.statsvn.Main;
+import net.sf.statsvn.Messages;
+import net.sf.statsvn.model.Author;
+import net.sf.statsvn.model.Directory;
+import net.sf.statsvn.model.Repository;
+import net.sf.statsvn.model.Revision;
+import net.sf.statsvn.model.SymbolicName;
+import net.sf.statsvn.renderer.BarChart;
+import net.sf.statsvn.renderer.CombinedCommitScatterChart;
+import net.sf.statsvn.renderer.CommitLogRenderer;
+import net.sf.statsvn.renderer.LOCChart;
+import net.sf.statsvn.renderer.PieChart;
+import net.sf.statsvn.renderer.StackedBarChart;
+import net.sf.statsvn.renderer.SymbolicNameAnnotation;
+import net.sf.statsvn.renderer.TimeLineChart;
+import net.sf.statsvn.reportmodel.TimeLine;
+import net.sf.statsvn.reports.AbstractLocTableReport;
+import net.sf.statsvn.reports.AvgFileSizeTimeLineReport;
+import net.sf.statsvn.reports.FileCountTimeLineReport;
+import net.sf.statsvn.util.FileUtils;
 
 import org.jfree.data.time.Second;
 import org.jfree.data.time.TimeSeries;
@@ -75,7 +75,7 @@ public class HTMLOutput implements OutputRenderer {
 
 	/**
 	 * Path to web distribution files inside the distribution JAR, relative to
-	 * the {@link net.sf.statcvs.Main} class
+	 * the {@link net.sf.statsvn.Main} class
 	 */
 	public static final String WEB_FILE_PATH = "web-files/";
 
@@ -226,7 +226,7 @@ public class HTMLOutput implements OutputRenderer {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see net.sf.statcvs.output.OutputRenderer#getDirectoryPageFilename(net.sf.statcvs.model.Directory,
+	 * @see net.sf.statsvn.output.OutputRenderer#getDirectoryPageFilename(net.sf.statsvn.model.Directory,
 	 *      boolean)
 	 */
 	public String getDirectoryPageFilename(final Directory directory,
@@ -249,7 +249,7 @@ public class HTMLOutput implements OutputRenderer {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see net.sf.statcvs.output.OutputRenderer#getAuthorPageFilename(net.sf.statcvs.model.Author,
+	 * @see net.sf.statsvn.output.OutputRenderer#getAuthorPageFilename(net.sf.statsvn.model.Author,
 	 *      boolean)
 	 */
 	public String getAuthorPageFilename(final Author author, final boolean asLink) {
@@ -559,7 +559,7 @@ public class HTMLOutput implements OutputRenderer {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see net.sf.statcvs.output.OutputRenderer#getFileExtension()
+	 * @see net.sf.statsvn.output.OutputRenderer#getFileExtension()
 	 */
 	public String getFileExtension() {
 		return ".html";
@@ -568,7 +568,7 @@ public class HTMLOutput implements OutputRenderer {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see net.sf.statcvs.output.OutputRenderer#getLinkExtension()
+	 * @see net.sf.statsvn.output.OutputRenderer#getLinkExtension()
 	 */
 	public String getLinkExtension() {
 		return ".html";
@@ -577,7 +577,7 @@ public class HTMLOutput implements OutputRenderer {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see net.sf.statcvs.output.OutputRenderer#getHeader(java.lang.String)
+	 * @see net.sf.statsvn.output.OutputRenderer#getHeader(java.lang.String)
 	 */
 	public String getHeader(final String pageName) {
 		return "<?xml version=\"1.0\"?>\n"
@@ -589,7 +589,7 @@ public class HTMLOutput implements OutputRenderer {
 				+ "</title>\n"
 				+ "    <meta http-equiv=\"Content-Type\" content=\"text/html; "
 				+ "charset=ISO-8859-1\"/>\n"
-				+ "    <meta name=\"Generator\" content=\"StatSVN v0.1.3\"/>\n"
+				+ "    <meta name=\"Generator\" content=\"StatSVN v0.1.4\"/>\n"
 				+ "    <link rel=\"stylesheet\" href=\""
 				+ ConfigurationOptions.getCssHandler().getLink()
 				+ "\" type=\"text/css\"/>\n" + "  </head>\n\n" + "<body>\n";
@@ -598,7 +598,7 @@ public class HTMLOutput implements OutputRenderer {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see net.sf.statcvs.output.OutputRenderer#getEndOfPage()
+	 * @see net.sf.statsvn.output.OutputRenderer#getEndOfPage()
 	 */
 	public String getEndOfPage() {
 		return "</body>\n</html>";
@@ -607,7 +607,7 @@ public class HTMLOutput implements OutputRenderer {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see net.sf.statcvs.output.OutputRenderer#startSection1(java.lang.String)
+	 * @see net.sf.statsvn.output.OutputRenderer#startSection1(java.lang.String)
 	 */
 	public String startSection1(final String title) {
 		return "\n\n<h1>" + title + "</h1>\n";
@@ -616,7 +616,7 @@ public class HTMLOutput implements OutputRenderer {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see net.sf.statcvs.output.OutputRenderer#endSection1()
+	 * @see net.sf.statsvn.output.OutputRenderer#endSection1()
 	 */
 	public String endSection1() {
 		return "";
@@ -625,7 +625,7 @@ public class HTMLOutput implements OutputRenderer {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see net.sf.statcvs.output.OutputRenderer#startSection2(java.lang.String)
+	 * @see net.sf.statsvn.output.OutputRenderer#startSection2(java.lang.String)
 	 */
 	public String startSection2(final String title) {
 		return "\n<h2>" + title + "</h2>\n";
@@ -634,7 +634,7 @@ public class HTMLOutput implements OutputRenderer {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see net.sf.statcvs.output.OutputRenderer#endSection2()
+	 * @see net.sf.statsvn.output.OutputRenderer#endSection2()
 	 */
 	public String endSection2() {
 		return "";
@@ -643,7 +643,7 @@ public class HTMLOutput implements OutputRenderer {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see net.sf.statcvs.output.OutputRenderer#getOddRowFormat()
+	 * @see net.sf.statsvn.output.OutputRenderer#getOddRowFormat()
 	 */
 	public String getOddRowFormat() {
 		return " class=\"even\"";
@@ -652,7 +652,7 @@ public class HTMLOutput implements OutputRenderer {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see net.sf.statcvs.output.OutputRenderer#getEvenRowFormat()
+	 * @see net.sf.statsvn.output.OutputRenderer#getEvenRowFormat()
 	 */
 	public String getEvenRowFormat() {
 		return " class=\"odd\"";
@@ -661,7 +661,7 @@ public class HTMLOutput implements OutputRenderer {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see net.sf.statcvs.output.OutputRenderer#getTableFormat()
+	 * @see net.sf.statsvn.output.OutputRenderer#getTableFormat()
 	 */
 	public String getTableFormat() {
 		return "";

@@ -21,7 +21,7 @@
 	Created on $Date: 2004/10/11 15:04:16 $ 
 */
 
-package net.sf.statcvs.output;
+package net.sf.statsvn.output;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,17 +31,17 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.statcvs.Messages;
-import net.sf.statcvs.model.Commit;
-import net.sf.statcvs.model.Repository;
-import net.sf.statcvs.model.VersionedFile;
-import net.sf.statcvs.model.Revision;
-import net.sf.statcvs.model.Directory;
-import net.sf.statcvs.renderer.CommitLogRenderer;
-import net.sf.statcvs.renderer.TableRenderer;
-import net.sf.statcvs.reportmodel.Table;
-import net.sf.statcvs.reports.AuthorsForDirectoryTableReport;
-import net.sf.statcvs.reports.TableReport;
+import net.sf.statsvn.Messages;
+import net.sf.statsvn.model.Commit;
+import net.sf.statsvn.model.Repository;
+import net.sf.statsvn.model.VersionedFile;
+import net.sf.statsvn.model.Revision;
+import net.sf.statsvn.model.Directory;
+import net.sf.statsvn.renderer.CommitLogRenderer;
+import net.sf.statsvn.renderer.TableRenderer;
+import net.sf.statsvn.reportmodel.Table;
+import net.sf.statsvn.reports.AuthorsForDirectoryTableReport;
+import net.sf.statsvn.reports.TableReport;
 
 /**
  * @author anja

@@ -20,7 +20,7 @@
 	$RCSfile: ConsoleOutHandler.java,v $
 	Created on $Date: 2003/03/18 10:33:57 $ 
 */
-package net.sf.statcvs.util;
+package net.sf.statsvn.util;
 
 import java.util.logging.Level;
 import java.util.logging.LogRecord;

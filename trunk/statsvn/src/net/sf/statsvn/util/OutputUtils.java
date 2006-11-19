@@ -20,7 +20,7 @@
 	$RCSfile: OutputUtils.java,v $ 
 	Created on $Date: 2003/04/15 23:47:25 $ 
 */
-package net.sf.statcvs.util;
+package net.sf.statsvn.util;
 
 import java.awt.Color;
 

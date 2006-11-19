@@ -20,7 +20,7 @@
 	$RCSfile: BarChart.java,v $
 	$Date: 2004/10/12 07:22:42 $ 
 */
-package net.sf.statcvs.renderer;
+package net.sf.statsvn.renderer;
 
 import java.awt.Color;
 import java.util.Calendar;
@@ -29,9 +29,9 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.SortedSet;
 
-import net.sf.statcvs.model.Revision;
-import net.sf.statcvs.output.ConfigurationOptions;
-import net.sf.statcvs.output.HTMLOutput;
+import net.sf.statsvn.model.Revision;
+import net.sf.statsvn.output.ConfigurationOptions;
+import net.sf.statsvn.output.HTMLOutput;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.axis.CategoryLabelPositions;

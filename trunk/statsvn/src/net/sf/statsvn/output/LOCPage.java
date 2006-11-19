@@ -21,12 +21,12 @@
 	Created on $Date: 2003/04/15 22:27:52 $ 
 */
 
-package net.sf.statcvs.output;
+package net.sf.statsvn.output;
 
 import java.io.IOException;
 
-import net.sf.statcvs.Messages;
-import net.sf.statcvs.model.Repository;
+import net.sf.statsvn.Messages;
+import net.sf.statsvn.model.Repository;
 
 /**
  * @author anja
@@ -35,7 +35,7 @@ public class LOCPage extends HTMLPage {
 
 	private boolean locImageCreated;
 	/**
-	 * @see net.sf.statcvs.output.HTMLPage#HTMLPage(Repository)
+	 * @see net.sf.statsvn.output.HTMLPage#HTMLPage(Repository)
 	 */
 	public LOCPage(final Repository content, final boolean locImageCreated, final OutputRenderer renderer) throws IOException {
 		super(content, renderer);

@@ -20,11 +20,11 @@
 	$RCSfile: DirectoryColumn.java,v $
 	$Date: 2003/04/30 23:42:41 $
 */
-package net.sf.statcvs.reportmodel;
+package net.sf.statsvn.reportmodel;
 
-import net.sf.statcvs.Messages;
-import net.sf.statcvs.model.Directory;
-import net.sf.statcvs.renderer.TableCellRenderer;
+import net.sf.statsvn.Messages;
+import net.sf.statsvn.model.Directory;
+import net.sf.statsvn.renderer.TableCellRenderer;
 
 /**
  * A table column containing directories
@@ -43,7 +43,7 @@ public class DirectoryColumn extends GenericColumn {
 
 
 	/**
-	 * @see net.sf.statcvs.reportmodel.Column#renderCell
+	 * @see net.sf.statsvn.reportmodel.Column#renderCell
 	 */
 	public void renderCell(final int rowIndex, final TableCellRenderer renderer) {
 		renderer.renderDirectoryCell((Directory) getValue(rowIndex));

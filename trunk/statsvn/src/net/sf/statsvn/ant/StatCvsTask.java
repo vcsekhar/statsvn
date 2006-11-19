@@ -20,15 +20,15 @@
 	$RCSfile: StatCvsTask.java,v $
 	$Date: 2005/03/24 00:19:51 $ 
 */
-package net.sf.statcvs.ant;
+package net.sf.statsvn.ant;
 
 import java.io.IOException;
 
-import net.sf.statcvs.Main;
-import net.sf.statcvs.input.EmptyRepositoryException;
-import net.sf.statcvs.input.LogSyntaxException;
-import net.sf.statcvs.output.ConfigurationException;
-import net.sf.statcvs.output.ConfigurationOptions;
+import net.sf.statsvn.Main;
+import net.sf.statsvn.input.EmptyRepositoryException;
+import net.sf.statsvn.input.LogSyntaxException;
+import net.sf.statsvn.output.ConfigurationException;
+import net.sf.statsvn.output.ConfigurationOptions;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
@@ -188,7 +188,7 @@ public class StatCvsTask extends Task {
 	/**
 	 * Specifies files to includeFiles in the analysis.
 	 * @param includeFiles a list of Ant-style wildcard patterns, delimited by : or ;
-	 * @see net.sf.statcvs.util.FilePatternMatcher
+	 * @see net.sf.statsvn.util.FilePatternMatcher
 	 */
 	public void setIncludeFiles(final String include) {
 		this.includeFiles = include;
@@ -197,7 +197,7 @@ public class StatCvsTask extends Task {
 	/**
 	 * Specifies files to excludeFiles from the analysis.
 	 * @param excludeFiles a list of Ant-style wildcard patterns, delimited by : or ;
-	 * @see net.sf.statcvs.util.FilePatternMatcher
+	 * @see net.sf.statsvn.util.FilePatternMatcher
 	 */
 	public void setExcludeFiles(final String exclude) {
 		this.excludeFiles = exclude;

@@ -1,4 +1,4 @@
-package net.sf.statcvs.input;
+package net.sf.statsvn.input;
 
 /**
  * Class for storing all constants required for reading the cache xml file.

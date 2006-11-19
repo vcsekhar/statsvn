@@ -20,14 +20,14 @@
 	$RCSfile: TableCellRenderer.java,v $
 	$Date: 2003/06/22 19:24:26 $
 */
-package net.sf.statcvs.renderer;
+package net.sf.statsvn.renderer;
 
-import net.sf.statcvs.model.Author;
-import net.sf.statcvs.model.VersionedFile;
-import net.sf.statcvs.model.Directory;
+import net.sf.statsvn.model.Author;
+import net.sf.statsvn.model.VersionedFile;
+import net.sf.statsvn.model.Directory;
 
 /**
- * Interface for a class that turns {@link net.sf.statcvs.reportmodel.Column}s
+ * Interface for a class that turns {@link net.sf.statsvn.reportmodel.Column}s
  * into their representation for some output format, for example a HTML
  * &lt;td&gt; or an XML element.
  * 

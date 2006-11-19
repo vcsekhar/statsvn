@@ -20,12 +20,12 @@
 	$RCSfile: TableReport.java,v $
 	$Date: 2003/06/03 15:22:36 $
 */
-package net.sf.statcvs.reports;
+package net.sf.statsvn.reports;
 
-import net.sf.statcvs.reportmodel.Table;
+import net.sf.statsvn.reportmodel.Table;
 
 /**
- * A table report generates a {@link net.sf.statcvs.reportmodel.Table}
+ * A table report generates a {@link net.sf.statsvn.reportmodel.Table}
  * from some data source.
  * 
  * @author Richard Cyganiak <rcyg@gmx.de>

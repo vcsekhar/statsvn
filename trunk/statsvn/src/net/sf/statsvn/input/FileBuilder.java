@@ -20,7 +20,7 @@
  $RCSfile: FileBuilder.java,v $
  $Date: 2005/03/29 22:45:06 $
  */
-package net.sf.statcvs.input;
+package net.sf.statsvn.input;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,12 +32,12 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.logging.Logger;
 
-import net.sf.statcvs.model.VersionedFile;
+import net.sf.statsvn.model.VersionedFile;
 
 /**
  * <p>
  * Builds a {@link VersionedFile} with {@link Revision}s from logging data. This class is responsible for deciding if a file or revisions will be included in
- * the report, for translating from CVS logfile data structures to the data structures in the <tt>net.sf.statcvs.model</tt> package, and for calculating the
+ * the report, for translating from CVS logfile data structures to the data structures in the <tt>net.sf.statsvn.model</tt> package, and for calculating the
  * LOC history for the file.
  * </p>
  * 

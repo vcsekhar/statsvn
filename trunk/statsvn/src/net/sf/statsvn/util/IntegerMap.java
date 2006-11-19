@@ -20,7 +20,7 @@
 	$Name:  $ 
 	Created on $Date: 2004/10/12 07:22:42 $ 
 */
-package net.sf.statcvs.util;
+package net.sf.statsvn.util;
 
 import java.util.ArrayList;
 import java.util.Collections;

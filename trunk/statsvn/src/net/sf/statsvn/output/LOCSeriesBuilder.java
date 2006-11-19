@@ -20,9 +20,9 @@
 	$RCSfile: LOCSeriesBuilder.java,v $
 	$Date: 2004/05/09 21:29:02 $ 
 */
-package net.sf.statcvs.output;
+package net.sf.statsvn.output;
 
-import net.sf.statcvs.model.Revision;
+import net.sf.statsvn.model.Revision;
 
 import org.jfree.data.time.Minute;
 import org.jfree.data.time.TimeSeries;

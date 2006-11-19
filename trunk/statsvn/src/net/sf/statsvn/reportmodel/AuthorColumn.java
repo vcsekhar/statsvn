@@ -20,11 +20,11 @@
 	$RCSfile: AuthorColumn.java,v $
 	$Date: 2003/04/19 23:09:27 $
 */
-package net.sf.statcvs.reportmodel;
+package net.sf.statsvn.reportmodel;
 
-import net.sf.statcvs.Messages;
-import net.sf.statcvs.model.Author;
-import net.sf.statcvs.renderer.TableCellRenderer;
+import net.sf.statsvn.Messages;
+import net.sf.statsvn.model.Author;
+import net.sf.statsvn.renderer.TableCellRenderer;
 
 /**
  * A table column containing author names
@@ -43,7 +43,7 @@ public class AuthorColumn extends GenericColumn {
 
 
 	/**
-	 * @see net.sf.statcvs.reportmodel.Column#renderCell
+	 * @see net.sf.statsvn.reportmodel.Column#renderCell
 	 */
 	public void renderCell(final int rowIndex, final TableCellRenderer renderer) {
 		renderer.renderAuthorCell((Author) getValue(rowIndex));

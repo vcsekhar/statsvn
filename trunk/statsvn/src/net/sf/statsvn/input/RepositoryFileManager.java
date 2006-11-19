@@ -20,18 +20,18 @@
  $RCSfile: RepositoryFileManager.java,v $ 
  Created on $Date: 2004/12/14 13:38:13 $ 
  */
-package net.sf.statcvs.input;
+package net.sf.statsvn.input;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-import net.sf.statcvs.util.BinaryDiffException;
-import net.sf.statcvs.util.FileUtils;
-import net.sf.statcvs.util.SvnDiffUtils;
-import net.sf.statcvs.util.SvnInfoUtils;
-import net.sf.statcvs.util.SvnPropgetUtils;
+import net.sf.statsvn.util.BinaryDiffException;
+import net.sf.statsvn.util.FileUtils;
+import net.sf.statsvn.util.SvnDiffUtils;
+import net.sf.statsvn.util.SvnInfoUtils;
+import net.sf.statsvn.util.SvnPropgetUtils;
 
 /**
  * Manages a checked-out repository and provides access to line number counts

@@ -20,11 +20,11 @@
 	$RCSfile: FileColumn.java,v $
 	$Date: 2003/06/04 13:20:16 $
 */
-package net.sf.statcvs.reportmodel;
+package net.sf.statsvn.reportmodel;
 
-import net.sf.statcvs.Messages;
-import net.sf.statcvs.model.VersionedFile;
-import net.sf.statcvs.renderer.TableCellRenderer;
+import net.sf.statsvn.Messages;
+import net.sf.statsvn.model.VersionedFile;
+import net.sf.statsvn.renderer.TableCellRenderer;
 
 /**
  * A table column containing files
@@ -43,7 +43,7 @@ public class FileColumn extends GenericColumn {
 	}
 
 	/**
-	 * @see net.sf.statcvs.reportmodel.Column#renderCell
+	 * @see net.sf.statsvn.reportmodel.Column#renderCell
 	 */
 	public void renderCell(final int rowIndex, final TableCellRenderer renderer) {
 		renderer.renderFileCell((VersionedFile) getValue(rowIndex), withIcon);

@@ -20,7 +20,7 @@
 	$RCSfile: Messages.java,v $ 
 	Created on $Date: 2003/03/18 10:33:56 $ 
 */
-package net.sf.statcvs;
+package net.sf.statsvn;
 
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -43,7 +43,7 @@ public final class Messages {
 	 */
 	public static final String NL = "\n";
 
-	private static final String BUNDLE_NAME = "net.sf.statcvs.statcvs";
+	private static final String BUNDLE_NAME = "net.sf.statsvn.statcvs";
 	private static final ResourceBundle RESOURCE_BUNDLE =
 			ResourceBundle.getBundle(BUNDLE_NAME);
 

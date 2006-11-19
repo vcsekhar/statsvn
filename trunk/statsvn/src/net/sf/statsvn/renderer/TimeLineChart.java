@@ -20,17 +20,17 @@
 	$RCSfile: TimeLineChart.java,v $
 	$Date: 2005/03/29 23:22:28 $ 
 */
-package net.sf.statcvs.renderer;
+package net.sf.statsvn.renderer;
 
 import java.awt.Color;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 
-import net.sf.statcvs.Messages;
-import net.sf.statcvs.output.ConfigurationOptions;
-import net.sf.statcvs.reportmodel.TimeLine;
-import net.sf.statcvs.reportmodel.TimePoint;
+import net.sf.statsvn.Messages;
+import net.sf.statsvn.output.ConfigurationOptions;
+import net.sf.statsvn.reportmodel.TimeLine;
+import net.sf.statsvn.reportmodel.TimePoint;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.annotations.XYAnnotation;
@@ -43,7 +43,7 @@ import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.XYDataset;
 
 /**
- * Creates charts from {@link net.sf.statcvs.reportmodel.TimeLine}s and
+ * Creates charts from {@link net.sf.statsvn.reportmodel.TimeLine}s and
  * saves them to PNG.
  *
  * TODO: Should call TimeLine#isEmpty and not generate the chart if true
@@ -53,7 +53,7 @@ import org.jfree.data.xy.XYDataset;
  */
 public class TimeLineChart extends Chart {
 	private static final Logger LOGGER =
-			Logger.getLogger("net.sf.statcvs.renderer.LOCChart");
+			Logger.getLogger("net.sf.statsvn.renderer.LOCChart");
 
 	/**
 	 * Creates a chart from a time line.

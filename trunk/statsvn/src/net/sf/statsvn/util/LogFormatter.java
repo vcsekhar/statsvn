@@ -21,7 +21,7 @@
 	Created on $Date: 2003/04/13 17:41:45 $ 
 */
 
-package net.sf.statcvs.util;
+package net.sf.statsvn.util;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;

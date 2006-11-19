@@ -20,7 +20,7 @@
 	$RCSfile: Table.java,v $
 	$Date: 2003/04/19 13:16:22 $
 */
-package net.sf.statcvs.reportmodel;
+package net.sf.statsvn.reportmodel;
 
 import java.util.ArrayList;
 import java.util.Iterator;

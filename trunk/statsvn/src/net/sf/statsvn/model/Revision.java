@@ -20,7 +20,7 @@
 	$RCSfile: Revision.java,v $ 
 	Created on $Date: 2004/12/14 13:38:13 $ 
 */
-package net.sf.statcvs.model;
+package net.sf.statsvn.model;
 
 import java.util.Date;
 import java.util.Iterator;

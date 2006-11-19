@@ -1,4 +1,4 @@
-package net.sf.statcvs.input;
+package net.sf.statsvn.input;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
-import net.sf.statcvs.util.XMLUtil;
+import net.sf.statsvn.util.XMLUtil;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -15,7 +15,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * This is the SAX parser for the svn log in xml format. It feeds information to
- * the (@link net.sf.statcvs.input.SvnLogBuilder).
+ * the (@link net.sf.statsvn.input.SvnLogBuilder).
  * 
  * @author Jason Kealey <jkealey@shade.ca>
  * @author Gunter Mussbacher <gunterm@site.uottawa.ca>

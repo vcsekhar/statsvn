@@ -20,12 +20,12 @@
 	$RCSfile: GenericColumn.java,v $
 	$Date: 2003/04/19 23:09:27 $
 */
-package net.sf.statcvs.reportmodel;
+package net.sf.statsvn.reportmodel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.statcvs.renderer.TableCellRenderer;
+import net.sf.statsvn.renderer.TableCellRenderer;
 
 /**
  * A generic column with a text header and a text total. Each cell contains
@@ -74,26 +74,26 @@ public abstract class GenericColumn extends Column {
 	}
 
 	/**
-	 * @see net.sf.statcvs.reportmodel.Column#getRows()
+	 * @see net.sf.statsvn.reportmodel.Column#getRows()
 	 */
 	public int getRows() {
 		return values.size();
 	}
 
 	/**
-	 * @see net.sf.statcvs.reportmodel.Column#renderHead(net.sf.statcvs.renderer.TableCellRenderer)
+	 * @see net.sf.statsvn.reportmodel.Column#renderHead(net.sf.statsvn.renderer.TableCellRenderer)
 	 */
 	public void renderHead(final TableCellRenderer renderer) {
 		renderer.renderCell(title);
 	}
 
 	/**
-	 * @see net.sf.statcvs.reportmodel.Column#renderCell
+	 * @see net.sf.statsvn.reportmodel.Column#renderCell
 	 */
 	public abstract void renderCell(int rowIndex, TableCellRenderer renderer);
 
 	/**
-	 * @see net.sf.statcvs.reportmodel.Column#renderTotal
+	 * @see net.sf.statsvn.reportmodel.Column#renderTotal
 	 */
 	public void renderTotal(final TableCellRenderer renderer) {
 		if (total == null) {

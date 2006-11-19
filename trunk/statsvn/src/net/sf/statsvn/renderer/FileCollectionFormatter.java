@@ -20,7 +20,7 @@
 	$RCSfile: FileCollectionFormatter.java,v $ 
 	Created on $Date: 2004/02/20 01:33:29 $ 
 */
-package net.sf.statcvs.renderer;
+package net.sf.statsvn.renderer;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,7 +29,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import net.sf.statcvs.util.IntegerMap;
+import net.sf.statsvn.util.IntegerMap;
 
 /**
  * Groups a set of file names by directory. Provides a list

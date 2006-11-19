@@ -1,6 +1,6 @@
-package net.sf.statcvs.output;
+package net.sf.statsvn.output;
 
-import net.sf.statcvs.model.Repository;
+import net.sf.statsvn.model.Repository;
 
 public class XDocOutput extends HTMLOutput {
 
@@ -9,21 +9,21 @@ public class XDocOutput extends HTMLOutput {
     }
 
     /* (non-Javadoc)
-     * @see net.sf.statcvs.output.HTMLOutput#getEndOfPage()
+     * @see net.sf.statsvn.output.HTMLOutput#getEndOfPage()
      */
     public String getEndOfPage() {
         return "</section></body>\n</document>";
     }
 
     /* (non-Javadoc)
-     * @see net.sf.statcvs.output.HTMLOutput#getFileExtension()
+     * @see net.sf.statsvn.output.HTMLOutput#getFileExtension()
      */
     public String getFileExtension() {
         return ".xml";
     }
 
     /* (non-Javadoc)
-     * @see net.sf.statcvs.output.HTMLOutput#getHeader(java.lang.String)
+     * @see net.sf.statsvn.output.HTMLOutput#getHeader(java.lang.String)
      */
     public String getHeader(final String pageName) {
         return "<?xml version=\"1.0\" encoding=\"US-ASCII\"?>\n"
@@ -32,7 +32,7 @@ public class XDocOutput extends HTMLOutput {
             + "<head>\n"
             + "    <meta http-equiv=\"Content-Type\" content=\"text/html; "
             + "charset=ISO-8859-1\"/>\n"
-            + "    <meta name=\"Generator\" content=\"StatSVN v0.1.3\"/>\n"
+            + "    <meta name=\"Generator\" content=\"StatSVN v0.1.4\"/>\n"
             + "    <link rel=\"stylesheet\" href=\""
             + ConfigurationOptions.getCssHandler().getLink()
             + "\" type=\"text/css\"/>\n"

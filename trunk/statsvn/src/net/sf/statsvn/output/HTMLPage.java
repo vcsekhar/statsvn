@@ -21,22 +21,22 @@
 	Created on $Date: 2004/10/12 13:03:36 $
 */
 
-package net.sf.statcvs.output;
+package net.sf.statsvn.output;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-import net.sf.statcvs.Messages;
-import net.sf.statcvs.model.Repository;
-import net.sf.statcvs.model.Directory;
+import net.sf.statsvn.Messages;
+import net.sf.statsvn.model.Repository;
+import net.sf.statsvn.model.Directory;
 
 /**
  * @author anja
  */
 public abstract class HTMLPage {
 	private static final Logger LOGGER =
-		Logger.getLogger("net.sf.statcvs.output.HTMLPage");
+		Logger.getLogger("net.sf.statsvn.output.HTMLPage");
 
 	private static final int SPACE_COUNT = 4;
 	private FileWriter htmlFileWriter;
@@ -100,7 +100,7 @@ public abstract class HTMLPage {
 			+ a(
 				"http://www.statsvn.org",
 				Messages.getString("PROJECT_SHORTNAME"))
-			+ " v0.1.3");
+			+ " v0.1.4");
 		print("</div>\n");
 		print(renderer.getEndOfPage());
 		htmlFileWriter.close();

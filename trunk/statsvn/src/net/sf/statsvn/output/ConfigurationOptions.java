@@ -20,7 +20,7 @@
  $RCSfile: ConfigurationOptions.java,v $
  $Date: 2005/03/20 19:12:25 $ 
  */
-package net.sf.statcvs.output;
+package net.sf.statsvn.output;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -31,11 +31,11 @@ import java.net.URL;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-import net.sf.statcvs.util.FilePatternMatcher;
-import net.sf.statcvs.util.FileUtils;
+import net.sf.statsvn.util.FilePatternMatcher;
+import net.sf.statsvn.util.FileUtils;
 
 /**
- * Class for storing all command line parameters. The parameters are set by the {@link net.sf.statcvs.Main#main} method. Interested classes can read all
+ * Class for storing all command line parameters. The parameters are set by the {@link net.sf.statsvn.Main#main} method. Interested classes can read all
  * parameter values from here.
  * 
  * TODO: Should be moved to more appropriate package and made non-public
@@ -360,7 +360,7 @@ public final class ConfigurationOptions {
      * 
      * @param patternList
      *            a list of Ant-style wildcard patterns, seperated by : or ;
-     * @see net.sf.statcvs.util.FilePatternMatcher
+     * @see net.sf.statsvn.util.FilePatternMatcher
      */
     public static void setIncludePattern(final String patternList) {
         includePattern = new FilePatternMatcher(patternList);
@@ -371,7 +371,7 @@ public final class ConfigurationOptions {
      * 
      * @param patternList
      *            a list of Ant-style wildcard patterns, seperated by : or ;
-     * @see net.sf.statcvs.util.FilePatternMatcher
+     * @see net.sf.statsvn.util.FilePatternMatcher
      */
     public static void setExcludePattern(final String patternList) {
         excludePattern = new FilePatternMatcher(patternList);

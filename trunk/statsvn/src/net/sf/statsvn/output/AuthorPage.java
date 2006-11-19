@@ -21,7 +21,7 @@
 	Created on $Date: 2004/02/18 19:00:47 $ 
 */
 
-package net.sf.statcvs.output;
+package net.sf.statsvn.output;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,22 +30,22 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 
-import net.sf.statcvs.Messages;
-import net.sf.statcvs.model.Author;
-import net.sf.statcvs.model.Commit;
-import net.sf.statcvs.model.Repository;
-import net.sf.statcvs.model.Revision;
-import net.sf.statcvs.renderer.CommitLogRenderer;
-import net.sf.statcvs.renderer.TableRenderer;
-import net.sf.statcvs.reportmodel.Table;
-import net.sf.statcvs.reports.DirectoriesForAuthorTableReport;
-import net.sf.statcvs.reports.TableReport;
+import net.sf.statsvn.Messages;
+import net.sf.statsvn.model.Author;
+import net.sf.statsvn.model.Commit;
+import net.sf.statsvn.model.Repository;
+import net.sf.statsvn.model.Revision;
+import net.sf.statsvn.renderer.CommitLogRenderer;
+import net.sf.statsvn.renderer.TableRenderer;
+import net.sf.statsvn.reportmodel.Table;
+import net.sf.statsvn.reports.DirectoriesForAuthorTableReport;
+import net.sf.statsvn.reports.TableReport;
 
 /**
  * @author anja
  */
 public class AuthorPage extends HTMLPage {
-	private static final Logger LOGGER = Logger.getLogger("net.sf.statcvs.output.UserPage");
+	private static final Logger LOGGER = Logger.getLogger("net.sf.statsvn.output.UserPage");
 	private Author author;
 	private boolean codeDistributionChartCreated;
 	private int userChangeCount = 0;

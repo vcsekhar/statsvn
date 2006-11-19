@@ -21,11 +21,11 @@
 	Created on $Date: 2003/12/13 22:27:35 $ 
 */
 
-package net.sf.statcvs.output;
+package net.sf.statsvn.output;
 
 import java.io.IOException;
 
-import net.sf.statcvs.model.Repository;
+import net.sf.statsvn.model.Repository;
 
 /**
  * Generated if and only if there are no files in the repository
@@ -34,7 +34,7 @@ import net.sf.statcvs.model.Repository;
 public class NoFilesPage extends HTMLPage {
 
 	/**
-	 * @see net.sf.statcvs.output.HTMLPage#HTMLPage(Repository)
+	 * @see net.sf.statsvn.output.HTMLPage#HTMLPage(Repository)
 	 */
 	public NoFilesPage(final Repository content, final OutputRenderer renderer) throws IOException {
 		super(content, renderer);

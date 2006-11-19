@@ -21,16 +21,16 @@
 	Created on $Date: 2003/06/03 15:22:34 $ 
 */
 
-package net.sf.statcvs.output;
+package net.sf.statsvn.output;
 
 import java.io.IOException;
 
-import net.sf.statcvs.Messages;
-import net.sf.statcvs.model.Repository;
-import net.sf.statcvs.renderer.TableRenderer;
-import net.sf.statcvs.reportmodel.Table;
-import net.sf.statcvs.reports.DirectoriesTableReport;
-import net.sf.statcvs.reports.TableReport;
+import net.sf.statsvn.Messages;
+import net.sf.statsvn.model.Repository;
+import net.sf.statsvn.renderer.TableRenderer;
+import net.sf.statsvn.reportmodel.Table;
+import net.sf.statsvn.reports.DirectoriesTableReport;
+import net.sf.statsvn.reports.TableReport;
 
 /**
  * A page containing the directory size pie chart and the
@@ -41,7 +41,7 @@ import net.sf.statcvs.reports.TableReport;
 public class DirectorySizesPage extends HTMLPage {
 
 	/**
-	 * @see net.sf.statcvs.output.HTMLPage#HTMLPage(Repository)
+	 * @see net.sf.statsvn.output.HTMLPage#HTMLPage(Repository)
 	 */
 	public DirectorySizesPage(final Repository content, final OutputRenderer output) throws IOException {
 		super(content, output);

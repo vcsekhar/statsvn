@@ -20,13 +20,13 @@
 	$RCSfile: CommandLineParser.java,v $
 	Created on $Date: 2005/03/20 19:12:25 $ 
 */
-package net.sf.statcvs.output;
+package net.sf.statsvn.output;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Takes a command line, like given to the {@link net.sf.statcvs.Main#main} method,
+ * Takes a command line, like given to the {@link net.sf.statsvn.Main#main} method,
  * and turns it into a {@link ConfigurationOptions} object.
  * 
  * @author Richard Cyganiak <rcyg@gmx.de>

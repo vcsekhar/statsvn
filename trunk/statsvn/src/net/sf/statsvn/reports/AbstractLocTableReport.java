@@ -20,20 +20,20 @@
 	$RCSfile: AbstractLocTableReport.java,v $ 
 	Created on $Date: 2004/02/18 19:00:57 $ 
 */
-package net.sf.statcvs.reports;
+package net.sf.statsvn.reports;
 
 import java.util.Collection;
 import java.util.Iterator;
 
-import net.sf.statcvs.Messages;
-import net.sf.statcvs.model.Repository;
-import net.sf.statcvs.model.Revision;
-import net.sf.statcvs.model.Directory;
-import net.sf.statcvs.reportmodel.GenericColumn;
-import net.sf.statcvs.reportmodel.IntegerColumn;
-import net.sf.statcvs.reportmodel.RatioColumn;
-import net.sf.statcvs.reportmodel.Table;
-import net.sf.statcvs.util.IntegerMap;
+import net.sf.statsvn.Messages;
+import net.sf.statsvn.model.Repository;
+import net.sf.statsvn.model.Revision;
+import net.sf.statsvn.model.Directory;
+import net.sf.statsvn.reportmodel.GenericColumn;
+import net.sf.statsvn.reportmodel.IntegerColumn;
+import net.sf.statsvn.reportmodel.RatioColumn;
+import net.sf.statsvn.reportmodel.Table;
+import net.sf.statsvn.util.IntegerMap;
 
 /**
  * Convenience superclass for table reports related to authors and directories.

@@ -20,13 +20,13 @@
 	$RCSfile: WebRepositoryIntegration.java,v $
 	$Date: 2004/02/19 22:23:31 $ 
 */
-package net.sf.statcvs.output;
+package net.sf.statsvn.output;
 
 import java.util.Set;
 
-import net.sf.statcvs.model.VersionedFile;
-import net.sf.statcvs.model.Revision;
-import net.sf.statcvs.model.Directory;
+import net.sf.statsvn.model.VersionedFile;
+import net.sf.statsvn.model.Revision;
+import net.sf.statsvn.model.Directory;
 
 /**
  * Interface for integration of web repository browsers. Web repository

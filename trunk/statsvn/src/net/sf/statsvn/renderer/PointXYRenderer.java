@@ -1,4 +1,4 @@
-package net.sf.statcvs.renderer;
+package net.sf.statsvn.renderer;
 
 import org.jfree.chart.labels.XYToolTipGenerator;
 import org.jfree.chart.plot.Plot;

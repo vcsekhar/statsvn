@@ -20,14 +20,14 @@
 	$RCSfile: ViewVcIntegration.java,v $
 	$Date: 2004/10/20 13:35:13 $ 
 */
-package net.sf.statcvs.output;
+package net.sf.statsvn.output;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import net.sf.statcvs.model.VersionedFile;
-import net.sf.statcvs.model.Revision;
-import net.sf.statcvs.model.Directory;
+import net.sf.statsvn.model.VersionedFile;
+import net.sf.statsvn.model.Revision;
+import net.sf.statsvn.model.Directory;
 
 /**
  * Integration of ViewVC
@@ -61,14 +61,14 @@ public class ViewVcIntegration implements WebRepositoryIntegration {
 	}
 
 	/**
-	 * @see net.sf.statcvs.output.WebRepositoryIntegration#getName
+	 * @see net.sf.statsvn.output.WebRepositoryIntegration#getName
 	 */
 	public String getName() {
 		return "ViewVC";
 	}
 
 	/**
-	 * @see net.sf.statcvs.output.WebRepositoryIntegration#getDirectoryUrl
+	 * @see net.sf.statsvn.output.WebRepositoryIntegration#getDirectoryUrl
 	 */
 	public String getDirectoryUrl(final Directory directory) {
 		return baseURL + "/" + directory.getPath();
@@ -92,21 +92,21 @@ public class ViewVcIntegration implements WebRepositoryIntegration {
 	}
 
 	/**
-	 * @see net.sf.statcvs.output.WebRepositoryIntegration#getFileHistoryUrl
+	 * @see net.sf.statsvn.output.WebRepositoryIntegration#getFileHistoryUrl
 	 */
 	public String getFileHistoryUrl(final VersionedFile file) {
 		return getFileUrl(file, "");
 	}
 	
 	/**
-	 * @see net.sf.statcvs.output.WebRepositoryIntegration#getFileViewUrl(VersionedFile)
+	 * @see net.sf.statsvn.output.WebRepositoryIntegration#getFileViewUrl(VersionedFile)
 	 */
 	public String getFileViewUrl(final VersionedFile file) {
 		return getFileUrl(file, "?rev=HEAD&content-type=text/vnd.viewcvs-markup");
 	}
 
 	/**
-	 * @see net.sf.statcvs.output.WebRepositoryIntegration#getFileViewUrl(VersionedFile)
+	 * @see net.sf.statsvn.output.WebRepositoryIntegration#getFileViewUrl(VersionedFile)
 	 */
 	public String getFileViewUrl(final Revision revision) {
 		return getFileUrl(revision.getFile(), "?rev="
@@ -114,7 +114,7 @@ public class ViewVcIntegration implements WebRepositoryIntegration {
 	}
 
 	/**
-	 * @see net.sf.statcvs.output.WebRepositoryIntegration#getDiffUrl
+	 * @see net.sf.statsvn.output.WebRepositoryIntegration#getDiffUrl
 	 */
 	public String getDiffUrl(final Revision oldRevision, final Revision newRevision) {
 		if (!oldRevision.getFile().equals(newRevision.getFile())) {
@@ -131,7 +131,7 @@ public class ViewVcIntegration implements WebRepositoryIntegration {
 	}
 	
 	/**
-	 * @see net.sf.statcvs.output.WebRepositoryIntegration#setAtticFileNames(java.util.Set)
+	 * @see net.sf.statsvn.output.WebRepositoryIntegration#setAtticFileNames(java.util.Set)
 	 */
 	public void setAtticFileNames(final Set atticFileNames) {
 		this.atticFileNames = atticFileNames;

@@ -20,7 +20,7 @@
 	$RCSfile: DirectoryImpl.java,v $
 	$Date: 2004/02/19 23:15:45 $
 */
-package net.sf.statcvs.model;
+package net.sf.statsvn.model;
 
 /**
  * A concrete subdirectory in a directory tree. To create an instance of
@@ -46,28 +46,28 @@ class DirectoryImpl extends Directory {
 	}
 
 	/**
-	 * @see net.sf.statcvs.model.Directory#getName()
+	 * @see net.sf.statsvn.model.Directory#getName()
 	 */
 	public String getName() {
 		return name;
 	}
 
 	/**
-	 * @see net.sf.statcvs.model.Directory#getPath()
+	 * @see net.sf.statsvn.model.Directory#getPath()
 	 */
 	public String getPath() {
 		return parent.getPath() + name + "/";
 	}
 
 	/**
-	 * @see net.sf.statcvs.model.Directory#getParent()
+	 * @see net.sf.statsvn.model.Directory#getParent()
 	 */
 	public Directory getParent() {
 		return parent;
 	}
 
 	/**
-	 * @see net.sf.statcvs.model.Directory#isRoot()
+	 * @see net.sf.statsvn.model.Directory#isRoot()
 	 */
 	public boolean isRoot() {
 		return false;
@@ -81,7 +81,7 @@ class DirectoryImpl extends Directory {
 	}
 
 	/**
-	 * @see net.sf.statcvs.model.Directory#getDepth()
+	 * @see net.sf.statsvn.model.Directory#getDepth()
 	 */
 	public int getDepth() {
 		return parent.getDepth() + 1;

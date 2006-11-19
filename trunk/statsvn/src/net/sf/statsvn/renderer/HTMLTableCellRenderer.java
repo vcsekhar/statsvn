@@ -20,14 +20,14 @@
 	$RCSfile: HTMLTableCellRenderer.java,v $
 	$Date: 2003/12/09 00:42:54 $
 */
-package net.sf.statcvs.renderer;
+package net.sf.statsvn.renderer;
 
-import net.sf.statcvs.model.Author;
-import net.sf.statcvs.model.VersionedFile;
-import net.sf.statcvs.model.Directory;
-import net.sf.statcvs.output.HTMLOutput;
-import net.sf.statcvs.output.HTMLTagger;
-import net.sf.statcvs.output.OutputRenderer;
+import net.sf.statsvn.model.Author;
+import net.sf.statsvn.model.VersionedFile;
+import net.sf.statsvn.model.Directory;
+import net.sf.statsvn.output.HTMLOutput;
+import net.sf.statsvn.output.HTMLTagger;
+import net.sf.statsvn.output.OutputRenderer;
 
 
 /**

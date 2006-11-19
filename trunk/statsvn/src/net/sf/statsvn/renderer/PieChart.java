@@ -20,7 +20,7 @@
 	$RCSfile: PieChart.java,v $
 	$Date: 2004/10/12 07:22:42 $ 
 */
-package net.sf.statcvs.renderer;
+package net.sf.statsvn.renderer;
 
 import java.awt.Color;
 import java.awt.Paint;
@@ -29,16 +29,16 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import net.sf.statcvs.Messages;
-import net.sf.statcvs.model.Author;
-import net.sf.statcvs.model.Repository;
-import net.sf.statcvs.model.VersionedFile;
-import net.sf.statcvs.model.Revision;
-import net.sf.statcvs.model.Directory;
-import net.sf.statcvs.output.ConfigurationOptions;
-import net.sf.statcvs.output.HTMLOutput;
-import net.sf.statcvs.util.IntegerMap;
-import net.sf.statcvs.util.OutputUtils;
+import net.sf.statsvn.Messages;
+import net.sf.statsvn.model.Author;
+import net.sf.statsvn.model.Repository;
+import net.sf.statsvn.model.VersionedFile;
+import net.sf.statsvn.model.Revision;
+import net.sf.statsvn.model.Directory;
+import net.sf.statsvn.output.ConfigurationOptions;
+import net.sf.statsvn.output.HTMLOutput;
+import net.sf.statsvn.util.IntegerMap;
+import net.sf.statsvn.util.OutputUtils;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.plot.PiePlot;

@@ -20,7 +20,7 @@
  $Name:  $ 
  Created on $Date: 2004/12/14 13:38:13 $ 
  */
-package net.sf.statcvs.input;
+package net.sf.statsvn.input;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -30,8 +30,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
 
-import net.sf.statcvs.model.Commit;
-import net.sf.statcvs.model.Revision;
+import net.sf.statsvn.model.Commit;
+import net.sf.statsvn.model.Revision;
 
 /**
  * Takes a set of revisions, and builds a <code>List</code> of {@link Commit}s from it. The result list is sorted by date.

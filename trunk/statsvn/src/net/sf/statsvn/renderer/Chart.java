@@ -20,7 +20,7 @@
 	$RCSfile: Chart.java,v $
 	$Date: 2006/06/14 10:25:33 $ 
 */
-package net.sf.statcvs.renderer;
+package net.sf.statsvn.renderer;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -28,7 +28,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-import net.sf.statcvs.output.ConfigurationOptions;
+import net.sf.statsvn.output.ConfigurationOptions;
 
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
@@ -44,7 +44,7 @@ import org.jfree.util.UnitType;
  */
 public class Chart {
 	private static final Logger LOGGER =
-		Logger.getLogger("sf.net.statcvs.renderer.ChartRenderer");
+		Logger.getLogger("sf.net.statsvn.renderer.ChartRenderer");
 	private String title;
 	private String fileName;
 	private final Font font = new Font("SansSerif", Font.PLAIN, 12);

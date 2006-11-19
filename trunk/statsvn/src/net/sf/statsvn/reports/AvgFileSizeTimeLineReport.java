@@ -20,7 +20,7 @@
 	$RCSfile: AvgFileSizeTimeLineReport.java,v $
 	$Date: 2004/02/20 01:33:29 $
 */
-package net.sf.statcvs.reports;
+package net.sf.statsvn.reports;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,10 +28,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.SortedSet;
 
-import net.sf.statcvs.Messages;
-import net.sf.statcvs.model.VersionedFile;
-import net.sf.statcvs.model.Revision;
-import net.sf.statcvs.reportmodel.TimeLine;
+import net.sf.statsvn.Messages;
+import net.sf.statsvn.model.VersionedFile;
+import net.sf.statsvn.model.Revision;
+import net.sf.statsvn.reportmodel.TimeLine;
 
 /**
  * Time line for the average file size from a specified file list.
@@ -44,7 +44,7 @@ public class AvgFileSizeTimeLineReport {
 
 	/**
 	 * Creates a new file count time line for a specified list of files.
-	 * @param files a list of {@link net.sf.statcvs.model.VersionedFile}s
+	 * @param files a list of {@link net.sf.statsvn.model.VersionedFile}s
 	 */
 	public AvgFileSizeTimeLineReport(final SortedSet files) {
 		timeLine = new TimeLine(Messages.getString("AVERAGE_FILE_SIZE_TITLE"),

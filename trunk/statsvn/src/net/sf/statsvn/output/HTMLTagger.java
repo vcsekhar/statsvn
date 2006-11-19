@@ -20,16 +20,16 @@
 	$RCSfile: HTMLTagger.java,v $
 	$Date: 2006/10/10 09:23:45 $ 
 */
-package net.sf.statcvs.output;
+package net.sf.statsvn.output;
 
 import java.util.Date;
 
-import net.sf.statcvs.Messages;
-import net.sf.statcvs.model.Author;
-import net.sf.statcvs.model.VersionedFile;
-import net.sf.statcvs.model.Directory;
-import net.sf.statcvs.util.OutputUtils;
-import net.sf.statcvs.util.StatSvnConstants;
+import net.sf.statsvn.Messages;
+import net.sf.statsvn.model.Author;
+import net.sf.statsvn.model.VersionedFile;
+import net.sf.statsvn.model.Directory;
+import net.sf.statsvn.util.OutputUtils;
+import net.sf.statsvn.util.StatSvnConstants;
 
 /**
  * //TODO: lots of duplicate code here and in HTMLPage 
