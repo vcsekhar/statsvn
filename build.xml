@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
-<project name="statcvs" default="all" basedir=".">
+<project name="statsvn" default="all" basedir=".">
 
 	<property file="project.properties" />
 	<property name="project" value="statsvn" />
-	<property name="project.path" value="net/sf/statcvs" />
-	<property name="project.package" value="net.sf.statcvs" />
+	<property name="project.path" value="net/sf/statsvn" />
+	<property name="project.package" value="net.sf.statsvn" />
 	<property name="project.jar" value="statsvn.jar" />
 	<property name="src" value="src" />
 	<property name="src.tests" value="tests-src" />
