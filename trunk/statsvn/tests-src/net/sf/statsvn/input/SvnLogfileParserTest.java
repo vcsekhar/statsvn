@@ -10,13 +10,13 @@ import net.sf.statsvn.output.ConfigurationOptions;
 
 /**
  * High-level scenarios to verify parsing without actually needing a server.
- * 
+ *
  * @author jkealey
- * 
+ *
  */
 public class SvnLogfileParserTest extends TestCase {
 
-	protected final static String sRoot = "/project/statsvn/statsvn/tests-src/net/sf/statcvs/input/samplefiles/";
+	protected final static String sRoot = "./tests-src/net/sf/statsvn/input/samplefiles/";
 
 	protected RepositoryFileManager repFileMan;
 
