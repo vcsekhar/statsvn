@@ -100,7 +100,7 @@ public abstract class HTMLPage {
 			+ a(
 				"http://www.statsvn.org",
 				Messages.getString("PROJECT_SHORTNAME"))
-			+ " v0.1.4");
+			+ " v0.1.3");
 		print("</div>\n");
 		print(renderer.getEndOfPage());
 		htmlFileWriter.close();
