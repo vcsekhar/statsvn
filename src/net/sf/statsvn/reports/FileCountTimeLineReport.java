@@ -20,15 +20,15 @@
 	$RCSfile: FileCountTimeLineReport.java,v $
 	$Date: 2005/03/29 23:44:46 $
 */
-package net.sf.statcvs.reports;
+package net.sf.statsvn.reports;
 
 import java.util.Iterator;
 import java.util.SortedSet;
 
-import net.sf.statcvs.Messages;
-import net.sf.statcvs.model.VersionedFile;
-import net.sf.statcvs.model.Revision;
-import net.sf.statcvs.reportmodel.TimeLine;
+import net.sf.statsvn.Messages;
+import net.sf.statsvn.model.VersionedFile;
+import net.sf.statsvn.model.Revision;
+import net.sf.statsvn.reportmodel.TimeLine;
 
 /**
  * Time line for the number of non-dead files from a specified file list.
@@ -41,7 +41,7 @@ public class FileCountTimeLineReport {
 
 	/**
 	 * Creates a new file count time line for a specified list of files.
-	 * @param files a list of {@link net.sf.statcvs.model.VersionedFile}s
+	 * @param files a list of {@link net.sf.statsvn.model.VersionedFile}s
 	 */
 	public FileCountTimeLineReport(final SortedSet files) {
 		timeLine = new TimeLine(Messages.getString("FILE_COUNT_TITLE"),

@@ -1,4 +1,4 @@
-package net.sf.statcvs.util;
+package net.sf.statsvn.util;
 
 import java.io.File;
 import java.text.DateFormat;

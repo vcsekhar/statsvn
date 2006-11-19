@@ -20,7 +20,7 @@
 	$RCSfile: FilePatternMatcher.java,v $
 	$Date: 2003/06/04 16:19:37 $
 */
-package net.sf.statcvs.util;
+package net.sf.statsvn.util;
 
 import java.util.ArrayList;
 import java.util.Iterator;

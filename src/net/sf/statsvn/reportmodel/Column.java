@@ -20,9 +20,9 @@
 	$RCSfile: Column.java,v $
 	$Date: 2003/06/22 19:17:44 $
 */
-package net.sf.statcvs.reportmodel;
+package net.sf.statsvn.reportmodel;
 
-import net.sf.statcvs.renderer.TableCellRenderer;
+import net.sf.statsvn.renderer.TableCellRenderer;
 
 /**
  * An abstract base class for table columns. Concrete Sublasses implement
@@ -42,7 +42,7 @@ public abstract class Column {
 	/**
 	 * Renders the head of the column into a <tt>TableCellRenderer</tt> by
 	 * calling one of its
-	 * {@link net.sf.statcvs.renderer.TableCellRenderer#renderCell} methods
+	 * {@link net.sf.statsvn.renderer.TableCellRenderer#renderCell} methods
 	 * @param renderer the TableCellRenderer to use
 	 * TODO: this is probably unnecessary; better add a getTitle method
 	 */
@@ -51,7 +51,7 @@ public abstract class Column {
 	/**
 	 * Renders a row of the column into a <tt>TableCellRenderer</tt> by
 	 * calling one of its
-	 * {@link net.sf.statcvs.renderer.TableCellRenderer#renderCell} methods
+	 * {@link net.sf.statsvn.renderer.TableCellRenderer#renderCell} methods
 	 * @param rowIndex the row number, starting at 0
 	 * @param renderer the TableCellRenderer to use
 	 */
@@ -60,7 +60,7 @@ public abstract class Column {
 	/**
 	 * Renders the footer of the column into a <tt>TableCellRenderer</tt> by
 	 * calling one of its
-	 * {@link net.sf.statcvs.renderer.TableCellRenderer#renderCell}
+	 * {@link net.sf.statsvn.renderer.TableCellRenderer#renderCell}
 	 * methods. The footer usually contains some kind of total for the column.
 	 * @param renderer the TableCellRenderer to use
 	 */

@@ -20,7 +20,7 @@
  $RCSfile: FileUtils.java,v $ 
  Created on $Date: 2004/02/20 19:49:53 $ 
  */
-package net.sf.statcvs.util;
+package net.sf.statsvn.util;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -136,7 +136,7 @@ public final class FileUtils {
      * @param path
      *            The <code>path</code> to delete the directory separator from.
      * @return The <code>path</code> without the ending directory separator.
-     * @see net.sf.statcvs.util.FileUtils#getDirSeparator
+     * @see net.sf.statsvn.util.FileUtils#getDirSeparator
      */
     public static String getPathWithoutEndingSlash(final String path) {
         if (path.endsWith(getDefaultDirSeparator())) {

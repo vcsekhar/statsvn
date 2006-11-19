@@ -20,7 +20,7 @@
 	$RCSfile: LOCChart.java,v $
 	$Date: 2006/06/14 10:25:33 $ 
 */
-package net.sf.statcvs.renderer;
+package net.sf.statsvn.renderer;
 
 import java.awt.Color;
 import java.awt.Paint;
@@ -28,9 +28,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 
-import net.sf.statcvs.Messages;
-import net.sf.statcvs.output.ConfigurationOptions;
-import net.sf.statcvs.util.OutputUtils;
+import net.sf.statsvn.Messages;
+import net.sf.statsvn.output.ConfigurationOptions;
+import net.sf.statsvn.util.OutputUtils;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.annotations.XYAnnotation;
@@ -52,7 +52,7 @@ import org.jfree.data.xy.XYDataset;
  */
 public class LOCChart extends Chart {
 	private static final Logger LOGGER =
-			Logger.getLogger("net.sf.statcvs.renderer.LOCChart");
+			Logger.getLogger("net.sf.statsvn.renderer.LOCChart");
 
 	/**
 	 * Creates a Lines Of Code chart from a <tt>BasicTimeSeries</tt> and

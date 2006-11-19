@@ -20,7 +20,7 @@
  $RCSfile: RevisionData.java,v $
  $Date: 2004/10/12 07:22:42 $
  */
-package net.sf.statcvs.input;
+package net.sf.statsvn.input;
 
 import java.util.Date;
 

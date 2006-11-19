@@ -1,7 +1,7 @@
-package net.sf.statcvs.output;
+package net.sf.statsvn.output;
 
-import net.sf.statcvs.model.Author;
-import net.sf.statcvs.model.Directory;
+import net.sf.statsvn.model.Author;
+import net.sf.statsvn.model.Directory;
 
 public interface OutputRenderer {
 

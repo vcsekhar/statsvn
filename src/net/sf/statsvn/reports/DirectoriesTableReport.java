@@ -20,12 +20,12 @@
 	$RCSfile: DirectoriesTableReport.java,v $
 	$Date: 2003/12/17 23:12:35 $
 */
-package net.sf.statcvs.reports;
+package net.sf.statsvn.reports;
 
-import net.sf.statcvs.Messages;
-import net.sf.statcvs.model.Repository;
-import net.sf.statcvs.reportmodel.DirectoryColumn;
-import net.sf.statcvs.reportmodel.Table;
+import net.sf.statsvn.Messages;
+import net.sf.statsvn.model.Repository;
+import net.sf.statsvn.reportmodel.DirectoryColumn;
+import net.sf.statsvn.reportmodel.Table;
 
 /**
  * Table report which creates a table containing the names of
@@ -49,7 +49,7 @@ public class DirectoriesTableReport extends AbstractLocTableReport
 	}
 	
 	/**
-	 * @see net.sf.statcvs.reports.TableReport#calculate()
+	 * @see net.sf.statsvn.reports.TableReport#calculate()
 	 */
 	public void calculate() {
 		calculateChangesAndLinesPerDirectory(getContent().getRevisions());
@@ -60,7 +60,7 @@ public class DirectoriesTableReport extends AbstractLocTableReport
 	}
 
 	/**
-	 * @see net.sf.statcvs.reports.TableReport#getTable()
+	 * @see net.sf.statsvn.reports.TableReport#getTable()
 	 */
 	public Table getTable() {
 		return table;

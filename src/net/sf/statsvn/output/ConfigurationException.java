@@ -20,7 +20,7 @@
 	$RCSfile: ConfigurationException.java,v $
 	Created on $Date: 2003/04/19 19:23:42 $ 
 */
-package net.sf.statcvs.output;
+package net.sf.statsvn.output;
 
 /**
  * Thrown by {@link ConfigurationOptions} on missing/illegal arguments.

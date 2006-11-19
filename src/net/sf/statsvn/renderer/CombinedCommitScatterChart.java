@@ -19,7 +19,7 @@
     
 	Created on $Date: 2004/10/12 07:22:42 $ 
 */
-package net.sf.statcvs.renderer;
+package net.sf.statsvn.renderer;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -33,9 +33,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import net.sf.statcvs.Messages;
-import net.sf.statcvs.model.Author;
-import net.sf.statcvs.output.ConfigurationOptions;
+import net.sf.statsvn.Messages;
+import net.sf.statsvn.model.Author;
+import net.sf.statsvn.output.ConfigurationOptions;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.DateAxis;
@@ -54,7 +54,7 @@ import org.jfree.data.xy.XYDataset;
  */
 public class CombinedCommitScatterChart extends Chart{
 	private static final Logger LOGGER =
-	Logger.getLogger("net.sf.statcvs.renderer.LOCChart");
+	Logger.getLogger("net.sf.statsvn.renderer.LOCChart");
 
 	/**
 	 * @param seriesAll

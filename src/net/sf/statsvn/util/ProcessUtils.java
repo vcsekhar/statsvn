@@ -1,4 +1,4 @@
-package net.sf.statcvs.util;
+package net.sf.statsvn.util;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import net.sf.statcvs.output.ConfigurationOptions;
+import net.sf.statsvn.output.ConfigurationOptions;
 
 /**
  * This class provides a way of launching new processes. It is not the best way

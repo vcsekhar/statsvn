@@ -21,22 +21,22 @@
 	Created on $Date: 2006/10/10 09:23:45 $ 
 */
 
-package net.sf.statcvs.output;
+package net.sf.statsvn.output;
 
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Iterator;
 
-import net.sf.statcvs.Messages;
-import net.sf.statcvs.model.Author;
-import net.sf.statcvs.model.Repository;
-import net.sf.statcvs.model.Directory;
-import net.sf.statcvs.renderer.CommitLogRenderer;
-import net.sf.statcvs.renderer.TableRenderer;
-import net.sf.statcvs.reportmodel.Table;
-import net.sf.statcvs.reports.TableReport;
-import net.sf.statcvs.reports.TopAuthorsTableReport;
-import net.sf.statcvs.util.StatSvnConstants;
+import net.sf.statsvn.Messages;
+import net.sf.statsvn.model.Author;
+import net.sf.statsvn.model.Repository;
+import net.sf.statsvn.model.Directory;
+import net.sf.statsvn.renderer.CommitLogRenderer;
+import net.sf.statsvn.renderer.TableRenderer;
+import net.sf.statsvn.reportmodel.Table;
+import net.sf.statsvn.reports.TableReport;
+import net.sf.statsvn.reports.TopAuthorsTableReport;
+import net.sf.statsvn.util.StatSvnConstants;
 
 /**
  * @author anja
@@ -47,7 +47,7 @@ public class IndexPage extends HTMLPage {
 	private boolean authorsPageCreated;
 
 	/**
-	 * @see net.sf.statcvs.output.HTMLPage#HTMLPage(Repository)
+	 * @see net.sf.statsvn.output.HTMLPage#HTMLPage(Repository)
 	 */
 	public IndexPage(final Repository content, final boolean locImageCreated, final boolean commitScatterImageCreated,
 			final boolean authorsPageCreated, final OutputRenderer renderer) throws IOException {

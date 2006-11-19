@@ -20,7 +20,7 @@
 	$Name:  $ 
 	Created on $Date: 2006/10/10 09:23:45 $ 
 */
-package net.sf.statcvs.renderer;
+package net.sf.statsvn.renderer;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,15 +29,15 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import net.sf.statcvs.Messages;
-import net.sf.statcvs.model.Commit;
-import net.sf.statcvs.model.Revision;
-import net.sf.statcvs.output.ConfigurationOptions;
-import net.sf.statcvs.output.HTMLTagger;
-import net.sf.statcvs.output.OutputRenderer;
-import net.sf.statcvs.output.WebBugtrackerIntegration;
-import net.sf.statcvs.output.WebRepositoryIntegration;
-import net.sf.statcvs.util.OutputUtils;
+import net.sf.statsvn.Messages;
+import net.sf.statsvn.model.Commit;
+import net.sf.statsvn.model.Revision;
+import net.sf.statsvn.output.ConfigurationOptions;
+import net.sf.statsvn.output.HTMLTagger;
+import net.sf.statsvn.output.OutputRenderer;
+import net.sf.statsvn.output.WebBugtrackerIntegration;
+import net.sf.statsvn.output.WebRepositoryIntegration;
+import net.sf.statsvn.util.OutputUtils;
 
 /**
  * Class for rendering a list of commits as HTML.

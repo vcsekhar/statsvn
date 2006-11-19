@@ -20,17 +20,17 @@
 	$RCSfile: TableRenderer.java,v $
 	$Date: 2003/06/22 19:24:26 $
 */
-package net.sf.statcvs.renderer;
+package net.sf.statsvn.renderer;
 
 import java.util.Iterator;
 
-import net.sf.statcvs.output.OutputRenderer;
-import net.sf.statcvs.reportmodel.Column;
-import net.sf.statcvs.reportmodel.Table;
-import net.sf.statcvs.util.OutputUtils;
+import net.sf.statsvn.output.OutputRenderer;
+import net.sf.statsvn.reportmodel.Column;
+import net.sf.statsvn.reportmodel.Table;
+import net.sf.statsvn.util.OutputUtils;
 
 /**
- * Renders a {@link net.sf.statcvs.reportmodel.Table} to HTML
+ * Renders a {@link net.sf.statsvn.reportmodel.Table} to HTML
  * 
  * @author Richard Cyganiak <rcyg@gmx.de>
  * @version $Id: TableRenderer.java,v 1.37 2003/06/22 19:24:26 cyganiak Exp $

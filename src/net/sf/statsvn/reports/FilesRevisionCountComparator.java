@@ -20,13 +20,13 @@
 	$RCSfile: FilesRevisionCountComparator.java,v $
 	$Date: 2004/02/20 01:33:29 $
 */
-package net.sf.statcvs.reports;
+package net.sf.statsvn.reports;
 
 import java.util.Comparator;
 import java.util.Iterator;
 
-import net.sf.statcvs.model.VersionedFile;
-import net.sf.statcvs.model.Revision;
+import net.sf.statsvn.model.VersionedFile;
+import net.sf.statsvn.model.Revision;
 
 /**
  * Compares two files according to their number of changes (revisions).

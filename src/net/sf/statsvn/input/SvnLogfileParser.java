@@ -21,7 +21,7 @@
  Created on $Date: 2004/10/10 11:29:07 $ 
  */
 
-package net.sf.statcvs.input;
+package net.sf.statsvn.input;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -39,10 +39,10 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import net.sf.statcvs.output.ConfigurationOptions;
-import net.sf.statcvs.util.BinaryDiffException;
-import net.sf.statcvs.util.FilenameComparator;
-import net.sf.statcvs.util.XMLUtil;
+import net.sf.statsvn.output.ConfigurationOptions;
+import net.sf.statsvn.util.BinaryDiffException;
+import net.sf.statsvn.util.FilenameComparator;
+import net.sf.statsvn.util.XMLUtil;
 
 import org.xml.sax.SAXException;
 

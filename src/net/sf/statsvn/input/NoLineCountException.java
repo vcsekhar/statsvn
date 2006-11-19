@@ -20,7 +20,7 @@
  $Name:  $
  Created on $Date: 2003/12/09 11:52:47 $ 
  */
-package net.sf.statcvs.input;
+package net.sf.statsvn.input;
 
 /**
  * Indicates that no LOC count could be obtained for a file

@@ -20,7 +20,7 @@
 	$RCSfile: LookaheadReader.java,v $
 	$Date: 2004/10/10 11:29:07 $
 */
-package net.sf.statcvs.util;
+package net.sf.statsvn.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;

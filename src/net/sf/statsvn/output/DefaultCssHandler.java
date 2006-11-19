@@ -20,15 +20,15 @@
 	$RCSfile: DefaultCssHandler.java,v $
 	$Date: 2004/02/20 19:49:53 $ 
 */
-package net.sf.statcvs.output;
+package net.sf.statsvn.output;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Logger;
 
-import net.sf.statcvs.Main;
-import net.sf.statcvs.util.FileUtils;
+import net.sf.statsvn.Main;
+import net.sf.statsvn.util.FileUtils;
 
 /**
  * CSS handler for a CSS file included in the distribution JAR file.
@@ -38,7 +38,7 @@ import net.sf.statcvs.util.FileUtils;
 public class DefaultCssHandler implements CssHandler {
 
 	private static final Logger LOGGER =
-		Logger.getLogger("net.sf.statcvs.output.CssHandler");
+		Logger.getLogger("net.sf.statsvn.output.CssHandler");
 
 	private String filename;
 	
@@ -53,7 +53,7 @@ public class DefaultCssHandler implements CssHandler {
 	}
 
 	/**
-	 * @see net.sf.statcvs.output.CssHandler#getLink()
+	 * @see net.sf.statsvn.output.CssHandler#getLink()
 	 */
 	public String getLink() {
 		return filename;
@@ -62,7 +62,7 @@ public class DefaultCssHandler implements CssHandler {
 	/**
 	 * No external resources are necessary for default CSS files, so
 	 * nothing is done here
-	 * @see net.sf.statcvs.output.CssHandler#checkForMissingResources()
+	 * @see net.sf.statsvn.output.CssHandler#checkForMissingResources()
 	 */
 	public void checkForMissingResources() throws ConfigurationException {
 		// do nothing
@@ -71,7 +71,7 @@ public class DefaultCssHandler implements CssHandler {
 	/**
 	 * Extracts the CSS file from the distribution JAR and saves it
 	 * into the output directory
-	 * @see net.sf.statcvs.output.CssHandler#createOutputFiles()
+	 * @see net.sf.statsvn.output.CssHandler#createOutputFiles()
 	 */
 	public void createOutputFiles() throws IOException {
 		final String destination = ConfigurationOptions.getOutputDir() + filename;

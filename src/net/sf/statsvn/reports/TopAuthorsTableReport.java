@@ -20,16 +20,16 @@
 	$RCSfile: TopAuthorsTableReport.java,v $
 	$Date: 2003/12/17 23:56:31 $
 */
-package net.sf.statcvs.reports;
+package net.sf.statsvn.reports;
 
 import java.util.Iterator;
 
-import net.sf.statcvs.Messages;
-import net.sf.statcvs.model.Author;
-import net.sf.statcvs.model.Repository;
-import net.sf.statcvs.reportmodel.AuthorColumn;
-import net.sf.statcvs.reportmodel.IntegerColumn;
-import net.sf.statcvs.reportmodel.Table;
+import net.sf.statsvn.Messages;
+import net.sf.statsvn.model.Author;
+import net.sf.statsvn.model.Repository;
+import net.sf.statsvn.reportmodel.AuthorColumn;
+import net.sf.statsvn.reportmodel.IntegerColumn;
+import net.sf.statsvn.reportmodel.Table;
 
 /**
  * Table report which creates a table containing the names of the
@@ -53,7 +53,7 @@ public class TopAuthorsTableReport extends AbstractLocTableReport
 	}
 	
 	/**
-	 * @see net.sf.statcvs.reports.TableReport#calculate()
+	 * @see net.sf.statsvn.reports.TableReport#calculate()
 	 */
 	public void calculate() {
 		String summary;
@@ -85,7 +85,7 @@ public class TopAuthorsTableReport extends AbstractLocTableReport
 	}
 
 	/**
-	 * @see net.sf.statcvs.reports.TableReport#getTable()
+	 * @see net.sf.statsvn.reports.TableReport#getTable()
 	 */
 	public Table getTable() {
 		return table;

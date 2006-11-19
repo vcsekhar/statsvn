@@ -20,7 +20,7 @@
 	$RCSfile: TimeLine.java,v $
 	$Date: 2004/10/12 07:22:42 $
 */
-package net.sf.statcvs.reportmodel;
+package net.sf.statsvn.reportmodel;
 
 import java.util.ArrayList;
 import java.util.Date;

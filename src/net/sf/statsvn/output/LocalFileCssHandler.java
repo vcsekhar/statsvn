@@ -20,13 +20,13 @@
 	$RCSfile: LocalFileCssHandler.java,v $
 	$Date: 2003/04/19 19:23:42 $ 
 */
-package net.sf.statcvs.output;
+package net.sf.statsvn.output;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-import net.sf.statcvs.util.FileUtils;
+import net.sf.statsvn.util.FileUtils;
 
 /**
  * CSS handler for a local CSS file which will be copied to the output dir.
@@ -36,7 +36,7 @@ import net.sf.statcvs.util.FileUtils;
 public class LocalFileCssHandler implements CssHandler {
 
 	private static final Logger LOGGER =
-		Logger.getLogger("net.sf.statcvs.output.CssHandler");
+		Logger.getLogger("net.sf.statsvn.output.CssHandler");
 
 	private String filename;
 	
@@ -50,7 +50,7 @@ public class LocalFileCssHandler implements CssHandler {
 	}
 
 	/**
-	 * @see net.sf.statcvs.output.CssHandler#getLink()
+	 * @see net.sf.statsvn.output.CssHandler#getLink()
 	 */
 	public String getLink() {
 		return FileUtils.getFilenameWithoutPath(filename);
@@ -58,7 +58,7 @@ public class LocalFileCssHandler implements CssHandler {
 
 	/**
 	 * Checks if the local CSS file exists
-	 * @see net.sf.statcvs.output.CssHandler#checkForMissingResources()
+	 * @see net.sf.statsvn.output.CssHandler#checkForMissingResources()
 	 * @throws ConfigurationException if the file is not found
 	 */
 	public void checkForMissingResources() throws ConfigurationException {
@@ -71,7 +71,7 @@ public class LocalFileCssHandler implements CssHandler {
 
 	/**
 	 * Copies the local CSS file to the output directory
-	 * @see net.sf.statcvs.output.CssHandler#createOutputFiles()
+	 * @see net.sf.statsvn.output.CssHandler#createOutputFiles()
 	 */
 	public void createOutputFiles() throws IOException {
 		final String destination = ConfigurationOptions.getOutputDir() + getLink(); 

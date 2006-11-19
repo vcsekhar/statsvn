@@ -20,7 +20,7 @@
  $RCSfile: Builder.java,v $
  $Date: 2004/12/14 13:38:13 $
  */
-package net.sf.statcvs.input;
+package net.sf.statsvn.input;
 
 import java.io.IOException;
 import java.util.Date;
@@ -34,18 +34,18 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.logging.Logger;
 
-import net.sf.statcvs.Messages;
-import net.sf.statcvs.model.Author;
-import net.sf.statcvs.model.Directory;
-import net.sf.statcvs.model.Repository;
-import net.sf.statcvs.model.SymbolicName;
-import net.sf.statcvs.model.VersionedFile;
-import net.sf.statcvs.util.FilePatternMatcher;
-import net.sf.statcvs.util.FileUtils;
+import net.sf.statsvn.Messages;
+import net.sf.statsvn.model.Author;
+import net.sf.statsvn.model.Directory;
+import net.sf.statsvn.model.Repository;
+import net.sf.statsvn.model.SymbolicName;
+import net.sf.statsvn.model.VersionedFile;
+import net.sf.statsvn.util.FilePatternMatcher;
+import net.sf.statsvn.util.FileUtils;
 
 /**
  * <p>
- * Helps building the {@link net.sf.statcvs.model.Repository} from a SVN log. The <tt>Builder</tt> is fed by some SVN history data source, for example a SVN
+ * Helps building the {@link net.sf.statsvn.model.Repository} from a SVN log. The <tt>Builder</tt> is fed by some SVN history data source, for example a SVN
  * log parser. The <tt>Repository</tt> can be retrieved using the {@link #createRepository} method.
  * </p>
  * 

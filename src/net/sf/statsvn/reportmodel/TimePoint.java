@@ -20,7 +20,7 @@
 	$RCSfile: TimePoint.java,v $
 	$Date: 2003/06/05 10:51:53 $
 */
-package net.sf.statcvs.reportmodel;
+package net.sf.statsvn.reportmodel;
 
 import java.util.Date;
 

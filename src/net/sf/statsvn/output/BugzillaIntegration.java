@@ -1,4 +1,4 @@
-package net.sf.statcvs.output;
+package net.sf.statsvn.output;
 
 import java.util.Vector;
 import java.util.regex.Matcher;

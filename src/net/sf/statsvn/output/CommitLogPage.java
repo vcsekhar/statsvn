@@ -20,13 +20,13 @@
 	$RCSfile: CommitLogPage.java,v $ 
 	Created on $Date: 2003/04/13 17:52:35 $ 
 */
-package net.sf.statcvs.output;
+package net.sf.statsvn.output;
 
 import java.io.IOException;
 
-import net.sf.statcvs.Messages;
-import net.sf.statcvs.model.Repository;
-import net.sf.statcvs.renderer.CommitLogRenderer;
+import net.sf.statsvn.Messages;
+import net.sf.statsvn.model.Repository;
+import net.sf.statsvn.renderer.CommitLogRenderer;
 
 /**
  * @author anja

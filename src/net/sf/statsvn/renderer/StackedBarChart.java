@@ -20,7 +20,7 @@
 	$RCSfile: StackedBarChart.java,v $
 	$Date: 2006/06/14 10:25:33 $ 
 */
-package net.sf.statcvs.renderer;
+package net.sf.statsvn.renderer;
 
 import java.awt.Color;
 import java.text.DecimalFormat;
@@ -30,11 +30,11 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Set;
 
-import net.sf.statcvs.model.Author;
-import net.sf.statcvs.model.Commit;
-import net.sf.statcvs.model.Repository;
-import net.sf.statcvs.model.Revision;
-import net.sf.statcvs.output.ConfigurationOptions;
+import net.sf.statsvn.model.Author;
+import net.sf.statsvn.model.Commit;
+import net.sf.statsvn.model.Repository;
+import net.sf.statsvn.model.Revision;
+import net.sf.statsvn.output.ConfigurationOptions;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.axis.NumberAxis;

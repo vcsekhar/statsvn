@@ -20,7 +20,7 @@
  $RCSfile: Main.java,v $
  Created on $Date: 2005/03/20 19:12:25 $
  */
-package net.sf.statcvs;
+package net.sf.statsvn;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -28,19 +28,19 @@ import java.io.InputStream;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-import net.sf.statcvs.input.Builder;
-import net.sf.statcvs.input.EmptyRepositoryException;
-import net.sf.statcvs.input.LogSyntaxException;
-import net.sf.statcvs.input.RepositoryFileManager;
-import net.sf.statcvs.input.SvnLogfileParser;
-import net.sf.statcvs.model.Repository;
-import net.sf.statcvs.output.CommandLineParser;
-import net.sf.statcvs.output.ConfigurationException;
-import net.sf.statcvs.output.ConfigurationOptions;
-import net.sf.statcvs.output.HTMLOutput;
-import net.sf.statcvs.output.XDocOutput;
-import net.sf.statcvs.util.SvnStartupUtils;
-import net.sf.statcvs.util.SvnVersionMismatchException;
+import net.sf.statsvn.input.Builder;
+import net.sf.statsvn.input.EmptyRepositoryException;
+import net.sf.statsvn.input.LogSyntaxException;
+import net.sf.statsvn.input.RepositoryFileManager;
+import net.sf.statsvn.input.SvnLogfileParser;
+import net.sf.statsvn.model.Repository;
+import net.sf.statsvn.output.CommandLineParser;
+import net.sf.statsvn.output.ConfigurationException;
+import net.sf.statsvn.output.ConfigurationOptions;
+import net.sf.statsvn.output.HTMLOutput;
+import net.sf.statsvn.output.XDocOutput;
+import net.sf.statsvn.util.SvnStartupUtils;
+import net.sf.statsvn.util.SvnVersionMismatchException;
 
 /**
  * StatCvs Main Class; it starts the application and controls command-line
@@ -141,7 +141,7 @@ public final class Main {
 	}
 
 	private static void printVersionAndExit() {
-		System.out.println("Version 0.1.3");
+		System.out.println("Version 0.1.4");
 		System.exit(1);
 	}
 
@@ -173,7 +173,7 @@ public final class Main {
 	}
 
 	/**
-	 * Generates HTML report. {@link net.sf.statcvs.output.ConfigurationOptions}
+	 * Generates HTML report. {@link net.sf.statsvn.output.ConfigurationOptions}
 	 * must be initialized before calling this method.
 	 *
 	 * @throws LogSyntaxException
@@ -188,7 +188,7 @@ public final class Main {
 	}
 
 	/**
-	 * Generates HTML report. {@link net.sf.statcvs.output.ConfigurationOptions}
+	 * Generates HTML report. {@link net.sf.statsvn.output.ConfigurationOptions}
 	 * must be initialized before calling this method.
 	 *
 	 * @param externalRepositoryFileManager

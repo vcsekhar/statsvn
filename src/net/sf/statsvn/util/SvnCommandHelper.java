@@ -1,9 +1,9 @@
 /**
  * 
  */
-package net.sf.statcvs.util;
+package net.sf.statsvn.util;
 
-import net.sf.statcvs.output.ConfigurationOptions;
+import net.sf.statsvn.output.ConfigurationOptions;
 
 /**
  * @author jpdaigle

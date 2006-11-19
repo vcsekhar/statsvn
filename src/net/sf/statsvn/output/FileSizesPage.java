@@ -21,18 +21,18 @@
 	Created on $Date: 2003/06/05 10:51:54 $ 
 */
 
-package net.sf.statcvs.output;
+package net.sf.statsvn.output;
 
 import java.io.IOException;
 import java.util.Iterator;
 
-import net.sf.statcvs.Messages;
-import net.sf.statcvs.model.Repository;
-import net.sf.statcvs.model.VersionedFile;
-import net.sf.statcvs.renderer.TableRenderer;
-import net.sf.statcvs.reports.FilesWithMostRevisionsTableReport;
-import net.sf.statcvs.reports.LargestFilesTableReport;
-import net.sf.statcvs.reports.TableReport;
+import net.sf.statsvn.Messages;
+import net.sf.statsvn.model.Repository;
+import net.sf.statsvn.model.VersionedFile;
+import net.sf.statsvn.renderer.TableRenderer;
+import net.sf.statsvn.reports.FilesWithMostRevisionsTableReport;
+import net.sf.statsvn.reports.LargestFilesTableReport;
+import net.sf.statsvn.reports.TableReport;
 
 /**
  * This page displays the timeline of file count, a table with the largest
@@ -45,7 +45,7 @@ public class FileSizesPage extends HTMLPage {
 	private static final int MAX_FILES_WITH_MOST_REVISIONS = 20;
 
 	/**
-	 * @see net.sf.statcvs.output.HTMLPage#HTMLPage(Repository)
+	 * @see net.sf.statsvn.output.HTMLPage#HTMLPage(Repository)
 	 */
 	public FileSizesPage(final Repository content, final OutputRenderer renderer) throws IOException {
 		super(content, renderer);

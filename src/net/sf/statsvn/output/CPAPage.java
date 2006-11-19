@@ -21,17 +21,17 @@
 	Created on $Date: 2003/12/18 00:26:17 $ 
 */
 
-package net.sf.statcvs.output;
+package net.sf.statsvn.output;
 
 import java.io.IOException;
 
-import net.sf.statcvs.Messages;
-import net.sf.statcvs.model.Repository;
-import net.sf.statcvs.renderer.TableRenderer;
-import net.sf.statcvs.reportmodel.Table;
-import net.sf.statcvs.reports.AuthorsTableReport;
-import net.sf.statcvs.reports.AbstractLocTableReport;
-import net.sf.statcvs.reports.TableReport;
+import net.sf.statsvn.Messages;
+import net.sf.statsvn.model.Repository;
+import net.sf.statsvn.renderer.TableRenderer;
+import net.sf.statsvn.reportmodel.Table;
+import net.sf.statsvn.reports.AuthorsTableReport;
+import net.sf.statsvn.reports.AbstractLocTableReport;
+import net.sf.statsvn.reports.TableReport;
 
 /**
  * @author anja

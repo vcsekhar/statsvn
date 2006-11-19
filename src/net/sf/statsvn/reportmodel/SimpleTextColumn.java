@@ -20,9 +20,9 @@
 	$RCSfile: SimpleTextColumn.java,v $
 	$Date: 2003/04/19 23:09:27 $
 */
-package net.sf.statcvs.reportmodel;
+package net.sf.statsvn.reportmodel;
 
-import net.sf.statcvs.renderer.TableCellRenderer;
+import net.sf.statsvn.renderer.TableCellRenderer;
 
 /**
  * A generic text column without any special behaviour. It can be filled
@@ -42,7 +42,7 @@ public class SimpleTextColumn extends GenericColumn {
 	}
 
 	/**
-	 * @see net.sf.statcvs.reportmodel.Column#renderCell
+	 * @see net.sf.statsvn.reportmodel.Column#renderCell
 	 */
 	public void renderCell(final int rowIndex, final TableCellRenderer renderer) {
 		renderer.renderCell((String) getValue(rowIndex));

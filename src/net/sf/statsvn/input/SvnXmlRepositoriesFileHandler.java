@@ -1,4 +1,4 @@
-package net.sf.statcvs.input;
+package net.sf.statsvn.input;
 
 import javax.xml.parsers.ParserConfigurationException;
 

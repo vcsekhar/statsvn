@@ -20,11 +20,11 @@
 	$RCSfile: FilesLocComparator.java,v $
 	$Date: 2003/12/18 00:31:38 $
 */
-package net.sf.statcvs.reports;
+package net.sf.statsvn.reports;
 
 import java.util.Comparator;
 
-import net.sf.statcvs.model.VersionedFile;
+import net.sf.statsvn.model.VersionedFile;
 
 /**
  * Compares two files according to their lines of code

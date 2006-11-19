@@ -1,4 +1,4 @@
-package net.sf.statcvs.input;
+package net.sf.statsvn.input;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -8,7 +8,7 @@ import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
- * This is the SAX parser for the our line count persistence mechanism. It feeds information to (@link net.sf.statcvs.input.LineCountsBuilder).
+ * This is the SAX parser for the our line count persistence mechanism. It feeds information to (@link net.sf.statsvn.input.LineCountsBuilder).
  * 
  * @author Gunter Mussbacher <gunterm@site.uottawa.ca>
  * 

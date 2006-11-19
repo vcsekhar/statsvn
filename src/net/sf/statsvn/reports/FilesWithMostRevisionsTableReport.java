@@ -20,7 +20,7 @@
 	$RCSfile: FilesWithMostRevisionsTableReport.java,v $
 	$Date: 2004/02/20 01:33:29 $
 */
-package net.sf.statcvs.reports;
+package net.sf.statsvn.reports;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,11 +28,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.SortedSet;
 
-import net.sf.statcvs.Messages;
-import net.sf.statcvs.model.VersionedFile;
-import net.sf.statcvs.reportmodel.FileColumn;
-import net.sf.statcvs.reportmodel.IntegerColumn;
-import net.sf.statcvs.reportmodel.Table;
+import net.sf.statsvn.Messages;
+import net.sf.statsvn.model.VersionedFile;
+import net.sf.statsvn.reportmodel.FileColumn;
+import net.sf.statsvn.reportmodel.IntegerColumn;
+import net.sf.statsvn.reportmodel.Table;
 
 /**
  * Table report for a table containing the files with most changes
@@ -48,7 +48,7 @@ public class FilesWithMostRevisionsTableReport implements TableReport {
 	/**
 	 * Creates a table containing the files with most changes from a file list
 	 * @param files a <tt>SortedSet</tt> of
-	 *              {@link net.sf.statcvs.model.VersionedFile}s
+	 *              {@link net.sf.statsvn.model.VersionedFile}s
 	 * @param maxRows the maximum number of files displayed in the table 
 	 */
 	public FilesWithMostRevisionsTableReport(final SortedSet files, final int maxRows) {
@@ -57,7 +57,7 @@ public class FilesWithMostRevisionsTableReport implements TableReport {
 	}
 
 	/**
-	 * @see net.sf.statcvs.reports.TableReport#calculate()
+	 * @see net.sf.statsvn.reports.TableReport#calculate()
 	 */
 	public void calculate() {
 		Collections.sort(files, new FilesRevisionCountComparator());
@@ -80,7 +80,7 @@ public class FilesWithMostRevisionsTableReport implements TableReport {
 	}
 
 	/**
-	 * @see net.sf.statcvs.reports.TableReport#getTable()
+	 * @see net.sf.statsvn.reports.TableReport#getTable()
 	 */
 	public Table getTable() {
 		return table;

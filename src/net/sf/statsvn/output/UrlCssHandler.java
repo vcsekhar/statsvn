@@ -20,7 +20,7 @@
 	$RCSfile: UrlCssHandler.java,v $
 	$Date: 2003/04/19 19:23:42 $ 
 */
-package net.sf.statcvs.output;
+package net.sf.statsvn.output;
 
 import java.io.IOException;
 import java.net.URL;
@@ -44,7 +44,7 @@ public class UrlCssHandler implements CssHandler {
 
 	/**
 	 * Simply return the URL
-	 * @see net.sf.statcvs.output.CssHandler#getLink()
+	 * @see net.sf.statsvn.output.CssHandler#getLink()
 	 */
 	public String getLink() {
 		return url.toString();
@@ -53,7 +53,7 @@ public class UrlCssHandler implements CssHandler {
 	/**
 	 * We could check here if there is a real CSS file at the URL, but
 	 * this would require net access, so we just do nothing.
-	 * @see net.sf.statcvs.output.CssHandler#checkForMissingResources()
+	 * @see net.sf.statsvn.output.CssHandler#checkForMissingResources()
 	 */
 	public void checkForMissingResources() throws ConfigurationException {
 		// do nothing
@@ -63,7 +63,7 @@ public class UrlCssHandler implements CssHandler {
 	 * We don't create any output files. We could copy the CSS file from
 	 * the URL to the output dir, but this would require net access, so
 	 * we just do nothing.
-	 * @see net.sf.statcvs.output.CssHandler#createOutputFiles()
+	 * @see net.sf.statsvn.output.CssHandler#createOutputFiles()
 	 */
 	public void createOutputFiles() throws IOException {
 		// do nothing

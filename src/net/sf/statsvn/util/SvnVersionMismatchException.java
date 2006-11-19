@@ -1,11 +1,11 @@
-package net.sf.statcvs.util;
+package net.sf.statsvn.util;
 
 /**
  * Indicates that an invalid version of the <tt>svn</tt> executable was found.
  * This exception can be thrown by explicit checking of the <tt>svn</tt> binary's version, or
  * by checking for (and failing to find) a repository root in <tt>svn info</tt>'s output (a 1.3 feature).
  * 
- * @see net.sf.statcvs.util.SvnStartupUtils
+ * @see net.sf.statsvn.util.SvnStartupUtils
  * 
  * @author Jean-Philippe Daigle <jpdaigle@softwareengineering.ca>
  * 

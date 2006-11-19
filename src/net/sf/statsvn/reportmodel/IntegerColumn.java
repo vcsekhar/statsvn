@@ -20,12 +20,12 @@
 	$RCSfile: IntegerColumn.java,v $
 	$Date: 2003/04/19 13:16:22 $
 */
-package net.sf.statcvs.reportmodel;
+package net.sf.statsvn.reportmodel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.statcvs.renderer.TableCellRenderer;
+import net.sf.statsvn.renderer.TableCellRenderer;
 
 /**
  * A column of integer values. The column's total is the sum of all values. 
@@ -102,28 +102,28 @@ public class IntegerColumn extends Column {
 	}
 
 	/**
-	 * @see net.sf.statcvs.reportmodel.Column#getRows()
+	 * @see net.sf.statsvn.reportmodel.Column#getRows()
 	 */
 	public int getRows() {
 		return values.size();
 	}
 
 	/**
-	 * @see net.sf.statcvs.reportmodel.Column#renderHead(net.sf.statcvs.renderer.TableCellRenderer)
+	 * @see net.sf.statsvn.reportmodel.Column#renderHead(net.sf.statsvn.renderer.TableCellRenderer)
 	 */
 	public void renderHead(final TableCellRenderer renderer) {
 		renderer.renderCell(title);
 	}
 
 	/**
-	 * @see net.sf.statcvs.reportmodel.Column#renderCell
+	 * @see net.sf.statsvn.reportmodel.Column#renderCell
 	 */
 	public void renderCell(final int rowIndex, final TableCellRenderer renderer) {
 		callRenderer(renderer, getValue(rowIndex));
 	}
 
 	/**
-	 * @see net.sf.statcvs.reportmodel.Column#renderTotal(net.sf.statcvs.renderer.TableCellRenderer)
+	 * @see net.sf.statsvn.reportmodel.Column#renderTotal(net.sf.statsvn.renderer.TableCellRenderer)
 	 */
 	public void renderTotal(final TableCellRenderer renderer) {
 		callRenderer(renderer, sum);

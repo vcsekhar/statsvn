@@ -20,7 +20,7 @@
 	$RCSfile: CssHandler.java,v $
 	$Date: 2003/04/19 19:23:42 $ 
 */
-package net.sf.statcvs.output;
+package net.sf.statsvn.output;
 
 import java.io.IOException;
 

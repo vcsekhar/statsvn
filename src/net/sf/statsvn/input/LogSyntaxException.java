@@ -21,7 +21,7 @@
  Created on $Date: 2003/03/18 10:33:57 $ 
  */
 
-package net.sf.statcvs.input;
+package net.sf.statsvn.input;
 
 /**
  * Indicates there was a syntax error while parsing the log.

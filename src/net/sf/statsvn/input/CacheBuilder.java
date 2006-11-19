@@ -1,4 +1,4 @@
-package net.sf.statcvs.input;
+package net.sf.statsvn.input;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -24,9 +24,9 @@ import org.w3c.dom.NodeList;
  * StatSVN must query the Subversion repository for line counts using svn diff.
  * However, this is very costly, performance-wise. Therefore, the decision was
  * taken to persist this information in an XML file. This class receives
- * information from (@link net.sf.statcvs.input.SvnXmlLineCountsFileHandler) to
+ * information from (@link net.sf.statsvn.input.SvnXmlLineCountsFileHandler) to
  * build a DOM-based xml structure. It also forwards line counts to the
- * appropriate (@link net.sf.statcvs.input.FileBuilder).
+ * appropriate (@link net.sf.statsvn.input.FileBuilder).
  * </p>
  * 
  * @author Gunter Mussbacher <gunterm@site.uottawa.ca>

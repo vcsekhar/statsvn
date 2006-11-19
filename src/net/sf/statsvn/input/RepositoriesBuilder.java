@@ -1,4 +1,4 @@
-package net.sf.statcvs.input;
+package net.sf.statsvn.input;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -11,7 +11,7 @@ import org.w3c.dom.NodeList;
 
 /**
  * <p>
- * This class receives information from the (@link net.sf.statcvs.input.SvnXmlRepositoriesFileHandler)
+ * This class receives information from the (@link net.sf.statsvn.input.SvnXmlRepositoriesFileHandler)
  * to build a DOM-based XML structure containing the names of all repositories and associated line counts xml files.
  * It then allows to retrieve the line counts XML file name for a given repository.
  * </p>
