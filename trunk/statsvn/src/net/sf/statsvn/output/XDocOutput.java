@@ -32,7 +32,7 @@ public class XDocOutput extends HTMLOutput {
             + "<head>\n"
             + "    <meta http-equiv=\"Content-Type\" content=\"text/html; "
             + "charset=ISO-8859-1\"/>\n"
-            + "    <meta name=\"Generator\" content=\"StatSVN v0.1.4\"/>\n"
+            + "    <meta name=\"Generator\" content=\"StatSVN v0.1.3\"/>\n"
             + "    <link rel=\"stylesheet\" href=\""
             + ConfigurationOptions.getCssHandler().getLink()
             + "\" type=\"text/css\"/>\n"
