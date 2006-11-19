@@ -167,9 +167,7 @@
 			</includes>
 			<resources>
 				<resource>
-					<directory>
-						tests-src
-					</directory>
+					<directory>tests-src</directory>
 					<includes>
 						<include>**/*.log</include>
 						<include>**/*.log2</include>
@@ -191,6 +189,14 @@
 
 	</build>
 
+	<versions>
+		<version>
+			<id>0.1.3</id>
+			<name>0.1.3</name>
+			<tag>0.1.3</tag>
+		</version>
+	</versions>
+
 	<reports>
 		<report>maven-ydoc-plugin</report>
 		<report>maven-jxr-plugin</report>
@@ -203,9 +209,10 @@
 		<report>maven-license-plugin</report>
 		<report>maven-jdepend-plugin</report>
 		<report>maven-qalab-plugin</report>
-		<!--<report>maven-file-activity-plugin</report>-->
+		<report>maven-changes-plugin</report>
+		<report>maven-file-activity-plugin</report>
 		<!--<report>maven-statcvs-plugin</report>-->
-		<!--<report>maven-changelog-plugin</report>-->
+		<report>maven-changelog-plugin</report>
 	</reports>
 
 </project>
