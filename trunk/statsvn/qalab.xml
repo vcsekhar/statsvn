@@ -4,74 +4,114 @@
 <!ELEMENT summary (summaryresult*)>
 <!ELEMENT file (result+)>
 <!ATTLIST file id ID #REQUIRED>
+<!ATTLIST file project CDATA #REQUIRED>
+<!ATTLIST file module CDATA #REQUIRED>
 <!ATTLIST file path CDATA #REQUIRED>
 <!ELEMENT result EMPTY>
 <!ATTLIST result date CDATA #REQUIRED>
 <!ATTLIST result statvalue CDATA #REQUIRED>
 <!ATTLIST result type CDATA #REQUIRED>
 <!ELEMENT summaryresult EMPTY>
+<!ATTLIST summaryresult project CDATA #REQUIRED>
+<!ATTLIST summaryresult module CDATA #REQUIRED>
 <!ATTLIST summaryresult date CDATA #REQUIRED>
 <!ATTLIST summaryresult statvalue CDATA #REQUIRED>
 <!ATTLIST summaryresult filecount CDATA #REQUIRED>
 <!ATTLIST summaryresult type CDATA #REQUIRED>
 ]>
-<qalab version="1.1">
+<qalab version="1.2">
     <summary>
-        <summaryresult date="2006-11-14" filecount="121" statvalue="610" type="checkstyle"/>
-        <summaryresult date="2006-11-14" filecount="34" statvalue="64" type="findbugs"/>
-        <summaryresult date="2006-11-14" filecount="112" statvalue="69" type="cobertura-line"/>
-        <summaryresult date="2006-11-14" filecount="112" statvalue="73" type="cobertura-branch"/>
-        <summaryresult date="2006-11-14" filecount="8" statvalue="14" type="pmd"/>
-        <summaryresult date="2006-11-15" filecount="121" statvalue="594" type="checkstyle"/>
-        <summaryresult date="2006-11-15" filecount="30" statvalue="52" type="findbugs"/>
-        <summaryresult date="2006-11-15" filecount="112" statvalue="69" type="cobertura-line"/>
-        <summaryresult date="2006-11-15" filecount="112" statvalue="73" type="cobertura-branch"/>
-        <summaryresult date="2006-11-15" filecount="6" statvalue="12" type="pmd"/>
-        <summaryresult date="2006-11-16" filecount="121" statvalue="439" type="checkstyle"/>
-        <summaryresult date="2006-11-16" filecount="30" statvalue="61" type="findbugs"/>
-        <summaryresult date="2006-11-16" filecount="112" statvalue="68" type="cobertura-line"/>
-        <summaryresult date="2006-11-16" filecount="112" statvalue="72" type="cobertura-branch"/>
-        <summaryresult date="2006-11-16" filecount="7" statvalue="13" type="pmd"/>
-        <summaryresult date="2006-11-17" filecount="121" statvalue="393" type="checkstyle"/>
-        <summaryresult date="2006-11-17" filecount="29" statvalue="51" type="findbugs"/>
-        <summaryresult date="2006-11-17" filecount="112" statvalue="68" type="cobertura-line"/>
-        <summaryresult date="2006-11-17" filecount="112" statvalue="73" type="cobertura-branch"/>
-        <summaryresult date="2006-11-17" filecount="7" statvalue="13" type="pmd"/>
-        <summaryresult date="2006-11-18" filecount="122" statvalue="165" type="checkstyle"/>
-        <summaryresult date="2006-11-18" filecount="27" statvalue="39" type="findbugs"/>
-        <summaryresult date="2006-11-18" filecount="113" statvalue="68" type="cobertura-line"/>
-        <summaryresult date="2006-11-18" filecount="113" statvalue="72" type="cobertura-branch"/>
-        <summaryresult date="2006-11-18" filecount="6" statvalue="12" type="pmd"/>
+        <summaryresult date="2006-11-14" filecount="121"
+            module="statsvn" project="StatSvn" statvalue="610" type="checkstyle"/>
+        <summaryresult date="2006-11-14" filecount="34" module="statsvn"
+            project="StatSvn" statvalue="64" type="findbugs"/>
+        <summaryresult date="2006-11-14" filecount="112"
+            module="statsvn" project="StatSvn" statvalue="69" type="cobertura-line"/>
+        <summaryresult date="2006-11-14" filecount="112"
+            module="statsvn" project="StatSvn" statvalue="73" type="cobertura-branch"/>
+        <summaryresult date="2006-11-14" filecount="8" module="statsvn"
+            project="StatSvn" statvalue="14" type="pmd"/>
+        <summaryresult date="2006-11-15" filecount="121"
+            module="statsvn" project="StatSvn" statvalue="594" type="checkstyle"/>
+        <summaryresult date="2006-11-15" filecount="30" module="statsvn"
+            project="StatSvn" statvalue="52" type="findbugs"/>
+        <summaryresult date="2006-11-15" filecount="112"
+            module="statsvn" project="StatSvn" statvalue="69" type="cobertura-line"/>
+        <summaryresult date="2006-11-15" filecount="112"
+            module="statsvn" project="StatSvn" statvalue="73" type="cobertura-branch"/>
+        <summaryresult date="2006-11-15" filecount="6" module="statsvn"
+            project="StatSvn" statvalue="12" type="pmd"/>
+        <summaryresult date="2006-11-16" filecount="121"
+            module="statsvn" project="StatSvn" statvalue="439" type="checkstyle"/>
+        <summaryresult date="2006-11-16" filecount="30" module="statsvn"
+            project="StatSvn" statvalue="61" type="findbugs"/>
+        <summaryresult date="2006-11-16" filecount="112"
+            module="statsvn" project="StatSvn" statvalue="68" type="cobertura-line"/>
+        <summaryresult date="2006-11-16" filecount="112"
+            module="statsvn" project="StatSvn" statvalue="72" type="cobertura-branch"/>
+        <summaryresult date="2006-11-16" filecount="7" module="statsvn"
+            project="StatSvn" statvalue="13" type="pmd"/>
+        <summaryresult date="2006-11-17" filecount="121"
+            module="statsvn" project="StatSvn" statvalue="393" type="checkstyle"/>
+        <summaryresult date="2006-11-17" filecount="29" module="statsvn"
+            project="StatSvn" statvalue="51" type="findbugs"/>
+        <summaryresult date="2006-11-17" filecount="112"
+            module="statsvn" project="StatSvn" statvalue="68" type="cobertura-line"/>
+        <summaryresult date="2006-11-17" filecount="112"
+            module="statsvn" project="StatSvn" statvalue="73" type="cobertura-branch"/>
+        <summaryresult date="2006-11-17" filecount="7" module="statsvn"
+            project="StatSvn" statvalue="13" type="pmd"/>
+        <summaryresult date="2006-11-18" filecount="122"
+            module="statsvn" project="StatSvn" statvalue="165" type="checkstyle"/>
+        <summaryresult date="2006-11-18" filecount="27" module="statsvn"
+            project="StatSvn" statvalue="39" type="findbugs"/>
+        <summaryresult date="2006-11-18" filecount="113"
+            module="statsvn" project="StatSvn" statvalue="68" type="cobertura-line"/>
+        <summaryresult date="2006-11-18" filecount="113"
+            module="statsvn" project="StatSvn" statvalue="72" type="cobertura-branch"/>
+        <summaryresult date="2006-11-18" filecount="6" module="statsvn"
+            project="StatSvn" statvalue="12" type="pmd"/>
+        <summaryresult date="2006-11-19" filecount="122"
+            module="statsvn" project="StatSvn" statvalue="165" type="checkstyle"/>
+        <summaryresult date="2006-11-19" filecount="26" module="statsvn"
+            project="StatSvn" statvalue="39" type="findbugs"/>
+        <summaryresult date="2006-11-19" filecount="6" module="statsvn"
+            project="StatSvn" statvalue="12" type="pmd"/>
     </summary>
-    <file id="net_sf_statcvs_output_package.html" path="net/sf/statcvs/output/package.html">
+    <file id="default-default-net_sf_statsvn-output_package.html"
+        module="statsvn" path="net/sf/statsvn/output/package.html" project="StatSvn">
         <result date="2006-11-14" statvalue="1" type="checkstyle"/>
         <result date="2006-11-15" statvalue="1" type="checkstyle"/>
         <result date="2006-11-16" statvalue="1" type="checkstyle"/>
         <result date="2006-11-17" statvalue="1" type="checkstyle"/>
         <result date="2006-11-18" statvalue="1" type="checkstyle"/>
     </file>
-    <file id="net_sf_statcvs_reportmodel_package.html" path="net/sf/statcvs/reportmodel/package.html">
+    <file id="default-default-net_sf_statsvn-reportmodel_package.html"
+        module="statsvn" path="net/sf/statsvn/reportmodel/package.html" project="StatSvn">
         <result date="2006-11-14" statvalue="1" type="checkstyle"/>
         <result date="2006-11-15" statvalue="1" type="checkstyle"/>
         <result date="2006-11-16" statvalue="1" type="checkstyle"/>
         <result date="2006-11-17" statvalue="1" type="checkstyle"/>
         <result date="2006-11-18" statvalue="1" type="checkstyle"/>
     </file>
-    <file id="net_sf_statcvs_reports_package.html" path="net/sf/statcvs/reports/package.html">
+    <file id="default-default-net_sf_statsvn-reports_package.html"
+        module="statsvn" path="net/sf/statsvn/reports/package.html" project="StatSvn">
         <result date="2006-11-14" statvalue="1" type="checkstyle"/>
         <result date="2006-11-15" statvalue="1" type="checkstyle"/>
         <result date="2006-11-16" statvalue="1" type="checkstyle"/>
         <result date="2006-11-17" statvalue="1" type="checkstyle"/>
         <result date="2006-11-18" statvalue="1" type="checkstyle"/>
     </file>
-    <file id="net_sf_statcvs_renderer_package.html" path="net/sf/statcvs/renderer/package.html">
+    <file id="default-default-net_sf_statsvn-renderer_package.html"
+        module="statsvn" path="net/sf/statsvn/renderer/package.html" project="StatSvn">
         <result date="2006-11-14" statvalue="1" type="checkstyle"/>
         <result date="2006-11-15" statvalue="1" type="checkstyle"/>
         <result date="2006-11-16" statvalue="1" type="checkstyle"/>
         <result date="2006-11-17" statvalue="1" type="checkstyle"/>
         <result date="2006-11-18" statvalue="1" type="checkstyle"/>
     </file>
-    <file id="net_sf_statcvs_Main.java" path="net/sf/statcvs/Main.java">
+    <file id="default-default-net_sf_statsvn-Main.java" module="statsvn"
+        path="net/sf/statsvn/Main.java" project="StatSvn">
         <result date="2006-11-14" statvalue="19" type="checkstyle"/>
         <result date="2006-11-14" statvalue="1" type="findbugs"/>
         <result date="2006-11-14" statvalue="31" type="cobertura-line"/>
@@ -93,7 +133,8 @@
         <result date="2006-11-18" statvalue="31" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="55" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_Messages.java" path="net/sf/statcvs/Messages.java">
+    <file id="default-default-net_sf_statsvn-Messages.java"
+        module="statsvn" path="net/sf/statsvn/Messages.java" project="StatSvn">
         <result date="2006-11-14" statvalue="1" type="checkstyle"/>
         <result date="2006-11-14" statvalue="40" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
@@ -109,14 +150,16 @@
         <result date="2006-11-18" statvalue="33" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_ant_StatCvsTask.java" path="net/sf/statcvs/ant/StatCvsTask.java">
+    <file id="default-default-net_sf_statsvn-ant_StatCvsTask.java"
+        module="statsvn" path="net/sf/statsvn/ant/StatCvsTask.java" project="StatSvn">
         <result date="2006-11-14" statvalue="9" type="checkstyle"/>
         <result date="2006-11-15" statvalue="9" type="checkstyle"/>
         <result date="2006-11-16" statvalue="9" type="checkstyle"/>
         <result date="2006-11-17" statvalue="9" type="checkstyle"/>
         <result date="2006-11-18" statvalue="2" type="checkstyle"/>
     </file>
-    <file id="net_sf_statcvs_input_Builder.java" path="net/sf/statcvs/input/Builder.java">
+    <file id="default-default-net_sf_statsvn-input_Builder.java"
+        module="statsvn" path="net/sf/statsvn/input/Builder.java" project="StatSvn">
         <result date="2006-11-14" statvalue="14" type="checkstyle"/>
         <result date="2006-11-14" statvalue="1" type="findbugs"/>
         <result date="2006-11-14" statvalue="92" type="cobertura-line"/>
@@ -138,7 +181,8 @@
         <result date="2006-11-18" statvalue="91" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="94" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_input_CacheBuilder.java" path="net/sf/statcvs/input/CacheBuilder.java">
+    <file id="default-default-net_sf_statsvn-input_CacheBuilder.java"
+        module="statsvn" path="net/sf/statsvn/input/CacheBuilder.java" project="StatSvn">
         <result date="2006-11-14" statvalue="16" type="checkstyle"/>
         <result date="2006-11-14" statvalue="61" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="45" type="cobertura-branch"/>
@@ -156,7 +200,10 @@
         <result date="2006-11-18" statvalue="61" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="47" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_input_CommitListBuilder.java" path="net/sf/statcvs/input/CommitListBuilder.java">
+    <file
+        id="default-default-net_sf_statsvn-input_CommitListBuilder.java"
+        module="statsvn"
+        path="net/sf/statsvn/input/CommitListBuilder.java" project="StatSvn">
         <result date="2006-11-14" statvalue="3" type="checkstyle"/>
         <result date="2006-11-14" statvalue="96" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
@@ -172,7 +219,10 @@
         <result date="2006-11-18" statvalue="96" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_input_EmptyRepositoryException.java" path="net/sf/statcvs/input/EmptyRepositoryException.java">
+    <file
+        id="default-default-net_sf_statsvn-input_EmptyRepositoryException.java"
+        module="statsvn"
+        path="net/sf/statsvn/input/EmptyRepositoryException.java" project="StatSvn">
         <result date="2006-11-14" statvalue="1" type="checkstyle"/>
         <result date="2006-11-14" statvalue="50" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
@@ -186,7 +236,8 @@
         <result date="2006-11-18" statvalue="50" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_input_FileBuilder.java" path="net/sf/statcvs/input/FileBuilder.java">
+    <file id="default-default-net_sf_statsvn-input_FileBuilder.java"
+        module="statsvn" path="net/sf/statsvn/input/FileBuilder.java" project="StatSvn">
         <result date="2006-11-14" statvalue="33" type="checkstyle"/>
         <result date="2006-11-14" statvalue="86" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="88" type="cobertura-branch"/>
@@ -204,7 +255,10 @@
         <result date="2006-11-18" statvalue="88" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="88" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_input_LogSyntaxException.java" path="net/sf/statcvs/input/LogSyntaxException.java">
+    <file
+        id="default-default-net_sf_statsvn-input_LogSyntaxException.java"
+        module="statsvn"
+        path="net/sf/statsvn/input/LogSyntaxException.java" project="StatSvn">
         <result date="2006-11-14" statvalue="1" type="checkstyle"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
         <result date="2006-11-15" statvalue="1" type="checkstyle"/>
@@ -213,7 +267,10 @@
         <result date="2006-11-17" statvalue="100" type="cobertura-branch"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_input_NoLineCountException.java" path="net/sf/statcvs/input/NoLineCountException.java">
+    <file
+        id="default-default-net_sf_statsvn-input_NoLineCountException.java"
+        module="statsvn"
+        path="net/sf/statsvn/input/NoLineCountException.java" project="StatSvn">
         <result date="2006-11-14" statvalue="1" type="checkstyle"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
@@ -227,7 +284,10 @@
         <result date="2006-11-18" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_input_RepositoryFileManager.java" path="net/sf/statcvs/input/RepositoryFileManager.java">
+    <file
+        id="default-default-net_sf_statsvn-input_RepositoryFileManager.java"
+        module="statsvn"
+        path="net/sf/statsvn/input/RepositoryFileManager.java" project="StatSvn">
         <result date="2006-11-14" statvalue="5" type="checkstyle"/>
         <result date="2006-11-14" statvalue="3" type="findbugs"/>
         <result date="2006-11-14" statvalue="41" type="cobertura-line"/>
@@ -248,7 +308,8 @@
         <result date="2006-11-18" statvalue="41" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="66" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_input_RevisionData.java" path="net/sf/statcvs/input/RevisionData.java">
+    <file id="default-default-net_sf_statsvn-input_RevisionData.java"
+        module="statsvn" path="net/sf/statsvn/input/RevisionData.java" project="StatSvn">
         <result date="2006-11-14" statvalue="18" type="checkstyle"/>
         <result date="2006-11-14" statvalue="3" type="findbugs"/>
         <result date="2006-11-15" statvalue="18" type="checkstyle"/>
@@ -260,7 +321,8 @@
         <result date="2006-11-18" statvalue="2" type="checkstyle"/>
         <result date="2006-11-18" statvalue="3" type="findbugs"/>
     </file>
-    <file id="net_sf_statcvs_input_SvnLogBuilder.java" path="net/sf/statcvs/input/SvnLogBuilder.java">
+    <file id="default-default-net_sf_statsvn-input_SvnLogBuilder.java"
+        module="statsvn" path="net/sf/statsvn/input/SvnLogBuilder.java" project="StatSvn">
         <result date="2006-11-14" statvalue="12" type="checkstyle"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
@@ -277,7 +339,10 @@
         <result date="2006-11-18" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_input_SvnLogfileParser.java" path="net/sf/statcvs/input/SvnLogfileParser.java">
+    <file
+        id="default-default-net_sf_statsvn-input_SvnLogfileParser.java"
+        module="statsvn"
+        path="net/sf/statsvn/input/SvnLogfileParser.java" project="StatSvn">
         <result date="2006-11-14" statvalue="34" type="checkstyle"/>
         <result date="2006-11-14" statvalue="1" type="findbugs"/>
         <result date="2006-11-14" statvalue="79" type="cobertura-line"/>
@@ -304,7 +369,10 @@
         <result date="2006-11-18" statvalue="90" type="cobertura-branch"/>
         <result date="2006-11-18" statvalue="6" type="pmd"/>
     </file>
-    <file id="net_sf_statcvs_input_SvnXmlCacheFileHandler.java" path="net/sf/statcvs/input/SvnXmlCacheFileHandler.java">
+    <file
+        id="default-default-net_sf_statsvn-input_SvnXmlCacheFileHandler.java"
+        module="statsvn"
+        path="net/sf/statsvn/input/SvnXmlCacheFileHandler.java" project="StatSvn">
         <result date="2006-11-14" statvalue="8" type="checkstyle"/>
         <result date="2006-11-14" statvalue="88" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
@@ -320,7 +388,10 @@
         <result date="2006-11-18" statvalue="88" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_input_SvnXmlLogFileHandler.java" path="net/sf/statcvs/input/SvnXmlLogFileHandler.java">
+    <file
+        id="default-default-net_sf_statsvn-input_SvnXmlLogFileHandler.java"
+        module="statsvn"
+        path="net/sf/statsvn/input/SvnXmlLogFileHandler.java" project="StatSvn">
         <result date="2006-11-14" statvalue="10" type="checkstyle"/>
         <result date="2006-11-14" statvalue="90" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
@@ -341,7 +412,10 @@
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
         <result date="2006-11-18" statvalue="1" type="pmd"/>
     </file>
-    <file id="net_sf_statcvs_input_SvnXmlRepositoriesFileHandler.java" path="net/sf/statcvs/input/SvnXmlRepositoriesFileHandler.java">
+    <file
+        id="default-default-net_sf_statsvn-input_SvnXmlRepositoriesFileHandler.java"
+        module="statsvn"
+        path="net/sf/statsvn/input/SvnXmlRepositoriesFileHandler.java" project="StatSvn">
         <result date="2006-11-14" statvalue="4" type="checkstyle"/>
         <result date="2006-11-14" statvalue="84" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
@@ -357,7 +431,8 @@
         <result date="2006-11-18" statvalue="84" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_model_Author.java" path="net/sf/statcvs/model/Author.java">
+    <file id="default-default-net_sf_statsvn-model_Author.java"
+        module="statsvn" path="net/sf/statsvn/model/Author.java" project="StatSvn">
         <result date="2006-11-14" statvalue="2" type="checkstyle"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
         <result date="2006-11-15" statvalue="2" type="checkstyle"/>
@@ -369,7 +444,8 @@
         <result date="2006-11-18" statvalue="1" type="checkstyle"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_model_Commit.java" path="net/sf/statcvs/model/Commit.java">
+    <file id="default-default-net_sf_statsvn-model_Commit.java"
+        module="statsvn" path="net/sf/statsvn/model/Commit.java" project="StatSvn">
         <result date="2006-11-14" statvalue="2" type="checkstyle"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
@@ -386,14 +462,16 @@
         <result date="2006-11-18" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_model_Directory.java" path="net/sf/statcvs/model/Directory.java">
+    <file id="default-default-net_sf_statsvn-model_Directory.java"
+        module="statsvn" path="net/sf/statsvn/model/Directory.java" project="StatSvn">
         <result date="2006-11-14" statvalue="1" type="checkstyle"/>
         <result date="2006-11-15" statvalue="1" type="checkstyle"/>
         <result date="2006-11-16" statvalue="1" type="checkstyle"/>
         <result date="2006-11-17" statvalue="1" type="checkstyle"/>
         <result date="2006-11-18" statvalue="1" type="checkstyle"/>
     </file>
-    <file id="net_sf_statcvs_model_DirectoryImpl.java" path="net/sf/statcvs/model/DirectoryImpl.java">
+    <file id="default-default-net_sf_statsvn-model_DirectoryImpl.java"
+        module="statsvn" path="net/sf/statsvn/model/DirectoryImpl.java" project="StatSvn">
         <result date="2006-11-14" statvalue="2" type="checkstyle"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
         <result date="2006-11-15" statvalue="2" type="checkstyle"/>
@@ -404,7 +482,8 @@
         <result date="2006-11-17" statvalue="100" type="cobertura-branch"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_model_Repository.java" path="net/sf/statcvs/model/Repository.java">
+    <file id="default-default-net_sf_statsvn-model_Repository.java"
+        module="statsvn" path="net/sf/statsvn/model/Repository.java" project="StatSvn">
         <result date="2006-11-14" statvalue="5" type="checkstyle"/>
         <result date="2006-11-14" statvalue="3" type="findbugs"/>
         <result date="2006-11-14" statvalue="84" type="cobertura-line"/>
@@ -426,7 +505,8 @@
         <result date="2006-11-18" statvalue="84" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="90" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_model_Revision.java" path="net/sf/statcvs/model/Revision.java">
+    <file id="default-default-net_sf_statsvn-model_Revision.java"
+        module="statsvn" path="net/sf/statsvn/model/Revision.java" project="StatSvn">
         <result date="2006-11-14" statvalue="16" type="checkstyle"/>
         <result date="2006-11-14" statvalue="1" type="findbugs"/>
         <result date="2006-11-15" statvalue="16" type="checkstyle"/>
@@ -438,7 +518,8 @@
         <result date="2006-11-18" statvalue="5" type="checkstyle"/>
         <result date="2006-11-18" statvalue="1" type="findbugs"/>
     </file>
-    <file id="net_sf_statcvs_model_SymbolicName.java" path="net/sf/statcvs/model/SymbolicName.java">
+    <file id="default-default-net_sf_statsvn-model_SymbolicName.java"
+        module="statsvn" path="net/sf/statsvn/model/SymbolicName.java" project="StatSvn">
         <result date="2006-11-14" statvalue="6" type="checkstyle"/>
         <result date="2006-11-14" statvalue="1" type="findbugs"/>
         <result date="2006-11-15" statvalue="6" type="checkstyle"/>
@@ -449,7 +530,8 @@
         <result date="2006-11-17" statvalue="1" type="findbugs"/>
         <result date="2006-11-18" statvalue="1" type="findbugs"/>
     </file>
-    <file id="net_sf_statcvs_model_VersionedFile.java" path="net/sf/statcvs/model/VersionedFile.java">
+    <file id="default-default-net_sf_statsvn-model_VersionedFile.java"
+        module="statsvn" path="net/sf/statsvn/model/VersionedFile.java" project="StatSvn">
         <result date="2006-11-14" statvalue="4" type="checkstyle"/>
         <result date="2006-11-14" statvalue="1" type="findbugs"/>
         <result date="2006-11-15" statvalue="4" type="checkstyle"/>
@@ -461,7 +543,8 @@
         <result date="2006-11-18" statvalue="1" type="checkstyle"/>
         <result date="2006-11-18" statvalue="1" type="findbugs"/>
     </file>
-    <file id="net_sf_statcvs_output_AuthorPage.java" path="net/sf/statcvs/output/AuthorPage.java">
+    <file id="default-default-net_sf_statsvn-output_AuthorPage.java"
+        module="statsvn" path="net/sf/statsvn/output/AuthorPage.java" project="StatSvn">
         <result date="2006-11-14" statvalue="11" type="checkstyle"/>
         <result date="2006-11-14" statvalue="98" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
@@ -478,13 +561,17 @@
         <result date="2006-11-18" statvalue="98" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_output_BugzillaIntegration.java" path="net/sf/statcvs/output/BugzillaIntegration.java">
+    <file
+        id="default-default-net_sf_statsvn-output_BugzillaIntegration.java"
+        module="statsvn"
+        path="net/sf/statsvn/output/BugzillaIntegration.java" project="StatSvn">
         <result date="2006-11-14" statvalue="6" type="checkstyle"/>
         <result date="2006-11-15" statvalue="6" type="checkstyle"/>
         <result date="2006-11-16" statvalue="6" type="checkstyle"/>
         <result date="2006-11-17" statvalue="5" type="checkstyle"/>
     </file>
-    <file id="net_sf_statcvs_output_CPAPage.java" path="net/sf/statcvs/output/CPAPage.java">
+    <file id="default-default-net_sf_statsvn-output_CPAPage.java"
+        module="statsvn" path="net/sf/statsvn/output/CPAPage.java" project="StatSvn">
         <result date="2006-11-14" statvalue="9" type="checkstyle"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
@@ -501,7 +588,10 @@
         <result date="2006-11-18" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_output_ChoraIntegration.java" path="net/sf/statcvs/output/ChoraIntegration.java">
+    <file
+        id="default-default-net_sf_statsvn-output_ChoraIntegration.java"
+        module="statsvn"
+        path="net/sf/statsvn/output/ChoraIntegration.java" project="StatSvn">
         <result date="2006-11-14" statvalue="2" type="checkstyle"/>
         <result date="2006-11-14" statvalue="1" type="findbugs"/>
         <result date="2006-11-14" statvalue="1" type="pmd"/>
@@ -518,7 +608,10 @@
         <result date="2006-11-18" statvalue="1" type="findbugs"/>
         <result date="2006-11-18" statvalue="1" type="pmd"/>
     </file>
-    <file id="net_sf_statcvs_output_CommandLineParser.java" path="net/sf/statcvs/output/CommandLineParser.java">
+    <file
+        id="default-default-net_sf_statsvn-output_CommandLineParser.java"
+        module="statsvn"
+        path="net/sf/statsvn/output/CommandLineParser.java" project="StatSvn">
         <result date="2006-11-14" statvalue="3" type="checkstyle"/>
         <result date="2006-11-14" statvalue="2" type="findbugs"/>
         <result date="2006-11-14" statvalue="37" type="cobertura-line"/>
@@ -540,7 +633,8 @@
         <result date="2006-11-18" statvalue="37" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="30" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_output_CommitLogPage.java" path="net/sf/statcvs/output/CommitLogPage.java">
+    <file id="default-default-net_sf_statsvn-output_CommitLogPage.java"
+        module="statsvn" path="net/sf/statsvn/output/CommitLogPage.java" project="StatSvn">
         <result date="2006-11-14" statvalue="4" type="checkstyle"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
@@ -556,7 +650,10 @@
         <result date="2006-11-18" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_output_ConfigurationException.java" path="net/sf/statcvs/output/ConfigurationException.java">
+    <file
+        id="default-default-net_sf_statsvn-output_ConfigurationException.java"
+        module="statsvn"
+        path="net/sf/statsvn/output/ConfigurationException.java" project="StatSvn">
         <result date="2006-11-14" statvalue="1" type="checkstyle"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
         <result date="2006-11-15" statvalue="1" type="checkstyle"/>
@@ -567,7 +664,10 @@
         <result date="2006-11-17" statvalue="100" type="cobertura-branch"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_output_ConfigurationOptions.java" path="net/sf/statcvs/output/ConfigurationOptions.java">
+    <file
+        id="default-default-net_sf_statsvn-output_ConfigurationOptions.java"
+        module="statsvn"
+        path="net/sf/statsvn/output/ConfigurationOptions.java" project="StatSvn">
         <result date="2006-11-14" statvalue="7" type="checkstyle"/>
         <result date="2006-11-14" statvalue="2" type="findbugs"/>
         <result date="2006-11-14" statvalue="44" type="cobertura-line"/>
@@ -589,7 +689,10 @@
         <result date="2006-11-18" statvalue="41" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="54" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_output_DefaultCssHandler.java" path="net/sf/statcvs/output/DefaultCssHandler.java">
+    <file
+        id="default-default-net_sf_statsvn-output_DefaultCssHandler.java"
+        module="statsvn"
+        path="net/sf/statsvn/output/DefaultCssHandler.java" project="StatSvn">
         <result date="2006-11-14" statvalue="1" type="checkstyle"/>
         <result date="2006-11-14" statvalue="92" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
@@ -605,7 +708,10 @@
         <result date="2006-11-18" statvalue="92" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_output_DirectorySizesPage.java" path="net/sf/statcvs/output/DirectorySizesPage.java">
+    <file
+        id="default-default-net_sf_statsvn-output_DirectorySizesPage.java"
+        module="statsvn"
+        path="net/sf/statsvn/output/DirectorySizesPage.java" project="StatSvn">
         <result date="2006-11-14" statvalue="3" type="checkstyle"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
@@ -622,7 +728,8 @@
         <result date="2006-11-18" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_output_FileSizesPage.java" path="net/sf/statcvs/output/FileSizesPage.java">
+    <file id="default-default-net_sf_statsvn-output_FileSizesPage.java"
+        module="statsvn" path="net/sf/statsvn/output/FileSizesPage.java" project="StatSvn">
         <result date="2006-11-14" statvalue="5" type="checkstyle"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
@@ -639,7 +746,8 @@
         <result date="2006-11-18" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_output_HTMLOutput.java" path="net/sf/statcvs/output/HTMLOutput.java">
+    <file id="default-default-net_sf_statsvn-output_HTMLOutput.java"
+        module="statsvn" path="net/sf/statsvn/output/HTMLOutput.java" project="StatSvn">
         <result date="2006-11-14" statvalue="19" type="checkstyle"/>
         <result date="2006-11-14" statvalue="3" type="findbugs"/>
         <result date="2006-11-14" statvalue="94" type="cobertura-line"/>
@@ -661,7 +769,8 @@
         <result date="2006-11-18" statvalue="93" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="90" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_output_HTMLPage.java" path="net/sf/statcvs/output/HTMLPage.java">
+    <file id="default-default-net_sf_statsvn-output_HTMLPage.java"
+        module="statsvn" path="net/sf/statsvn/output/HTMLPage.java" project="StatSvn">
         <result date="2006-11-14" statvalue="5" type="checkstyle"/>
         <result date="2006-11-14" statvalue="1" type="findbugs"/>
         <result date="2006-11-14" statvalue="93" type="cobertura-line"/>
@@ -679,7 +788,8 @@
         <result date="2006-11-18" statvalue="93" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="75" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_output_HTMLTagger.java" path="net/sf/statcvs/output/HTMLTagger.java">
+    <file id="default-default-net_sf_statsvn-output_HTMLTagger.java"
+        module="statsvn" path="net/sf/statsvn/output/HTMLTagger.java" project="StatSvn">
         <result date="2006-11-14" statvalue="2" type="checkstyle"/>
         <result date="2006-11-14" statvalue="90" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
@@ -696,7 +806,8 @@
         <result date="2006-11-18" statvalue="87" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_output_IndexPage.java" path="net/sf/statcvs/output/IndexPage.java">
+    <file id="default-default-net_sf_statsvn-output_IndexPage.java"
+        module="statsvn" path="net/sf/statsvn/output/IndexPage.java" project="StatSvn">
         <result date="2006-11-14" statvalue="7" type="checkstyle"/>
         <result date="2006-11-14" statvalue="1" type="findbugs"/>
         <result date="2006-11-14" statvalue="85" type="cobertura-line"/>
@@ -714,7 +825,8 @@
         <result date="2006-11-18" statvalue="88" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_output_LOCPage.java" path="net/sf/statcvs/output/LOCPage.java">
+    <file id="default-default-net_sf_statsvn-output_LOCPage.java"
+        module="statsvn" path="net/sf/statsvn/output/LOCPage.java" project="StatSvn">
         <result date="2006-11-14" statvalue="4" type="checkstyle"/>
         <result date="2006-11-14" statvalue="93" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
@@ -731,7 +843,10 @@
         <result date="2006-11-18" statvalue="94" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_output_LOCSeriesBuilder.java" path="net/sf/statcvs/output/LOCSeriesBuilder.java">
+    <file
+        id="default-default-net_sf_statsvn-output_LOCSeriesBuilder.java"
+        module="statsvn"
+        path="net/sf/statsvn/output/LOCSeriesBuilder.java" project="StatSvn">
         <result date="2006-11-14" statvalue="3" type="checkstyle"/>
         <result date="2006-11-14" statvalue="1" type="findbugs"/>
         <result date="2006-11-14" statvalue="96" type="cobertura-line"/>
@@ -753,13 +868,17 @@
         <result date="2006-11-18" statvalue="96" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_output_LocalFileCssHandler.java" path="net/sf/statcvs/output/LocalFileCssHandler.java">
+    <file
+        id="default-default-net_sf_statsvn-output_LocalFileCssHandler.java"
+        module="statsvn"
+        path="net/sf/statsvn/output/LocalFileCssHandler.java" project="StatSvn">
         <result date="2006-11-14" statvalue="1" type="checkstyle"/>
         <result date="2006-11-15" statvalue="1" type="checkstyle"/>
         <result date="2006-11-16" statvalue="1" type="checkstyle"/>
         <result date="2006-11-17" statvalue="1" type="checkstyle"/>
     </file>
-    <file id="net_sf_statcvs_output_ModulePage.java" path="net/sf/statcvs/output/ModulePage.java">
+    <file id="default-default-net_sf_statsvn-output_ModulePage.java"
+        module="statsvn" path="net/sf/statsvn/output/ModulePage.java" project="StatSvn">
         <result date="2006-11-14" statvalue="5" type="checkstyle"/>
         <result date="2006-11-14" statvalue="1" type="findbugs"/>
         <result date="2006-11-14" statvalue="96" type="cobertura-line"/>
@@ -777,7 +896,8 @@
         <result date="2006-11-18" statvalue="96" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_output_NoFilesPage.java" path="net/sf/statcvs/output/NoFilesPage.java">
+    <file id="default-default-net_sf_statsvn-output_NoFilesPage.java"
+        module="statsvn" path="net/sf/statsvn/output/NoFilesPage.java" project="StatSvn">
         <result date="2006-11-14" statvalue="1" type="checkstyle"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
         <result date="2006-11-15" statvalue="1" type="checkstyle"/>
@@ -786,7 +906,9 @@
         <result date="2006-11-17" statvalue="100" type="cobertura-branch"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_output_OutputRenderer.java" path="net/sf/statcvs/output/OutputRenderer.java">
+    <file id="default-default-net_sf_statsvn-output_OutputRenderer.java"
+        module="statsvn"
+        path="net/sf/statsvn/output/OutputRenderer.java" project="StatSvn">
         <result date="2006-11-14" statvalue="13" type="checkstyle"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
@@ -800,7 +922,8 @@
         <result date="2006-11-18" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_output_UrlCssHandler.java" path="net/sf/statcvs/output/UrlCssHandler.java">
+    <file id="default-default-net_sf_statsvn-output_UrlCssHandler.java"
+        module="statsvn" path="net/sf/statsvn/output/UrlCssHandler.java" project="StatSvn">
         <result date="2006-11-14" statvalue="1" type="checkstyle"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
         <result date="2006-11-15" statvalue="1" type="checkstyle"/>
@@ -809,11 +932,17 @@
         <result date="2006-11-17" statvalue="100" type="cobertura-branch"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_output_ViewVcIntegration.java" path="net/sf/statcvs/output/ViewVcIntegration.java">
+    <file
+        id="default-default-net_sf_statsvn-output_ViewVcIntegration.java"
+        module="statsvn"
+        path="net/sf/statsvn/output/ViewVcIntegration.java" project="StatSvn">
         <result date="2006-11-14" statvalue="3" type="checkstyle"/>
         <result date="2006-11-15" statvalue="3" type="checkstyle"/>
     </file>
-    <file id="net_sf_statcvs_output_WebRepositoryIntegration.java" path="net/sf/statcvs/output/WebRepositoryIntegration.java">
+    <file
+        id="default-default-net_sf_statsvn-output_WebRepositoryIntegration.java"
+        module="statsvn"
+        path="net/sf/statsvn/output/WebRepositoryIntegration.java" project="StatSvn">
         <result date="2006-11-14" statvalue="1" type="checkstyle"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
@@ -827,7 +956,8 @@
         <result date="2006-11-18" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_output_XDocOutput.java" path="net/sf/statcvs/output/XDocOutput.java">
+    <file id="default-default-net_sf_statsvn-output_XDocOutput.java"
+        module="statsvn" path="net/sf/statsvn/output/XDocOutput.java" project="StatSvn">
         <result date="2006-11-14" statvalue="1" type="checkstyle"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
         <result date="2006-11-15" statvalue="1" type="checkstyle"/>
@@ -836,7 +966,8 @@
         <result date="2006-11-17" statvalue="100" type="cobertura-branch"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_renderer_BarChart.java" path="net/sf/statcvs/renderer/BarChart.java">
+    <file id="default-default-net_sf_statsvn-renderer_BarChart.java"
+        module="statsvn" path="net/sf/statsvn/renderer/BarChart.java" project="StatSvn">
         <result date="2006-11-14" statvalue="7" type="checkstyle"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
@@ -853,7 +984,8 @@
         <result date="2006-11-18" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_renderer_Chart.java" path="net/sf/statcvs/renderer/Chart.java">
+    <file id="default-default-net_sf_statsvn-renderer_Chart.java"
+        module="statsvn" path="net/sf/statsvn/renderer/Chart.java" project="StatSvn">
         <result date="2006-11-14" statvalue="9" type="checkstyle"/>
         <result date="2006-11-14" statvalue="1" type="findbugs"/>
         <result date="2006-11-14" statvalue="89" type="cobertura-line"/>
@@ -875,7 +1007,10 @@
         <result date="2006-11-18" statvalue="89" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_renderer_CombinedCommitScatterChart.java" path="net/sf/statcvs/renderer/CombinedCommitScatterChart.java">
+    <file
+        id="default-default-net_sf_statsvn-renderer_CombinedCommitScatterChart.java"
+        module="statsvn"
+        path="net/sf/statsvn/renderer/CombinedCommitScatterChart.java" project="StatSvn">
         <result date="2006-11-14" statvalue="18" type="checkstyle"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
@@ -892,7 +1027,10 @@
         <result date="2006-11-18" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_renderer_CommitLogRenderer.java" path="net/sf/statcvs/renderer/CommitLogRenderer.java">
+    <file
+        id="default-default-net_sf_statsvn-renderer_CommitLogRenderer.java"
+        module="statsvn"
+        path="net/sf/statsvn/renderer/CommitLogRenderer.java" project="StatSvn">
         <result date="2006-11-14" statvalue="4" type="checkstyle"/>
         <result date="2006-11-14" statvalue="4" type="findbugs"/>
         <result date="2006-11-14" statvalue="86" type="cobertura-line"/>
@@ -914,7 +1052,10 @@
         <result date="2006-11-18" statvalue="86" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="90" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_renderer_FileCollectionFormatter.java" path="net/sf/statcvs/renderer/FileCollectionFormatter.java">
+    <file
+        id="default-default-net_sf_statsvn-renderer_FileCollectionFormatter.java"
+        module="statsvn"
+        path="net/sf/statsvn/renderer/FileCollectionFormatter.java" project="StatSvn">
         <result date="2006-11-14" statvalue="1" type="checkstyle"/>
         <result date="2006-11-14" statvalue="86" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="91" type="cobertura-branch"/>
@@ -928,7 +1069,10 @@
         <result date="2006-11-18" statvalue="86" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="91" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_renderer_HTMLTableCellRenderer.java" path="net/sf/statcvs/renderer/HTMLTableCellRenderer.java">
+    <file
+        id="default-default-net_sf_statsvn-renderer_HTMLTableCellRenderer.java"
+        module="statsvn"
+        path="net/sf/statsvn/renderer/HTMLTableCellRenderer.java" project="StatSvn">
         <result date="2006-11-14" statvalue="2" type="checkstyle"/>
         <result date="2006-11-14" statvalue="87" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
@@ -945,7 +1089,8 @@
         <result date="2006-11-18" statvalue="87" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_renderer_LOCChart.java" path="net/sf/statcvs/renderer/LOCChart.java">
+    <file id="default-default-net_sf_statsvn-renderer_LOCChart.java"
+        module="statsvn" path="net/sf/statsvn/renderer/LOCChart.java" project="StatSvn">
         <result date="2006-11-14" statvalue="13" type="checkstyle"/>
         <result date="2006-11-14" statvalue="93" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="80" type="cobertura-branch"/>
@@ -962,7 +1107,8 @@
         <result date="2006-11-18" statvalue="93" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="80" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_renderer_PieChart.java" path="net/sf/statcvs/renderer/PieChart.java">
+    <file id="default-default-net_sf_statsvn-renderer_PieChart.java"
+        module="statsvn" path="net/sf/statsvn/renderer/PieChart.java" project="StatSvn">
         <result date="2006-11-14" statvalue="6" type="checkstyle"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
@@ -979,7 +1125,10 @@
         <result date="2006-11-18" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_renderer_PointXYRenderer.java" path="net/sf/statcvs/renderer/PointXYRenderer.java">
+    <file
+        id="default-default-net_sf_statsvn-renderer_PointXYRenderer.java"
+        module="statsvn"
+        path="net/sf/statsvn/renderer/PointXYRenderer.java" project="StatSvn">
         <result date="2006-11-14" statvalue="3" type="checkstyle"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
         <result date="2006-11-15" statvalue="3" type="checkstyle"/>
@@ -991,7 +1140,10 @@
         <result date="2006-11-18" statvalue="1" type="checkstyle"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_renderer_StackedBarChart.java" path="net/sf/statcvs/renderer/StackedBarChart.java">
+    <file
+        id="default-default-net_sf_statsvn-renderer_StackedBarChart.java"
+        module="statsvn"
+        path="net/sf/statsvn/renderer/StackedBarChart.java" project="StatSvn">
         <result date="2006-11-14" statvalue="10" type="checkstyle"/>
         <result date="2006-11-14" statvalue="98" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
@@ -1008,13 +1160,19 @@
         <result date="2006-11-18" statvalue="98" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_renderer_SymbolicNameAnnotation.java" path="net/sf/statcvs/renderer/SymbolicNameAnnotation.java">
+    <file
+        id="default-default-net_sf_statsvn-renderer_SymbolicNameAnnotation.java"
+        module="statsvn"
+        path="net/sf/statsvn/renderer/SymbolicNameAnnotation.java" project="StatSvn">
         <result date="2006-11-14" statvalue="4" type="checkstyle"/>
         <result date="2006-11-15" statvalue="4" type="checkstyle"/>
         <result date="2006-11-16" statvalue="2" type="checkstyle"/>
         <result date="2006-11-17" statvalue="2" type="checkstyle"/>
     </file>
-    <file id="net_sf_statcvs_renderer_TableRenderer.java" path="net/sf/statcvs/renderer/TableRenderer.java">
+    <file
+        id="default-default-net_sf_statsvn-renderer_TableRenderer.java"
+        module="statsvn"
+        path="net/sf/statsvn/renderer/TableRenderer.java" project="StatSvn">
         <result date="2006-11-14" statvalue="1" type="checkstyle"/>
         <result date="2006-11-14" statvalue="5" type="findbugs"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-line"/>
@@ -1029,7 +1187,10 @@
         <result date="2006-11-18" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_renderer_TimeLineChart.java" path="net/sf/statcvs/renderer/TimeLineChart.java">
+    <file
+        id="default-default-net_sf_statsvn-renderer_TimeLineChart.java"
+        module="statsvn"
+        path="net/sf/statsvn/renderer/TimeLineChart.java" project="StatSvn">
         <result date="2006-11-14" statvalue="6" type="checkstyle"/>
         <result date="2006-11-14" statvalue="89" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="66" type="cobertura-branch"/>
@@ -1046,7 +1207,8 @@
         <result date="2006-11-18" statvalue="89" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="66" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_reportmodel_Column.java" path="net/sf/statcvs/reportmodel/Column.java">
+    <file id="default-default-net_sf_statsvn-reportmodel_Column.java"
+        module="statsvn" path="net/sf/statsvn/reportmodel/Column.java" project="StatSvn">
         <result date="2006-11-14" statvalue="1" type="checkstyle"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
         <result date="2006-11-15" statvalue="1" type="checkstyle"/>
@@ -1058,7 +1220,10 @@
         <result date="2006-11-18" statvalue="1" type="checkstyle"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_reportmodel_GenericColumn.java" path="net/sf/statcvs/reportmodel/GenericColumn.java">
+    <file
+        id="default-default-net_sf_statsvn-reportmodel_GenericColumn.java"
+        module="statsvn"
+        path="net/sf/statsvn/reportmodel/GenericColumn.java" project="StatSvn">
         <result date="2006-11-14" statvalue="1" type="checkstyle"/>
         <result date="2006-11-14" statvalue="88" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
@@ -1072,7 +1237,10 @@
         <result date="2006-11-18" statvalue="88" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_reportmodel_HelperTimePoint.java" path="net/sf/statcvs/reportmodel/HelperTimePoint.java">
+    <file
+        id="default-default-net_sf_statsvn-reportmodel_HelperTimePoint.java"
+        module="statsvn"
+        path="net/sf/statsvn/reportmodel/HelperTimePoint.java" project="StatSvn">
         <result date="2006-11-14" statvalue="4" type="checkstyle"/>
         <result date="2006-11-14" statvalue="78" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
@@ -1086,7 +1254,10 @@
         <result date="2006-11-18" statvalue="78" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_reportmodel_IntegerColumn.java" path="net/sf/statcvs/reportmodel/IntegerColumn.java">
+    <file
+        id="default-default-net_sf_statsvn-reportmodel_IntegerColumn.java"
+        module="statsvn"
+        path="net/sf/statsvn/reportmodel/IntegerColumn.java" project="StatSvn">
         <result date="2006-11-14" statvalue="1" type="checkstyle"/>
         <result date="2006-11-14" statvalue="85" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
@@ -1100,7 +1271,10 @@
         <result date="2006-11-18" statvalue="85" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_reportmodel_RatioColumn.java" path="net/sf/statcvs/reportmodel/RatioColumn.java">
+    <file
+        id="default-default-net_sf_statsvn-reportmodel_RatioColumn.java"
+        module="statsvn"
+        path="net/sf/statsvn/reportmodel/RatioColumn.java" project="StatSvn">
         <result date="2006-11-14" statvalue="5" type="checkstyle"/>
         <result date="2006-11-14" statvalue="94" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
@@ -1117,7 +1291,10 @@
         <result date="2006-11-18" statvalue="94" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_reportmodel_SimpleTextColumn.java" path="net/sf/statcvs/reportmodel/SimpleTextColumn.java">
+    <file
+        id="default-default-net_sf_statsvn-reportmodel_SimpleTextColumn.java"
+        module="statsvn"
+        path="net/sf/statsvn/reportmodel/SimpleTextColumn.java" project="StatSvn">
         <result date="2006-11-14" statvalue="1" type="checkstyle"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
         <result date="2006-11-15" statvalue="1" type="checkstyle"/>
@@ -1126,11 +1303,13 @@
         <result date="2006-11-17" statvalue="100" type="cobertura-branch"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_reportmodel_Table.java" path="net/sf/statcvs/reportmodel/Table.java">
+    <file id="default-default-net_sf_statsvn-reportmodel_Table.java"
+        module="statsvn" path="net/sf/statsvn/reportmodel/Table.java" project="StatSvn">
         <result date="2006-11-14" statvalue="1" type="checkstyle"/>
         <result date="2006-11-15" statvalue="1" type="checkstyle"/>
     </file>
-    <file id="net_sf_statcvs_reportmodel_TimeLine.java" path="net/sf/statcvs/reportmodel/TimeLine.java">
+    <file id="default-default-net_sf_statsvn-reportmodel_TimeLine.java"
+        module="statsvn" path="net/sf/statsvn/reportmodel/TimeLine.java" project="StatSvn">
         <result date="2006-11-14" statvalue="2" type="checkstyle"/>
         <result date="2006-11-14" statvalue="1" type="findbugs"/>
         <result date="2006-11-14" statvalue="94" type="cobertura-line"/>
@@ -1149,7 +1328,9 @@
         <result date="2006-11-18" statvalue="94" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="87" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_reportmodel_TimePoint.java" path="net/sf/statcvs/reportmodel/TimePoint.java">
+    <file id="default-default-net_sf_statsvn-reportmodel_TimePoint.java"
+        module="statsvn"
+        path="net/sf/statsvn/reportmodel/TimePoint.java" project="StatSvn">
         <result date="2006-11-14" statvalue="3" type="checkstyle"/>
         <result date="2006-11-14" statvalue="2" type="findbugs"/>
         <result date="2006-11-14" statvalue="87" type="cobertura-line"/>
@@ -1168,7 +1349,10 @@
         <result date="2006-11-18" statvalue="87" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_reports_AbstractLocTableReport.java" path="net/sf/statcvs/reports/AbstractLocTableReport.java">
+    <file
+        id="default-default-net_sf_statsvn-reports_AbstractLocTableReport.java"
+        module="statsvn"
+        path="net/sf/statsvn/reports/AbstractLocTableReport.java" project="StatSvn">
         <result date="2006-11-14" statvalue="1" type="checkstyle"/>
         <result date="2006-11-14" statvalue="98" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
@@ -1183,7 +1367,9 @@
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
     <file
-        id="net_sf_statcvs_reports_AuthorsForDirectoryTableReport.java" path="net/sf/statcvs/reports/AuthorsForDirectoryTableReport.java">
+        id="default-default-net_sf_statsvn-reports_AuthorsForDirectoryTableReport.java"
+        module="statsvn"
+        path="net/sf/statsvn/reports/AuthorsForDirectoryTableReport.java" project="StatSvn">
         <result date="2006-11-14" statvalue="2" type="checkstyle"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
@@ -1197,7 +1383,10 @@
         <result date="2006-11-18" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_reports_AuthorsTableReport.java" path="net/sf/statcvs/reports/AuthorsTableReport.java">
+    <file
+        id="default-default-net_sf_statsvn-reports_AuthorsTableReport.java"
+        module="statsvn"
+        path="net/sf/statsvn/reports/AuthorsTableReport.java" project="StatSvn">
         <result date="2006-11-14" statvalue="2" type="checkstyle"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
@@ -1211,7 +1400,10 @@
         <result date="2006-11-18" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_reports_AvgFileSizeTimeLineReport.java" path="net/sf/statcvs/reports/AvgFileSizeTimeLineReport.java">
+    <file
+        id="default-default-net_sf_statsvn-reports_AvgFileSizeTimeLineReport.java"
+        module="statsvn"
+        path="net/sf/statsvn/reports/AvgFileSizeTimeLineReport.java" project="StatSvn">
         <result date="2006-11-14" statvalue="1" type="checkstyle"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
@@ -1226,7 +1418,9 @@
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
     <file
-        id="net_sf_statcvs_reports_DirectoriesForAuthorTableReport.java" path="net/sf/statcvs/reports/DirectoriesForAuthorTableReport.java">
+        id="default-default-net_sf_statsvn-reports_DirectoriesForAuthorTableReport.java"
+        module="statsvn"
+        path="net/sf/statsvn/reports/DirectoriesForAuthorTableReport.java" project="StatSvn">
         <result date="2006-11-14" statvalue="2" type="checkstyle"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
@@ -1240,7 +1434,10 @@
         <result date="2006-11-18" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_reports_DirectoriesTableReport.java" path="net/sf/statcvs/reports/DirectoriesTableReport.java">
+    <file
+        id="default-default-net_sf_statsvn-reports_DirectoriesTableReport.java"
+        module="statsvn"
+        path="net/sf/statsvn/reports/DirectoriesTableReport.java" project="StatSvn">
         <result date="2006-11-14" statvalue="1" type="checkstyle"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
@@ -1254,7 +1451,10 @@
         <result date="2006-11-18" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_reports_FileCountTimeLineReport.java" path="net/sf/statcvs/reports/FileCountTimeLineReport.java">
+    <file
+        id="default-default-net_sf_statsvn-reports_FileCountTimeLineReport.java"
+        module="statsvn"
+        path="net/sf/statsvn/reports/FileCountTimeLineReport.java" project="StatSvn">
         <result date="2006-11-14" statvalue="1" type="checkstyle"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
@@ -1268,7 +1468,10 @@
         <result date="2006-11-18" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_reports_FilesRevisionCountComparator.java" path="net/sf/statcvs/reports/FilesRevisionCountComparator.java">
+    <file
+        id="default-default-net_sf_statsvn-reports_FilesRevisionCountComparator.java"
+        module="statsvn"
+        path="net/sf/statsvn/reports/FilesRevisionCountComparator.java" project="StatSvn">
         <result date="2006-11-14" statvalue="2" type="checkstyle"/>
         <result date="2006-11-14" statvalue="1" type="findbugs"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-line"/>
@@ -1291,7 +1494,9 @@
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
     <file
-        id="net_sf_statcvs_reports_FilesWithMostRevisionsTableReport.java" path="net/sf/statcvs/reports/FilesWithMostRevisionsTableReport.java">
+        id="default-default-net_sf_statsvn-reports_FilesWithMostRevisionsTableReport.java"
+        module="statsvn"
+        path="net/sf/statsvn/reports/FilesWithMostRevisionsTableReport.java" project="StatSvn">
         <result date="2006-11-14" statvalue="2" type="checkstyle"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
@@ -1305,7 +1510,10 @@
         <result date="2006-11-18" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_reports_LargestFilesTableReport.java" path="net/sf/statcvs/reports/LargestFilesTableReport.java">
+    <file
+        id="default-default-net_sf_statsvn-reports_LargestFilesTableReport.java"
+        module="statsvn"
+        path="net/sf/statsvn/reports/LargestFilesTableReport.java" project="StatSvn">
         <result date="2006-11-14" statvalue="2" type="checkstyle"/>
         <result date="2006-11-14" statvalue="95" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
@@ -1319,7 +1527,10 @@
         <result date="2006-11-18" statvalue="95" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_reports_TopAuthorsTableReport.java" path="net/sf/statcvs/reports/TopAuthorsTableReport.java">
+    <file
+        id="default-default-net_sf_statsvn-reports_TopAuthorsTableReport.java"
+        module="statsvn"
+        path="net/sf/statsvn/reports/TopAuthorsTableReport.java" project="StatSvn">
         <result date="2006-11-14" statvalue="3" type="checkstyle"/>
         <result date="2006-11-14" statvalue="92" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
@@ -1336,14 +1547,20 @@
         <result date="2006-11-18" statvalue="92" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_util_ConsoleOutErrHandler.java" path="net/sf/statcvs/util/ConsoleOutErrHandler.java">
+    <file
+        id="default-default-net_sf_statsvn-util_ConsoleOutErrHandler.java"
+        module="statsvn"
+        path="net/sf/statsvn/util/ConsoleOutErrHandler.java" project="StatSvn">
         <result date="2006-11-14" statvalue="1" type="checkstyle"/>
         <result date="2006-11-15" statvalue="1" type="checkstyle"/>
         <result date="2006-11-16" statvalue="1" type="checkstyle"/>
         <result date="2006-11-17" statvalue="1" type="checkstyle"/>
         <result date="2006-11-18" statvalue="1" type="checkstyle"/>
     </file>
-    <file id="net_sf_statcvs_util_FilePatternMatcher.java" path="net/sf/statcvs/util/FilePatternMatcher.java">
+    <file
+        id="default-default-net_sf_statsvn-util_FilePatternMatcher.java"
+        module="statsvn"
+        path="net/sf/statsvn/util/FilePatternMatcher.java" project="StatSvn">
         <result date="2006-11-14" statvalue="7" type="checkstyle"/>
         <result date="2006-11-14" statvalue="70" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
@@ -1360,7 +1577,8 @@
         <result date="2006-11-18" statvalue="70" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_util_FileUtils.java" path="net/sf/statcvs/util/FileUtils.java">
+    <file id="default-default-net_sf_statsvn-util_FileUtils.java"
+        module="statsvn" path="net/sf/statsvn/util/FileUtils.java" project="StatSvn">
         <result date="2006-11-14" statvalue="6" type="checkstyle"/>
         <result date="2006-11-14" statvalue="3" type="findbugs"/>
         <result date="2006-11-14" statvalue="54" type="cobertura-line"/>
@@ -1384,7 +1602,10 @@
         <result date="2006-11-18" statvalue="53" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="71" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_util_FilenameComparator.java" path="net/sf/statcvs/util/FilenameComparator.java">
+    <file
+        id="default-default-net_sf_statsvn-util_FilenameComparator.java"
+        module="statsvn"
+        path="net/sf/statsvn/util/FilenameComparator.java" project="StatSvn">
         <result date="2006-11-14" statvalue="1" type="checkstyle"/>
         <result date="2006-11-14" statvalue="1" type="findbugs"/>
         <result date="2006-11-14" statvalue="83" type="cobertura-line"/>
@@ -1403,7 +1624,8 @@
         <result date="2006-11-18" statvalue="83" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_util_IntegerMap.java" path="net/sf/statcvs/util/IntegerMap.java">
+    <file id="default-default-net_sf_statsvn-util_IntegerMap.java"
+        module="statsvn" path="net/sf/statsvn/util/IntegerMap.java" project="StatSvn">
         <result date="2006-11-14" statvalue="2" type="findbugs"/>
         <result date="2006-11-14" statvalue="1" type="findbugs"/>
         <result date="2006-11-14" statvalue="3" type="checkstyle"/>
@@ -1430,6 +1652,7 @@
         <result date="2006-11-17" statvalue="1" type="findbugs"/>
         <result date="2006-11-17" statvalue="70" type="cobertura-line"/>
         <result date="2006-11-17" statvalue="100" type="cobertura-branch"/>
+        <result date="2006-11-18" statvalue="2" type="findbugs"/>
         <result date="2006-11-18" statvalue="1" type="findbugs"/>
         <result date="2006-11-18" statvalue="2" type="findbugs"/>
         <result date="2006-11-18" statvalue="1" type="findbugs"/>
@@ -1441,7 +1664,8 @@
         <result date="2006-11-18" statvalue="70" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_util_LogFormatter.java" path="net/sf/statcvs/util/LogFormatter.java">
+    <file id="default-default-net_sf_statsvn-util_LogFormatter.java"
+        module="statsvn" path="net/sf/statsvn/util/LogFormatter.java" project="StatSvn">
         <result date="2006-11-14" statvalue="2" type="checkstyle"/>
         <result date="2006-11-14" statvalue="31" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="50" type="cobertura-branch"/>
@@ -1458,7 +1682,8 @@
         <result date="2006-11-18" statvalue="31" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="50" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_util_LookaheadReader.java" path="net/sf/statcvs/util/LookaheadReader.java">
+    <file id="default-default-net_sf_statsvn-util_LookaheadReader.java"
+        module="statsvn" path="net/sf/statsvn/util/LookaheadReader.java" project="StatSvn">
         <result date="2006-11-14" statvalue="2" type="checkstyle"/>
         <result date="2006-11-14" statvalue="84" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
@@ -1475,7 +1700,8 @@
         <result date="2006-11-18" statvalue="84" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_util_OutputUtils.java" path="net/sf/statcvs/util/OutputUtils.java">
+    <file id="default-default-net_sf_statsvn-util_OutputUtils.java"
+        module="statsvn" path="net/sf/statsvn/util/OutputUtils.java" project="StatSvn">
         <result date="2006-11-14" statvalue="8" type="checkstyle"/>
         <result date="2006-11-14" statvalue="94" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
@@ -1492,7 +1718,8 @@
         <result date="2006-11-18" statvalue="94" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_util_ProcessUtils.java" path="net/sf/statcvs/util/ProcessUtils.java">
+    <file id="default-default-net_sf_statsvn-util_ProcessUtils.java"
+        module="statsvn" path="net/sf/statsvn/util/ProcessUtils.java" project="StatSvn">
         <result date="2006-11-14" statvalue="7" type="checkstyle"/>
         <result date="2006-11-14" statvalue="3" type="findbugs"/>
         <result date="2006-11-14" statvalue="5" type="cobertura-line"/>
@@ -1518,11 +1745,14 @@
         <result date="2006-11-18" statvalue="33" type="cobertura-branch"/>
         <result date="2006-11-18" statvalue="1" type="pmd"/>
     </file>
-    <file id="net_sf_statcvs_util_SvnCommandHelper.java" path="net/sf/statcvs/util/SvnCommandHelper.java">
+    <file id="default-default-net_sf_statsvn-util_SvnCommandHelper.java"
+        module="statsvn"
+        path="net/sf/statsvn/util/SvnCommandHelper.java" project="StatSvn">
         <result date="2006-11-14" statvalue="2" type="checkstyle"/>
         <result date="2006-11-15" statvalue="2" type="checkstyle"/>
     </file>
-    <file id="net_sf_statcvs_util_SvnDiffUtils.java" path="net/sf/statcvs/util/SvnDiffUtils.java">
+    <file id="default-default-net_sf_statsvn-util_SvnDiffUtils.java"
+        module="statsvn" path="net/sf/statsvn/util/SvnDiffUtils.java" project="StatSvn">
         <result date="2006-11-14" statvalue="14" type="checkstyle"/>
         <result date="2006-11-14" statvalue="1" type="findbugs"/>
         <result date="2006-11-15" statvalue="14" type="checkstyle"/>
@@ -1534,7 +1764,8 @@
         <result date="2006-11-18" statvalue="3" type="checkstyle"/>
         <result date="2006-11-18" statvalue="1" type="findbugs"/>
     </file>
-    <file id="net_sf_statcvs_util_SvnInfoUtils.java" path="net/sf/statcvs/util/SvnInfoUtils.java">
+    <file id="default-default-net_sf_statsvn-util_SvnInfoUtils.java"
+        module="statsvn" path="net/sf/statsvn/util/SvnInfoUtils.java" project="StatSvn">
         <result date="2006-11-14" statvalue="2" type="findbugs"/>
         <result date="2006-11-14" statvalue="7" type="findbugs"/>
         <result date="2006-11-14" statvalue="44" type="checkstyle"/>
@@ -1561,16 +1792,17 @@
         <result date="2006-11-17" statvalue="7" type="findbugs"/>
         <result date="2006-11-17" statvalue="64" type="cobertura-line"/>
         <result date="2006-11-17" statvalue="76" type="cobertura-branch"/>
-        <result date="2006-11-18" statvalue="15" type="findbugs"/>
         <result date="2006-11-18" statvalue="2" type="findbugs"/>
         <result date="2006-11-18" statvalue="15" type="findbugs"/>
+        <result date="2006-11-18" statvalue="2" type="findbugs"/>
         <result date="2006-11-18" statvalue="2" type="findbugs"/>
         <result date="2006-11-18" statvalue="3" type="checkstyle"/>
         <result date="2006-11-18" statvalue="2" type="findbugs"/>
         <result date="2006-11-18" statvalue="55" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="75" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_util_SvnPropgetUtils.java" path="net/sf/statcvs/util/SvnPropgetUtils.java">
+    <file id="default-default-net_sf_statsvn-util_SvnPropgetUtils.java"
+        module="statsvn" path="net/sf/statsvn/util/SvnPropgetUtils.java" project="StatSvn">
         <result date="2006-11-14" statvalue="14" type="checkstyle"/>
         <result date="2006-11-14" statvalue="1" type="findbugs"/>
         <result date="2006-11-14" statvalue="39" type="cobertura-line"/>
@@ -1595,7 +1827,8 @@
         <result date="2006-11-18" statvalue="58" type="cobertura-branch"/>
         <result date="2006-11-18" statvalue="1" type="pmd"/>
     </file>
-    <file id="net_sf_statcvs_util_SvnStartupUtils.java" path="net/sf/statcvs/util/SvnStartupUtils.java">
+    <file id="default-default-net_sf_statsvn-util_SvnStartupUtils.java"
+        module="statsvn" path="net/sf/statsvn/util/SvnStartupUtils.java" project="StatSvn">
         <result date="2006-11-14" statvalue="17" type="checkstyle"/>
         <result date="2006-11-14" statvalue="1" type="findbugs"/>
         <result date="2006-11-15" statvalue="17" type="checkstyle"/>
@@ -1606,7 +1839,10 @@
         <result date="2006-11-17" statvalue="1" type="findbugs"/>
         <result date="2006-11-18" statvalue="1" type="findbugs"/>
     </file>
-    <file id="net_sf_statcvs_util_SvnVersionMismatchException.java" path="net/sf/statcvs/util/SvnVersionMismatchException.java">
+    <file
+        id="default-default-net_sf_statsvn-util_SvnVersionMismatchException.java"
+        module="statsvn"
+        path="net/sf/statsvn/util/SvnVersionMismatchException.java" project="StatSvn">
         <result date="2006-11-14" statvalue="4" type="checkstyle"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
         <result date="2006-11-15" statvalue="4" type="checkstyle"/>
@@ -1615,7 +1851,8 @@
         <result date="2006-11-17" statvalue="100" type="cobertura-branch"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_util_XMLUtil.java" path="net/sf/statcvs/util/XMLUtil.java">
+    <file id="default-default-net_sf_statsvn-util_XMLUtil.java"
+        module="statsvn" path="net/sf/statsvn/util/XMLUtil.java" project="StatSvn">
         <result date="2006-11-14" statvalue="7" type="checkstyle"/>
         <result date="2006-11-14" statvalue="78" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="85" type="cobertura-branch"/>
@@ -1637,7 +1874,10 @@
         <result date="2006-11-18" statvalue="85" type="cobertura-branch"/>
         <result date="2006-11-18" statvalue="2" type="pmd"/>
     </file>
-    <file id="net_sf_statcvs_reports_FilesLocComparator.java" path="net/sf/statcvs/reports/FilesLocComparator.java">
+    <file
+        id="default-default-net_sf_statsvn-reports_FilesLocComparator.java"
+        module="statsvn"
+        path="net/sf/statsvn/reports/FilesLocComparator.java" project="StatSvn">
         <result date="2006-11-14" statvalue="1" type="findbugs"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
@@ -1654,7 +1894,10 @@
         <result date="2006-11-18" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_input_RepositoriesBuilder.java" path="net/sf/statcvs/input/RepositoriesBuilder.java">
+    <file
+        id="default-default-net_sf_statsvn-input_RepositoriesBuilder.java"
+        module="statsvn"
+        path="net/sf/statsvn/input/RepositoriesBuilder.java" project="StatSvn">
         <result date="2006-11-14" statvalue="81" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
         <result date="2006-11-15" statvalue="81" type="cobertura-line"/>
@@ -1666,7 +1909,8 @@
         <result date="2006-11-18" statvalue="81" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_output_CssHandler.java" path="net/sf/statcvs/output/CssHandler.java">
+    <file id="default-default-net_sf_statsvn-output_CssHandler.java"
+        module="statsvn" path="net/sf/statsvn/output/CssHandler.java" project="StatSvn">
         <result date="2006-11-14" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
         <result date="2006-11-15" statvalue="100" type="cobertura-line"/>
@@ -1678,7 +1922,10 @@
         <result date="2006-11-18" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_output_WebBugtrackerIntegration.java" path="net/sf/statcvs/output/WebBugtrackerIntegration.java">
+    <file
+        id="default-default-net_sf_statsvn-output_WebBugtrackerIntegration.java"
+        module="statsvn"
+        path="net/sf/statsvn/output/WebBugtrackerIntegration.java" project="StatSvn">
         <result date="2006-11-14" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
         <result date="2006-11-15" statvalue="100" type="cobertura-line"/>
@@ -1690,7 +1937,10 @@
         <result date="2006-11-18" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_renderer_TableCellRenderer.java" path="net/sf/statcvs/renderer/TableCellRenderer.java">
+    <file
+        id="default-default-net_sf_statsvn-renderer_TableCellRenderer.java"
+        module="statsvn"
+        path="net/sf/statsvn/renderer/TableCellRenderer.java" project="StatSvn">
         <result date="2006-11-14" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
         <result date="2006-11-15" statvalue="100" type="cobertura-line"/>
@@ -1702,7 +1952,10 @@
         <result date="2006-11-18" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_reportmodel_AuthorColumn.java" path="net/sf/statcvs/reportmodel/AuthorColumn.java">
+    <file
+        id="default-default-net_sf_statsvn-reportmodel_AuthorColumn.java"
+        module="statsvn"
+        path="net/sf/statsvn/reportmodel/AuthorColumn.java" project="StatSvn">
         <result date="2006-11-14" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
         <result date="2006-11-15" statvalue="100" type="cobertura-line"/>
@@ -1714,7 +1967,10 @@
         <result date="2006-11-18" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_reportmodel_DirectoryColumn.java" path="net/sf/statcvs/reportmodel/DirectoryColumn.java">
+    <file
+        id="default-default-net_sf_statsvn-reportmodel_DirectoryColumn.java"
+        module="statsvn"
+        path="net/sf/statsvn/reportmodel/DirectoryColumn.java" project="StatSvn">
         <result date="2006-11-14" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
         <result date="2006-11-15" statvalue="100" type="cobertura-line"/>
@@ -1726,7 +1982,10 @@
         <result date="2006-11-18" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_reportmodel_FileColumn.java" path="net/sf/statcvs/reportmodel/FileColumn.java">
+    <file
+        id="default-default-net_sf_statsvn-reportmodel_FileColumn.java"
+        module="statsvn"
+        path="net/sf/statsvn/reportmodel/FileColumn.java" project="StatSvn">
         <result date="2006-11-14" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
         <result date="2006-11-15" statvalue="100" type="cobertura-line"/>
@@ -1738,7 +1997,8 @@
         <result date="2006-11-18" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_reports_TableReport.java" path="net/sf/statcvs/reports/TableReport.java">
+    <file id="default-default-net_sf_statsvn-reports_TableReport.java"
+        module="statsvn" path="net/sf/statsvn/reports/TableReport.java" project="StatSvn">
         <result date="2006-11-14" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
         <result date="2006-11-15" statvalue="100" type="cobertura-line"/>
@@ -1750,36 +2010,836 @@
         <result date="2006-11-18" statvalue="100" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_input_CacheConfiguration.java" path="net/sf/statcvs/input/CacheConfiguration.java">
+    <file
+        id="default-default-net_sf_statsvn-input_CacheConfiguration.java"
+        module="statsvn"
+        path="net/sf/statsvn/input/CacheConfiguration.java" project="StatSvn">
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
         <result date="2006-11-15" statvalue="100" type="cobertura-branch"/>
         <result date="2006-11-16" statvalue="100" type="cobertura-branch"/>
         <result date="2006-11-17" statvalue="100" type="cobertura-branch"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_model_DirectoryRoot.java" path="net/sf/statcvs/model/DirectoryRoot.java">
+    <file id="default-default-net_sf_statsvn-model_DirectoryRoot.java"
+        module="statsvn" path="net/sf/statsvn/model/DirectoryRoot.java" project="StatSvn">
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
         <result date="2006-11-15" statvalue="100" type="cobertura-branch"/>
         <result date="2006-11-16" statvalue="100" type="cobertura-branch"/>
         <result date="2006-11-17" statvalue="100" type="cobertura-branch"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_util_BinaryDiffException.java" path="net/sf/statcvs/util/BinaryDiffException.java">
+    <file
+        id="default-default-net_sf_statsvn-util_BinaryDiffException.java"
+        module="statsvn"
+        path="net/sf/statsvn/util/BinaryDiffException.java" project="StatSvn">
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
         <result date="2006-11-15" statvalue="100" type="cobertura-branch"/>
         <result date="2006-11-16" statvalue="100" type="cobertura-branch"/>
         <result date="2006-11-17" statvalue="100" type="cobertura-branch"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_util_ConsoleOutHandler.java" path="net/sf/statcvs/util/ConsoleOutHandler.java">
+    <file
+        id="default-default-net_sf_statsvn-util_ConsoleOutHandler.java"
+        module="statsvn"
+        path="net/sf/statsvn/util/ConsoleOutHandler.java" project="StatSvn">
         <result date="2006-11-14" statvalue="100" type="cobertura-branch"/>
         <result date="2006-11-15" statvalue="100" type="cobertura-branch"/>
         <result date="2006-11-16" statvalue="100" type="cobertura-branch"/>
         <result date="2006-11-17" statvalue="100" type="cobertura-branch"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
     </file>
-    <file id="net_sf_statcvs_util_StatSvnConstants.java" path="net/sf/statcvs/util/StatSvnConstants.java">
+    <file id="default-default-net_sf_statsvn-util_StatSvnConstants.java"
+        module="statsvn"
+        path="net/sf/statsvn/util/StatSvnConstants.java" project="StatSvn">
         <result date="2006-11-18" statvalue="50" type="cobertura-line"/>
         <result date="2006-11-18" statvalue="100" type="cobertura-branch"/>
+    </file>
+    <file id="default-default-net_sf_statsvn_renderer_package.html"
+        module="statsvn" path="net/sf/statsvn/renderer/package.html" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_output_package.html"
+        module="statsvn" path="net/sf/statsvn/output/package.html" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_reportmodel_package.html"
+        module="statsvn" path="net/sf/statsvn/reportmodel/package.html" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_reports_package.html"
+        module="statsvn" path="net/sf/statsvn/reports/package.html" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_Main.java" module="statsvn"
+        path="net/sf/statsvn/Main.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_ant_StatCvsTask.java"
+        module="statsvn" path="net/sf/statsvn/ant/StatCvsTask.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_input_Builder.java"
+        module="statsvn" path="net/sf/statsvn/input/Builder.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_input_CacheBuilder.java"
+        module="statsvn" path="net/sf/statsvn/input/CacheBuilder.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_input_FileBuilder.java"
+        module="statsvn" path="net/sf/statsvn/input/FileBuilder.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_input_RevisionData.java"
+        module="statsvn" path="net/sf/statsvn/input/RevisionData.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_input_SvnLogBuilder.java"
+        module="statsvn" path="net/sf/statsvn/input/SvnLogBuilder.java" project="StatSvn"/>
+    <file
+        id="default-default-net_sf_statsvn_input_SvnLogfileParser.java"
+        module="statsvn"
+        path="net/sf/statsvn/input/SvnLogfileParser.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_model_Author.java"
+        module="statsvn" path="net/sf/statsvn/model/Author.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_model_Commit.java"
+        module="statsvn" path="net/sf/statsvn/model/Commit.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_model_Directory.java"
+        module="statsvn" path="net/sf/statsvn/model/Directory.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_model_Repository.java"
+        module="statsvn" path="net/sf/statsvn/model/Repository.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_model_Revision.java"
+        module="statsvn" path="net/sf/statsvn/model/Revision.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_model_VersionedFile.java"
+        module="statsvn" path="net/sf/statsvn/model/VersionedFile.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_output_AuthorPage.java"
+        module="statsvn" path="net/sf/statsvn/output/AuthorPage.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_output_CPAPage.java"
+        module="statsvn" path="net/sf/statsvn/output/CPAPage.java" project="StatSvn"/>
+    <file
+        id="default-default-net_sf_statsvn_output_ChoraIntegration.java"
+        module="statsvn"
+        path="net/sf/statsvn/output/ChoraIntegration.java" project="StatSvn"/>
+    <file
+        id="default-default-net_sf_statsvn_output_CommandLineParser.java"
+        module="statsvn"
+        path="net/sf/statsvn/output/CommandLineParser.java" project="StatSvn"/>
+    <file
+        id="default-default-net_sf_statsvn_output_ConfigurationOptions.java"
+        module="statsvn"
+        path="net/sf/statsvn/output/ConfigurationOptions.java" project="StatSvn"/>
+    <file
+        id="default-default-net_sf_statsvn_output_DirectorySizesPage.java"
+        module="statsvn"
+        path="net/sf/statsvn/output/DirectorySizesPage.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_output_FileSizesPage.java"
+        module="statsvn" path="net/sf/statsvn/output/FileSizesPage.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_output_HTMLOutput.java"
+        module="statsvn" path="net/sf/statsvn/output/HTMLOutput.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_output_HTMLPage.java"
+        module="statsvn" path="net/sf/statsvn/output/HTMLPage.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_output_HTMLTagger.java"
+        module="statsvn" path="net/sf/statsvn/output/HTMLTagger.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_output_IndexPage.java"
+        module="statsvn" path="net/sf/statsvn/output/IndexPage.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_output_LOCPage.java"
+        module="statsvn" path="net/sf/statsvn/output/LOCPage.java" project="StatSvn"/>
+    <file
+        id="default-default-net_sf_statsvn_output_LOCSeriesBuilder.java"
+        module="statsvn"
+        path="net/sf/statsvn/output/LOCSeriesBuilder.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_output_ModulePage.java"
+        module="statsvn" path="net/sf/statsvn/output/ModulePage.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_renderer_BarChart.java"
+        module="statsvn" path="net/sf/statsvn/renderer/BarChart.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_renderer_Chart.java"
+        module="statsvn" path="net/sf/statsvn/renderer/Chart.java" project="StatSvn"/>
+    <file
+        id="default-default-net_sf_statsvn_renderer_CombinedCommitScatterChart.java"
+        module="statsvn"
+        path="net/sf/statsvn/renderer/CombinedCommitScatterChart.java" project="StatSvn"/>
+    <file
+        id="default-default-net_sf_statsvn_renderer_CommitLogRenderer.java"
+        module="statsvn"
+        path="net/sf/statsvn/renderer/CommitLogRenderer.java" project="StatSvn"/>
+    <file
+        id="default-default-net_sf_statsvn_renderer_HTMLTableCellRenderer.java"
+        module="statsvn"
+        path="net/sf/statsvn/renderer/HTMLTableCellRenderer.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_renderer_LOCChart.java"
+        module="statsvn" path="net/sf/statsvn/renderer/LOCChart.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_renderer_PieChart.java"
+        module="statsvn" path="net/sf/statsvn/renderer/PieChart.java" project="StatSvn"/>
+    <file
+        id="default-default-net_sf_statsvn_renderer_PointXYRenderer.java"
+        module="statsvn"
+        path="net/sf/statsvn/renderer/PointXYRenderer.java" project="StatSvn"/>
+    <file
+        id="default-default-net_sf_statsvn_renderer_StackedBarChart.java"
+        module="statsvn"
+        path="net/sf/statsvn/renderer/StackedBarChart.java" project="StatSvn"/>
+    <file
+        id="default-default-net_sf_statsvn_renderer_TimeLineChart.java"
+        module="statsvn"
+        path="net/sf/statsvn/renderer/TimeLineChart.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_reportmodel_Column.java"
+        module="statsvn" path="net/sf/statsvn/reportmodel/Column.java" project="StatSvn"/>
+    <file
+        id="default-default-net_sf_statsvn_reportmodel_RatioColumn.java"
+        module="statsvn"
+        path="net/sf/statsvn/reportmodel/RatioColumn.java" project="StatSvn"/>
+    <file
+        id="default-default-net_sf_statsvn_reports_FilesRevisionCountComparator.java"
+        module="statsvn"
+        path="net/sf/statsvn/reports/FilesRevisionCountComparator.java" project="StatSvn"/>
+    <file
+        id="default-default-net_sf_statsvn_reports_TopAuthorsTableReport.java"
+        module="statsvn"
+        path="net/sf/statsvn/reports/TopAuthorsTableReport.java" project="StatSvn"/>
+    <file
+        id="default-default-net_sf_statsvn_util_ConsoleOutErrHandler.java"
+        module="statsvn"
+        path="net/sf/statsvn/util/ConsoleOutErrHandler.java" project="StatSvn"/>
+    <file
+        id="default-default-net_sf_statsvn_util_FilePatternMatcher.java"
+        module="statsvn"
+        path="net/sf/statsvn/util/FilePatternMatcher.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_util_FileUtils.java"
+        module="statsvn" path="net/sf/statsvn/util/FileUtils.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_util_IntegerMap.java"
+        module="statsvn" path="net/sf/statsvn/util/IntegerMap.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="1" type="findbugs"/>
+        <result date="2006-11-19" statvalue="2" type="findbugs"/>
+        <result date="2006-11-19" statvalue="1" type="findbugs"/>
+    </file>
+    <file id="default-default-net_sf_statsvn_util_LogFormatter.java"
+        module="statsvn" path="net/sf/statsvn/util/LogFormatter.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_util_LookaheadReader.java"
+        module="statsvn" path="net/sf/statsvn/util/LookaheadReader.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_util_OutputUtils.java"
+        module="statsvn" path="net/sf/statsvn/util/OutputUtils.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_util_ProcessUtils.java"
+        module="statsvn" path="net/sf/statsvn/util/ProcessUtils.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_util_SvnDiffUtils.java"
+        module="statsvn" path="net/sf/statsvn/util/SvnDiffUtils.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_util_SvnInfoUtils.java"
+        module="statsvn" path="net/sf/statsvn/util/SvnInfoUtils.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_util_SvnPropgetUtils.java"
+        module="statsvn" path="net/sf/statsvn/util/SvnPropgetUtils.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_util_XMLUtil.java"
+        module="statsvn" path="net/sf/statsvn/util/XMLUtil.java" project="StatSvn"/>
+    <file
+        id="default-default-net_sf_statsvn_input_RepositoryFileManager.java"
+        module="statsvn"
+        path="net/sf/statsvn/input/RepositoryFileManager.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_model_SymbolicName.java"
+        module="statsvn" path="net/sf/statsvn/model/SymbolicName.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_reportmodel_TimeLine.java"
+        module="statsvn" path="net/sf/statsvn/reportmodel/TimeLine.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_reportmodel_TimePoint.java"
+        module="statsvn"
+        path="net/sf/statsvn/reportmodel/TimePoint.java" project="StatSvn"/>
+    <file
+        id="default-default-net_sf_statsvn_reports_FilesLocComparator.java"
+        module="statsvn"
+        path="net/sf/statsvn/reports/FilesLocComparator.java" project="StatSvn"/>
+    <file
+        id="default-default-net_sf_statsvn_util_FilenameComparator.java"
+        module="statsvn"
+        path="net/sf/statsvn/util/FilenameComparator.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_util_SvnStartupUtils.java"
+        module="statsvn" path="net/sf/statsvn/util/SvnStartupUtils.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_output_CssHandler.java"
+        module="statsvn" path="net/sf/statsvn/output/CssHandler.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_output_OutputRenderer.java"
+        module="statsvn"
+        path="net/sf/statsvn/output/OutputRenderer.java" project="StatSvn"/>
+    <file
+        id="default-default-net_sf_statsvn_output_WebBugtrackerIntegration.java"
+        module="statsvn"
+        path="net/sf/statsvn/output/WebBugtrackerIntegration.java" project="StatSvn"/>
+    <file
+        id="default-default-net_sf_statsvn_output_WebRepositoryIntegration.java"
+        module="statsvn"
+        path="net/sf/statsvn/output/WebRepositoryIntegration.java" project="StatSvn"/>
+    <file
+        id="default-default-net_sf_statsvn_renderer_TableCellRenderer.java"
+        module="statsvn"
+        path="net/sf/statsvn/renderer/TableCellRenderer.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_reports_TableReport.java"
+        module="statsvn" path="net/sf/statsvn/reports/TableReport.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_Messages.java"
+        module="statsvn" path="net/sf/statsvn/Messages.java" project="StatSvn"/>
+    <file
+        id="default-default-net_sf_statsvn_input_CacheConfiguration.java"
+        module="statsvn"
+        path="net/sf/statsvn/input/CacheConfiguration.java" project="StatSvn"/>
+    <file
+        id="default-default-net_sf_statsvn_input_EmptyRepositoryException.java"
+        module="statsvn"
+        path="net/sf/statsvn/input/EmptyRepositoryException.java" project="StatSvn"/>
+    <file
+        id="default-default-net_sf_statsvn_input_LogSyntaxException.java"
+        module="statsvn"
+        path="net/sf/statsvn/input/LogSyntaxException.java" project="StatSvn"/>
+    <file
+        id="default-default-net_sf_statsvn_input_NoLineCountException.java"
+        module="statsvn"
+        path="net/sf/statsvn/input/NoLineCountException.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_model_DirectoryImpl.java"
+        module="statsvn" path="net/sf/statsvn/model/DirectoryImpl.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_model_DirectoryRoot.java"
+        module="statsvn" path="net/sf/statsvn/model/DirectoryRoot.java" project="StatSvn"/>
+    <file
+        id="default-default-net_sf_statsvn_output_ConfigurationException.java"
+        module="statsvn"
+        path="net/sf/statsvn/output/ConfigurationException.java" project="StatSvn"/>
+    <file
+        id="default-default-net_sf_statsvn_output_DefaultCssHandler.java"
+        module="statsvn"
+        path="net/sf/statsvn/output/DefaultCssHandler.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_output_NoFilesPage.java"
+        module="statsvn" path="net/sf/statsvn/output/NoFilesPage.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_output_UrlCssHandler.java"
+        module="statsvn" path="net/sf/statsvn/output/UrlCssHandler.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_output_XDocOutput.java"
+        module="statsvn" path="net/sf/statsvn/output/XDocOutput.java" project="StatSvn"/>
+    <file
+        id="default-default-net_sf_statsvn_reportmodel_AuthorColumn.java"
+        module="statsvn"
+        path="net/sf/statsvn/reportmodel/AuthorColumn.java" project="StatSvn"/>
+    <file
+        id="default-default-net_sf_statsvn_reportmodel_DirectoryColumn.java"
+        module="statsvn"
+        path="net/sf/statsvn/reportmodel/DirectoryColumn.java" project="StatSvn"/>
+    <file
+        id="default-default-net_sf_statsvn_reportmodel_FileColumn.java"
+        module="statsvn"
+        path="net/sf/statsvn/reportmodel/FileColumn.java" project="StatSvn"/>
+    <file
+        id="default-default-net_sf_statsvn_reportmodel_SimpleTextColumn.java"
+        module="statsvn"
+        path="net/sf/statsvn/reportmodel/SimpleTextColumn.java" project="StatSvn"/>
+    <file
+        id="default-default-net_sf_statsvn_reports_AuthorsForDirectoryTableReport.java"
+        module="statsvn"
+        path="net/sf/statsvn/reports/AuthorsForDirectoryTableReport.java" project="StatSvn"/>
+    <file
+        id="default-default-net_sf_statsvn_reports_AuthorsTableReport.java"
+        module="statsvn"
+        path="net/sf/statsvn/reports/AuthorsTableReport.java" project="StatSvn"/>
+    <file
+        id="default-default-net_sf_statsvn_reports_DirectoriesForAuthorTableReport.java"
+        module="statsvn"
+        path="net/sf/statsvn/reports/DirectoriesForAuthorTableReport.java" project="StatSvn"/>
+    <file
+        id="default-default-net_sf_statsvn_reports_DirectoriesTableReport.java"
+        module="statsvn"
+        path="net/sf/statsvn/reports/DirectoriesTableReport.java" project="StatSvn"/>
+    <file
+        id="default-default-net_sf_statsvn_util_BinaryDiffException.java"
+        module="statsvn"
+        path="net/sf/statsvn/util/BinaryDiffException.java" project="StatSvn"/>
+    <file
+        id="default-default-net_sf_statsvn_util_ConsoleOutHandler.java"
+        module="statsvn"
+        path="net/sf/statsvn/util/ConsoleOutHandler.java" project="StatSvn"/>
+    <file id="default-default-net_sf_statsvn_util_StatSvnConstants.java"
+        module="statsvn"
+        path="net/sf/statsvn/util/StatSvnConstants.java" project="StatSvn"/>
+    <file
+        id="default-default-net_sf_statsvn_util_SvnVersionMismatchException.java"
+        module="statsvn"
+        path="net/sf/statsvn/util/SvnVersionMismatchException.java" project="StatSvn"/>
+    <file
+        id="default-default-net_sf_statsvn_input_SvnXmlLogFileHandler.java"
+        module="statsvn"
+        path="net/sf/statsvn/input/SvnXmlLogFileHandler.java" project="StatSvn"/>
+    <file id="StatSvn-statsvn-net_sf_statsvn_renderer_package.html"
+        module="statsvn" path="net/sf/statsvn/renderer/package.html" project="StatSvn">
+        <result date="2006-11-19" statvalue="1" type="checkstyle"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_output_package.html"
+        module="statsvn" path="net/sf/statsvn/output/package.html" project="StatSvn">
+        <result date="2006-11-19" statvalue="1" type="checkstyle"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_reportmodel_package.html"
+        module="statsvn" path="net/sf/statsvn/reportmodel/package.html" project="StatSvn">
+        <result date="2006-11-19" statvalue="1" type="checkstyle"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_reports_package.html"
+        module="statsvn" path="net/sf/statsvn/reports/package.html" project="StatSvn">
+        <result date="2006-11-19" statvalue="1" type="checkstyle"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_Main.java" module="statsvn"
+        path="net/sf/statsvn/Main.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="12" type="checkstyle"/>
+        <result date="2006-11-19" statvalue="1" type="findbugs"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_ant_StatCvsTask.java"
+        module="statsvn" path="net/sf/statsvn/ant/StatCvsTask.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="2" type="checkstyle"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_input_Builder.java"
+        module="statsvn" path="net/sf/statsvn/input/Builder.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="1" type="checkstyle"/>
+        <result date="2006-11-19" statvalue="1" type="findbugs"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_input_CacheBuilder.java"
+        module="statsvn" path="net/sf/statsvn/input/CacheBuilder.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="2" type="checkstyle"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_input_FileBuilder.java"
+        module="statsvn" path="net/sf/statsvn/input/FileBuilder.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="5" type="checkstyle"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_input_RevisionData.java"
+        module="statsvn" path="net/sf/statsvn/input/RevisionData.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="2" type="checkstyle"/>
+        <result date="2006-11-19" statvalue="3" type="findbugs"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_input_SvnLogBuilder.java"
+        module="statsvn" path="net/sf/statsvn/input/SvnLogBuilder.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="1" type="checkstyle"/>
+        <result date="2006-11-19" statvalue="100" type="cobertura-line"/>
+        <result date="2006-11-19" statvalue="100" type="cobertura-branch"/>
+    </file>
+    <file
+        id="StatSvn-statsvn-net_sf_statsvn_input_SvnLogfileParser.java"
+        module="statsvn"
+        path="net/sf/statsvn/input/SvnLogfileParser.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="18" type="checkstyle"/>
+        <result date="2006-11-19" statvalue="1" type="findbugs"/>
+        <result date="2006-11-19" statvalue="6" type="pmd"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_model_Author.java"
+        module="statsvn" path="net/sf/statsvn/model/Author.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="1" type="checkstyle"/>
+        <result date="2006-11-19" statvalue="100" type="cobertura-branch"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_model_Commit.java"
+        module="statsvn" path="net/sf/statsvn/model/Commit.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="1" type="checkstyle"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_model_Directory.java"
+        module="statsvn" path="net/sf/statsvn/model/Directory.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="1" type="checkstyle"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_model_Repository.java"
+        module="statsvn" path="net/sf/statsvn/model/Repository.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="3" type="checkstyle"/>
+        <result date="2006-11-19" statvalue="2" type="findbugs"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_model_Revision.java"
+        module="statsvn" path="net/sf/statsvn/model/Revision.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="5" type="checkstyle"/>
+        <result date="2006-11-19" statvalue="1" type="findbugs"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_model_VersionedFile.java"
+        module="statsvn" path="net/sf/statsvn/model/VersionedFile.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="1" type="checkstyle"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_output_AuthorPage.java"
+        module="statsvn" path="net/sf/statsvn/output/AuthorPage.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="8" type="checkstyle"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_output_CPAPage.java"
+        module="statsvn" path="net/sf/statsvn/output/CPAPage.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="2" type="checkstyle"/>
+    </file>
+    <file
+        id="StatSvn-statsvn-net_sf_statsvn_output_ChoraIntegration.java"
+        module="statsvn"
+        path="net/sf/statsvn/output/ChoraIntegration.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="1" type="checkstyle"/>
+        <result date="2006-11-19" statvalue="1" type="findbugs"/>
+        <result date="2006-11-19" statvalue="1" type="pmd"/>
+    </file>
+    <file
+        id="StatSvn-statsvn-net_sf_statsvn_output_CommandLineParser.java"
+        module="statsvn"
+        path="net/sf/statsvn/output/CommandLineParser.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="1" type="checkstyle"/>
+        <result date="2006-11-19" statvalue="2" type="findbugs"/>
+    </file>
+    <file
+        id="StatSvn-statsvn-net_sf_statsvn_output_ConfigurationOptions.java"
+        module="statsvn"
+        path="net/sf/statsvn/output/ConfigurationOptions.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="1" type="checkstyle"/>
+        <result date="2006-11-19" statvalue="1" type="findbugs"/>
+    </file>
+    <file
+        id="StatSvn-statsvn-net_sf_statsvn_output_DirectorySizesPage.java"
+        module="statsvn"
+        path="net/sf/statsvn/output/DirectorySizesPage.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="2" type="checkstyle"/>
+        <result date="2006-11-19" statvalue="100" type="cobertura-branch"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_output_FileSizesPage.java"
+        module="statsvn" path="net/sf/statsvn/output/FileSizesPage.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="4" type="checkstyle"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_output_HTMLOutput.java"
+        module="statsvn" path="net/sf/statsvn/output/HTMLOutput.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="15" type="checkstyle"/>
+        <result date="2006-11-19" statvalue="3" type="findbugs"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_output_HTMLPage.java"
+        module="statsvn" path="net/sf/statsvn/output/HTMLPage.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="2" type="checkstyle"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_output_HTMLTagger.java"
+        module="statsvn" path="net/sf/statsvn/output/HTMLTagger.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="1" type="checkstyle"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_output_IndexPage.java"
+        module="statsvn" path="net/sf/statsvn/output/IndexPage.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="3" type="checkstyle"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_output_LOCPage.java"
+        module="statsvn" path="net/sf/statsvn/output/LOCPage.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="2" type="checkstyle"/>
+    </file>
+    <file
+        id="StatSvn-statsvn-net_sf_statsvn_output_LOCSeriesBuilder.java"
+        module="statsvn"
+        path="net/sf/statsvn/output/LOCSeriesBuilder.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="1" type="checkstyle"/>
+        <result date="2006-11-19" statvalue="1" type="findbugs"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_output_ModulePage.java"
+        module="statsvn" path="net/sf/statsvn/output/ModulePage.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="2" type="checkstyle"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_renderer_BarChart.java"
+        module="statsvn" path="net/sf/statsvn/renderer/BarChart.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="2" type="checkstyle"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_renderer_Chart.java"
+        module="statsvn" path="net/sf/statsvn/renderer/Chart.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="6" type="checkstyle"/>
+        <result date="2006-11-19" statvalue="2" type="findbugs"/>
+        <result date="2006-11-19" statvalue="100" type="cobertura-branch"/>
+    </file>
+    <file
+        id="StatSvn-statsvn-net_sf_statsvn_renderer_CombinedCommitScatterChart.java"
+        module="statsvn"
+        path="net/sf/statsvn/renderer/CombinedCommitScatterChart.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="7" type="checkstyle"/>
+    </file>
+    <file
+        id="StatSvn-statsvn-net_sf_statsvn_renderer_CommitLogRenderer.java"
+        module="statsvn"
+        path="net/sf/statsvn/renderer/CommitLogRenderer.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="2" type="checkstyle"/>
+        <result date="2006-11-19" statvalue="2" type="findbugs"/>
+    </file>
+    <file
+        id="StatSvn-statsvn-net_sf_statsvn_renderer_HTMLTableCellRenderer.java"
+        module="statsvn"
+        path="net/sf/statsvn/renderer/HTMLTableCellRenderer.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="1" type="checkstyle"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_renderer_LOCChart.java"
+        module="statsvn" path="net/sf/statsvn/renderer/LOCChart.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="1" type="checkstyle"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_renderer_PieChart.java"
+        module="statsvn" path="net/sf/statsvn/renderer/PieChart.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="1" type="checkstyle"/>
+    </file>
+    <file
+        id="StatSvn-statsvn-net_sf_statsvn_renderer_PointXYRenderer.java"
+        module="statsvn"
+        path="net/sf/statsvn/renderer/PointXYRenderer.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="1" type="checkstyle"/>
+        <result date="2006-11-19" statvalue="100" type="cobertura-branch"/>
+    </file>
+    <file
+        id="StatSvn-statsvn-net_sf_statsvn_renderer_StackedBarChart.java"
+        module="statsvn"
+        path="net/sf/statsvn/renderer/StackedBarChart.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="7" type="checkstyle"/>
+    </file>
+    <file
+        id="StatSvn-statsvn-net_sf_statsvn_renderer_TimeLineChart.java"
+        module="statsvn"
+        path="net/sf/statsvn/renderer/TimeLineChart.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="1" type="checkstyle"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_reportmodel_Column.java"
+        module="statsvn" path="net/sf/statsvn/reportmodel/Column.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="1" type="checkstyle"/>
+        <result date="2006-11-19" statvalue="100" type="cobertura-branch"/>
+    </file>
+    <file
+        id="StatSvn-statsvn-net_sf_statsvn_reportmodel_RatioColumn.java"
+        module="statsvn"
+        path="net/sf/statsvn/reportmodel/RatioColumn.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="2" type="checkstyle"/>
+    </file>
+    <file
+        id="StatSvn-statsvn-net_sf_statsvn_reports_FilesRevisionCountComparator.java"
+        module="statsvn"
+        path="net/sf/statsvn/reports/FilesRevisionCountComparator.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="2" type="checkstyle"/>
+        <result date="2006-11-19" statvalue="1" type="findbugs"/>
+    </file>
+    <file
+        id="StatSvn-statsvn-net_sf_statsvn_reports_TopAuthorsTableReport.java"
+        module="statsvn"
+        path="net/sf/statsvn/reports/TopAuthorsTableReport.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="2" type="checkstyle"/>
+    </file>
+    <file
+        id="StatSvn-statsvn-net_sf_statsvn_util_ConsoleOutErrHandler.java"
+        module="statsvn"
+        path="net/sf/statsvn/util/ConsoleOutErrHandler.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="1" type="checkstyle"/>
+    </file>
+    <file
+        id="StatSvn-statsvn-net_sf_statsvn_util_FilePatternMatcher.java"
+        module="statsvn"
+        path="net/sf/statsvn/util/FilePatternMatcher.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="4" type="checkstyle"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_util_FileUtils.java"
+        module="statsvn" path="net/sf/statsvn/util/FileUtils.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="1" type="checkstyle"/>
+        <result date="2006-11-19" statvalue="3" type="findbugs"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_util_IntegerMap.java"
+        module="statsvn" path="net/sf/statsvn/util/IntegerMap.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="2" type="checkstyle"/>
+        <result date="2006-11-19" statvalue="2" type="findbugs"/>
+        <result date="2006-11-19" statvalue="1" type="findbugs"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_util_LogFormatter.java"
+        module="statsvn" path="net/sf/statsvn/util/LogFormatter.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="2" type="checkstyle"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_util_LookaheadReader.java"
+        module="statsvn" path="net/sf/statsvn/util/LookaheadReader.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="1" type="checkstyle"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_util_OutputUtils.java"
+        module="statsvn" path="net/sf/statsvn/util/OutputUtils.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="1" type="checkstyle"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_util_ProcessUtils.java"
+        module="statsvn" path="net/sf/statsvn/util/ProcessUtils.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="1" type="checkstyle"/>
+        <result date="2006-11-19" statvalue="1" type="pmd"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_util_SvnDiffUtils.java"
+        module="statsvn" path="net/sf/statsvn/util/SvnDiffUtils.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="3" type="checkstyle"/>
+        <result date="2006-11-19" statvalue="1" type="findbugs"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_util_SvnInfoUtils.java"
+        module="statsvn" path="net/sf/statsvn/util/SvnInfoUtils.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="3" type="checkstyle"/>
+        <result date="2006-11-19" statvalue="2" type="findbugs"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_util_SvnPropgetUtils.java"
+        module="statsvn" path="net/sf/statsvn/util/SvnPropgetUtils.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="1" type="checkstyle"/>
+        <result date="2006-11-19" statvalue="1" type="pmd"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_util_XMLUtil.java"
+        module="statsvn" path="net/sf/statsvn/util/XMLUtil.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="5" type="checkstyle"/>
+        <result date="2006-11-19" statvalue="2" type="pmd"/>
+    </file>
+    <file
+        id="StatSvn-statsvn-net_sf_statsvn_input_RepositoryFileManager.java"
+        module="statsvn"
+        path="net/sf/statsvn/input/RepositoryFileManager.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="1" type="findbugs"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_model_SymbolicName.java"
+        module="statsvn" path="net/sf/statsvn/model/SymbolicName.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="1" type="findbugs"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_reportmodel_TimeLine.java"
+        module="statsvn" path="net/sf/statsvn/reportmodel/TimeLine.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="1" type="findbugs"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_reportmodel_TimePoint.java"
+        module="statsvn"
+        path="net/sf/statsvn/reportmodel/TimePoint.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="2" type="findbugs"/>
+        <result date="2006-11-19" statvalue="100" type="cobertura-branch"/>
+    </file>
+    <file
+        id="StatSvn-statsvn-net_sf_statsvn_reports_FilesLocComparator.java"
+        module="statsvn"
+        path="net/sf/statsvn/reports/FilesLocComparator.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="1" type="findbugs"/>
+    </file>
+    <file
+        id="StatSvn-statsvn-net_sf_statsvn_util_FilenameComparator.java"
+        module="statsvn"
+        path="net/sf/statsvn/util/FilenameComparator.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="1" type="findbugs"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_util_SvnStartupUtils.java"
+        module="statsvn" path="net/sf/statsvn/util/SvnStartupUtils.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="1" type="findbugs"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_output_CssHandler.java"
+        module="statsvn" path="net/sf/statsvn/output/CssHandler.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="100" type="cobertura-line"/>
+        <result date="2006-11-19" statvalue="100" type="cobertura-branch"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_output_OutputRenderer.java"
+        module="statsvn"
+        path="net/sf/statsvn/output/OutputRenderer.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="100" type="cobertura-line"/>
+        <result date="2006-11-19" statvalue="100" type="cobertura-branch"/>
+    </file>
+    <file
+        id="StatSvn-statsvn-net_sf_statsvn_output_WebBugtrackerIntegration.java"
+        module="statsvn"
+        path="net/sf/statsvn/output/WebBugtrackerIntegration.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="100" type="cobertura-line"/>
+        <result date="2006-11-19" statvalue="100" type="cobertura-branch"/>
+    </file>
+    <file
+        id="StatSvn-statsvn-net_sf_statsvn_output_WebRepositoryIntegration.java"
+        module="statsvn"
+        path="net/sf/statsvn/output/WebRepositoryIntegration.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="100" type="cobertura-line"/>
+        <result date="2006-11-19" statvalue="100" type="cobertura-branch"/>
+    </file>
+    <file
+        id="StatSvn-statsvn-net_sf_statsvn_renderer_TableCellRenderer.java"
+        module="statsvn"
+        path="net/sf/statsvn/renderer/TableCellRenderer.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="100" type="cobertura-line"/>
+        <result date="2006-11-19" statvalue="100" type="cobertura-branch"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_reports_TableReport.java"
+        module="statsvn" path="net/sf/statsvn/reports/TableReport.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="100" type="cobertura-line"/>
+        <result date="2006-11-19" statvalue="100" type="cobertura-branch"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_Messages.java"
+        module="statsvn" path="net/sf/statsvn/Messages.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="100" type="cobertura-branch"/>
+    </file>
+    <file
+        id="StatSvn-statsvn-net_sf_statsvn_input_CacheConfiguration.java"
+        module="statsvn"
+        path="net/sf/statsvn/input/CacheConfiguration.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="100" type="cobertura-branch"/>
+    </file>
+    <file
+        id="StatSvn-statsvn-net_sf_statsvn_input_EmptyRepositoryException.java"
+        module="statsvn"
+        path="net/sf/statsvn/input/EmptyRepositoryException.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="100" type="cobertura-branch"/>
+    </file>
+    <file
+        id="StatSvn-statsvn-net_sf_statsvn_input_LogSyntaxException.java"
+        module="statsvn"
+        path="net/sf/statsvn/input/LogSyntaxException.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="100" type="cobertura-branch"/>
+    </file>
+    <file
+        id="StatSvn-statsvn-net_sf_statsvn_input_NoLineCountException.java"
+        module="statsvn"
+        path="net/sf/statsvn/input/NoLineCountException.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="100" type="cobertura-branch"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_model_DirectoryImpl.java"
+        module="statsvn" path="net/sf/statsvn/model/DirectoryImpl.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="100" type="cobertura-branch"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_model_DirectoryRoot.java"
+        module="statsvn" path="net/sf/statsvn/model/DirectoryRoot.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="100" type="cobertura-branch"/>
+    </file>
+    <file
+        id="StatSvn-statsvn-net_sf_statsvn_output_ConfigurationException.java"
+        module="statsvn"
+        path="net/sf/statsvn/output/ConfigurationException.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="100" type="cobertura-branch"/>
+    </file>
+    <file
+        id="StatSvn-statsvn-net_sf_statsvn_output_DefaultCssHandler.java"
+        module="statsvn"
+        path="net/sf/statsvn/output/DefaultCssHandler.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="100" type="cobertura-branch"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_output_NoFilesPage.java"
+        module="statsvn" path="net/sf/statsvn/output/NoFilesPage.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="100" type="cobertura-branch"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_output_UrlCssHandler.java"
+        module="statsvn" path="net/sf/statsvn/output/UrlCssHandler.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="100" type="cobertura-branch"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_output_XDocOutput.java"
+        module="statsvn" path="net/sf/statsvn/output/XDocOutput.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="100" type="cobertura-branch"/>
+    </file>
+    <file
+        id="StatSvn-statsvn-net_sf_statsvn_reportmodel_AuthorColumn.java"
+        module="statsvn"
+        path="net/sf/statsvn/reportmodel/AuthorColumn.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="100" type="cobertura-branch"/>
+    </file>
+    <file
+        id="StatSvn-statsvn-net_sf_statsvn_reportmodel_DirectoryColumn.java"
+        module="statsvn"
+        path="net/sf/statsvn/reportmodel/DirectoryColumn.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="100" type="cobertura-branch"/>
+    </file>
+    <file
+        id="StatSvn-statsvn-net_sf_statsvn_reportmodel_FileColumn.java"
+        module="statsvn"
+        path="net/sf/statsvn/reportmodel/FileColumn.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="100" type="cobertura-branch"/>
+    </file>
+    <file
+        id="StatSvn-statsvn-net_sf_statsvn_reportmodel_SimpleTextColumn.java"
+        module="statsvn"
+        path="net/sf/statsvn/reportmodel/SimpleTextColumn.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="100" type="cobertura-branch"/>
+    </file>
+    <file
+        id="StatSvn-statsvn-net_sf_statsvn_reports_AuthorsForDirectoryTableReport.java"
+        module="statsvn"
+        path="net/sf/statsvn/reports/AuthorsForDirectoryTableReport.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="100" type="cobertura-branch"/>
+    </file>
+    <file
+        id="StatSvn-statsvn-net_sf_statsvn_reports_AuthorsTableReport.java"
+        module="statsvn"
+        path="net/sf/statsvn/reports/AuthorsTableReport.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="100" type="cobertura-branch"/>
+    </file>
+    <file
+        id="StatSvn-statsvn-net_sf_statsvn_reports_DirectoriesForAuthorTableReport.java"
+        module="statsvn"
+        path="net/sf/statsvn/reports/DirectoriesForAuthorTableReport.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="100" type="cobertura-branch"/>
+    </file>
+    <file
+        id="StatSvn-statsvn-net_sf_statsvn_reports_DirectoriesTableReport.java"
+        module="statsvn"
+        path="net/sf/statsvn/reports/DirectoriesTableReport.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="100" type="cobertura-branch"/>
+    </file>
+    <file
+        id="StatSvn-statsvn-net_sf_statsvn_util_BinaryDiffException.java"
+        module="statsvn"
+        path="net/sf/statsvn/util/BinaryDiffException.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="100" type="cobertura-branch"/>
+    </file>
+    <file
+        id="StatSvn-statsvn-net_sf_statsvn_util_ConsoleOutHandler.java"
+        module="statsvn"
+        path="net/sf/statsvn/util/ConsoleOutHandler.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="100" type="cobertura-branch"/>
+    </file>
+    <file id="StatSvn-statsvn-net_sf_statsvn_util_StatSvnConstants.java"
+        module="statsvn"
+        path="net/sf/statsvn/util/StatSvnConstants.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="100" type="cobertura-branch"/>
+    </file>
+    <file
+        id="StatSvn-statsvn-net_sf_statsvn_util_SvnVersionMismatchException.java"
+        module="statsvn"
+        path="net/sf/statsvn/util/SvnVersionMismatchException.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="100" type="cobertura-branch"/>
+    </file>
+    <file
+        id="StatSvn-statsvn-net_sf_statsvn_input_SvnXmlLogFileHandler.java"
+        module="statsvn"
+        path="net/sf/statsvn/input/SvnXmlLogFileHandler.java" project="StatSvn">
+        <result date="2006-11-19" statvalue="1" type="pmd"/>
     </file>
 </qalab>
