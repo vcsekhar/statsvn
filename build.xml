@@ -148,7 +148,7 @@
 	<target name="zip.source" depends="clean">
 		<mkdir dir="${dist}" />
 		<zip destfile="${dist}/${project}-${statsvn.version}-source.zip">
-			<zipfileset dir="." excludes="${dist}/**" prefix="${project}-${statsvn.version}" />
+			<zipfileset dir="." excludes="${dist}/**,target/**" prefix="${project}-${statsvn.version}" />
 		</zip>
 	</target>
 
