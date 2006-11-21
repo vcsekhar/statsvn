@@ -4,9 +4,11 @@ import java.io.IOException;
 
 import junit.framework.TestCase;
 import net.sf.statsvn.Main;
-import net.sf.statsvn.output.CommandLineParser;
-import net.sf.statsvn.output.ConfigurationException;
-import net.sf.statsvn.output.ConfigurationOptions;
+import net.sf.statsvn.output.SvnCommandLineParser;
+import net.sf.statcvs.input.EmptyRepositoryException;
+import net.sf.statcvs.input.LogSyntaxException;
+import net.sf.statcvs.output.ConfigurationException;
+import net.sf.statcvs.output.ConfigurationOptions;
 
 /**
  * High-level scenarios to verify parsing without actually needing a server.
@@ -22,7 +24,7 @@ public class SvnLogfileParserTest extends TestCase {
 
 	public void testJUCMNav1() throws EmptyRepositoryException, ConfigurationException, IOException, LogSyntaxException {
 		final String args[] = { "-title", "jUCMNav", "-output-dir", sRoot + "stats", sRoot + "seg.jUCMNav.log", sRoot };
-		new CommandLineParser(args).parse();
+		new SvnCommandLineParser(args).parse();
 		repFileMan = new DummyRepositoryFileManager(ConfigurationOptions.getCheckedOutDirectory(), sRoot + "seg.jUCMNav.info", sRoot + "seg.jUCMNav.propget",
 				sRoot + "seg.jUCMNav.linecounts");
 		Main.generateDefaultHTMLSuite(repFileMan);

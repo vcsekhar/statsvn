@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import net.sf.statcvs.util.LookaheadReader;
+
 /**
  * Utilities class that manages calls to svn propget. Used to find binary files.
  * 

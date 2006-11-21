@@ -29,7 +29,8 @@ import java.util.NoSuchElementException;
 import java.util.TimeZone;
 
 import junit.framework.TestCase;
-import net.sf.statsvn.util.LookaheadReader;
+import net.sf.statcvs.input.LogSyntaxException;
+import net.sf.statcvs.util.LookaheadReader;
 
 /**
  * Tests for {@link SvnLogfileParser} and {@link FileBlockParser}. Most

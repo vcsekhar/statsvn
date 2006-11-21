@@ -31,8 +31,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import junit.framework.TestCase;
-import net.sf.statsvn.model.VersionedFile;
-import net.sf.statsvn.model.Revision;
+import net.sf.statcvs.input.EmptyRepositoryException;
+import net.sf.statcvs.model.VersionedFile;
+import net.sf.statcvs.model.Revision;
 
 /**
  * Test cases for {@link Builder}, covering LOC calculations.

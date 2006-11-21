@@ -19,8 +19,9 @@
 */
 package net.sf.statsvn.input;
 
-import net.sf.statsvn.model.Author;
-import net.sf.statsvn.model.Directory;
+import net.sf.statcvs.input.NoLineCountException;
+import net.sf.statcvs.model.Author;
+import net.sf.statcvs.model.Directory;
 
 /**
  * Test dummy of {@link Builder} for use in

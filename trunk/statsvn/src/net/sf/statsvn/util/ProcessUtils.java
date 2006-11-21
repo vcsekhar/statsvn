@@ -6,7 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import net.sf.statsvn.output.ConfigurationOptions;
+import net.sf.statcvs.util.LookaheadReader;
+import net.sf.statsvn.output.SvnConfigurationOptions;
 
 /**
  * This class provides a way of launching new processes. It is not the best way
@@ -40,7 +41,7 @@ public final class ProcessUtils {
 	}
 
 	protected static File getWorkingFolder() {
-		return ConfigurationOptions.getCheckedOutDirectoryAsFile();
+		return SvnConfigurationOptions.getCheckedOutDirectoryAsFile();
 	}
 
 	protected static boolean hasErrorOccured() throws IOException {

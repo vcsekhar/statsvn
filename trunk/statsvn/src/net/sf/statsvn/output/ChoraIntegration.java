@@ -25,9 +25,10 @@ package net.sf.statsvn.output;
 import java.util.HashSet;
 import java.util.Set;
 
-import net.sf.statsvn.model.Directory;
-import net.sf.statsvn.model.Revision;
-import net.sf.statsvn.model.VersionedFile;
+import net.sf.statcvs.model.Directory;
+import net.sf.statcvs.model.Revision;
+import net.sf.statcvs.model.VersionedFile;
+import net.sf.statcvs.output.WebRepositoryIntegration;
 
 /**
  * Integration of the <a href="http://www.horde.org/chora/">Chora CVS Viewer</a>
@@ -71,11 +72,11 @@ public class ChoraIntegration implements WebRepositoryIntegration {
 	public String getFileHistoryUrl(final VersionedFile file) {
 		// chora doesn't seem to support deleted files for subversion
 		// repositories
-		if (isInAttic(file)) {
+//		if (isInAttic(file)) {
 			// String path = file.getDirectory().getPath();
 			// String filename = file.getFilename();
 			// return baseURL + "/" + path + "Attic/" + filename;
-		}
+//		}
 		return this.baseURL + "/?f=" + file.getFilenameWithPath();
 	}
 

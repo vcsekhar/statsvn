@@ -29,12 +29,13 @@ import java.util.Iterator;
 import java.util.Set;
 
 import junit.framework.TestCase;
-import net.sf.statsvn.model.Author;
-import net.sf.statsvn.model.Repository;
-import net.sf.statsvn.model.VersionedFile;
-import net.sf.statsvn.model.Directory;
-import net.sf.statsvn.util.FilePatternMatcher;
-import net.sf.statsvn.model.Revision;
+import net.sf.statcvs.input.EmptyRepositoryException;
+import net.sf.statcvs.model.Author;
+import net.sf.statcvs.model.Repository;
+import net.sf.statcvs.model.VersionedFile;
+import net.sf.statcvs.model.Directory;
+import net.sf.statcvs.util.FilePatternMatcher;
+import net.sf.statcvs.model.Revision;
 
 /**
  * Test cases for {@link Builder}.
