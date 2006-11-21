@@ -29,6 +29,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 
+import net.sf.statcvs.input.LogSyntaxException;
+import net.sf.statcvs.input.NoLineCountException;
 import net.sf.statsvn.util.SvnInfoUtils;
 import net.sf.statsvn.util.SvnPropgetUtils;
 

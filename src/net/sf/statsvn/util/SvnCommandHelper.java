@@ -3,7 +3,7 @@
  */
 package net.sf.statsvn.util;
 
-import net.sf.statsvn.output.ConfigurationOptions;
+import net.sf.statsvn.output.SvnConfigurationOptions;
 
 /**
  * @author jpdaigle
@@ -21,9 +21,9 @@ public final class SvnCommandHelper {
 	 */
 	public static String getAuthString() {
 		final StringBuffer strAuth = new StringBuffer(" --non-interactive");
-		if (ConfigurationOptions.getSvnUsername() != null) {
-			strAuth.append(" --username ").append(ConfigurationOptions.getSvnUsername())
-					.append(" --password ").append(ConfigurationOptions.getSvnPassword());
+		if (SvnConfigurationOptions.getSvnUsername() != null) {
+			strAuth.append(" --username ").append(SvnConfigurationOptions.getSvnUsername())
+					.append(" --password ").append(SvnConfigurationOptions.getSvnPassword());
 		}
 
 		return strAuth.toString();

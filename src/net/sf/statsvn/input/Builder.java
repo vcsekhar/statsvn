@@ -34,14 +34,17 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.logging.Logger;
 
-import net.sf.statsvn.Messages;
-import net.sf.statsvn.model.Author;
-import net.sf.statsvn.model.Directory;
-import net.sf.statsvn.model.Repository;
-import net.sf.statsvn.model.SymbolicName;
-import net.sf.statsvn.model.VersionedFile;
-import net.sf.statsvn.util.FilePatternMatcher;
-import net.sf.statsvn.util.FileUtils;
+import net.sf.statcvs.Messages;
+import net.sf.statcvs.input.CommitListBuilder;
+import net.sf.statcvs.input.EmptyRepositoryException;
+import net.sf.statcvs.input.NoLineCountException;
+import net.sf.statcvs.model.Author;
+import net.sf.statcvs.model.Directory;
+import net.sf.statcvs.model.Repository;
+import net.sf.statcvs.model.SymbolicName;
+import net.sf.statcvs.model.VersionedFile;
+import net.sf.statcvs.util.FilePatternMatcher;
+import net.sf.statcvs.util.FileUtils;
 
 /**
  * <p>

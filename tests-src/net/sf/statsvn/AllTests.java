@@ -46,11 +46,6 @@ public class AllTests {
 		final TestSuite suite = new TestSuite("Test for net.sf.statcvs");
 		//$JUnit-BEGIN$
 		suite.addTest(net.sf.statsvn.input.AllTests.suite());
-		suite.addTest(net.sf.statsvn.model.AllTests.suite());
-		suite.addTest(net.sf.statsvn.util.AllTests.suite());
-		suite.addTest(net.sf.statsvn.renderer.AllTests.suite());
-		suite.addTest(net.sf.statsvn.reportmodel.AllTests.suite());
-		suite.addTest(net.sf.statsvn.output.AllTests.suite());
 		//$JUnit-END$
 		return suite;
 	}

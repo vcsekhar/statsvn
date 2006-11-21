@@ -16,7 +16,7 @@
 	<inceptionYear>2006</inceptionYear>
 	<package>net.sf.statsvn</package>
 
-	<logo>/images/statsvn.gif</logo>
+	<logo>src/site/statsvn.png</logo>
 	<shortDescription>StatSVN, stat your repository</shortDescription>
 	<description>
 		StatSVN retrieves information from a Subversion repository and
@@ -120,6 +120,12 @@
 	<dependencies>
 
 		<dependency>
+			<groupId>net.sf.statcvs</groupId>
+			<artifactId>statcvs</artifactId>
+			<version>0.2.4</version>
+			<type>jar</type>
+		</dependency>
+		<dependency>
 			<groupId>jfree</groupId>
 			<artifactId>jfreechart</artifactId>
 			<version>1.0.2</version>
@@ -190,6 +196,11 @@
 	</build>
 
 	<versions>
+		<version>
+			<id>0.2.0</id>
+			<name>0.2.0</name>
+			<tag>0.2.0</tag>
+		</version>
 		<version>
 			<id>0.1.3</id>
 			<name>0.1.3</name>

@@ -23,8 +23,8 @@ import java.util.Date;
 import java.util.HashMap;
 
 import junit.framework.TestCase;
-import net.sf.statsvn.model.VersionedFile;
-import net.sf.statsvn.model.Revision;
+import net.sf.statcvs.model.VersionedFile;
+import net.sf.statcvs.model.Revision;
 
 /**
  * Tests for {@link FileBuilder}

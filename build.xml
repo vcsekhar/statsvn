@@ -12,6 +12,7 @@
 	<property name="src.filtered" value="src-temp" />
 	<property name="build" value="build" />
 	<property name="build.tests" value="build-tests" />
+	<property name="statcvs.jar" value="statcvs-0.2.4.jar" />
 	<property name="jfreechart.jar" value="jfreechart-1.0.1.jar" />
 	<property name="jcommon.jar" value="jcommon-1.0.0.jar" />
 	<property name="dist" value="dist" />
@@ -71,8 +72,8 @@
 			build directory -->
 		<copy todir="${build}/${project.path}/">
 			<fileset dir="${src.filtered}/${project.path}/">
-				<include name="*.properties" />
-				<include name="web-files/*" />
+				<include name="**/*.properties" />
+				<include name="**/web-files/*" />
 			</fileset>
 		</copy>
 	</target>
@@ -128,8 +129,9 @@
 
 	<target name="dist" depends="compile,copyfiles">
 		<!-- Creates an executable jar file for the project -->
-		<unjar src="${lib}/${jfreechart.jar}" dest="${build}" />
-		<unjar src="${lib}/${jcommon.jar}" dest="${build}" />
+		<unjar src="${lib}/${statcvs.jar}" dest="${build}" />
+		<!--<unjar src="${lib}/${jfreechart.jar}" dest="${build}" />
+		<unjar src="${lib}/${jcommon.jar}" dest="${build}" />-->
 		<mkdir dir="${dist}" />
 		<jar jarfile="${dist}/${project.jar}" basedir="${build}">
 			<manifest>

@@ -4,6 +4,9 @@
     <title>StatSvb Changes</title>
   </properties>
   <body>
+    <release version="0.2.0" date="in Svn" description="Removing the StatCvs code from StatSvn">
+       <action dev="benoitx" type="add">Removing the StatCvs code from StatSvn</action>
+    </release>
     <release version="0.1.3" date="2006-11-20" description="XDoc support and move to net.sf.statsvn">
        <action dev="benoitx" type="add">Added support for xdoc.</action>
        <action dev="benoitx" type="add">Moved code to net.sf.statsvn in preparation of removing the code that belongs to StatCvs.</action>

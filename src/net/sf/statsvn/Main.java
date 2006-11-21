@@ -29,16 +29,17 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import net.sf.statsvn.input.Builder;
-import net.sf.statsvn.input.EmptyRepositoryException;
-import net.sf.statsvn.input.LogSyntaxException;
+import net.sf.statcvs.Messages;
+import net.sf.statcvs.input.EmptyRepositoryException;
+import net.sf.statcvs.input.LogSyntaxException;
 import net.sf.statsvn.input.RepositoryFileManager;
 import net.sf.statsvn.input.SvnLogfileParser;
-import net.sf.statsvn.model.Repository;
-import net.sf.statsvn.output.CommandLineParser;
-import net.sf.statsvn.output.ConfigurationException;
-import net.sf.statsvn.output.ConfigurationOptions;
-import net.sf.statsvn.output.HTMLOutput;
-import net.sf.statsvn.output.XDocOutput;
+import net.sf.statcvs.model.Repository;
+import net.sf.statsvn.output.SvnCommandLineParser;
+import net.sf.statcvs.output.ConfigurationException;
+import net.sf.statcvs.output.ConfigurationOptions;
+import net.sf.statcvs.output.HTMLOutput;
+import net.sf.statcvs.output.XDocOutput;
 import net.sf.statsvn.util.SvnStartupUtils;
 import net.sf.statsvn.util.SvnVersionMismatchException;
 
@@ -70,6 +71,8 @@ public final class Main {
 	 *            command line options
 	 */
 	public static void main(final String[] args) {
+		Messages.setPrimaryResource("net.sf.statsvn.statcvs"); // primary is statcvs.properties in net.sf.statsvn
+		
 		System.out.println(Messages.getString("PROJECT_NAME") + Messages.NL);
 
 		if (args.length == 0) {
@@ -85,7 +88,7 @@ public final class Main {
 		}
 
 		try {
-			new CommandLineParser(args).parse();
+			new SvnCommandLineParser(args).parse();
 			SvnStartupUtils.checkSvnVersionSufficient();
 			SvnStartupUtils.checkRepoRootAvailable();
 			generateDefaultHTMLSuite();
@@ -141,7 +144,7 @@ public final class Main {
 	}
 
 	private static void printVersionAndExit() {
-		System.out.println("Version 0.1.3");
+		System.out.println("Version " + Messages.getString("PROJECT_VERSION"));
 		System.exit(1);
 	}
 

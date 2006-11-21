@@ -27,8 +27,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.logging.Logger;
 
+import net.sf.statcvs.input.LogSyntaxException;
+import net.sf.statcvs.input.NoLineCountException;
 import net.sf.statsvn.util.BinaryDiffException;
-import net.sf.statsvn.util.FileUtils;
+import net.sf.statcvs.util.FileUtils;
 import net.sf.statsvn.util.SvnDiffUtils;
 import net.sf.statsvn.util.SvnInfoUtils;
 import net.sf.statsvn.util.SvnPropgetUtils;

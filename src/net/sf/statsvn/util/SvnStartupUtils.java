@@ -7,6 +7,8 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sf.statcvs.util.LookaheadReader;
+
 /**
  * Utility class that verifies if the correct version of subversion is used.
  * 

@@ -39,7 +39,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import net.sf.statsvn.output.ConfigurationOptions;
+import net.sf.statcvs.input.LogSyntaxException;
+import net.sf.statsvn.output.SvnConfigurationOptions;
 import net.sf.statsvn.util.BinaryDiffException;
 import net.sf.statsvn.util.FilenameComparator;
 import net.sf.statsvn.util.XMLUtil;
@@ -89,7 +90,7 @@ public class SvnLogfileParser {
      */
     protected void handleLineCounts(final SAXParserFactory factory) throws IOException {
         long startTime = System.currentTimeMillis();
-    	final String xmlFile = ConfigurationOptions.getCacheDir() + REPOSITORIES_XML;
+    	final String xmlFile = SvnConfigurationOptions.getCacheDir() + REPOSITORIES_XML;
     	
         final RepositoriesBuilder repositoriesBuilder = new RepositoriesBuilder();
         try {
@@ -100,7 +101,7 @@ public class SvnLogfileParser {
         } catch (final SAXException e) {
         } catch (final IOException e) {
         }
-        final String cacheFileName = ConfigurationOptions.getCacheDir() + repositoriesBuilder.getFileName(repositoryFileManager.getRepositoryUuid());
+        final String cacheFileName = SvnConfigurationOptions.getCacheDir() + repositoriesBuilder.getFileName(repositoryFileManager.getRepositoryUuid());
         XMLUtil.writeXmlFile(repositoriesBuilder.getDocument(), xmlFile);
         LOGGER.fine("parsing repositories finished in " + (System.currentTimeMillis() - startTime) + " ms.");
         startTime = System.currentTimeMillis();
