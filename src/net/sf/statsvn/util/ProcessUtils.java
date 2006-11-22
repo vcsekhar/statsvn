@@ -3,6 +3,7 @@ package net.sf.statsvn.util;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import net.sf.statcvs.util.LookaheadReader;
@@ -27,7 +28,7 @@ public final class ProcessUtils {
 	 * A utility class (only static methods) should be final and have
 	 * a private constructor.
 	 */
-	private ProcessUtils() {
+	public ProcessUtils() {
 	}
 
 	public static synchronized ProcessUtils call(final String sCommand) throws IOException {
@@ -87,5 +88,19 @@ public final class ProcessUtils {
 	 */
 	public BufferedInputStream getInputStream() {
 		return inputStream;
+	}
+
+	/**
+	 * @param errorStream the errorStream to set
+	 */
+	public void setErrorStream(InputStream errorStream) {
+		this.errorStream = new BufferedInputStream(errorStream);
+	}
+
+	/**
+	 * @param inputStream the inputStream to set
+	 */
+	public void setInputStream(InputStream inputStream) {
+		this.inputStream = new BufferedInputStream(inputStream);
 	}
 }

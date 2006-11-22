@@ -31,6 +31,7 @@ import java.util.HashMap;
 
 import net.sf.statcvs.input.LogSyntaxException;
 import net.sf.statcvs.input.NoLineCountException;
+import net.sf.statsvn.util.ProcessUtils;
 import net.sf.statsvn.util.SvnInfoUtils;
 import net.sf.statsvn.util.SvnPropgetUtils;
 
@@ -74,15 +75,21 @@ public class DummyRepositoryFileManager extends RepositoryFileManager {
 	 *            command.
 	 * @throws IOException
 	 */
-	public DummyRepositoryFileManager(final String checkedOutPath, final String sSvnInfoUtilPath, final String sSvnPropgetPath, final String sFinalLineCountsFile) throws IOException {
+	public DummyRepositoryFileManager(final String checkedOutPath, final String sSvnInfoUtilPath, final String sSvnPropgetPath, 
+			final String sFinalLineCountsFile) throws IOException {
 		super(checkedOutPath);
 		this.sSvnInfoUtilPath = sSvnInfoUtilPath;
 		this.sSvnPropgetPath = sSvnPropgetPath;
 		this.sFinalLineCountsFile = sFinalLineCountsFile;
 
 		final InputStream stream = new FileInputStream(sSvnPropgetPath);
-		SvnPropgetUtils.loadBinaryFiles(stream);
-		stream.close();
+		ProcessUtils pUtils = new ProcessUtils();
+		try {
+			pUtils.setInputStream(stream);
+			SvnPropgetUtils.loadBinaryFiles(pUtils);
+		} finally {
+			pUtils.close();
+		}
 
 		final FileReader freader = new FileReader(sFinalLineCountsFile);
 		final BufferedReader reader = new BufferedReader(freader);
@@ -163,9 +170,13 @@ public class DummyRepositoryFileManager extends RepositoryFileManager {
 	public void loadInfo() throws LogSyntaxException, IOException {
 
 		final FileInputStream stream = new FileInputStream(sSvnInfoUtilPath);
-		SvnInfoUtils.loadInfo(stream);
-		stream.close();
-
+		ProcessUtils pUtils = new ProcessUtils();
+		try {
+			pUtils.setInputStream(stream);
+			SvnInfoUtils.loadInfo(pUtils);
+		} finally {
+			pUtils.close();
+		}
 	}
 
 	/**
