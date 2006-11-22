@@ -33,11 +33,24 @@ public final class ProcessUtils {
 	}
 
 	public static synchronized InputStream call(final String sCommand) throws IOException {
+		forceClose(lastErrorStream);
+		forceClose(lastInputStream);
 		lastProcess = Runtime.getRuntime().exec(sCommand, null, getWorkingFolder());
 		lastErrorStream = new BufferedInputStream(lastProcess.getErrorStream());
 		lastInputStream = new BufferedInputStream(lastProcess.getInputStream());
 
 		return lastInputStream;
+	}
+
+	private static void forceClose(InputStream stream) {
+		if (stream != null) {
+			// ensure that it is closed...
+			try {
+				stream.close();
+			} catch(IOException e) {
+				// do nothing with it!
+			}
+		}
 	}
 
 	protected static File getWorkingFolder() {
