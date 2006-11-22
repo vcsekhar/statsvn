@@ -97,6 +97,7 @@ public class SvnLogfileParser {
             final FileInputStream repositoriesFile = new FileInputStream(xmlFile);
             final SAXParser parser = factory.newSAXParser();
             parser.parse(repositoriesFile, new SvnXmlRepositoriesFileHandler(repositoriesBuilder));
+            repositoriesFile.close();
         } catch (final ParserConfigurationException e) {
         } catch (final SAXException e) {
         } catch (final IOException e) {
