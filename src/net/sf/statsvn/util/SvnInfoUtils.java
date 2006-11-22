@@ -349,7 +349,7 @@ public final class SvnInfoUtils {
 	 *            (recurse for all files)
 	 * @return the response.
 	 */
-	protected static synchronized InputStream getSvnInfo(boolean bRootOnly) {
+	protected static synchronized ProcessUtils getSvnInfo(boolean bRootOnly) {
 		String svnInfoCommand = "svn info --xml";
 		if (!bRootOnly) {
 			svnInfoCommand += " -R";
@@ -410,20 +410,29 @@ public final class SvnInfoUtils {
 	 *             if we can't read from the response stream.
 	 */
 	protected static void loadInfo(final boolean bRootOnly) throws LogSyntaxException, IOException {
-		loadInfo(getSvnInfo(bRootOnly));
+		ProcessUtils pUtils = null;
+		try {
+			pUtils = getSvnInfo(bRootOnly);
+			loadInfo(pUtils);
+		} finally {
+			if (pUtils != null) {
+				pUtils.close();
+			}
+		}
 	}
 
 	/**
 	 * Loads the information from svn info if needed.
 	 * 
-	 * @param stream
-	 *            the input stream representing an svn info command.
+	 * @param pUtils
+	 *            the process util that contains the input stream representing 
+	 *            an svn info command.
 	 * @throws LogSyntaxException
 	 *             if the format of the svn info is invalid
 	 * @throws IOException
 	 *             if we can't read from the response stream.
 	 */
-	public static void loadInfo(final InputStream stream) throws LogSyntaxException, IOException {
+	public static void loadInfo(final ProcessUtils pUtils) throws LogSyntaxException, IOException {
 		// is public for tests
 		if (isQueryNeeded(true)) {
 			try {
@@ -432,10 +441,10 @@ public final class SvnInfoUtils {
 
 				final SAXParserFactory factory = SAXParserFactory.newInstance();
 				final SAXParser parser = factory.newSAXParser();
-				parser.parse(stream, new SvnInfoHandler());
+				parser.parse(pUtils.getInputStream(), new SvnInfoHandler());
 
-				if (ProcessUtils.hasErrorOccured()) {
-					throw new IOException(ProcessUtils.getErrorMessage());
+				if (pUtils.hasErrorOccured()) {
+					throw new IOException(pUtils.getErrorMessage());
 				}
 
 			} catch (final ParserConfigurationException e) {
@@ -443,7 +452,6 @@ public final class SvnInfoUtils {
 			} catch (final SAXException e) {
 				throw new LogSyntaxException(e.getMessage());
 			}
-
 		}
 	}
 

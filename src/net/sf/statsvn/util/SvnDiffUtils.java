@@ -40,7 +40,7 @@ public final class SvnDiffUtils {
 	 *         non-empty, will return the error stream instead of the default
 	 *         input stream.
 	 */
-	private static synchronized InputStream callSvnDiff(final String oldRevNr, final String newRevNr, String filename) throws IOException {
+	private static synchronized ProcessUtils callSvnDiff(final String oldRevNr, final String newRevNr, String filename) throws IOException {
 		String svnDiffCommand = null;
 		filename = SvnInfoUtils.relativePathToUrl(filename);
 		svnDiffCommand = "svn diff  --old " + filename + "@" + oldRevNr + "  --new " + filename + "@" + newRevNr + SvnCommandHelper.getAuthString();
@@ -64,22 +64,26 @@ public final class SvnDiffUtils {
 	 */
 	public static int[] getLineDiff(final String oldRevNr, final String newRevNr, final String filename) throws IOException, BinaryDiffException {
 		int[] lineDiff;
-		final InputStream diffStream = callSvnDiff(oldRevNr, newRevNr, filename);
-
+		ProcessUtils pUtils = null;
 		try {
+			pUtils = callSvnDiff(oldRevNr, newRevNr, filename);
+			final InputStream diffStream = pUtils.getInputStream(); 
+
 			final LookaheadReader diffReader = new LookaheadReader(new InputStreamReader(diffStream));
 			lineDiff = parseDiff(diffReader);
-		} finally {
-			diffStream.close();
-		}
 
-		if (ProcessUtils.hasErrorOccured()) {
-            // The binary checking code here might be useless... as it may be output on the standard out. 
-			final String msg = ProcessUtils.getErrorMessage();
-			if (isBinaryErrorMessage(msg)) {
-				throw new BinaryDiffException();
-			} else {
-				throw new IOException(msg);
+			if (pUtils.hasErrorOccured()) {
+	            // The binary checking code here might be useless... as it may be output on the standard out. 
+				final String msg = pUtils.getErrorMessage();
+				if (isBinaryErrorMessage(msg)) {
+					throw new BinaryDiffException();
+				} else {
+					throw new IOException(msg);
+				}
+			}
+		} finally {
+			if (pUtils != null) {
+				pUtils.close();
 			}
 		}
 		// not using logger because these diffs take lots of time and we want to

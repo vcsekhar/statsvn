@@ -1,7 +1,6 @@
 package net.sf.statsvn.util;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +32,7 @@ public final class SvnPropgetUtils {
 	 * 
 	 * @return the inputstream from which to read the information.
 	 */
-	protected static synchronized InputStream getFileMimeTypes() {
+	private static synchronized ProcessUtils getFileMimeTypes() {
 		return getFileMimeTypes(null, null);
 	}
 
@@ -46,7 +45,7 @@ public final class SvnPropgetUtils {
 	 *            the filename (or null for all files)
 	 * @return the inputstream from which to read the information.
 	 */
-	protected static synchronized InputStream getFileMimeTypes(final String revision, final String filename) {
+	protected static synchronized ProcessUtils getFileMimeTypes(final String revision, final String filename) {
 		String svnPropgetCommand = "svn propget svn:mime-type";
 		if (revision != null && revision.length() > 0) {
 			svnPropgetCommand += " -r " + revision;
@@ -67,7 +66,7 @@ public final class SvnPropgetUtils {
 		try {
 			return ProcessUtils.call(svnPropgetCommand);
 		} catch (final Exception e) {
-			e.printStackTrace();
+			LOGGER.warning(e.toString());
 			return null;
 		}
 	}
@@ -79,7 +78,19 @@ public final class SvnPropgetUtils {
 	 */
 	public static List getBinaryFiles() {
 		if (binaryFiles == null) {
-			loadBinaryFiles(getFileMimeTypes());
+			ProcessUtils pUtils = null;
+			try {
+				pUtils = getFileMimeTypes();
+				loadBinaryFiles(pUtils);
+			} finally {
+				if (pUtils != null) {
+					try {
+						pUtils.close();
+					} catch (IOException e) {
+						LOGGER.warning(e.toString());
+					}
+				}
+			}
 		}
 
 		return binaryFiles;
@@ -92,10 +103,10 @@ public final class SvnPropgetUtils {
 	 * @param stream
 	 *            stream equivalent to an svn propget command
 	 */
-	public static void loadBinaryFiles(final InputStream stream) {
+	public static void loadBinaryFiles(final ProcessUtils pUtils) {
 		// public for tests
 		binaryFiles = new ArrayList();
-		final LookaheadReader mimeReader = new LookaheadReader(new InputStreamReader(stream));
+		final LookaheadReader mimeReader = new LookaheadReader(new InputStreamReader(pUtils.getInputStream()));
 		try {
 			while (mimeReader.hasNextLine()) {
 				mimeReader.nextLine();
@@ -104,10 +115,9 @@ public final class SvnPropgetUtils {
 					binaryFiles.add(file);
 				}
 			}
-			if (ProcessUtils.hasErrorOccured()) {
-				throw new IOException(ProcessUtils.getErrorMessage());
+			if (pUtils.hasErrorOccured()) {
+				throw new IOException(pUtils.getErrorMessage());
 			}
-			
 		} catch (final IOException e) {
 			LOGGER.warning(e.getMessage());
 		}
@@ -125,8 +135,10 @@ public final class SvnPropgetUtils {
 	 * @return if that version of a file is binary
 	 */
 	public static boolean isBinaryFile(final String revision, final String filename) {
-		final LookaheadReader mimeReader = new LookaheadReader(new InputStreamReader(getFileMimeTypes(revision, filename)));
+		ProcessUtils pUtils = null;
 		try {
+			pUtils = getFileMimeTypes(revision, filename);
+			final LookaheadReader mimeReader = new LookaheadReader(new InputStreamReader(pUtils.getInputStream()));
 			while (mimeReader.hasNextLine()) {
 				mimeReader.nextLine();
 				final String file = getBinaryFilename(mimeReader.getCurrentLine(), true);
@@ -135,6 +147,15 @@ public final class SvnPropgetUtils {
 				}
 			}
 		} catch (final IOException e) {
+			LOGGER.warning(e.toString());
+		} finally {
+			if (pUtils != null) {
+				try {
+					pUtils.close();
+				} catch (IOException e) {
+					LOGGER.warning(e.toString());
+				}
+			}
 		}
 
 		return false;

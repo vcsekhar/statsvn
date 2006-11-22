@@ -43,10 +43,11 @@ public final class SvnStartupUtils {
      *             if SVN executable not found or version less than SVN_MINIMUM_VERSION
      */
     public static synchronized void checkSvnVersionSufficient() throws SvnVersionMismatchException {
+    	ProcessUtils pUtils = null;
         try {
             
-            
-            final InputStream istream = ProcessUtils.call(SVN_VERSION_COMMAND);
+            pUtils = ProcessUtils.call(SVN_VERSION_COMMAND);
+            final InputStream istream = pUtils.getInputStream();
             final LookaheadReader reader = new LookaheadReader(new InputStreamReader(istream));
 
             while (reader.hasNextLine()) {
@@ -68,15 +69,19 @@ public final class SvnStartupUtils {
                 }
             }
             
-            istream.close();
-            
-            if (ProcessUtils.hasErrorOccured()) {
-				throw new IOException(ProcessUtils.getErrorMessage());
+            if (pUtils.hasErrorOccured()) {
+				throw new IOException(pUtils.getErrorMessage());
 			}
-            
-
         } catch (final Exception e) {
         		LOGGER.warning(e.getMessage());
+        } finally {
+        	if (pUtils != null) {
+        		try {
+					pUtils.close();
+				} catch (IOException e) {
+	        		LOGGER.warning(e.getMessage());
+				}
+        	}
         }
 
         throw new SvnVersionMismatchException();
@@ -90,9 +95,11 @@ public final class SvnStartupUtils {
      *             if <tt>svn info</tt> failed to provide a non-empty repository root
      */
     public static synchronized void checkRepoRootAvailable() throws SvnVersionMismatchException {
+    	ProcessUtils pUtils = null;
         try {
        		final boolean rootOnlyTrue = true;
-            final InputStream istream = SvnInfoUtils.getSvnInfo(rootOnlyTrue);
+       		pUtils = SvnInfoUtils.getSvnInfo(rootOnlyTrue);
+            final InputStream istream = pUtils.getInputStream();
             final LookaheadReader reader = new LookaheadReader(new InputStreamReader(istream));
 
             while (reader.hasNextLine()) {
@@ -105,16 +112,19 @@ public final class SvnStartupUtils {
                 }
             }
             
-			if (ProcessUtils.hasErrorOccured())	{
-				throw new IOException(ProcessUtils.getErrorMessage());
+			if (pUtils.hasErrorOccured())	{
+				throw new IOException(pUtils.getErrorMessage());
 			}
-            
-            istream.close();
-            
-            
-
         } catch (final Exception e) {
         		LOGGER.warning(e.getMessage());
+        } finally {
+        	if (pUtils != null) {
+        		try {
+					pUtils.close();
+				} catch (IOException e) {
+	        		LOGGER.warning(e.getMessage());
+				}
+        	}
         }
 
         throw new SvnVersionMismatchException(SVN_REPO_ROOT_NOTFOUND);
