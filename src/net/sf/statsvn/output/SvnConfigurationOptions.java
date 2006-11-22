@@ -27,6 +27,8 @@ import java.io.File;
 import net.sf.statcvs.output.ConfigurationException;
 import net.sf.statcvs.output.ConfigurationOptions;
 import net.sf.statcvs.util.FileUtils;
+import net.sf.statsvn.util.ConsoleTaskLogger;
+import net.sf.statsvn.util.TaskLogger;
 
 /**
  * Class for storing all command line parameters. The parameters are set by the {@link net.sf.statsvn.Main#main} method. Interested classes can read all
@@ -42,6 +44,7 @@ public final class SvnConfigurationOptions {
     private static final String DEFAULT_CACHE_DIR = System.getProperty("user.home") + FileUtils.getDirSeparator() + ".statsvn" + FileUtils.getDirSeparator();
     private static String svnUsername = null;
     private static String svnPassword = null;
+    private static TaskLogger taskLogger = new ConsoleTaskLogger();
 
     /**
 	 * A utility class (only static methods) should be final and have
@@ -118,5 +121,19 @@ public final class SvnConfigurationOptions {
 	 */
 	public static void setSvnUsername(final String svnUsername) {
 		SvnConfigurationOptions.svnUsername = svnUsername;
+	}
+
+	/**
+	 * @return the taskLogger
+	 */
+	public static TaskLogger getTaskLogger() {
+		return taskLogger;
+	}
+
+	/**
+	 * @param taskLogger the taskLogger to set
+	 */
+	public static void setTaskLogger(final TaskLogger taskLogger) {
+		SvnConfigurationOptions.taskLogger = taskLogger;
 	}
 }

@@ -209,7 +209,7 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
 
 		// relies on the fact that absoluteToRelativePath returns null for paths that are not on the branch.
 		final String filename = repositoryFileManager.absoluteToRelativePath(stringData);
-		final RevisionData data = (RevisionData) currentRevisionData.clone();
+		final RevisionData data = (RevisionData) currentRevisionData.createCopy();
 		if (!pathAction.equals("D")) {
 			data.setStateExp(true);
 			if (pathAction.equals("A") || pathAction.equals("R")) {
@@ -261,16 +261,6 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
 	 */
 	private void startAuthorDateMsg() throws SAXException {
 		checkLastElement(LOGENTRY);
-	}
-
-	/**
-	 * Start of the document. Pre-loads the binary files for future use.
-	 * 
-	 * @throws SAXException
-	 *             unexpected event.
-	 */
-	public void startDocument() throws SAXException {
-		super.startDocument();
 	}
 
 	/**

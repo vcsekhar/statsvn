@@ -51,6 +51,7 @@ public class StatSvnTask extends StatCvsTask {
 		if (this.cacheDirectory != null) {
 			SvnConfigurationOptions.setCacheDir(this.cacheDirectory);
 		}
+		SvnConfigurationOptions.setTaskLogger(new AntTaskLogger(this));
 	}
 
 	/**

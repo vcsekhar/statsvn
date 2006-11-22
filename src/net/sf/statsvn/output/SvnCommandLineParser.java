@@ -22,6 +22,8 @@
  */
 package net.sf.statsvn.output;
 
+import java.util.Locale;
+
 import net.sf.statcvs.output.CommandLineParser;
 import net.sf.statcvs.output.ConfigurationException;
 import net.sf.statcvs.output.ConfigurationOptions;
@@ -51,7 +53,7 @@ public class SvnCommandLineParser extends CommandLineParser {
 	}
 
 	protected boolean doChildrenSwitch(final String switchName) throws ConfigurationException {
-		final String s = switchName.toLowerCase();
+		final String s = switchName.toLowerCase(Locale.getDefault());
 		if (s.equals("cache-dir")) {
 			if (isArgsEmpty()) {
 				throw new ConfigurationException("Missing argument for -cache-dir");
@@ -85,7 +87,7 @@ public class SvnCommandLineParser extends CommandLineParser {
 			SvnConfigurationOptions.setCacheDirToDefault();
 		}
 		// now check if the user may have setup some WebIntegration that are not supported
-		WebRepositoryIntegration integration = ConfigurationOptions.getWebRepository();
+		final WebRepositoryIntegration integration = ConfigurationOptions.getWebRepository();
 		if (integration instanceof ViewCvsIntegration && !(integration instanceof ViewVcIntegration)) {
 			throw new ConfigurationException("Sorry, ViewCvs is not supported by Subversion");
 		} else if (integration instanceof CvswebIntegration) {

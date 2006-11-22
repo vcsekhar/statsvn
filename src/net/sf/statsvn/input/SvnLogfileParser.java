@@ -93,14 +93,19 @@ public class SvnLogfileParser {
     	final String xmlFile = SvnConfigurationOptions.getCacheDir() + REPOSITORIES_XML;
     	
         final RepositoriesBuilder repositoriesBuilder = new RepositoriesBuilder();
+        FileInputStream repositoriesFile = null; 
         try {
-            final FileInputStream repositoriesFile = new FileInputStream(xmlFile);
+            repositoriesFile = new FileInputStream(xmlFile);
             final SAXParser parser = factory.newSAXParser();
             parser.parse(repositoriesFile, new SvnXmlRepositoriesFileHandler(repositoriesBuilder));
             repositoriesFile.close();
         } catch (final ParserConfigurationException e) {
         } catch (final SAXException e) {
         } catch (final IOException e) {
+        } finally {
+        	if (repositoriesFile != null) {
+        		repositoriesFile.close();
+        	}
         }
         final String cacheFileName = SvnConfigurationOptions.getCacheDir() + repositoriesBuilder.getFileName(repositoryFileManager.getRepositoryUuid());
         XMLUtil.writeXmlFile(repositoriesBuilder.getDocument(), xmlFile);
@@ -108,14 +113,19 @@ public class SvnLogfileParser {
         startTime = System.currentTimeMillis();
         
         final CacheBuilder cacheBuilder = new CacheBuilder(builder, repositoryFileManager);
+        FileInputStream cacheFile = null;
         try {
-            final FileInputStream cacheFile = new FileInputStream(cacheFileName);
+            cacheFile = new FileInputStream(cacheFileName);
             final SAXParser parser = factory.newSAXParser();
             parser.parse(cacheFile, new SvnXmlCacheFileHandler(cacheBuilder));
             cacheFile.close();
         } catch (final ParserConfigurationException e) {
         } catch (final SAXException e) {
         } catch (final IOException e) {
+        } finally {
+        	if (cacheFile != null) {
+        		cacheFile.close();
+        	}
         }
         LOGGER.fine("parsing line counts finished in " + (System.currentTimeMillis() - startTime) + " ms.");
         startTime = System.currentTimeMillis();
@@ -151,9 +161,9 @@ public class SvnLogfileParser {
 					int[] lineDiff;
 					try {
 						if (isFirstDiff) {
-							System.out.println("Contacting server to obtain line count information.");
-							System.out.println("This information will be cached so that the next time you run StatSVN, "
-									+"results will be returned more quickly.");
+							SvnConfigurationOptions.getTaskLogger().log("Contacting server to obtain line count information.");
+							SvnConfigurationOptions.getTaskLogger().log("This information will be cached so that the next time you run StatSVN, "
+									+ "results will be returned more quickly.");
 							isFirstDiff=false;
 						}
 						lineDiff = repositoryFileManager.getLineDiff(revNrOld, revNrNew, fileName);
@@ -163,14 +173,14 @@ public class SvnLogfileParser {
 						fileBuilder.setBinary(true);
 						break;
 					} catch (final IOException e) {
-					   System.out.println("Unable to obtain diff: " + e.getMessage());
+						SvnConfigurationOptions.getTaskLogger().log("Unable to obtain diff: " + e.getMessage());
                        continue;
                     }
 					if (lineDiff[0] != -1 && lineDiff[1] != -1) {
 						builder.updateRevision(fileName, revNrNew, lineDiff[0], lineDiff[1]);
 						cacheBuilder.newRevision(fileName, revNrNew, lineDiff[0] + "", lineDiff[1] + "", false);
 					} else {
-						System.out.println("unknown behaviour; to be investigated");
+						SvnConfigurationOptions.getTaskLogger().log("unknown behaviour; to be investigated");
 					}
                 }
             }
@@ -228,25 +238,21 @@ public class SvnLogfileParser {
         // sort them so that folders are immediately followed by the folder entries and then by other files which are prefixed by the folder name.
         Collections.sort(files, new FilenameComparator());
 
-        FileBuilder parentBuilder, childBuilder;
-        RevisionData parentData, childData;
-        String parent, child;
-        int parentRevision, childRevision;
-
         // for each file
         for (int i = 0; i < files.size(); i++) {
-            parent = files.get(i).toString();
-            parentBuilder = (FileBuilder) builder.getFileBuilders().get(parent);
+            final String parent = files.get(i).toString();
+            final FileBuilder parentBuilder = (FileBuilder) builder.getFileBuilders().get(parent);
             // check to see if there are files that indicate that parent is a folder.
             for (int j = i + 1; j < files.size() && files.get(j).toString().indexOf(parent + "/") == 0; j++) {
                 // we might not know that it was a folder.
                 repositoryFileManager.addDirectory(parent);
 
-                child = files.get(j).toString();
-                childBuilder = (FileBuilder) builder.getFileBuilders().get(child);
+                final String child = files.get(j).toString();
+                final FileBuilder childBuilder = (FileBuilder) builder.getFileBuilders().get(child);
                 // for all revisions in the the parent folder
                 for (final Iterator iter = parentBuilder.getRevisions().iterator(); iter.hasNext();) {
-                    parentData = (RevisionData) iter.next();
+                	final RevisionData parentData = (RevisionData) iter.next();
+                    int parentRevision;
                     try {
                         parentRevision = Integer.parseInt(parentData.getRevisionNumber());
                     } catch (final Exception e) {
@@ -259,8 +265,8 @@ public class SvnLogfileParser {
 
                         // check to see if the parent revision is an implicit action acting on the child.
                         for (k = 0; k < childBuilder.getRevisions().size(); k++) {
-                            childData = (RevisionData) childBuilder.getRevisions().get(k);
-                            childRevision = Integer.parseInt(childData.getRevisionNumber());
+                        	final RevisionData childData = (RevisionData) childBuilder.getRevisions().get(k);
+                            final int childRevision = Integer.parseInt(childData.getRevisionNumber());
 
                             // we don't want to add duplicate entries for the same revision
                             if (parentRevision == childRevision) {
@@ -276,7 +282,7 @@ public class SvnLogfileParser {
                         // we found something to insert
                         if (k < childBuilder.getRevisions().size()) {
                             // we want to memorize this implicit action.
-                            final RevisionData implicit = (RevisionData) parentData.clone();
+                            final RevisionData implicit = (RevisionData) parentData.createCopy();
                             implicitActions.add(implicit);
 
                             // avoid concurrent modification errors.

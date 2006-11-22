@@ -22,7 +22,6 @@
  */
 package net.sf.statsvn.output;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import net.sf.statcvs.model.Directory;
@@ -38,7 +37,7 @@ import net.sf.statcvs.output.WebRepositoryIntegration;
  */
 public class ChoraIntegration implements WebRepositoryIntegration {
 	private String baseURL;
-	private Set atticFileNames = new HashSet();
+//	private Set atticFileNames = new HashSet();
 
 	/**
 	 * @param baseURL
@@ -114,10 +113,10 @@ public class ChoraIntegration implements WebRepositoryIntegration {
 	 * @see net.sf.statsvn.output.WebRepositoryIntegration#setAtticFileNames(java.util.Set)
 	 */
 	public void setAtticFileNames(final Set atticFileNames) {
-		this.atticFileNames = atticFileNames;
+//		this.atticFileNames = atticFileNames;
 	}
 
-	private boolean isInAttic(final VersionedFile file) {
-		return atticFileNames.contains(file.getFilenameWithPath());
-	}
+//	private boolean isInAttic(final VersionedFile file) {
+//		return atticFileNames.contains(file.getFilenameWithPath());
+//	}
 }

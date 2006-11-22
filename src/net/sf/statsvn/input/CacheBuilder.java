@@ -9,6 +9,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import net.sf.statsvn.output.SvnConfigurationOptions;
+
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -107,7 +109,7 @@ public class CacheBuilder {
 					.getAttribute(CacheConfiguration.LATEST_REVISION));
 			newRevision = Integer.parseInt(revisionNumber);
 		} catch (final NumberFormatException e) {
-			System.out.println("Ignoring invalid revision number "
+			SvnConfigurationOptions.getTaskLogger().log("Ignoring invalid revision number "
 					+ revisionNumber + " for "
 					+ path.getAttribute(CacheConfiguration.NAME));
 			newRevision = -1;
@@ -366,7 +368,7 @@ public class CacheBuilder {
 					.getAttribute(CacheConfiguration.LATEST_REVISION));
 			revisionToCheck = Integer.parseInt(revisionNumber);
 		} catch (final NumberFormatException e) {
-			System.out.println("Ignoring invalid revision number "
+			SvnConfigurationOptions.getTaskLogger().log("Ignoring invalid revision number "
 					+ revisionNumber + " for "
 					+ path.getAttribute(CacheConfiguration.NAME));
 			revisionToCheck = -1;

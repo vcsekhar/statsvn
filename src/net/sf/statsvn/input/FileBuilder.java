@@ -64,7 +64,7 @@ public class FileBuilder {
 
     private Builder builder;
     private String name;
-    private boolean isBinary;
+    private boolean binary;
     private final List revisions = new ArrayList();
     private Map revBySymnames;
     private int locDelta;
@@ -76,13 +76,13 @@ public class FileBuilder {
      *            a <tt>Builder</tt> that provides factory services for author and directory instances and line counts.
      * @param name
      *            the filename
-     * @param isBinary
+     * @param binary
      *            Is this a binary file or not?
      */
     public FileBuilder(final Builder builder, final String name, final boolean isBinary, final Map revBySymnames) {
         this.builder = builder;
         this.name = name;
-        this.isBinary = isBinary;
+        this.binary = isBinary;
         this.revBySymnames = revBySymnames;
 
         LOGGER.fine("logging " + name);
@@ -95,7 +95,7 @@ public class FileBuilder {
      *            the revision
      */
     public void addRevisionData(final RevisionData data) {
-        if (isBinary && !data.isCreationOrRestore()) {
+        if (binary && !data.isCreationOrRestore()) {
             data.setLines(0, 0);
         }
         this.revisions.add(data);
@@ -177,7 +177,7 @@ public class FileBuilder {
      * @return the LOC count for the file's most recent revision.
      */
     private int getFinalLOC() {
-        if (isBinary) {
+        if (binary) {
             return 0;
         }
 
@@ -297,7 +297,7 @@ public class FileBuilder {
      * @return <tt>true</tt> if the file did exist at some point in the log period.
      */
     private boolean fileExistsInLogPeriod() {
-        if (revisions.size() > 0 || isBinary) {
+        if (revisions.size() > 0 || binary) {
             return true;
         }
         try {
@@ -379,7 +379,7 @@ public class FileBuilder {
      * @return <tt>true</tt> if this file is known to be binary, <tt>false</tt> otherwise.
      */
     public boolean isBinary() {
-        return isBinary;
+        return binary;
     }
 
     /**
@@ -387,11 +387,11 @@ public class FileBuilder {
      * 
      * TODO: Beef up this interface to better encapsulate the data structure.
      * 
-     * @param isBinary
+     * @param binary
      *            is the file binary?
      */
     public void setBinary(final boolean isBinary) {
-        this.isBinary = isBinary;
+        this.binary = isBinary;
     }
 
     /**

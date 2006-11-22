@@ -72,13 +72,15 @@ public final class SvnStartupUtils {
             if (pUtils.hasErrorOccured()) {
 				throw new IOException(pUtils.getErrorMessage());
 			}
-        } catch (final Exception e) {
-        		LOGGER.warning(e.getMessage());
+        } catch (final IOException e) {
+       		LOGGER.warning(e.getMessage());
+        } catch (final RuntimeException e) {
+       		LOGGER.warning(e.getMessage());
         } finally {
         	if (pUtils != null) {
         		try {
 					pUtils.close();
-				} catch (IOException e) {
+				} catch (final IOException e) {
 	        		LOGGER.warning(e.getMessage());
 				}
         	}
@@ -121,7 +123,7 @@ public final class SvnStartupUtils {
         	if (pUtils != null) {
         		try {
 					pUtils.close();
-				} catch (IOException e) {
+				} catch (final IOException e) {
 	        		LOGGER.warning(e.getMessage());
 				}
         	}

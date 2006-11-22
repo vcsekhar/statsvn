@@ -30,6 +30,10 @@ import org.w3c.dom.Document;
  * @version $Id$
  */
 public final class XMLUtil {
+	private static final int ONE_SEC_IN_MILLISECS = 1000;
+	private static final int IDOT_POSITION_IFNEG = 20;
+	private static final int NORMAL_IDOT_POSITION = 19;
+
 	/**
 	 * A utility class (only static methods) should be final and have
 	 * a private constructor.
@@ -47,9 +51,9 @@ public final class XMLUtil {
 	public static Date parseXsdDateTime(String sDateTime) throws ParseException {
 		final DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
-		int iDotPosition = 19;
+		int iDotPosition = NORMAL_IDOT_POSITION;
 		if (sDateTime.charAt(0) == '-') {
-			iDotPosition = 20;
+			iDotPosition = IDOT_POSITION_IFNEG;
 		}
 		Date result;
 		if (sDateTime.length() <= iDotPosition) {
@@ -77,7 +81,7 @@ public final class XMLUtil {
 
 		result = format.parse(sDateTime);
 		if (millis != null) {
-			result.setTime(result.getTime() + Math.round(Float.parseFloat(millis) * 1000));
+			result.setTime(result.getTime() + Math.round(Float.parseFloat(millis) * ONE_SEC_IN_MILLISECS));
 		}
 
 		result = offsetDateFromGMT(result);

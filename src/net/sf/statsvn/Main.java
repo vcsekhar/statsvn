@@ -25,6 +25,7 @@ package net.sf.statsvn;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Locale;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
@@ -36,6 +37,7 @@ import net.sf.statsvn.input.RepositoryFileManager;
 import net.sf.statsvn.input.SvnLogfileParser;
 import net.sf.statcvs.model.Repository;
 import net.sf.statsvn.output.SvnCommandLineParser;
+import net.sf.statsvn.output.SvnConfigurationOptions;
 import net.sf.statcvs.output.ConfigurationException;
 import net.sf.statcvs.output.ConfigurationOptions;
 import net.sf.statcvs.output.HTMLOutput;
@@ -73,13 +75,13 @@ public final class Main {
 	public static void main(final String[] args) {
 		Messages.setPrimaryResource("net.sf.statsvn.statcvs"); // primary is statcvs.properties in net.sf.statsvn
 		
-		System.out.println(Messages.getString("PROJECT_NAME") + Messages.NL);
+		SvnConfigurationOptions.getTaskLogger().log(Messages.getString("PROJECT_NAME") + Messages.NL);
 
 		if (args.length == 0) {
 			printProperUsageAndExit();
 		}
 		if (args.length == 1) {
-			final String arg = args[0].toLowerCase();
+			final String arg = args[0].toLowerCase(Locale.getDefault());
 			if (arg.equals("-h") || arg.equals("-help")) {
 				printProperUsageAndExit();
 			} else if (arg.equals("-version")) {
@@ -93,7 +95,7 @@ public final class Main {
 			SvnStartupUtils.checkRepoRootAvailable();
 			generateDefaultHTMLSuite();
 		} catch (final ConfigurationException cex) {
-			System.err.println(cex.getMessage());
+			SvnConfigurationOptions.getTaskLogger().log(cex.getMessage());
 			System.exit(1);
 		} catch (final LogSyntaxException lex) {
 			printLogErrorMessageAndExit(lex.getMessage());
@@ -115,12 +117,12 @@ public final class Main {
 			LM.readConfiguration(stream);
 			stream.close();
 		} catch (final IOException e) {
-			System.err.println("ERROR: Logging could not be initialized!");
+			SvnConfigurationOptions.getTaskLogger().log("ERROR: Logging could not be initialized!");
 		}
 	}
 
 	private static void printProperUsageAndExit() {
-		System.out.println(
+		SvnConfigurationOptions.getTaskLogger().log(
 		// max. 80 chars
 				// 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 				"Usage: java -jar statsvn.jar [options] <logfile> <directory>\n" + "\n" + "Required parameters:\n"
@@ -144,34 +146,34 @@ public final class Main {
 	}
 
 	private static void printVersionAndExit() {
-		System.out.println("Version " + Messages.getString("PROJECT_VERSION"));
+		SvnConfigurationOptions.getTaskLogger().log("Version " + Messages.getString("PROJECT_VERSION"));
 		System.exit(1);
 	}
 
 	private static void printOutOfMemMessageAndExit() {
-		System.err.println("OutOfMemoryError.");
-		System.err.println("Try running java with the -mx option (e.g. -mx128m for 128Mb).");
+		SvnConfigurationOptions.getTaskLogger().log("OutOfMemoryError.");
+		SvnConfigurationOptions.getTaskLogger().log("Try running java with the -mx option (e.g. -mx128m for 128Mb).");
 		System.exit(1);
 	}
 
 	private static void printLogErrorMessageAndExit(final String message) {
-		System.err.println("Logfile parsing failed.");
-		System.err.println(message);
+		SvnConfigurationOptions.getTaskLogger().log("Logfile parsing failed.");
+		SvnConfigurationOptions.getTaskLogger().log(message);
 		System.exit(1);
 	}
 
 	private static void printIoErrorMessageAndExit(final String message) {
-		System.err.println(message);
+		SvnConfigurationOptions.getTaskLogger().log(message);
 		System.exit(1);
 	}
 
 	private static void printEmptyRepositoryMessageAndExit() {
-		System.err.println("No revisions found in the log!");
+		SvnConfigurationOptions.getTaskLogger().log("No revisions found in the log!");
 		System.exit(1);
 	}
 
 	private static void printErrorMessageAndExit(final String message) {
-		System.err.println(message);
+		SvnConfigurationOptions.getTaskLogger().log(message);
 		System.exit(1);
 	}
 
