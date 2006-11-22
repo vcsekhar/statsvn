@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import net.sf.statcvs.util.LookaheadReader;
+import net.sf.statsvn.output.SvnConfigurationOptions;
 
 /**
  * Utilities class that manages calls to svn diff.
@@ -88,7 +89,8 @@ public final class SvnDiffUtils {
 		}
 		// not using logger because these diffs take lots of time and we want to
 		// show on the standard output.
-		System.out.println("svn diff of " + filename + ", r" + oldRevNr + " to r" + newRevNr + ", +" + lineDiff[0] + " -" + lineDiff[1]);
+		SvnConfigurationOptions.getTaskLogger().log("svn diff of " + filename + ", r" + oldRevNr + " to r" 
+				+ newRevNr + ", +" + lineDiff[0] + " -" + lineDiff[1]);
 
 		return lineDiff;
 	}
@@ -107,7 +109,7 @@ public final class SvnDiffUtils {
 		 * 
 		 * svn:mime-type = application/octet-stream
 		 */
-		return (msg.indexOf(BINARY_TYPE) > 0);
+		return (msg.indexOf(BINARY_TYPE) >= 0);
 	}
 
 	/**
@@ -145,14 +147,12 @@ public final class SvnDiffUtils {
 			} else if (diffReader.getCurrentLine().indexOf(BINARY_TYPE) == 0) {
                 throw new BinaryDiffException();
 			}
-            
-			// System.out.println(diffReader.getCurrentLine());
 		}
 		if (propertyChange && (lineDiff[0] == -1 || lineDiff[1] == -1)) {
 			lineDiff[0] = 0;
 			lineDiff[1] = 0;
 		}
-		// System.out.println(lineDiff[0] + " " + lineDiff[1]);
+
 		return lineDiff;
 	}
 

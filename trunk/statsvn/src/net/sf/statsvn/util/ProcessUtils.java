@@ -93,14 +93,14 @@ public final class ProcessUtils {
 	/**
 	 * @param errorStream the errorStream to set
 	 */
-	public void setErrorStream(InputStream errorStream) {
+	public void setErrorStream(final InputStream errorStream) {
 		this.errorStream = new BufferedInputStream(errorStream);
 	}
 
 	/**
 	 * @param inputStream the inputStream to set
 	 */
-	public void setInputStream(InputStream inputStream) {
+	public void setInputStream(final InputStream inputStream) {
 		this.inputStream = new BufferedInputStream(inputStream);
 	}
 }

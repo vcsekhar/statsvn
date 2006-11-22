@@ -70,7 +70,7 @@ public class RevisionData {
      * @return Returns the date.
      */
     public Date getDate() {
-        return date;
+        return date != null ? new Date(date.getTime()) : null;
     }
 
     /**
@@ -78,7 +78,11 @@ public class RevisionData {
      *            The date to set.
      */
     public void setDate(final Date date) {
-        this.date = date;
+    	if (date != null) {
+    		this.date = new Date(date.getTime());
+    	} else {
+    		this.date = null;
+    	}
     }
 
     /**
@@ -252,9 +256,8 @@ public class RevisionData {
      * 
      * @return the clone
      */
-    public Object clone() {
+    public Object createCopy() {
         return new RevisionData(revisionNumber, date, loginName, stateExp, stateDead, stateAdded, hasNoLines, linesAdded, linesRemoved, comment);
-
     }
 
     /**

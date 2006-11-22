@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
@@ -226,11 +227,12 @@ public class Builder implements SvnLogBuilder {
 			name=Messages.getString("AUTHOR_UNKNOWN");
 		}
     	
-        if (this.authors.containsKey(name.toLowerCase())) {
-            return (Author) this.authors.get(name.toLowerCase());
+        String lowerCaseName = name.toLowerCase(Locale.getDefault());
+		if (this.authors.containsKey(lowerCaseName)) {
+            return (Author) this.authors.get(lowerCaseName);
         }
         final Author newAuthor = new Author(name);
-        this.authors.put(name.toLowerCase(), newAuthor);
+        this.authors.put(lowerCaseName, newAuthor);
         return newAuthor;
     }
 

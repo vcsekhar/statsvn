@@ -86,7 +86,7 @@ public final class SvnPropgetUtils {
 				if (pUtils != null) {
 					try {
 						pUtils.close();
-					} catch (IOException e) {
+					} catch (final IOException e) {
 						LOGGER.warning(e.toString());
 					}
 				}
@@ -152,7 +152,7 @@ public final class SvnPropgetUtils {
 			if (pUtils != null) {
 				try {
 					pUtils.close();
-				} catch (IOException e) {
+				} catch (final IOException e) {
 					LOGGER.warning(e.toString());
 				}
 			}

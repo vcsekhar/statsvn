@@ -1,7 +1,6 @@
 package net.sf.statsvn.util;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.logging.Logger;
@@ -71,13 +70,14 @@ public final class SvnInfoUtils {
 				sCurrentUrl = stringData;
 			} else if (eName.equals("entry")) {
 				if (sCurrentRevision == null || sCurrentUrl == null || sCurrentKind == null) {
-					throw new SAXException("Invalid svn info xml; unable to find revision or url for path [" + sCurrentPath + "]" + " revision="
+					throw new SAXException("Invalid svn info xml; unable to find revision or url for path [" 
+							+ sCurrentPath + "]" + " revision="
 							+ sCurrentRevision + " url:" + sCurrentUrl + " kind:" + sCurrentKind);
 				}
 
-				hmRevisions.put(urlToRelativePath(sCurrentUrl), sCurrentRevision);
+				HM_REVISIONS.put(urlToRelativePath(sCurrentUrl), sCurrentRevision);
 				if (sCurrentKind.equals("dir")) {
-					hsDirectories.add(urlToRelativePath(sCurrentUrl));
+					HS_DIRECTORIES.add(urlToRelativePath(sCurrentUrl));
 				}
 			} else if (eName.equals("uuid")) {
 				sRepositoryUuid = stringData;
@@ -162,10 +162,10 @@ public final class SvnInfoUtils {
 	private static final boolean ENABLE_CACHING = true;
 
 	// relative path -> Revision Number
-	private static HashMap hmRevisions;
+	private static final HashMap HM_REVISIONS = new HashMap();
 
 	// if HashSet contains relative path, path is a directory.
-	private static HashSet hsDirectories;
+	private static final HashSet HS_DIRECTORIES = new HashSet();
 
 	// Path of . in repository. Can only be calculated if given an element from
 	// the SVN log.
@@ -296,8 +296,8 @@ public final class SvnInfoUtils {
 	 *         otherwise.
 	 */
 	public static String getRevisionNumber(final String relativePath) {
-		if (hmRevisions.containsKey(relativePath)) {
-			return hmRevisions.get(relativePath).toString();
+		if (HM_REVISIONS.containsKey(relativePath)) {
+			return HM_REVISIONS.get(relativePath).toString();
 		} else {
 			return null;
 		}
@@ -372,7 +372,7 @@ public final class SvnInfoUtils {
 	 * @return true if it is a known directory.
 	 */
 	public static boolean isDirectory(final String relativePath) {
-		return hsDirectories.contains(relativePath);
+		return HS_DIRECTORIES.contains(relativePath);
 	}
 
 	/**
@@ -383,8 +383,8 @@ public final class SvnInfoUtils {
 	 *            the relative path.
 	 */
 	public static void addDirectory(final String relativePath) {
-		if (!hsDirectories.contains(relativePath)) {
-			hsDirectories.add(relativePath);
+		if (!HS_DIRECTORIES.contains(relativePath)) {
+			HS_DIRECTORIES.add(relativePath);
 		}
 	}
 
@@ -396,7 +396,7 @@ public final class SvnInfoUtils {
 	 * @return true if we it needs to be re-invoked.
 	 */
 	protected static boolean isQueryNeeded(boolean bRootOnly) {
-		return !ENABLE_CACHING || (bRootOnly && sRootUrl == null) || (!bRootOnly && hmRevisions == null);
+		return !ENABLE_CACHING || (bRootOnly && sRootUrl == null) || (!bRootOnly && HM_REVISIONS == null);
 	}
 
 	/**
@@ -436,8 +436,8 @@ public final class SvnInfoUtils {
 		// is public for tests
 		if (isQueryNeeded(true)) {
 			try {
-				hmRevisions = new HashMap();
-				hsDirectories = new HashSet();
+				HM_REVISIONS.clear();
+				HS_DIRECTORIES.clear();
 
 				final SAXParserFactory factory = SAXParserFactory.newInstance();
 				final SAXParser parser = factory.newSAXParser();
