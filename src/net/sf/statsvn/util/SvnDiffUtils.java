@@ -63,9 +63,15 @@ public final class SvnDiffUtils {
 	 *             if the error message is due to trying to diff binary files.
 	 */
 	public static int[] getLineDiff(final String oldRevNr, final String newRevNr, final String filename) throws IOException, BinaryDiffException {
+		int[] lineDiff;
 		final InputStream diffStream = callSvnDiff(oldRevNr, newRevNr, filename);
-		final LookaheadReader diffReader = new LookaheadReader(new InputStreamReader(diffStream));
-		final int[] lineDiff = parseDiff(diffReader);
+
+		try {
+			final LookaheadReader diffReader = new LookaheadReader(new InputStreamReader(diffStream));
+			lineDiff = parseDiff(diffReader);
+		} finally {
+			diffStream.close();
+		}
 
 		if (ProcessUtils.hasErrorOccured()) {
             // The binary checking code here might be useless... as it may be output on the standard out. 
