@@ -3,7 +3,6 @@ package net.sf.statsvn.util;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import net.sf.statcvs.util.LookaheadReader;
@@ -21,9 +20,8 @@ import net.sf.statsvn.output.SvnConfigurationOptions;
  * 
  */
 public final class ProcessUtils {
-	private static Process lastProcess;
-	private static BufferedInputStream lastInputStream;
-	private static BufferedInputStream lastErrorStream;
+	private BufferedInputStream inputStream;
+	private BufferedInputStream errorStream;
 
 	/**
 	 * A utility class (only static methods) should be final and have
@@ -32,40 +30,39 @@ public final class ProcessUtils {
 	private ProcessUtils() {
 	}
 
-	public static synchronized InputStream call(final String sCommand) throws IOException {
-		forceClose(lastErrorStream);
-		forceClose(lastInputStream);
-		lastProcess = Runtime.getRuntime().exec(sCommand, null, getWorkingFolder());
-		lastErrorStream = new BufferedInputStream(lastProcess.getErrorStream());
-		lastInputStream = new BufferedInputStream(lastProcess.getInputStream());
+	public static synchronized ProcessUtils call(final String sCommand) throws IOException {
+		final ProcessUtils util = new ProcessUtils();
+		final Process lastProcess = Runtime.getRuntime().exec(sCommand, null, getWorkingFolder());
+		util.errorStream = new BufferedInputStream(lastProcess.getErrorStream());
+		util.inputStream = new BufferedInputStream(lastProcess.getInputStream());
 
-		return lastInputStream;
+		return util;
 	}
-
-	private static void forceClose(InputStream stream) {
-		if (stream != null) {
-			// ensure that it is closed...
-			try {
-				stream.close();
-			} catch(IOException e) {
-				// do nothing with it!
-			}
+	
+	public void close() throws IOException {
+		if (errorStream != null) {
+			errorStream.close();
+			errorStream = null;
+		}
+		if (inputStream != null) {
+			inputStream.close();
+			inputStream = null;
 		}
 	}
 
-	protected static File getWorkingFolder() {
+	private static File getWorkingFolder() {
 		return SvnConfigurationOptions.getCheckedOutDirectoryAsFile();
 	}
 
-	protected static boolean hasErrorOccured() throws IOException {
-		return lastErrorStream != null && lastErrorStream.available() > 0;
+	protected boolean hasErrorOccured() throws IOException {
+		return errorStream != null && errorStream.available() > 0;
 	}
 
-	protected static String getErrorMessage() {
-		if (lastErrorStream == null) {
+	protected String getErrorMessage() {
+		if (errorStream == null) {
 			return null;
 		} else {
-			final LookaheadReader diffReader = new LookaheadReader(new InputStreamReader(lastErrorStream));
+			final LookaheadReader diffReader = new LookaheadReader(new InputStreamReader(errorStream));
 			final StringBuilder builder = new StringBuilder();
 			try {
 				while (diffReader.hasNextLine()) {
@@ -76,5 +73,19 @@ public final class ProcessUtils {
 
 			return builder.toString();
 		}
+	}
+
+	/**
+	 * @return the errorStream
+	 */
+	public BufferedInputStream getErrorStream() {
+		return errorStream;
+	}
+
+	/**
+	 * @return the inputStream
+	 */
+	public BufferedInputStream getInputStream() {
+		return inputStream;
 	}
 }
