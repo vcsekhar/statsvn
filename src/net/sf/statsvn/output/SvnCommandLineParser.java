@@ -27,6 +27,7 @@ import net.sf.statcvs.output.ConfigurationException;
 import net.sf.statcvs.output.ConfigurationOptions;
 import net.sf.statcvs.output.CvswebIntegration;
 import net.sf.statcvs.output.ViewCvsIntegration;
+import net.sf.statcvs.output.ViewVcIntegration;
 import net.sf.statcvs.output.WebRepositoryIntegration;
 
 /**
@@ -85,7 +86,7 @@ public class SvnCommandLineParser extends CommandLineParser {
 		}
 		// now check if the user may have setup some WebIntegration that are not supported
 		WebRepositoryIntegration integration = ConfigurationOptions.getWebRepository();
-		if (integration instanceof ViewCvsIntegration) {
+		if (integration instanceof ViewCvsIntegration && !(integration instanceof ViewVcIntegration)) {
 			throw new ConfigurationException("Sorry, ViewCvs is not supported by Subversion");
 		} else if (integration instanceof CvswebIntegration) {
 			throw new ConfigurationException("Sorry, CvsWeb is not supported by Subversion");
