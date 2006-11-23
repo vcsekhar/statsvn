@@ -1,0 +1,39 @@
+<document>
+  <properties>
+    <title>Introduction</title>
+  </properties>
+  <head>
+    <meta name="description"
+	content="StatSVN retrieves information from a Subversion repository and generates various tables and charts describing the project development."
+	/>
+
+    <meta name="keywords"
+        content="Date calculator, IMM Dates, Period Calculator, Financial Calendar, Business Calendar, java, open source" />
+    <meta name="Subject" content="Date Calculators" />
+    <meta name="Copyright" content="ObjectLab Financial Ltd" />
+    <meta name="Language" content="English" />
+    <meta name="Designer" content="ObjectLab Financial Ltd" />
+    <meta name="Distribution" content="Global" />
+    <meta name="robots" content="ALL"/>
+    <meta name="Revisit-After" content="20 Days" />
+  </head>
+  <body>
+    <!-- The body of the document contains a number of sections -->
+    <section name="StatSvn News">
+
+    <p>Version 0.2.0 is out and now supports Html and XDoc generation to ease integration with Maven (see <a href="statsvn/">reports here</a>).
+    <a href="http://digg.com/submit?phase=2&amp;url=www.statsvn.org&amp;title=StatSvn%3A%20Development%20Statistics%20from%20your%20Subversion%20Repository&amp;bodytext=The%20StatSvn%20team%20and%20ObjectLab%20are%20pleased%20to%20announce%20release%200%2E2%2E0%20of%20StatSvn,%20a%20tool%20that%20produces%20charts%20and%20reports%20such%20as%20the%20lines%20of%20code%20over%20time,%20per%20module%20and%20per%20developer%2E%20This%20release%20includes%20Html%20and%20Xdoc%20generation%20for%20easy%20integration%20with%20Maven%2E%20StatSvn%20is%20supported%20by%20ObjectLab%2Eco%2Euk&amp;topic=programming">
+	<img src="http://digg.com/img/badges/91x17-digg-button.png" width="91" height="17" alt="Digg!" style="vertical-align:middle" /></a></p>
+    </section>
+
+    <section name="So, what is StatSvn?">
+    <p>StatSVN retrieves information from a Subversion repository and generates various tables and charts describing the project development, 
+    e.g. timeline for the lines of code, contribution of each developer etc. The current version of StatSVN generates a static suite of 
+    HTML documents containing tables and chart images. StatSVN is open source software, released under the terms of the LGPL, based on StatCVS. 
+    StatSVN uses JFreeChart to generate charts.</p>
+    <p><img src="statsvn/loc_small.png"/></p>
+
+    </section>
+
+  </body>
+</document>
