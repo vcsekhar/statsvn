@@ -162,7 +162,8 @@ public class FileBuilder {
             buildDeletionRevision(file, currentData, currentLOC, symbolicNames);
             buildBeginOfLogRevision(file, beginOfLogDate, nextLinesOfCode, symbolicNames);
         } else if (currentData.isChange()) {
-            buildChangeRevision(file, currentData, currentLOC, symbolicNames);
+            buildCreationRevision(file, currentData, currentLOC, symbolicNames);
+//            buildChangeRevision(file, currentData, currentLOC, symbolicNames);
             buildBeginOfLogRevision(file, beginOfLogDate, nextLinesOfCode, symbolicNames);
         } else {
             LOGGER.warning("illegal state in " + file.getFilenameWithPath() + ":" + currentData.getRevisionNumber());
