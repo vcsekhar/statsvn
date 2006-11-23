@@ -1,0 +1,35 @@
+<document>
+  <properties>
+    <title>On the web...</title>
+  </properties>
+  <head>
+    <meta name="description"
+	content="Mentions of the StatSVN."
+	/>
+
+    <meta name="keywords"
+        content="Statistics for your Repository" />
+    <meta name="Subject" content="Statistics for your source repository" />
+    <meta name="Copyright" content="ObjectLab Financial Ltd and StatSVN Team" />
+    <meta name="Language" content="English" />
+    <meta name="Designer" content="ObjectLab Financial Ltd" />
+    <meta name="Distribution" content="Global" />
+    <meta name="robots" content="ALL"/>
+    <meta name="Revisit-After" content="20 Days" />
+  </head>
+  <body>
+    <!-- The body of the document contains a number of sections -->
+    <section name="0.2.0">
+
+    <p>Here are some snipets of what we found on the web about StatSVN</p>
+
+    <subsection name="On the web">
+	<ul>
+		<li>The Official press release for <a href="press-release-0.2.0.txt">0.2.0</a>.</li>
+	</ul>
+    </subsection>
+
+    </section>
+
+  </body>
+</document>
