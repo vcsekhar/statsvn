@@ -8,15 +8,15 @@
 	<organization>
 		<name>StatSVN Sourceforge Development Group</name>
 		<url>http://statsvn.sourceforge.net/</url>
-		<logo>
-			http://sourceforge.net/sflogo.php?group_id=57558&amp;type=5
-		</logo>
+	      <logo>
+	         http://www.objectlab.co.uk/images/objectlab-web-noblue.gif
+	      </logo>
 	</organization>
 
 	<inceptionYear>2006</inceptionYear>
 	<package>net.sf.statsvn</package>
 
-	<logo>src/site/statsvn.png</logo>
+	<logo>statsvn.png</logo>
 	<shortDescription>StatSVN, stat your repository</shortDescription>
 	<description>
 		StatSVN retrieves information from a Subversion repository and
