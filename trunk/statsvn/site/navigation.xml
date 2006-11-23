@@ -1,19 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project name="StatSvn">
-   <title>QALab - Statistics for your Build</title>
+   <title>StatSVN - Repository Statistics</title>
    <body>
       <links>
-         <item name="Project Page on SF.net"
-            href="http://sourceforge.net/projects/statsvn" />
+         <item name="Project Page on SF.net" href="http://sourceforge.net/projects/statsvn" />
+         <item name="HomePage" href="http://www.statsvn.org" />
+         <item name="Wiki" href="http://svn.statsvn.org/statsvnwiki/" />
       </links>
       <menu name="StatSvn">
          <item name="Overview" href="index.html" />
-         <item name="Stat SVN" class="newWindow" target="_new" href="statsvn/index.html" />
+         <item name="Wiki (manual)" href="http://svn.statsvn.org/statsvnwiki/" />
+         <item name="In the press" href="press/index.html" />
+         <item name="StatSVN on StatSVN" href="statsvn/index.html" />
+         <item name="HTML Sample" href="http://jucmnav.softwareengineering.ca/jucmnav/statsvn/" />
       </menu>
       
       <sitemap/>
       <search/>
+      
+      <menu name="Interesting Projects">
+         <item name="ObjectLab Kit" href="http://objectlabkit.sourceforge.net/" />
+         <item name="QALab" href="http://qalab.sourceforge.net/" />
+         <item name="JTreeMap" href="http://jtreemap.sourceforge.net/" />
+         <item name="PZFileReader" href="http://pzfilereader.sourceforge.net/" />
+      </menu>
+      
       <footer>
 	<img src="http://sourceforge.net/sflogo.php?group_id=57558&amp;type=2"/>
         <a href="http://digg.com/submit?phase=2&amp;url=www.statsvn.org&amp;title=StatSvn%3A%20Development%20Statistics%20from%20your%20Subversion%20Repository&amp;bodytext=The%20StatSvn%20team%20and%20ObjectLab%20are%20pleased%20to%20announce%20release%200%2E2%2E0%20of%20StatSvn,%20a%20tool%20that%20produces%20charts%20and%20reports%20such%20as%20the%20lines%20of%20code%20over%20time,%20per%20module%20and%20per%20developer%2E%20This%20release%20includes%20Html%20and%20Xdoc%20generation%20for%20easy%20integration%20with%20Maven%2E%20StatSvn%20is%20supported%20by%20ObjectLab%2Eco%2Euk&amp;topic=programming">
