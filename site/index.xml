@@ -8,11 +8,11 @@
 	/>
 
     <meta name="keywords"
-        content="Date calculator, IMM Dates, Period Calculator, Financial Calendar, Business Calendar, java, open source" />
-    <meta name="Subject" content="Date Calculators" />
-    <meta name="Copyright" content="ObjectLab Financial Ltd" />
+        content="SubVersion, StatCVS, Statistics Subversion, Code Repository, java, open source" />
+    <meta name="Subject" content="Statistics Subversion" />
+    <meta name="Copyright" content="StatSVN Team and ObjectLab Financial Ltd" />
     <meta name="Language" content="English" />
-    <meta name="Designer" content="ObjectLab Financial Ltd" />
+    <meta name="Designer" content="StatSVN Team and ObjectLab Financial Ltd" />
     <meta name="Distribution" content="Global" />
     <meta name="robots" content="ALL"/>
     <meta name="Revisit-After" content="20 Days" />
@@ -21,18 +21,37 @@
     <!-- The body of the document contains a number of sections -->
     <section name="StatSvn News">
 
-    <p>Version 0.2.0 is out and now supports Html and XDoc generation to ease integration with Maven (see <a href="statsvn/">reports here</a>).
+    <p>2006-11-25: Version 0.2.0 is out and now supports Html and XDoc generation to ease integration with Maven (see <a href="statsvn/index.html">reports here</a>).
     <a href="http://digg.com/submit?phase=2&amp;url=www.statsvn.org&amp;title=StatSvn%3A%20Development%20Statistics%20from%20your%20Subversion%20Repository&amp;bodytext=The%20StatSvn%20team%20and%20ObjectLab%20are%20pleased%20to%20announce%20release%200%2E2%2E0%20of%20StatSvn,%20a%20tool%20that%20produces%20charts%20and%20reports%20such%20as%20the%20lines%20of%20code%20over%20time,%20per%20module%20and%20per%20developer%2E%20This%20release%20includes%20Html%20and%20Xdoc%20generation%20for%20easy%20integration%20with%20Maven%2E%20StatSvn%20is%20supported%20by%20ObjectLab%2Eco%2Euk&amp;topic=programming">
 	<img src="http://digg.com/img/badges/91x17-digg-button.png" width="91" height="17" alt="Digg!" style="vertical-align:middle" /></a></p>
     </section>
 
     <section name="So, what is StatSvn?">
-    <p>StatSVN retrieves information from a Subversion repository and generates various tables and charts describing the project development, 
-    e.g. timeline for the lines of code, contribution of each developer etc. The current version of StatSVN generates a static suite of 
+    <p>StatSVN retrieves information from a Subversion repository and generates various tables and charts describing the project development, e.g.
+    <ul>
+    <li><a href="statsvn/loc.html">Timeline</a> for the lines of code</li>
+    <li>Lines of code for each <a href="statsvn/authors.html">developer</a></li>
+    <li>Activity by <a href="statsvn/authors.html#Activity_by_Clock_Time">Clock time</a></li>
+    <li><a href="statsvn/authors.html#Author_Activity">Authors Activity</a></li>
+    <li>Author activity per <a href="statsvn/user_jkealey.html#Modules">Module</a></li>
+    <li>Author <a href="statsvn/user_jkealey.html#Most_Recent_Commits">Most Recent Commits</a> with links to ViewVc</li>
+    <li>Stats per <a href="statsvn/module_src_net_sf_statsvn_output.html">directory</a></li>
+    <li><a href="statsvn/file_sizes.html#File_Count">File count</a></li>
+    <li><a href="statsvn/file_sizes.html#Average_File_Size">Average file size</a></li>
+    <li><a href="statsvn/file_sizes.html#Largest_Files">Largest files</a></li>
+    <li><a href="statsvn/file_sizes.html#Files_With_Most_Revisions">Files with most revisions</a></li>
+    <li><a href="statsvn/dir_sizes.html#Directory_Sizes">Directory Sizes</a></li>    
+    <li><a href="statsvn/index.html#Repository_Tree">Repository tree</a> with file count and lines of code</li>
+    </ul>
+    
+    The current version of StatSVN generates a static suite of 
     HTML documents containing tables and chart images. StatSVN is open source software, released under the terms of the LGPL, based on StatCVS. 
     StatSVN uses JFreeChart to generate charts.</p>
     <p><img src="statsvn/loc_small.png"/></p>
-
+    </section>
+    
+    <section name="Where is the manual?">
+    <p>The manual is available online as a <a href="http://svn.statsvn.org/statsvnwiki/">Wiki</a> and it is as up-to-date and comprehensive as you want it to be...</p>
     </section>
 
   </body>

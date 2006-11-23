@@ -108,7 +108,7 @@
         <summaryresult date="2006-11-23" filecount="31" module="statsvn"
             project="StatSvn" statvalue="61" type="cobertura-line"/>
         <summaryresult date="2006-11-23" filecount="31" module="statsvn"
-            project="StatSvn" statvalue="73" type="cobertura-branch"/>
+            project="StatSvn" statvalue="74" type="cobertura-branch"/>
         <summaryresult date="2006-11-23" filecount="3" module="statsvn"
             project="StatSvn" statvalue="9" type="pmd"/>
     </summary>
@@ -348,8 +348,8 @@
         <result date="2006-11-22" statvalue="88" type="cobertura-line"/>
         <result date="2006-11-22" statvalue="88" type="cobertura-branch"/>
         <result date="2006-11-23" statvalue="4" type="checkstyle"/>
-        <result date="2006-11-23" statvalue="88" type="cobertura-line"/>
-        <result date="2006-11-23" statvalue="88" type="cobertura-branch"/>
+        <result date="2006-11-23" statvalue="87" type="cobertura-line"/>
+        <result date="2006-11-23" statvalue="87" type="cobertura-branch"/>
     </file>
     <file
         id="StatSvn-statsvn-net_sf_statsvn_input_LogSyntaxException.java"
