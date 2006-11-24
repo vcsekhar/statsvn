@@ -260,13 +260,14 @@ public class LinesOfCodeTest extends TestCase {
 		fileman.setLinesOfCode("file", 100);
 		buildRevision("1.5", date15, 80, 30);
 		finishBuilder();
-		assertEquals(2, file.getRevisions().size());
+		assertEquals(3, file.getRevisions().size());
 		assertEquals("1.5", rev0.getRevisionNumber());
-		assertEquals("0.0", rev1.getRevisionNumber());
-		assertTrue(rev1.isBeginOfLog());
-		assertRevisionLines(rev0, 100, 100, 100);
-//		assertRevisionLines(rev0, 100, 50, 80);
-		assertRevisionLines(rev1, 50, 0, 0);
+		assertEquals("1.5", rev1.getRevisionNumber());
+		assertEquals("0.0", rev2.getRevisionNumber());
+		assertTrue(rev2.isBeginOfLog());
+		assertRevisionLines(rev0, 100, 50, 80);
+		assertRevisionLines(rev1, 0, 0, 0);
+		assertRevisionLines(rev2, 50, 0, 0);
 	}
 
 	private void buildRevision(final String revision, final Date date,
