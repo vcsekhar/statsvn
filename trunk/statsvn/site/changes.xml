@@ -8,6 +8,7 @@
        <action dev="benoitx" type="add">Removing the StatCvs code from StatSvn</action>
        <action dev="benoitx" type="fix">Fixed issues related to InputStream from svn command line executions</action>
        <action dev="benoitx" type="fix">Acted on FindBugs, PMD and Checkstyle warnings.</action>
+       <action dev="benoitx" type="fix">Fixed issue related to number of files when they are moved/deleted.</action>
     </release>
     <release version="0.1.3" date="2006-11-20" description="XDoc support and move to net.sf.statsvn">
        <action dev="benoitx" type="add">Added support for xdoc.</action>
