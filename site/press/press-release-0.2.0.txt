@@ -12,8 +12,7 @@ documents containing tables and chart images.
 
 The new XDoc support enables a basic level of integration of the stats
 in a maven build.  This is demonstrated on the following page:
-http://www.objectlab.co.uk/statsvn/statsvn
-
+http://www.statsvn.org/statsvn
 
 StatSVN is available now for download at http://www.statsvn.org
 
