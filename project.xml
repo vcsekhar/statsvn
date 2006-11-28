@@ -75,45 +75,28 @@
 	</mailingLists>
 
 	<developers>
-
-		<developer>
-			<name>Manuel Schulze</name>
-			<id>manschu</id>
-		</developer>
-
-		<developer>
-			<name>Lukasz Pekacki</name>
-			<id>lukasz</id>
-		</developer>
-
-		<developer>
-			<name>Richard Cyganiak</name>
-			<id>cyganiak</id>
-		</developer>
-
-		<developer>
-			<name>Anja Jentzsch</name>
-			<id>jentzsch</id>
-		</developer>
-
-		<developer>
-			<name>Steffen Pingel</name>
-			<id>squig</id>
-		</developer>
-
 		<developer>
 			<name>Jason Kealey</name>
 			<id>jkealey</id>
+			<roles>
+				<role>Project Lead</role>
+			</roles>
 		</developer>
 
 		<developer>
 			<name>Jean-Philippe Daigle</name>
 			<id>jpdaigle</id>
+			<roles>
+				<role>Developer</role>
+			</roles>
 		</developer>
 
 		<developer>
 			<name>Gunter Mussbacher</name>
 			<id>gunterm</id>
+			<roles>
+				<role>Developer</role>
+			</roles>
 		</developer>
 
 		<developer>
@@ -128,6 +111,31 @@
 			<timezone>+0</timezone>
 		</developer>
 	</developers>
+
+   	<contributors>
+   	   <contributor>
+		<name>Manuel Schulze</name>
+   	   </contributor>
+
+   	   <contributor>
+		<name>Lukasz Pekacki</name>
+   	   </contributor>
+
+   	   <contributor>
+		<name>Richard Cyganiak</name>
+		<roles>
+			<role>StatCVS Lead</role>
+		</roles>
+   	   </contributor>
+
+   	   <contributor>
+		<name>Anja Jentzsch</name>
+   	   </contributor>
+
+   	   <contributor>
+		<name>Steffen Pingel</name>
+   	   </contributor>
+   	</contributors>
 
 	<dependencies>
 
