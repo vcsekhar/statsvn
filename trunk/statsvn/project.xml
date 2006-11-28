@@ -114,26 +114,10 @@
 
    	<contributors>
    	   <contributor>
-		<name>Manuel Schulze</name>
-   	   </contributor>
-
-   	   <contributor>
-		<name>Lukasz Pekacki</name>
-   	   </contributor>
-
-   	   <contributor>
 		<name>Richard Cyganiak</name>
 		<roles>
 			<role>StatCVS Lead</role>
 		</roles>
-   	   </contributor>
-
-   	   <contributor>
-		<name>Anja Jentzsch</name>
-   	   </contributor>
-
-   	   <contributor>
-		<name>Steffen Pingel</name>
    	   </contributor>
    	</contributors>
 
