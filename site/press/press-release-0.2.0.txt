@@ -1,9 +1,12 @@
 The StatSVN Team and ObjectLab are proud to announce v0.2.0 of StatSVN
 
+If you want to know what happened in your Subversion repository,
+this is the tool for you!
+
 StatSVN retrieves information from a Subversion repository and generates
-various tables and charts describing the project development, e.g.
+various tables and charts describing the project evolution, e.g.
 the lines of code over time, contribution of each developer, the
-evolution of modules, directories, files, the time and days were most
+evolution of modules, directories, files, the time and days when most
 checkins happen, etc. It also shows the commit logs and integrates 
 out of the box with ViewVc, BugZilla, Chora and others.
 
@@ -17,7 +20,7 @@ http://www.statsvn.org/statsvn
 StatSVN is available now for download at http://www.statsvn.org
 
 StatSVN is open source software, released under the terms of the LGPL,
-based on StatCVS. StatSVN uses JFreeChart to generate charts.
+based on StatCVS, it uses JFreeChart to generate charts.
 
 ---
  

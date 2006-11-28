@@ -4,8 +4,8 @@
     <title>StatSvb Changes</title>
   </properties>
   <body>
-    <release version="0.2.0" date="in Svn" description="Removing the StatCvs code from StatSvn">
-       <action dev="benoitx" type="add">Removing the StatCvs code from StatSvn</action>
+    <release version="0.2.0" date="2006-11-28" description="Removing the StatCvs code from StatSVN">
+       <action dev="benoitx" type="add">Removing the StatCvs code from StatSVN</action>
        <action dev="benoitx" type="fix">Fixed issues related to InputStream from svn command line executions</action>
        <action dev="benoitx" type="fix">Acted on FindBugs, PMD and Checkstyle warnings.</action>
        <action dev="benoitx" type="fix">Fixed issue related to number of files when they are moved/deleted.</action>
