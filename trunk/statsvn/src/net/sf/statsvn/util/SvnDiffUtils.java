@@ -87,10 +87,10 @@ public final class SvnDiffUtils {
 				pUtils.close();
 			}
 		}
-		// not using logger because these diffs take lots of time and we want to
-		// show on the standard output.
-		SvnConfigurationOptions.getTaskLogger().log("svn diff of " + filename + ", r" + oldRevNr + " to r" 
-				+ newRevNr + ", +" + lineDiff[0] + " -" + lineDiff[1]);
+//		// not using logger because these diffs take lots of time and we want to
+//		// show on the standard output.
+//		SvnConfigurationOptions.getTaskLogger().log("svn diff of " + filename + ", r" + oldRevNr + " to r" 
+//				+ newRevNr + ", +" + lineDiff[0] + " -" + lineDiff[1]);
 
 		return lineDiff;
 	}
