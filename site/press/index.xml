@@ -31,15 +31,28 @@
 
     <subsection name="The Server Side">
 	<ul>
-		<li>The Server Side <a href="http://www.theserverside.com/news/thread.tss?thread_id=43248">article</a></li>
+		<li>The Server Side <a href="http://www.theserverside.com/discussions/thread.tss?thread_id=43266">article</a></li>
 		<li><a href="tss-homepage-0.2.0.png">The Server Side homepage as an image</a> as a <a href="tss-homepage-1.0.pdf">PDF</a></li>
 	</ul>
     </subsection>
 
     <subsection name="Javalobby.org">
 	<ul>
-		<li>The JavaLobby <a href="http://www.javalobby.org/java/forums/t85094.html">article</a></li>
+		<li>The JavaLobby <a href="http://www.javalobby.org/java/forums/t85202.html">article</a></li>
 		<li><a href="javalobby-homepage-0.2.0.png">JavaLobby homepage as an image</a> as a <a href="javalobby-homepage-0.2.0.pdf">PDF</a></li>
+	</ul>
+    </subsection>
+
+    <subsection name="Java.net">
+	<ul>
+		<li>The java.net Today news <a href="http://today.java.net/pub/n/StatSVN0.2.0">article</a></li>
+	</ul>
+    </subsection>
+
+    <subsection name="Misc">
+	<ul>
+		<li><a href="http://www.dotnetkicks.com/teamsystem/StatSVN">DotNetKicks.com</a></li>
+		<li><a href="http://weblogs.asp.net/astopford/archive/2006/11/25/statsvn.aspx">ASP.net Blog</a></li>
 	</ul>
     </subsection>
 
