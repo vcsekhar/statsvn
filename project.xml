@@ -3,6 +3,7 @@
 	<pomVersion>3</pomVersion>
 	<name>statsvn</name>
 	<id>statsvn</id>
+	<groupId>net.sf.statsvn</groupId>
 	<currentVersion>${statsvn.version}</currentVersion>
 
 	<organization>
