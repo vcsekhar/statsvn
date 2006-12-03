@@ -356,7 +356,7 @@ public class Builder implements SvnLogBuilder {
      * @param linesRemoved
      *            the lines that were removed
      */
-    public void updateRevision(final String filename, final String revisionNumber, final int linesAdded, final int linesRemoved) {
+    public synchronized void updateRevision(final String filename, final String revisionNumber, final int linesAdded, final int linesRemoved) {
         final FileBuilder fb = (FileBuilder) fileBuilders.get(filename);
         if (fb != null) {
             fb.updateRevision(revisionNumber, linesAdded, linesRemoved);

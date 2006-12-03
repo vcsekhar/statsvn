@@ -257,7 +257,7 @@ public class CacheBuilder {
 	 * @param removed
 	 *            the number of lines removed
 	 */
-	public void newRevision(String name, final String number, final String added,
+	public synchronized void newRevision(String name, final String number, final String added,
 			final String removed, final boolean binaryStatus) {
 		name = repositoryFileManager.relativeToAbsolutePath(name);
 		checkDocument();
@@ -354,7 +354,7 @@ public class CacheBuilder {
 	 * @return true if the path's BINARY_STATUS is true and the revisionNumber
 	 *         is lower or equal to the path's LATEST_REVISION
 	 */
-	public boolean isBinary(final String fileName, final String revisionNumber) {
+	public synchronized boolean isBinary(final String fileName, final String revisionNumber) {
 		int latestRevision = 0;
 		int revisionToCheck = -1;
 		checkDocument();

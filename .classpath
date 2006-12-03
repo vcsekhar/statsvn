@@ -9,5 +9,6 @@
 	<classpathentry kind="lib" path="lib/jfreechart-1.0.1.jar"/>
 	<classpathentry kind="lib" path="lib/statcvs-0.2.4.jar" sourcepath="/statcvs/src"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/statcvs"/>
+	<classpathentry kind="lib" path="lib/backport-util-concurrent-3.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

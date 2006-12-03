@@ -70,6 +70,16 @@ public class SvnCommandLineParser extends CommandLineParser {
 				throw new ConfigurationException("Missing argument for -password");
 			}
 			SvnConfigurationOptions.setSvnPassword(popNextArg());
+		} else if (s.equals("threads")) {
+			if (isArgsEmpty()) {
+				throw new ConfigurationException("Missing argument for -threads");
+			}
+			SvnConfigurationOptions.setNumberSvnDiffThreads(Integer.parseInt(popNextArg()));
+		} else if (s.equals("concurrency-threshold")) {
+			if (isArgsEmpty()) {
+				throw new ConfigurationException("Missing argument for -concurrency-threshold");
+			}
+			SvnConfigurationOptions.setThresholdInMsToUseConcurrency(Integer.parseInt(popNextArg()));
 		} else {
 			return false;
 		}

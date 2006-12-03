@@ -380,7 +380,7 @@ public class FileBuilder {
      * 
      * @return <tt>true</tt> if this file is known to be binary, <tt>false</tt> otherwise.
      */
-    public boolean isBinary() {
+    public synchronized boolean isBinary() {
         return binary;
     }
 
@@ -392,7 +392,7 @@ public class FileBuilder {
      * @param binary
      *            is the file binary?
      */
-    public void setBinary(final boolean isBinary) {
+    public synchronized void setBinary(final boolean isBinary) {
         this.binary = isBinary;
     }
 

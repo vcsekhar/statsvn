@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
@@ -131,6 +132,7 @@ public final class XMLUtil {
 
 			// Write the DOM document to the file
 			final Transformer xformer = TransformerFactory.newInstance().newTransformer();
+			xformer.setOutputProperty(OutputKeys.INDENT, "yes");
 			xformer.transform(source, result);
 		} catch (final TransformerConfigurationException e) {
 		} catch (final TransformerException e) {
