@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import net.sf.statcvs.util.LookaheadReader;
-import net.sf.statsvn.output.SvnConfigurationOptions;
 
 /**
  * Utilities class that manages calls to svn diff.

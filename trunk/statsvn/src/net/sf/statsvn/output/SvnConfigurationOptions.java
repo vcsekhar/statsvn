@@ -45,6 +45,8 @@ public final class SvnConfigurationOptions {
     private static String svnUsername = null;
     private static String svnPassword = null;
     private static TaskLogger taskLogger = new ConsoleTaskLogger();
+    private static int numberSvnDiffThreads = 25;
+    private static long thresholdInMsToUseConcurrency = 2000;
 
     /**
 	 * A utility class (only static methods) should be final and have
@@ -135,5 +137,33 @@ public final class SvnConfigurationOptions {
 	 */
 	public static void setTaskLogger(final TaskLogger taskLogger) {
 		SvnConfigurationOptions.taskLogger = taskLogger;
+	}
+
+	/**
+	 * @return the numberSvnDiffThreads
+	 */
+	public static int getNumberSvnDiffThreads() {
+		return numberSvnDiffThreads;
+	}
+
+	/**
+	 * @param numberSvnDiffThreads the numberSvnDiffThreads to set
+	 */
+	public static void setNumberSvnDiffThreads(int numberSvnDiffThreads) {
+		SvnConfigurationOptions.numberSvnDiffThreads = numberSvnDiffThreads;
+	}
+
+	/**
+	 * @return the thresholdInMsToUseConcurrency
+	 */
+	public static long getThresholdInMsToUseConcurrency() {
+		return thresholdInMsToUseConcurrency;
+	}
+
+	/**
+	 * @param thresholdInMsToUseConcurrency the thresholdInMsToUseConcurrency to set
+	 */
+	public static void setThresholdInMsToUseConcurrency(long thresholdToUseConcurrency) {
+		SvnConfigurationOptions.thresholdInMsToUseConcurrency = thresholdToUseConcurrency;
 	}
 }

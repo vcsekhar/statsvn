@@ -12,9 +12,10 @@
 	<property name="src.filtered" value="src-temp" />
 	<property name="build" value="build" />
 	<property name="build.tests" value="build-tests" />
-	<property name="statcvs.jar" value="statcvs-0.2.4.jar" />
+	<property name="statcvs.jar" value="statcvs-0.2.5-dev.jar" />
 	<property name="jfreechart.jar" value="jfreechart-1.0.1.jar" />
 	<property name="jcommon.jar" value="jcommon-1.0.0.jar" />
+	<property name="concurrent.jar" value="backport-util-concurrent-3.0.jar" />
 	<property name="dist" value="dist" />
 	<property name="lib" value="lib" />
 	<property name="doc" value="doc" />
@@ -130,8 +131,13 @@
 	<target name="dist" depends="compile,copyfiles">
 		<!-- Creates an executable jar file for the project -->
 		<unjar src="${lib}/${statcvs.jar}" dest="${build}" />
+		<!-- Expand and use the concurrent JAR -->
+		<unjar src="${lib}/${concurrent.jar}" dest="${build}" />
+
+		<!-- Now included in statcvs.jar -->
 		<!--<unjar src="${lib}/${jfreechart.jar}" dest="${build}" />
 		<unjar src="${lib}/${jcommon.jar}" dest="${build}" />-->
+		
 		<mkdir dir="${dist}" />
 		<jar jarfile="${dist}/${project.jar}" basedir="${build}">
 			<manifest>

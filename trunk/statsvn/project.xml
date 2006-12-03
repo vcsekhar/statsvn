@@ -127,9 +127,15 @@
 		<dependency>
 			<groupId>net.sf.statcvs</groupId>
 			<artifactId>statcvs</artifactId>
-			<version>0.2.4</version>
+			<version>0.2.5-dev</version>
 			<type>jar</type>
 			<url>http://statcvs.sourceforge.net/</url>
+		</dependency>
+		<dependency>
+			<groupId>edu.emory.matcs</groupId>
+			<artifactId>backport-util-concurrent</artifactId>
+			<version>3.0</version>
+			<type>jar</type>
 		</dependency>
 		<dependency>
 			<groupId>jfree</groupId>
