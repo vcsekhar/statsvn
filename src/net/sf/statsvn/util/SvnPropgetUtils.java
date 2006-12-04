@@ -177,7 +177,7 @@ public final class SvnPropgetUtils {
 	 */
 	private static String getBinaryFilename(final String currentLine, final boolean removeRoot) {
 		// want to make sure we only have / in end result.
-		String line = removeRoot ? currentLine : currentLine.replace("\\", "/");
+		String line = removeRoot ? currentLine : currentLine.replaceAll("\\", "/");
 
 		// HACK: See bug 18. if removeRoot==true, no - will be found because we
 		// are calling for one specific file.
