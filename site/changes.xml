@@ -5,6 +5,8 @@
   </properties>
   <body>
     <release version="0.2.1" date="in SVN" description="Maintenance">
+       <action dev="benoitx" type="add">Overhaul of the SVN Diff to use multiple threads if required. Command line parameters -threads (default 25) and -concurrency-threshold (default 2000 ms) added.</action>
+       <action dev="benoitx" type="add">Upgrade dependency to statcvs-0.2.5-dev which allows for extra reports to be integrated.</action>
        <action dev="benoitx" type="fix" issue="1602429" due-to="Miroslav Sulc">Patch to fix issue:running tests doesn't work because writing to /root/.statsvn is not allowed.</action>
        <action dev="benoitx" type="add" issue="1605311" due-to="Benoit Xhenseval">Adding a counter for the number of diff calls made and to be made, save the cache every 2 minutes (takes 15ms) and provides an estimate for completion time.</action>
     </release>
