@@ -4,8 +4,9 @@
     <title>StatSvb Changes</title>
   </properties>
   <body>
-    <release version="0.3.0-dev" date="in SVN" description="Maintenance">
-       <action dev="benoitx" type="fix" issue="1612184 " due-to="Richard Cyganiak">Patch for upgrade to StatCVS 0.3.0-dev.</action>
+    <release version="0.3.0-dev" date="in SVN" description="Maintenance">    
+       <action dev="benoitx" type="add" issue="1608782">Adding basic support for Symbolic Names (i.e. tags). You MUST get a log at the top level of the project, not the trunk level, e.g.: svn log -v --xml https://svn.sourceforge.net/svnroot/statsvn/ That way, the log will contain some information about the tags.</action>
+       <action dev="benoitx" type="fix" issue="1612184" due-to="Richard Cyganiak">Patch for upgrade to StatCVS 0.3.0-dev.</action>
        <action dev="benoitx" type="fix" issue="1612997" due-to="samuli">Removed 1.5-specific code.</action>
        <action dev="benoitx" type="fix" issue="1608474" due-to="samuli">Removed 1.5-specific code.</action>
        <action dev="benoitx" type="add" issue="1605731">Overhaul of the SVN Diff to use multiple threads if required. Command line parameters -threads (default 25) and -concurrency-threshold (default 2000 ms) added.</action>
