@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
+import net.sf.statsvn.output.SvnConfigurationOptions;
 import net.sf.statsvn.util.XMLUtil;
 
 import org.xml.sax.Attributes;
@@ -41,10 +42,11 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
 	private String lastElement = "";
 	private String pathAction = "";
 	private String stringData = "";
-    private String copyfromRev = "";
-    private String copyfromPath = "";
-    
+	private String copyfromRev = "";
+	private String copyfromPath = "";
+
 	private RepositoryFileManager repositoryFileManager;
+	private HashMap tagsMap = new HashMap();
 
 	/**
 	 * Default constructor.
@@ -179,7 +181,7 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
 
 			final boolean isBinary = repositoryFileManager.isBinary(currentFilename);
 
-			builder.buildFile(currentFilename, isBinary, revisionData.isDeletion(), new HashMap());
+			builder.buildFile(currentFilename, isBinary, revisionData.isDeletion(), tagsMap);
 			builder.buildRevision(revisionData);
 
 		}
@@ -208,7 +210,7 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
 		checkLastElement(PATHS);
 
 		// relies on the fact that absoluteToRelativePath returns null for paths that are not on the branch.
-		final String filename = repositoryFileManager.absoluteToRelativePath(stringData);
+		String filename = repositoryFileManager.absoluteToRelativePath(stringData);
 		final RevisionData data = (RevisionData) currentRevisionData.createCopy();
 		if (!pathAction.equals("D")) {
 			data.setStateExp(true);
@@ -219,15 +221,27 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
 			data.setStateDead(true);
 		}
 
+		
+//		if (filename == null) {
+//			SvnConfigurationOptions.getTaskLogger().log("### Null Filename" + stringData);
+//		}
+		if (copyfromRev!=null && filename == null && stringData!=null && stringData.indexOf("/tags/")>=0) {
+			SvnConfigurationOptions.getTaskLogger().log("=========== TAG " + stringData+" rev:"+copyfromRev);
+			String tag = stringData.substring("/tags/".length());
+			if (tag.indexOf("/")>0) {
+				tag = tag.substring(0,tag.indexOf("/"));
+			}
+			
+			if (!tagsMap.containsKey(tag)) {
+				tagsMap.put(tag, copyfromRev);
+			}
+		}
+
 		data.setCopyfromPath(copyfromPath);
-        data.setCopyfromRevision(copyfromRev);
-        
-		// must add directories because of implicit additions
-		// if (!SvnInfoUtils.isDirectory(filename)) {
-        
+		data.setCopyfromRevision(copyfromRev);
+
 		currentRevisions.add(data);
 		currentFilenames.add(filename);
-		// }
 	}
 
 	/**
