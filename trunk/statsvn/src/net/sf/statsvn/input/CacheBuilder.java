@@ -75,16 +75,9 @@ public class CacheBuilder {
 	private void addDOMPath(final String name, final String latestRevision,
 			final String binaryStatus) {
 		currentPath = document.createElement(CacheConfiguration.PATH);
-		final Attr attr = document.createAttribute(CacheConfiguration.NAME);
-		attr.setTextContent(name);
-		currentPath.setAttributeNode(attr);
-		final Attr attr2 = document
-				.createAttribute(CacheConfiguration.LATEST_REVISION);
-		attr2.setTextContent(latestRevision);
-		currentPath.setAttributeNode(attr2);
-		final Attr attr3 = document.createAttribute(CacheConfiguration.BINARY_STATUS);
-		attr3.setTextContent(binaryStatus);
-		currentPath.setAttributeNode(attr3);
+		currentPath.setAttribute(CacheConfiguration.NAME, name);
+		currentPath.setAttribute(CacheConfiguration.LATEST_REVISION, latestRevision);
+		currentPath.setAttribute(CacheConfiguration.BINARY_STATUS, binaryStatus);
 		cache.appendChild(currentPath);
 	}
 
@@ -163,19 +156,10 @@ public class CacheBuilder {
 			final String binaryStatus) {
 		final Element revision = document
 				.createElement(CacheConfiguration.REVISION);
-		final Attr attrRev1 = document.createAttribute(CacheConfiguration.NUMBER);
-		attrRev1.setTextContent(number);
-		revision.setAttributeNode(attrRev1);
-		final Attr attrRev2 = document.createAttribute(CacheConfiguration.ADDED);
-		attrRev2.setTextContent(added);
-		revision.setAttributeNode(attrRev2);
-		final Attr attrRev3 = document.createAttribute(CacheConfiguration.REMOVED);
-		attrRev3.setTextContent(removed);
-		revision.setAttributeNode(attrRev3);
-		final Attr attrRev4 = document
-				.createAttribute(CacheConfiguration.BINARY_STATUS);
-		attrRev4.setTextContent(binaryStatus);
-		revision.setAttributeNode(attrRev4);
+		revision.setAttribute(CacheConfiguration.NUMBER, number);
+		revision.setAttribute(CacheConfiguration.ADDED, added);
+		revision.setAttribute(CacheConfiguration.REMOVED, removed);
+		revision.setAttribute(CacheConfiguration.BINARY_STATUS, binaryStatus);
 		currentPath.appendChild(revision);
 	}
 
