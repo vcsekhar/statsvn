@@ -29,7 +29,6 @@ import java.util.Iterator;
 import java.util.Set;
 
 import junit.framework.TestCase;
-import net.sf.statcvs.input.EmptyRepositoryException;
 import net.sf.statcvs.model.Author;
 import net.sf.statcvs.model.Repository;
 import net.sf.statcvs.model.VersionedFile;
@@ -161,12 +160,8 @@ public class BuilderTest extends TestCase {
 	 */
 	public void testFilesEmpty() throws Exception {
 		final Builder builder1 = new Builder(null, null, null);
-		try {
-			builder1.createRepository();
-			fail("should have thrown EmptyRepositoryException");
-		} catch (final EmptyRepositoryException expected) {
-			// is expected
-		}
+		Repository repository = builder1.createRepository();
+		assertTrue(repository.isEmpty());
 	}
 
 	/**

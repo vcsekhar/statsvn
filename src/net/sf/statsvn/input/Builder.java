@@ -37,7 +37,6 @@ import java.util.logging.Logger;
 
 import net.sf.statcvs.Messages;
 import net.sf.statcvs.input.CommitListBuilder;
-import net.sf.statcvs.input.EmptyRepositoryException;
 import net.sf.statcvs.input.NoLineCountException;
 import net.sf.statcvs.model.Author;
 import net.sf.statcvs.model.Directory;
@@ -171,13 +170,11 @@ public class Builder implements SvnLogBuilder {
      * Returns a Repository object of all files.
      * 
      * @return Repository a Repository object
-     * @throws EmptyRepositoryException
-     *             if no adequate files were found in the log.
      */
-    public Repository createRepository() throws EmptyRepositoryException {
+    public Repository createRepository() {
 
         if (startDate == null) {
-            throw new EmptyRepositoryException();
+            return new Repository();
         }
 
         final Repository result = new Repository();
@@ -190,10 +187,6 @@ public class Builder implements SvnLogBuilder {
             }
             result.addFile(file);
             LOGGER.finer("adding " + file.getFilenameWithPath() + " (" + file.getRevisions().size() + " revisions)");
-        }
-
-        if (result.isEmpty()) {
-            throw new EmptyRepositoryException();
         }
 
         // Uh oh...

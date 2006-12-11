@@ -31,8 +31,9 @@ import java.util.logging.Logger;
 
 import net.sf.statsvn.input.Builder;
 import net.sf.statcvs.Messages;
-import net.sf.statcvs.input.EmptyRepositoryException;
 import net.sf.statcvs.input.LogSyntaxException;
+import net.sf.statcvs.output.ReportConfig;
+import net.sf.statcvs.pages.ReportSuiteMaker;
 import net.sf.statsvn.input.RepositoryFileManager;
 import net.sf.statsvn.input.SvnLogfileParser;
 import net.sf.statcvs.model.Repository;
@@ -40,8 +41,6 @@ import net.sf.statsvn.output.SvnCommandLineParser;
 import net.sf.statsvn.output.SvnConfigurationOptions;
 import net.sf.statcvs.output.ConfigurationException;
 import net.sf.statcvs.output.ConfigurationOptions;
-import net.sf.statcvs.output.HTMLOutput;
-import net.sf.statcvs.output.XDocOutput;
 import net.sf.statsvn.util.SvnStartupUtils;
 import net.sf.statsvn.util.SvnVersionMismatchException;
 
@@ -103,8 +102,6 @@ public final class Main {
 			printIoErrorMessageAndExit(ioex.getMessage());
 		} catch (final OutOfMemoryError oome) {
 			printOutOfMemMessageAndExit();
-		} catch (final EmptyRepositoryException erex) {
-			printEmptyRepositoryMessageAndExit();
 		} catch (final SvnVersionMismatchException ever) {
 			printErrorMessageAndExit(ever.getMessage());
 		}
@@ -140,8 +137,10 @@ public final class Main {
 						+ "  -username <svnusername> username to pass to svn\n"
 						+ "  -password <svnpassword> password to pass to svn\n" 
 						+ "  -verbose           print extra progress information\n"
-                        + "  -format <html|xdoc> optional (default html)\n"+ "\n"
-						+ "Full options list: http://www.statsvn.org");
+                        + "  -xdoc              optional switch output to xdoc\n"
+                        + "  -threads <int>     how many threads for svn diff (default: 25)"
+                        + "  -concurrencyThreshold <millisec> switch to concurrent svn diff if 1st call>threshold (default: 4000)"
+						+ "\nFull options list: http://www.statsvn.org");
 		System.exit(1);
 	}
 
@@ -167,11 +166,6 @@ public final class Main {
 		System.exit(1);
 	}
 
-	private static void printEmptyRepositoryMessageAndExit() {
-		SvnConfigurationOptions.getTaskLogger().log("No revisions found in the log!");
-		System.exit(1);
-	}
-
 	private static void printErrorMessageAndExit(final String message) {
 		SvnConfigurationOptions.getTaskLogger().log(message);
 		System.exit(1);
@@ -188,7 +182,7 @@ public final class Main {
 	 * @throws ConfigurationException
 	 *             if a required ConfigurationOption was not set
 	 */
-	public static void generateDefaultHTMLSuite() throws LogSyntaxException, IOException, ConfigurationException, EmptyRepositoryException {
+	public static void generateDefaultHTMLSuite() throws LogSyntaxException, IOException, ConfigurationException {
 		generateDefaultHTMLSuite(new RepositoryFileManager(ConfigurationOptions.getCheckedOutDirectory()));
 	}
 
@@ -207,8 +201,7 @@ public final class Main {
 	 * @throws ConfigurationException
 	 *             if a required ConfigurationOption was not set
 	 */
-	public static void generateDefaultHTMLSuite(final RepositoryFileManager repFileMan) throws LogSyntaxException, IOException, ConfigurationException,
-			EmptyRepositoryException {
+	public static void generateDefaultHTMLSuite(final RepositoryFileManager repFileMan) throws LogSyntaxException, IOException, ConfigurationException {
 
 		if (ConfigurationOptions.getLogFileName() == null) {
 			throw new ConfigurationException("Missing logfile name");
@@ -239,11 +232,24 @@ public final class Main {
 		LOGGER.info("Generating report for " + ConfigurationOptions.getProjectName() + " into " + ConfigurationOptions.getOutputDir());
 		LOGGER.info("Using " + ConfigurationOptions.getCssHandler());
 		final Repository content = builder.createRepository();
-        if ("xdoc".equals(ConfigurationOptions.getOutputFormat())) {
-            new XDocOutput(content).createHTMLSuite();
-        } else {
-            new HTMLOutput(content).createHTMLSuite();
-        }
+
+		// make JFreeChart work on systems without GUI
+		System.setProperty("java.awt.headless", "true");
+ 
+		ReportConfig config = new ReportConfig(
+			content, 
+			ConfigurationOptions.getProjectName(),
+			ConfigurationOptions.getOutputDir(), 
+			ConfigurationOptions.getMarkupSyntax(),
+			ConfigurationOptions.getCssHandler());
+		config.setWebRepository(ConfigurationOptions.getWebRepository());
+		config.setWebBugtracker(ConfigurationOptions.getWebBugtracker());
+		config.setNonDeveloperLogins(ConfigurationOptions.getNonDeveloperLogins());
+		new ReportSuiteMaker(config, ConfigurationOptions.getNotes()).toFile().write();
+		
+//		output.registerReport(new RepoMapPage(content,output));
+//		output.registerReport(new ChurnPage(content,output));
+//		output.createHTMLSuite();
 
 		final long endTime = System.currentTimeMillis();
 		final long memoryUsedOnEnd = Runtime.getRuntime().totalMemory();

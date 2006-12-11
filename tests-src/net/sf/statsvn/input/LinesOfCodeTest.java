@@ -31,7 +31,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import junit.framework.TestCase;
-import net.sf.statcvs.input.EmptyRepositoryException;
 import net.sf.statcvs.model.VersionedFile;
 import net.sf.statcvs.model.Revision;
 
@@ -308,7 +307,7 @@ public class LinesOfCodeTest extends TestCase {
 		buildRevisionInitial("1.1", date11);
 	}
 
-	private void finishBuilder() throws EmptyRepositoryException {
+	private void finishBuilder() {
 		final Iterator it = builder.createRepository().getFiles().iterator();
 		while (it.hasNext()) {
 			final VersionedFile f = (VersionedFile) it.next();

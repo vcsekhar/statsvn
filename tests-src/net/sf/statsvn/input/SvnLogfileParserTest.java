@@ -5,7 +5,6 @@ import java.io.IOException;
 import junit.framework.TestCase;
 import net.sf.statsvn.Main;
 import net.sf.statsvn.output.SvnCommandLineParser;
-import net.sf.statcvs.input.EmptyRepositoryException;
 import net.sf.statcvs.input.LogSyntaxException;
 import net.sf.statcvs.output.ConfigurationException;
 import net.sf.statcvs.output.ConfigurationOptions;
@@ -22,7 +21,7 @@ public class SvnLogfileParserTest extends TestCase {
 
 	protected RepositoryFileManager repFileMan;
 
-	public void testJUCMNav1() throws EmptyRepositoryException, ConfigurationException, IOException, LogSyntaxException {
+	public void testJUCMNav1() throws ConfigurationException, IOException, LogSyntaxException {
 		final String args[] = { "-title", "jUCMNav", "-output-dir", sRoot + "stats", sRoot + "seg.jUCMNav.log", sRoot, "-cache-dir", sRoot  };
 		new SvnCommandLineParser(args).parse();
 		repFileMan = new DummyRepositoryFileManager(ConfigurationOptions.getCheckedOutDirectory(), sRoot + "seg.jUCMNav.info", sRoot + "seg.jUCMNav.propget",
