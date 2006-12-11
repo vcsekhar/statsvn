@@ -127,7 +127,7 @@
 		<dependency>
 			<groupId>net.sf.statcvs</groupId>
 			<artifactId>statcvs</artifactId>
-			<version>0.2.5-dev</version>
+			<version>0.3.0-dev</version>
 			<type>jar</type>
 			<url>http://statcvs.sourceforge.net/</url>
 		</dependency>
@@ -211,9 +211,9 @@
 
 	<versions>
 		<version>
-			<id>0.2.1</id>
-			<name>0.2.1</name>
-			<tag>0.2.1</tag>
+			<id>0.3.0-dev</id>
+			<name>0.3.0-dev</name>
+			<tag>0.3.0-dev</tag>
 		</version>
 		<version>
 			<id>0.2.0</id>
