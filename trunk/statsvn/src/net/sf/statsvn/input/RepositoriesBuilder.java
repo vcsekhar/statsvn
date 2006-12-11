@@ -66,12 +66,8 @@ public class RepositoriesBuilder {
 	 */
 	public Element buildRepository(final String uuid, final String file) {
 		final Element repository = document.createElement(REPOSITORY);
-		final Attr attr = document.createAttribute(UUID);
-		attr.setTextContent(uuid);
-		repository.setAttributeNode(attr);
-		final Attr attr2 = document.createAttribute(FILE);
-		attr2.setTextContent(file);
-		repository.setAttributeNode(attr2);
+		repository.setAttribute(UUID, uuid);
+		repository.setAttribute(FILE, file);
 		repositories.appendChild(repository);
 		return repository;
 	}
