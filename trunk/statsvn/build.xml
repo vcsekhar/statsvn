@@ -167,7 +167,7 @@
 		<delete dir="${doc}" />
 		<mkdir dir="${doc}" />
 		<javadoc packagenames="net.*" sourcepath="${src.filtered}" destdir="${doc}" classpathref="project.class.path" author="true" version="true" private="false" use="true" splitindex="true" windowtitle="${project}" doctitle="${project}">
-			<link href="http://www.jfree.org/jfreechart/javadoc/" />
+			<link href="http://www.jfree.org/jfreechart/api/gjdoc/" />
 			<link href="http://java.sun.com/j2se/1.4.2/docs/api/" />
 		</javadoc>
 	</target>

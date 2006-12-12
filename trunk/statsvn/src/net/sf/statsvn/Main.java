@@ -39,6 +39,7 @@ import net.sf.statcvs.pages.ReportSuiteMaker;
 import net.sf.statsvn.input.RepositoryFileManager;
 import net.sf.statsvn.input.SvnLogfileParser;
 import net.sf.statcvs.model.Repository;
+import net.sf.statsvn.output.ChurnPageMaker;
 import net.sf.statsvn.output.RepoMapPageMaker;
 import net.sf.statsvn.output.SvnCommandLineParser;
 import net.sf.statsvn.output.SvnConfigurationOptions;
@@ -252,11 +253,10 @@ public final class Main {
 		// add new reports
 		List extraReports = new ArrayList();
 		extraReports.add(new RepoMapPageMaker(config).toFile());
+		extraReports.add(new ChurnPageMaker(config).toFile());
 		
 		new ReportSuiteMaker(config, ConfigurationOptions.getNotes(), extraReports).toFile().write();
 		
-//		output.registerReport(new ChurnPage(content,output));
-
 		final long endTime = System.currentTimeMillis();
 		final long memoryUsedOnEnd = Runtime.getRuntime().totalMemory();
 

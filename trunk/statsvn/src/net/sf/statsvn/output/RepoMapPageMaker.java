@@ -1,8 +1,8 @@
 /*
- StatCvs - CVS statistics generation
- Copyright (C) 2002  Lukasz Pekacki <lukasz@pekacki.de>
- http://statcvs.sf.net/
-
+ StatSVN - SVN Subversion statistics generation 
+ Copyright (C) 2006 Benoit Xhenseval
+ http://www.statsvn.org
+ 
  This library is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
  License as published by the Free Software Foundation; either
@@ -16,11 +16,8 @@
  You should have received a copy of the GNU Lesser General Public
  License along with this library; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
- $RCSfile: IndexPage.java,v $
- Created on $Date: 2006/11/22 16:29:46 $
- */
-
+ 
+*/
 package net.sf.statsvn.output;
 
 import java.io.BufferedWriter;
