@@ -1,19 +1,27 @@
 <?xml version="1.0"?>
 <document>
   <properties>
-    <title>StatSvb Changes</title>
+    <title>StatSvn Changes</title>
   </properties>
   <body>
     <release version="0.3.0-dev" date="in SVN" description="Maintenance, concurrent diff, new RepoMap Report">    
-       <action dev="benoitx" type="add">New Report: Repo Map, a jtreemap-based report (applet) that shows the entire source tree in a hierarchical manner, the size of each box is related to LOC and the colour to the changes over the last 30 days (red -loc, green +loc).</action>
-       <action dev="benoitx" type="add" issue="1608782">Adding basic support for Symbolic Names (i.e. tags). You MUST get a log at the top level of the project, not the trunk level, e.g.: svn log -v --xml https://svn.sourceforge.net/svnroot/statsvn/ That way, the log will contain some information about the tags.</action>
-       <action dev="benoitx" type="fix" issue="1612184" due-to="Richard Cyganiak">Patch for upgrade to StatCVS 0.3.0-dev.</action>
+       <action dev="benoitx" type="add">New Report: LOC and Churn shows the usual LOC with the amount of code touched per day. Hopefully the churn should go decreasingly towards a release.
+       </action>
+       <action dev="benoitx" type="add">New Report: Repo Map, a jtreemap-based report (applet) that shows the entire source tree 
+       	in a hierarchical manner, the size of each box is related to LOC and the colour to the changes over the last 30 days (red -loc, green +loc).</action>
+       <action dev="benoitx" type="add" issue="1608782">Adding basic support for Symbolic Names (i.e. tags). You MUST get a log 
+       	at the top level of the project, not the trunk level, e.g.: svn log -v --xml https://svn.sourceforge.net/svnroot/statsvn/ 
+       	That way, the log will contain some information about the tags.</action>
+       <action dev="benoitx" type="update" issue="1612184" due-to="Richard Cyganiak">Patch for upgrade to StatCVS 0.3.0-dev.</action>
        <action dev="benoitx" type="fix" issue="1612997" due-to="samuli">Removed 1.5-specific code.</action>
        <action dev="benoitx" type="fix" issue="1608474" due-to="samuli">Removed 1.5-specific code.</action>
-       <action dev="benoitx" type="add" issue="1605731">Overhaul of the SVN Diff to use multiple threads if required. Command line parameters -threads (default 25) and -concurrency-threshold (default 2000 ms) added.</action>
-       <action dev="benoitx" type="update">Upgrade dependency to statcvs-0.2.5-dev which allows for extra reports to be integrated.</action>
-       <action dev="benoitx" type="fix" issue="1602429" due-to="Miroslav Sulc">Patch to fix issue:running tests doesn't work because writing to /root/.statsvn is not allowed.</action>
-       <action dev="benoitx" type="add" issue="1605311" due-to="Benoit Xhenseval">Adding a counter for the number of diff calls made and to be made, save the cache every 2 minutes (takes 15ms) and provides an estimate for completion time.</action>
+       <action dev="benoitx" type="add" issue="1605731">Overhaul of the SVN Diff to use multiple threads if required. Command line 
+       	parameters -threads (default 25) and -concurrency-threshold (default 2000 ms) added.</action>
+       <action dev="benoitx" type="update">Upgrade dependency to statcvs-0.2.5-dev which allows extra reports to be integrated.</action>
+       <action dev="benoitx" type="fix" issue="1602429" due-to="Miroslav Sulc">Patch to fix issue:running tests doesn't work because 
+       	writing to /root/.statsvn is not allowed.</action>
+       <action dev="benoitx" type="add" issue="1605311" due-to="Benoit Xhenseval">Adding a counter for the number of diff calls made 
+       	and to be made, save the cache every 2 minutes (takes 15ms) and provides an estimate for completion time.</action>
     </release>
     <release version="0.2.0" date="2006-11-28" description="Removing the StatCvs code from StatSVN">
        <action dev="benoitx" type="remove">Removing the StatCvs code from StatSVN</action>

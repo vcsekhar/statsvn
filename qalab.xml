@@ -201,16 +201,18 @@
             project="statsvn" statvalue="64" type="cobertura-branch"/>
         <summaryresult date="2006-12-11" filecount="6" module="statsvn"
             project="statsvn" statvalue="12" type="pmd"/>
-        <summaryresult date="2006-12-12" filecount="37" module="statsvn"
-            project="statsvn" statvalue="12" type="checkstyle"/>
+        <summaryresult date="2006-12-12" filecount="39" module="statsvn"
+            project="statsvn" statvalue="17" type="checkstyle"/>
         <summaryresult date="2006-12-12" filecount="2" module="statsvn"
             project="statsvn" statvalue="2" type="findbugs"/>
         <summaryresult date="2006-12-12" filecount="1" module="statsvn"
             project="statsvn" statvalue="20" type="simian"/>
-        <summaryresult date="2006-12-12" filecount="32" module="statsvn"
-            project="statsvn" statvalue="61" type="cobertura-line"/>
-        <summaryresult date="2006-12-12" filecount="32" module="statsvn"
-            project="statsvn" statvalue="70" type="cobertura-branch"/>
+        <summaryresult date="2006-12-12" filecount="34" module="statsvn"
+            project="statsvn" statvalue="59" type="cobertura-line"/>
+        <summaryresult date="2006-12-12" filecount="34" module="statsvn"
+            project="statsvn" statvalue="67" type="cobertura-branch"/>
+        <summaryresult date="2006-12-12" filecount="1" module="statsvn"
+            project="statsvn" statvalue="1" type="pmd"/>
     </summary>
     <file id="statsvn-statsvn-net_sf_statsvn_output_package.html"
         module="statsvn" path="net/sf/statsvn/output/package.html" project="statsvn">
@@ -300,8 +302,8 @@
         <result date="2006-12-10" statvalue="65" type="cobertura-branch"/>
         <result date="2006-12-11" statvalue="39" type="cobertura-line"/>
         <result date="2006-12-11" statvalue="53" type="cobertura-branch"/>
-        <result date="2006-12-12" statvalue="39" type="cobertura-line"/>
-        <result date="2006-12-12" statvalue="53" type="cobertura-branch"/>
+        <result date="2006-12-12" statvalue="41" type="cobertura-line"/>
+        <result date="2006-12-12" statvalue="56" type="cobertura-branch"/>
     </file>
     <file id="statsvn-statsvn-net_sf_statsvn_Messages.java"
         module="statsvn" path="net/sf/statsvn/Messages.java" project="statsvn">
@@ -3601,7 +3603,19 @@
         <result date="2006-12-11" statvalue="25" type="cobertura-line"/>
         <result date="2006-12-11" statvalue="13" type="cobertura-branch"/>
         <result date="2006-12-11" statvalue="1" type="pmd"/>
-        <result date="2006-12-12" statvalue="28" type="cobertura-line"/>
+        <result date="2006-12-12" statvalue="31" type="cobertura-line"/>
         <result date="2006-12-12" statvalue="22" type="cobertura-branch"/>
+    </file>
+    <file id="statsvn-statsvn-net_sf_statsvn_output_ChurnPageMaker.java"
+        module="statsvn"
+        path="net/sf/statsvn/output/ChurnPageMaker.java" project="statsvn">
+        <result date="2006-12-12" statvalue="2" type="checkstyle"/>
+        <result date="2006-12-12" statvalue="1" type="pmd"/>
+    </file>
+    <file
+        id="statsvn-statsvn-net_sf_statsvn_output_LOCChurnChartMaker.java"
+        module="statsvn"
+        path="net/sf/statsvn/output/LOCChurnChartMaker.java" project="statsvn">
+        <result date="2006-12-12" statvalue="3" type="checkstyle"/>
     </file>
 </qalab>
