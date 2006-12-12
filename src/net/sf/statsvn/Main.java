@@ -25,6 +25,8 @@ package net.sf.statsvn;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
@@ -37,6 +39,7 @@ import net.sf.statcvs.pages.ReportSuiteMaker;
 import net.sf.statsvn.input.RepositoryFileManager;
 import net.sf.statsvn.input.SvnLogfileParser;
 import net.sf.statcvs.model.Repository;
+import net.sf.statsvn.output.RepoMapPageMaker;
 import net.sf.statsvn.output.SvnCommandLineParser;
 import net.sf.statsvn.output.SvnConfigurationOptions;
 import net.sf.statcvs.output.ConfigurationException;
@@ -245,11 +248,14 @@ public final class Main {
 		config.setWebRepository(ConfigurationOptions.getWebRepository());
 		config.setWebBugtracker(ConfigurationOptions.getWebBugtracker());
 		config.setNonDeveloperLogins(ConfigurationOptions.getNonDeveloperLogins());
-		new ReportSuiteMaker(config, ConfigurationOptions.getNotes()).toFile().write();
 		
-//		output.registerReport(new RepoMapPage(content,output));
+		// add new reports
+		List extraReports = new ArrayList();
+		extraReports.add(new RepoMapPageMaker(config).toFile());
+		
+		new ReportSuiteMaker(config, ConfigurationOptions.getNotes(), extraReports).toFile().write();
+		
 //		output.registerReport(new ChurnPage(content,output));
-//		output.createHTMLSuite();
 
 		final long endTime = System.currentTimeMillis();
 		final long memoryUsedOnEnd = Runtime.getRuntime().totalMemory();
