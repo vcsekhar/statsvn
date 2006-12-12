@@ -262,7 +262,7 @@ public class Builder implements SvnLogBuilder {
     /**
      * New in StatSVN: We need to have access to FileBuilders after they have been created to populate them with version numbers later on.
      * 
-     * TODO: Beef up this interface to better encapsulate the data structure.
+     * @todo Beef up this interface to better encapsulate the data structure.
      * 
      * @return this builder's contained (@link FileBuilder)s.
      */

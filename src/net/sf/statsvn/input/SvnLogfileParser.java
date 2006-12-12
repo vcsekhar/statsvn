@@ -115,8 +115,11 @@ public class SvnLogfileParser {
 			parser.parse(repositoriesFile, new SvnXmlRepositoriesFileHandler(repositoriesBuilder));
 			repositoriesFile.close();
 		} catch (final ParserConfigurationException e) {
+			SvnConfigurationOptions.getTaskLogger().log(e.toString());
 		} catch (final SAXException e) {
+			SvnConfigurationOptions.getTaskLogger().log(e.toString());
 		} catch (final IOException e) {
+			SvnConfigurationOptions.getTaskLogger().log(e.toString());
 		} finally {
 			if (repositoriesFile != null) {
 				repositoriesFile.close();
@@ -135,8 +138,11 @@ public class SvnLogfileParser {
 			parser.parse(cacheFile, new SvnXmlCacheFileHandler(cacheBuilder));
 			cacheFile.close();
 		} catch (final ParserConfigurationException e) {
+			SvnConfigurationOptions.getTaskLogger().log(e.toString());
 		} catch (final SAXException e) {
+			SvnConfigurationOptions.getTaskLogger().log(e.toString());
 		} catch (final IOException e) {
+			SvnConfigurationOptions.getTaskLogger().log(e.toString());
 		} finally {
 			if (cacheFile != null) {
 				cacheFile.close();
@@ -155,21 +161,21 @@ public class SvnLogfileParser {
 		requiredDiffCalls = 0;
 		for (final Iterator iter = fileBuilders.iterator(); iter.hasNext();) {
 			final FileBuilder fileBuilder = (FileBuilder) iter.next();
-			if (fileBuilder.isBinary()) {
-				continue;
-			}
-			final String fileName = fileBuilder.getName();
-			final List revisions = fileBuilder.getRevisions();
-			for (int i = 0; i < revisions.size(); i++) {
-				if (i + 1 < revisions.size() && ((RevisionData) revisions.get(i)).hasNoLines() && !((RevisionData) revisions.get(i)).isDeletion()) {
-					if (((RevisionData) revisions.get(i + 1)).isDeletion()) {
-						continue;
+			if (!fileBuilder.isBinary()) {
+				final String fileName = fileBuilder.getName();
+				final List revisions = fileBuilder.getRevisions();
+				for (int i = 0; i < revisions.size(); i++) {
+					if (i + 1 < revisions.size() && ((RevisionData) revisions.get(i)).hasNoLines() 
+							&& !((RevisionData) revisions.get(i)).isDeletion()) {
+						if (((RevisionData) revisions.get(i + 1)).isDeletion()) {
+							continue;
+						}
+						final String revNrNew = ((RevisionData) revisions.get(i)).getRevisionNumber();
+						if (cacheBuilder.isBinary(fileName, revNrNew)) {
+							continue;
+						}
+						requiredDiffCalls++;
 					}
-					final String revNrNew = ((RevisionData) revisions.get(i)).getRevisionNumber();
-					if (cacheBuilder.isBinary(fileName, revNrNew)) {
-						continue;
-					}
-					requiredDiffCalls++;
 				}
 			}
 		}
@@ -205,7 +211,8 @@ public class SvnLogfileParser {
 				// in the RevisionData. this cause hasNoLines to be false which
 				// in turn causes the
 				// if clause below to be skipped.
-				if (i + 1 < revisions.size() && ((RevisionData) revisions.get(i)).hasNoLines() && !((RevisionData) revisions.get(i)).isDeletion()) {
+				if (i + 1 < revisions.size() && ((RevisionData) revisions.get(i)).hasNoLines() 
+						&& !((RevisionData) revisions.get(i)).isDeletion()) {
 					if (((RevisionData) revisions.get(i + 1)).isDeletion()) {
 						continue;
 					}
@@ -218,7 +225,7 @@ public class SvnLogfileParser {
 					if (isFirstDiff) {
 						SvnConfigurationOptions.getTaskLogger().log("Contacting server to obtain line count information.");
 						SvnConfigurationOptions.getTaskLogger().log(
-								"This information will be cached so that the next time you run StatSVN, " + "results will be returned more quickly.");
+						        "This information will be cached so that the next time you run StatSVN, results will be returned more quickly.");
 						isFirstDiff = false;
 					}
 
@@ -240,7 +247,7 @@ public class SvnLogfileParser {
 		}
 		if (SvnConfigurationOptions.getNumberSvnDiffThreads() > 1 && poolService != null) {
 			SvnConfigurationOptions.getTaskLogger().log(
-					"Scheduled " + requiredDiffCalls + " svn diff calls on " + SvnConfigurationOptions.getNumberSvnDiffThreads() + " threads.");
+			        "Scheduled " + requiredDiffCalls + " svn diff calls on " + SvnConfigurationOptions.getNumberSvnDiffThreads() + " threads.");
 			poolService.shutdown();
 			try {
 				SvnConfigurationOptions.getTaskLogger().log("================ Wait for completion =========================");
@@ -248,8 +255,7 @@ public class SvnLogfileParser {
 					SvnConfigurationOptions.getTaskLogger().log("================ TIME OUT!!! =========================");
 				}
 			} catch (final InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				SvnConfigurationOptions.getTaskLogger().log(e.toString());
 			}
 		}
 		XMLUtil.writeXmlFile(cacheBuilder.getDocument(), cacheFileName);
@@ -291,7 +297,6 @@ public class SvnLogfileParser {
 	 * 
 	 */
 	protected void verifyImplicitActions() {
-
 		// this method most certainly has issues with implicit actions on root
 		// folder.
 
@@ -335,9 +340,9 @@ public class SvnLogfileParser {
 						continue;
 					}
 
-					int k;
 					// ignore modifications to folders
 					if (parentData.isCreationOrRestore() || parentData.isDeletion()) {
+						int k;
 
 						// check to see if the parent revision is an implicit
 						// action acting on the child.
@@ -576,8 +581,8 @@ public class SvnLogfileParser {
 				}
 
 				SvnConfigurationOptions.getTaskLogger().log(
-						Thread.currentThread().getName() + " svn diff " + ++calls + "/" + requiredDiffCalls + ": " + fileName + ", r" + oldRevision + " to r"
-								+ newRevision + ", +" + lineDiff[0] + " -" + lineDiff[1] + " (" + (end - start) + " ms.) ");
+				        Thread.currentThread().getName() + " svn diff " + ++calls + "/" + requiredDiffCalls + ": " + fileName + ", r" + oldRevision + " to r"
+				                + newRevision + ", +" + lineDiff[0] + " -" + lineDiff[1] + " (" + (end - start) + " ms.) ");
 			} catch (final BinaryDiffException e) {
 				// file is binary and has been deleted
 				cacheBuilder.newRevision(fileName, newRevision, "0", "0", true);
@@ -599,10 +604,11 @@ public class SvnLogfileParser {
 					final long start = System.currentTimeMillis();
 					XMLUtil.writeXmlFile(cacheBuilder.getDocument(), cacheFileName);
 					groupStart = System.currentTimeMillis();
-					final double estimateLeftInMs = ((double)totalTime / (double)calls * (requiredDiffCalls - calls) / SvnConfigurationOptions.getNumberSvnDiffThreads());
+					final double estimateLeftInMs = ((double) totalTime / (double) calls * (requiredDiffCalls - calls) / SvnConfigurationOptions
+					        .getNumberSvnDiffThreads());
 					end = System.currentTimeMillis();
 					SvnConfigurationOptions.getTaskLogger().log(
-							"Intermediary save took " + (end - start) + " ms. Estimated completion=" + new Date(end + (long) estimateLeftInMs));
+					        "Intermediary save took " + (end - start) + " ms. Estimated completion=" + new Date(end + (long) estimateLeftInMs));
 				}
 			}
 		}
