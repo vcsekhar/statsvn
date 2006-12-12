@@ -40,9 +40,9 @@ public class MockLogBuilder implements SvnLogBuilder {
     /*
      *  (non-Javadoc)
      * @see net.sf.statsvn.input.SvnLogBuilder#addToAttic(java.lang.String)
+     * @todo implementation
      */
     public void addToAttic(final String filename) {
-        // TODO Auto-generated method stub       
     }
     
 	/* (non-Javadoc)
@@ -183,13 +183,17 @@ public class MockLogBuilder implements SvnLogBuilder {
 		}
 	}
 
+	/**
+	 * @todo implementation
+	 */
 	public Map getFileBuilders() {
-		// TODO Auto-generated method stub
 		return null;
 	}
     
+	/**
+	 * @todo implementation
+	 */
     public void updateRevision(final String filename, final String revisionNumber, final int linesAdded, final int linesRemoved)
     {
-        // TODO Auto-generated method stub
     }
 }

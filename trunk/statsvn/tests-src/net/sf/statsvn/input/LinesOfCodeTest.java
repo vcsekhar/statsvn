@@ -37,7 +37,7 @@ import net.sf.statcvs.model.Revision;
 /**
  * Test cases for {@link Builder}, covering LOC calculations.
  * 
- * TODO: most/all of them test only the FileBuilder -- refactor!
+ * @todo most/all of them test only the FileBuilder -- refactor!
  * 
  * @author Anja Jentzsch
  * @author Richard Cyganiak

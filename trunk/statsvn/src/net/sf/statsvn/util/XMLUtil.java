@@ -19,6 +19,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import net.sf.statsvn.output.SvnConfigurationOptions;
+
 import org.w3c.dom.Document;
 
 /**
@@ -110,7 +112,6 @@ public final class XMLUtil {
 		final Date localDate = new Date(localTime);
 
 		return localDate;
-
 	}
 
 	/**
@@ -135,8 +136,9 @@ public final class XMLUtil {
 			xformer.setOutputProperty(OutputKeys.INDENT, "yes");
 			xformer.transform(source, result);
 		} catch (final TransformerConfigurationException e) {
+			SvnConfigurationOptions.getTaskLogger().log(e.toString());
 		} catch (final TransformerException e) {
+			SvnConfigurationOptions.getTaskLogger().log(e.toString());
 		}
 	}
-
 }

@@ -1,4 +1,4 @@
-#Fri Nov 17 00:47:24 GMT 2006
+#Mon Dec 11 10:47:44 GMT 2006
 eclipse.preferences.version=1
 org.eclipse.jdt.core.compiler.codegen.inlineJsrBytecode=disabled
 org.eclipse.jdt.core.compiler.codegen.targetPlatform=1.2
@@ -255,4 +255,4 @@ org.eclipse.jdt.core.formatter.number_of_empty_lines_to_preserve=1
 org.eclipse.jdt.core.formatter.put_empty_statement_on_new_line=true
 org.eclipse.jdt.core.formatter.tabulation.char=tab
 org.eclipse.jdt.core.formatter.tabulation.size=4
-org.eclipse.jdt.core.formatter.use_tabs_only_for_leading_indentations=false
+org.eclipse.jdt.core.formatter.use_tabs_only_for_leading_indentations=true

@@ -26,26 +26,45 @@ import org.xml.sax.helpers.DefaultHandler;
 public class SvnXmlLogFileHandler extends DefaultHandler {
 
 	private static final Logger LOGGER = Logger.getLogger(SvnXmlLogFileHandler.class.getName());
+
 	private static final String INVALID_SVN_LOG_FILE = "Invalid SVN log file.";
+
 	private static final String AUTHOR = "author";
+
 	private static final String DATE = "date";
+
 	private static final String FATAL_ERROR_MESSAGE = INVALID_SVN_LOG_FILE;
+
 	private static final String LOG = "log";
+
 	private static final String LOGENTRY = "logentry";
+
 	private static final String MSG = "msg";
+
 	private static final String PATH = "path";
+
 	private static final String PATHS = "paths";
+
 	private SvnLogBuilder builder;
+
 	private ArrayList currentFilenames;
+
 	private RevisionData currentRevisionData;
+
 	private ArrayList currentRevisions;
+
 	private String lastElement = "";
+
 	private String pathAction = "";
+
 	private String stringData = "";
+
 	private String copyfromRev = "";
+
 	private String copyfromPath = "";
 
 	private RepositoryFileManager repositoryFileManager;
+
 	private HashMap tagsMap = new HashMap();
 
 	/**
@@ -170,7 +189,7 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
 		lastElement = LOG;
 
 		for (int i = 0; i < currentFilenames.size(); i++) {
-			if (currentFilenames.get(i)==null) {
+			if (currentFilenames.get(i) == null) {
 				continue; // skip files that are not on this branch
 			}
 			final RevisionData revisionData = (RevisionData) currentRevisions.get(i);
@@ -209,7 +228,8 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
 	private void endPath() throws SAXException {
 		checkLastElement(PATHS);
 
-		// relies on the fact that absoluteToRelativePath returns null for paths that are not on the branch.
+		// relies on the fact that absoluteToRelativePath returns null for paths
+		// that are not on the branch.
 		String filename = repositoryFileManager.absoluteToRelativePath(stringData);
 		final RevisionData data = (RevisionData) currentRevisionData.createCopy();
 		if (!pathAction.equals("D")) {
@@ -221,17 +241,13 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
 			data.setStateDead(true);
 		}
 
-		
-//		if (filename == null) {
-//			SvnConfigurationOptions.getTaskLogger().log("### Null Filename" + stringData);
-//		}
-		if (copyfromRev!=null && filename == null && stringData!=null && stringData.indexOf("/tags/")>=0) {
-			SvnConfigurationOptions.getTaskLogger().log("=========== TAG " + stringData+" rev:"+copyfromRev);
+		if (copyfromRev != null && filename == null && stringData != null && stringData.indexOf("/tags/") >= 0) {
+			SvnConfigurationOptions.getTaskLogger().log("= TAG " + stringData + " rev:" + copyfromRev);
 			String tag = stringData.substring("/tags/".length());
-			if (tag.indexOf("/")>0) {
-				tag = tag.substring(0,tag.indexOf("/"));
+			if (tag.indexOf("/") > 0) {
+				tag = tag.substring(0, tag.indexOf("/"));
 			}
-			
+
 			if (!tagsMap.containsKey(tag)) {
 				tagsMap.put(tag, copyfromRev);
 			}
@@ -285,7 +301,6 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
 	 *             unexpected event.
 	 */
 	public void startElement(final String uri, final String localName, final String qName, final Attributes attributes) throws SAXException {
-		// TODO Auto-generated method stub
 		super.startElement(uri, localName, qName, attributes);
 		stringData = "";
 		String eName = localName; // element name
@@ -359,9 +374,9 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
 		} else {
 			fatalError(INVALID_SVN_LOG_FILE);
 		}
-        
-        copyfromPath = attributes.getValue("copyfrom-path");
-        copyfromRev = attributes.getValue("copyfrom-rev");
+
+		copyfromPath = attributes.getValue("copyfrom-path");
+		copyfromRev = attributes.getValue("copyfrom-rev");
 
 	}
 

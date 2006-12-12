@@ -29,7 +29,7 @@ import net.sf.statcvs.model.Revision;
 /**
  * Tests for {@link FileBuilder}
  * 
- * TODO: Add tests for all revision types
+ * @todo Add tests for all revision types
  * 
  * @author Richard Cyganiak <richard@cyganiak.de>
  * @version $Id: FileBuilderTest.java,v 1.6 2005/03/29 22:45:06 cyganiak Exp $

@@ -11,7 +11,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.statsvn.output.SvnConfigurationOptions;
 
-import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;

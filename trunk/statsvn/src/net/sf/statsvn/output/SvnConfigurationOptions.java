@@ -34,19 +34,21 @@ import net.sf.statsvn.util.TaskLogger;
  * Class for storing all command line parameters. The parameters are set by the {@link net.sf.statsvn.Main#main} method. Interested classes can read all
  * parameter values from here.
  *
- * TODO: Should be moved to more appropriate package and made non-public
+ * @todo Should be moved to more appropriate package and made non-public
  *
  * @author jentzsch
  * @version $Id: ConfigurationOptions.java,v 1.17 2005/03/20 19:12:25 squig Exp $
  */
 public final class SvnConfigurationOptions {
-    private static String cacheDir = "";
+    private static final int DEFAULT_THRESHOLD_MS_FOR_CONCURRENCY = 2000;
+	private static final int DEFAULT_NUMBER_THREADS = 25;
+	private static String cacheDir = "";
     private static final String DEFAULT_CACHE_DIR = System.getProperty("user.home") + FileUtils.getDirSeparator() + ".statsvn" + FileUtils.getDirSeparator();
     private static String svnUsername = null;
     private static String svnPassword = null;
     private static TaskLogger taskLogger = new ConsoleTaskLogger();
-    private static int numberSvnDiffThreads = 25;
-    private static long thresholdInMsToUseConcurrency = 2000;
+    private static int numberSvnDiffThreads = DEFAULT_NUMBER_THREADS;
+    private static long thresholdInMsToUseConcurrency = DEFAULT_THRESHOLD_MS_FOR_CONCURRENCY;
 
     /**
 	 * A utility class (only static methods) should be final and have

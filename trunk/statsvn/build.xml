@@ -49,7 +49,10 @@
 	<target name="filter">
 		<delete dir="${src.filtered}" failonerror="false" />
 		<copy todir="${src.filtered}">
-			<fileset dir="${src}" excludes="**/*.png" />
+			<fileset dir="${src}" includes="**/*.jar" />
+		</copy>
+		<copy todir="${src.filtered}">
+			<fileset dir="${src}" excludes="**/*.png, **/*.jar" />
 			<filterset>
 				<filter token="VERSION" value="${statsvn.version}" />
 			</filterset>

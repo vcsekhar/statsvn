@@ -58,7 +58,9 @@ import net.sf.statcvs.model.VersionedFile;
  * @version $Id$
  */
 public class FileBuilder {
-    private static final int ONE_MIN_IN_MS = 60000;
+    private static final int ONE_SECOND = 1000;
+
+	private static final int ONE_MIN_IN_MS = 60000;
 
 	private static final Logger LOGGER = Logger.getLogger(FileBuilder.class.getName());
 
@@ -163,7 +165,7 @@ public class FileBuilder {
             buildBeginOfLogRevision(file, beginOfLogDate, nextLinesOfCode, symbolicNames);
         } else if (currentData.isChange()) {
             buildChangeRevision(file, currentData, currentLOC, symbolicNames);
-            currentData.setDate(new Date(currentData.getDate().getTime()-1000));
+            currentData.setDate(new Date(currentData.getDate().getTime()-ONE_SECOND));
             buildCreationRevision(file, currentData, 0, symbolicNames);
             buildBeginOfLogRevision(file, beginOfLogDate, nextLinesOfCode, symbolicNames);
         } else {
@@ -339,7 +341,7 @@ public class FileBuilder {
     /**
      * New in StatSVN: Gives the FileBuilder's filename.
      * 
-     * TODO: Beef up this interface to better encapsulate the data structure.
+     * @todo Beef up this interface to better encapsulate the data structure.
      * 
      * @return the filename
      */
@@ -350,7 +352,7 @@ public class FileBuilder {
     /**
      * New in StatSVN: The list of revisions made on this file.
      * 
-     * TODO: Beef up this interface to better encapsulate the data structure.
+     * @todo Beef up this interface to better encapsulate the data structure.
      * 
      * @return the list of revisions on this file
      */
@@ -376,7 +378,7 @@ public class FileBuilder {
     /**
      * New in StatSVN: Returns <tt>true</tt> if this file is known to be binary.
      * 
-     * TODO: Beef up this interface to better encapsulate the data structure.
+     * @todo Beef up this interface to better encapsulate the data structure.
      * 
      * @return <tt>true</tt> if this file is known to be binary, <tt>false</tt> otherwise.
      */
@@ -387,7 +389,7 @@ public class FileBuilder {
     /**
      * New in StatSVN: Sets the file's binary flag.
      * 
-     * TODO: Beef up this interface to better encapsulate the data structure.
+     * @todo Beef up this interface to better encapsulate the data structure.
      * 
      * @param binary
      *            is the file binary?
