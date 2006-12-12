@@ -64,7 +64,7 @@ public final class ProcessUtils {
 			return null;
 		} else {
 			final LookaheadReader diffReader = new LookaheadReader(new InputStreamReader(errorStream));
-			final StringBuilder builder = new StringBuilder();
+			final StringBuffer builder = new StringBuffer();
 			try {
 				while (diffReader.hasNextLine()) {
 					builder.append(diffReader.nextLine());
