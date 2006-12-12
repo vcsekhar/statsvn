@@ -100,15 +100,15 @@ public class RepoMapPageMaker {
 		try {
 			copyJar(Messages.getString("JTREEMAP_JAR"));
 			out = new BufferedWriter(new FileWriter(ConfigurationOptions.getOutputDir() + "repomap.jtree"));
-			out.append("<?xml version='1.0' encoding='ISO-8859-1'?>\n");
+			out.write("<?xml version='1.0' encoding='ISO-8859-1'?>\n");
 			// out.append("<!DOCTYPE root SYSTEM \"TreeMap.dtd\" >\n");
-			out.append("<root>\n");
+			out.write("<root>\n");
 			final Iterator it = config.getRepository().getDirectories().iterator();
 			if (it.hasNext()) {
 				final Directory dir = (Directory) it.next();
 				doDirectory(out, dir);
 			}
-			out.append("</root>");
+			out.write("</root>");
 		} catch (final IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -135,7 +135,7 @@ public class RepoMapPageMaker {
 	}
 
 	private void addSpaces(final int count, final BufferedWriter out) throws IOException {
-		out.append(getSpaces(count));
+		out.write(getSpaces(count));
 	}
 
 	private String getSpaces(final int count) {
@@ -160,9 +160,9 @@ public class RepoMapPageMaker {
 		final String name = dir.isRoot() ? Messages.getString("NAVIGATION_ROOT") : dir.getName();
 		boolean addedBranch = false;
 		if (indent > 1 && set != null && !set.isEmpty()) {
-			out.append("\n");
+			out.write("\n");
 			addSpaces(indent, out);
-			out.append("<branch>\n");
+			out.write("<branch>\n");
 			addSpaces(indent + 2, out);
 			labelTag(out, name);
 			addedBranch = true;
@@ -178,7 +178,7 @@ public class RepoMapPageMaker {
 		addedBranch = handleEachFileInDir(out, files, name, addedBranch);
 		if (addedBranch) {
 			addSpaces(indent, out);
-			out.append("</branch>\n");
+			out.write("</branch>\n");
 		}
 		indent--;
 	}
@@ -200,21 +200,21 @@ public class RepoMapPageMaker {
 					continue;
 				}
 				if (!addedBranch) {
-					out.append("\n");
+					out.write("\n");
 					addSpaces(indent, out);
-					out.append("<branch>\n");
+					out.write("<branch>\n");
 					addSpaces(indent + 2, out);
 					labelTag(out, name);
-					out.append("\n");
+					out.write("\n");
 					addedBranch = true;
 				}
 				addSpaces(indent + 2, out);
-				out.append("<leaf>");
+				out.write("<leaf>");
 				labelTag(out, vfile.getFilename());
 				tag(out, "weight", String.valueOf(loc));
 				final double percentage = ((double) delta) / (double) loc * 100.0;
 				tag(out, "value", String.valueOf(percentage));
-				out.append("</leaf>\n");
+				out.write("</leaf>\n");
 				LOGGER.fine("===========>>> LOC=" + loc + " totalDelta=" + delta + " Delta%=" + percentage);
 			}
 		}
@@ -250,6 +250,12 @@ public class RepoMapPageMaker {
 	}
 
 	private void tag(final Writer result, final String tagName, final String value) throws IOException {
-		result.append("<").append(tagName).append(">").append(value).append("</").append(tagName).append(">");
+		result.write("<");
+		result.write(tagName);
+		result.write(">");
+		result.write(value);
+		result.write("</");
+		result.write(tagName);
+		result.write(">");
 	}
 }
