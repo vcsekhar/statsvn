@@ -5,6 +5,7 @@
   </properties>
   <body>
     <release version="0.3.0-dev" date="in SVN" description="Maintenance, concurrent diff, new RepoMap Report">    
+       <action dev="benoitx" type="fix" issue="1601433" due-to="Anonymous">The error highlighted an issue with filenames containing space(s) in the svn diff call.</action>
        <action dev="benoitx" type="add">New Report: LOC and Churn shows the usual LOC with the amount of code touched per day. Hopefully the churn should go decreasingly towards a release.
        </action>
        <action dev="benoitx" type="add">New Report: Repo Map, a jtreemap-based report (applet) that shows the entire source tree 

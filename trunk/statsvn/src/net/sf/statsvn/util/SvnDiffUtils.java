@@ -3,6 +3,7 @@ package net.sf.statsvn.util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.logging.Logger;
 
 import net.sf.statcvs.util.LookaheadReader;
 
@@ -17,11 +18,14 @@ import net.sf.statcvs.util.LookaheadReader;
 public final class SvnDiffUtils {
 
 	private static final String PROPERTY_CHANGE = "Property changes on:";
-    private static final String BINARY_TYPE = "Cannot display: file marked as a binary type.";
+
+	private static final String BINARY_TYPE = "Cannot display: file marked as a binary type.";
+
+	private static final Logger LOGGER = Logger.getLogger(SvnDiffUtils.class.getName());
 
 	/**
-	 * A utility class (only static methods) should be final and have
-	 * a private constructor.
+	 * A utility class (only static methods) should be final and have a private
+	 * constructor.
 	 */
 	private SvnDiffUtils() {
 	}
@@ -43,7 +47,9 @@ public final class SvnDiffUtils {
 	private static synchronized ProcessUtils callSvnDiff(final String oldRevNr, final String newRevNr, String filename) throws IOException {
 		String svnDiffCommand = null;
 		filename = SvnInfoUtils.relativePathToUrl(filename);
-		svnDiffCommand = "svn diff  --old " + filename + "@" + oldRevNr + "  --new " + filename + "@" + newRevNr + SvnCommandHelper.getAuthString();
+		svnDiffCommand = "svn diff  --old \"" + filename + "@" + oldRevNr + "\"  --new \"" + filename + "@" + newRevNr + "\""
+		        + SvnCommandHelper.getAuthString();
+		LOGGER.fine("FIRING command line: " + svnDiffCommand);
 		return ProcessUtils.call(svnDiffCommand);
 	}
 
@@ -67,13 +73,14 @@ public final class SvnDiffUtils {
 		ProcessUtils pUtils = null;
 		try {
 			pUtils = callSvnDiff(oldRevNr, newRevNr, filename);
-			final InputStream diffStream = pUtils.getInputStream(); 
+			final InputStream diffStream = pUtils.getInputStream();
 
 			final LookaheadReader diffReader = new LookaheadReader(new InputStreamReader(diffStream));
 			lineDiff = parseDiff(diffReader);
 
 			if (pUtils.hasErrorOccured()) {
-	            // The binary checking code here might be useless... as it may be output on the standard out. 
+				// The binary checking code here might be useless... as it may
+				// be output on the standard out.
 				final String msg = pUtils.getErrorMessage();
 				if (isBinaryErrorMessage(msg)) {
 					throw new BinaryDiffException();
@@ -86,18 +93,21 @@ public final class SvnDiffUtils {
 				pUtils.close();
 			}
 		}
-//		// not using logger because these diffs take lots of time and we want to
-//		// show on the standard output.
-//		SvnConfigurationOptions.getTaskLogger().log("svn diff of " + filename + ", r" + oldRevNr + " to r" 
-//				+ newRevNr + ", +" + lineDiff[0] + " -" + lineDiff[1]);
+		// // not using logger because these diffs take lots of time and we want
+		// to
+		// // show on the standard output.
+		// SvnConfigurationOptions.getTaskLogger().log("svn diff of " + filename
+		// + ", r" + oldRevNr + " to r"
+		// + newRevNr + ", +" + lineDiff[0] + " -" + lineDiff[1]);
 
 		return lineDiff;
 	}
 
 	/**
-	 * Returns true if msg is an error message display that the file is binary. 
+	 * Returns true if msg is an error message display that the file is binary.
 	 * 
-	 * @param msg the error message given by ProcessUtils.getErrorMessage();
+	 * @param msg
+	 *            the error message given by ProcessUtils.getErrorMessage();
 	 * @return true if the file is binary
 	 */
 	private static boolean isBinaryErrorMessage(final String msg) {
@@ -144,7 +154,7 @@ public final class SvnDiffUtils {
 			} else if (diffReader.getCurrentLine().indexOf(PROPERTY_CHANGE) == 0) {
 				propertyChange = true;
 			} else if (diffReader.getCurrentLine().indexOf(BINARY_TYPE) == 0) {
-                throw new BinaryDiffException();
+				throw new BinaryDiffException();
 			}
 		}
 		if (propertyChange && (lineDiff[0] == -1 || lineDiff[1] == -1)) {
