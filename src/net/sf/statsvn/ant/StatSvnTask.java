@@ -22,9 +22,15 @@
 */
 package net.sf.statsvn.ant;
 
+import java.io.IOException;
+
 import net.sf.statcvs.ant.StatCvsTask;
+import net.sf.statcvs.input.LogSyntaxException;
 import net.sf.statcvs.output.ConfigurationException;
+import net.sf.statsvn.Main;
 import net.sf.statsvn.output.SvnConfigurationOptions;
+
+import org.apache.tools.ant.BuildException;
 /**
  * Ant task for running statcvs. 
  * 
@@ -42,6 +48,24 @@ public class StatSvnTask extends StatCvsTask {
 		super();
 	}
 
+	/**
+	 * Runs the task
+	 * @throws BuildException if an IO Error occurs
+	 */
+	public void execute() throws BuildException {
+		try {
+			this.initProperties();
+			Main.generateDefaultHTMLSuite();
+		} catch (ConfigurationException e) {
+			throw new BuildException(e.getMessage());
+		} catch (IOException e) {
+			throw new BuildException(e.getMessage());
+		} catch (LogSyntaxException e) {
+			throw new BuildException(e.getMessage());
+		}
+	}
+	
+	
 	/**
 	 * method initializes the ConfigurationOptions object with
 	 * received values. 

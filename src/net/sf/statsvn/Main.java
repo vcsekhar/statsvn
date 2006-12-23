@@ -49,7 +49,7 @@ import net.sf.statsvn.util.SvnStartupUtils;
 import net.sf.statsvn.util.SvnVersionMismatchException;
 
 /**
- * StatCvs Main Class; it starts the application and controls command-line
+ * StatSvn Main Class; it starts the application and controls command-line
  * related stuff
  *
  * @author Lukasz Pekacki
