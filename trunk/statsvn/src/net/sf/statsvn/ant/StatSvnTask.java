@@ -62,6 +62,8 @@ public class StatSvnTask extends StatCvsTask {
 			throw new BuildException(e.getMessage());
 		} catch (LogSyntaxException e) {
 			throw new BuildException(e.getMessage());
+		} catch (Exception e) {
+			SvnConfigurationOptions.getTaskLogger().log(Main.printStackTrace(e));
 		}
 	}
 	

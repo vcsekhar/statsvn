@@ -25,26 +25,28 @@ package net.sf.statsvn;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-import net.sf.statsvn.input.Builder;
 import net.sf.statcvs.Messages;
 import net.sf.statcvs.input.LogSyntaxException;
+import net.sf.statcvs.model.Repository;
+import net.sf.statcvs.output.ConfigurationException;
+import net.sf.statcvs.output.ConfigurationOptions;
 import net.sf.statcvs.output.ReportConfig;
 import net.sf.statcvs.pages.ReportSuiteMaker;
+import net.sf.statsvn.input.Builder;
 import net.sf.statsvn.input.RepositoryFileManager;
 import net.sf.statsvn.input.SvnLogfileParser;
-import net.sf.statcvs.model.Repository;
 import net.sf.statsvn.output.ChurnPageMaker;
 import net.sf.statsvn.output.RepoMapPageMaker;
 import net.sf.statsvn.output.SvnCommandLineParser;
 import net.sf.statsvn.output.SvnConfigurationOptions;
-import net.sf.statcvs.output.ConfigurationException;
-import net.sf.statcvs.output.ConfigurationOptions;
 import net.sf.statsvn.util.SvnStartupUtils;
 import net.sf.statsvn.util.SvnVersionMismatchException;
 
@@ -168,6 +170,20 @@ public final class Main {
 	private static void printIoErrorMessageAndExit(final String message) {
 		SvnConfigurationOptions.getTaskLogger().log(message);
 		System.exit(1);
+	}
+	
+	public static String printStackTrace(Exception e) {
+		try {
+			StringWriter sw = new StringWriter();
+			PrintWriter pw = new PrintWriter(sw);
+			e.printStackTrace(pw);
+			return sw.toString();
+		} catch (Exception e2) {
+			if (e != null)
+				return e.getMessage();
+			else
+				return "";
+		}
 	}
 
 	private static void printErrorMessageAndExit(final String message) {
