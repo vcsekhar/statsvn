@@ -78,11 +78,14 @@ public final class Main {
 	 *            command line options
 	 */
 	public static void main(final String[] args) {
-		Messages.setPrimaryResource("net.sf.statsvn.statcvs"); // primary is statcvs.properties in net.sf.statsvn
-		
-		SvnConfigurationOptions.getTaskLogger().log(Messages.getString("PROJECT_NAME") + Messages.NL);
+		init();
+		verifyArguments(args);
+		generate();
+		System.exit(0);
+	}
 
-		if (args.length == 0) {
+	private static void verifyArguments(final String[] args) {
+	    if (args.length == 0) {
 			printProperUsageAndExit();
 		}
 		if (args.length == 1) {
@@ -96,9 +99,17 @@ public final class Main {
 
 		try {
 			new SvnCommandLineParser(args).parse();
-			SvnStartupUtils.checkSvnVersionSufficient();
-			SvnStartupUtils.checkRepoRootAvailable();
-			generateDefaultHTMLSuite();
+		} catch (final ConfigurationException cex) {
+			SvnConfigurationOptions.getTaskLogger().log(cex.getMessage());
+			System.exit(1);
+		}
+    }
+
+	public static void generate() {
+		try {
+		    SvnStartupUtils.checkSvnVersionSufficient();
+		    SvnStartupUtils.checkRepoRootAvailable();
+		    generateDefaultHTMLSuite();
 		} catch (final ConfigurationException cex) {
 			SvnConfigurationOptions.getTaskLogger().log(cex.getMessage());
 			System.exit(1);
@@ -111,8 +122,13 @@ public final class Main {
 		} catch (final SvnVersionMismatchException ever) {
 			printErrorMessageAndExit(ever.getMessage());
 		}
-		System.exit(0);
-	}
+    }
+
+	public static void init() {
+	    Messages.setPrimaryResource("net.sf.statsvn.statcvs"); // primary is statcvs.properties in net.sf.statsvn
+		
+		SvnConfigurationOptions.getTaskLogger().log(Messages.getString("PROJECT_NAME") + Messages.NL);
+    }
 
 	private static void initLogManager(final String loggingProperties) {
 		try {
