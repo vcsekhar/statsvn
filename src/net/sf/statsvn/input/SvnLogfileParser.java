@@ -165,8 +165,7 @@ public class SvnLogfileParser {
 				final String fileName = fileBuilder.getName();
 				final List revisions = fileBuilder.getRevisions();
 				for (int i = 0; i < revisions.size(); i++) {
-					if (i + 1 < revisions.size() && ((RevisionData) revisions.get(i)).hasNoLines() 
-							&& !((RevisionData) revisions.get(i)).isDeletion()) {
+					if (i + 1 < revisions.size() && ((RevisionData) revisions.get(i)).hasNoLines() && !((RevisionData) revisions.get(i)).isDeletion()) {
 						if (((RevisionData) revisions.get(i + 1)).isDeletion()) {
 							continue;
 						}
@@ -211,8 +210,7 @@ public class SvnLogfileParser {
 				// in the RevisionData. this cause hasNoLines to be false which
 				// in turn causes the
 				// if clause below to be skipped.
-				if (i + 1 < revisions.size() && ((RevisionData) revisions.get(i)).hasNoLines() 
-						&& !((RevisionData) revisions.get(i)).isDeletion()) {
+				if (i + 1 < revisions.size() && ((RevisionData) revisions.get(i)).hasNoLines() && !((RevisionData) revisions.get(i)).isDeletion()) {
 					if (((RevisionData) revisions.get(i + 1)).isDeletion()) {
 						continue;
 					}
@@ -379,8 +377,13 @@ public class SvnLogfileParser {
 
 							// don't call addRevision directly. buildRevision
 							// does more.
-							builder.buildFile(child, false, false, new HashMap());
-							builder.buildRevision(implicit);
+							builder.buildFile(child, false, false, new HashMap(), new HashMap());
+
+							// only add the implicit if the last one for the
+							// file is NOT a deletion!
+							if (!toMove.isEmpty() && !((RevisionData) toMove.get(0)).isDeletion()) {
+								builder.buildRevision(implicit);
+							}
 
 							// copy back the revisions we removed.
 							for (final Iterator it = toMove.iterator(); it.hasNext();) {
