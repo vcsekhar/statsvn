@@ -67,6 +67,8 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
 
 	private HashMap tagsMap = new HashMap();
 
+	private HashMap tagsDateMap = new HashMap();
+
 	/**
 	 * Default constructor.
 	 * 
@@ -199,12 +201,9 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
 			final String currentFilename = currentFilenames.get(i).toString();
 
 			final boolean isBinary = repositoryFileManager.isBinary(currentFilename);
-
-			builder.buildFile(currentFilename, isBinary, revisionData.isDeletion(), tagsMap);
+			builder.buildFile(currentFilename, isBinary, revisionData.isDeletion(), tagsMap, tagsDateMap);
 			builder.buildRevision(revisionData);
-
 		}
-
 	}
 
 	/**
@@ -242,14 +241,16 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
 		}
 
 		if (copyfromRev != null && filename == null && stringData != null && stringData.indexOf("/tags/") >= 0) {
-			SvnConfigurationOptions.getTaskLogger().log("= TAG " + stringData + " rev:" + copyfromRev);
+//			SvnConfigurationOptions.getTaskLogger().log("= TAG " + stringData + " rev:" + copyfromRev);
 			String tag = stringData.substring("/tags/".length());
 			if (tag.indexOf("/") > 0) {
 				tag = tag.substring(0, tag.indexOf("/"));
 			}
 
 			if (!tagsMap.containsKey(tag)) {
+				SvnConfigurationOptions.getTaskLogger().log("= TAG " + tag + " rev:" + copyfromRev);
 				tagsMap.put(tag, copyfromRev);
+				tagsDateMap.put(tag, currentRevisionData.getDate());
 			}
 		}
 
@@ -403,4 +404,10 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
 		LOGGER.finer(message);
 	}
 
+	/* (non-Javadoc)
+     * @see org.xml.sax.helpers.DefaultHandler#endDocument()
+     */
+    public void endDocument() throws SAXException {
+	    super.endDocument();
+    }
 }
