@@ -49,6 +49,7 @@ public final class SvnConfigurationOptions {
     private static TaskLogger taskLogger = new ConsoleTaskLogger();
     private static int numberSvnDiffThreads = DEFAULT_NUMBER_THREADS;
     private static long thresholdInMsToUseConcurrency = DEFAULT_THRESHOLD_MS_FOR_CONCURRENCY;
+    private static boolean dump = false;
 
     /**
 	 * A utility class (only static methods) should be final and have
@@ -167,5 +168,13 @@ public final class SvnConfigurationOptions {
 	 */
 	public static void setThresholdInMsToUseConcurrency(long thresholdToUseConcurrency) {
 		SvnConfigurationOptions.thresholdInMsToUseConcurrency = thresholdToUseConcurrency;
+	}
+	
+	public static void setDumpContent(final boolean dumpContent) {
+		dump = dumpContent;
+	}
+	
+	public static boolean isDumpContent() {
+		return dump;
 	}
 }
