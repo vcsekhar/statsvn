@@ -45,6 +45,7 @@ import net.sf.statcvs.model.SymbolicName;
 import net.sf.statcvs.model.VersionedFile;
 import net.sf.statcvs.util.FilePatternMatcher;
 import net.sf.statcvs.util.FileUtils;
+import net.sf.statsvn.output.SvnConfigurationOptions;
 
 /**
  * <p>
@@ -127,13 +128,15 @@ public class Builder implements SvnLogBuilder {
      * @param isInAttic
      *            <tt>true</tt> if the file is dead on the main branch
      * @param revBySymnames
-     *            maps revision (string) by symbolic name (string) (Not used in StatSVN; kept for compatibility with StatCVS)
+     *            maps revision (string) by symbolic name (string)
+     * @param dateBySymnames
+     *            maps date (date) by symbolic name (string)
      */
-    public void buildFile(final String filename, final boolean isBinary, final boolean isInAttic, final Map revBySymnames) {
+    public void buildFile(final String filename, final boolean isBinary, final boolean isInAttic, final Map revBySymnames, final Map dateBySymnames) {
         if (fileBuilders.containsKey(filename)) {
 			currentFileBuilder = (FileBuilder) fileBuilders.get(filename);
 		} else {
-            currentFileBuilder = new FileBuilder(this, filename, isBinary, revBySymnames);
+            currentFileBuilder = new FileBuilder(this, filename, isBinary, revBySymnames, dateBySymnames);
             fileBuilders.put(filename, currentFileBuilder);
             if (isInAttic) {
 				addToAttic(filename);
@@ -196,6 +199,8 @@ public class Builder implements SvnLogBuilder {
 
         result.setSymbolicNames(new TreeSet(symbolicNames.values()));
 
+        SvnConfigurationOptions.getTaskLogger().log("SYMBOLIC NAMES - "+symbolicNames);
+        
         return result;
     }
 
@@ -302,13 +307,13 @@ public class Builder implements SvnLogBuilder {
      *            the symbolic name's name
      * @return the corresponding symbolic name object
      */
-    public SymbolicName getSymbolicName(final String name) {
+    public SymbolicName getSymbolicName(final String name, final Date date) {
         SymbolicName sym = (SymbolicName) symbolicNames.get(name);
 
         if (sym != null) {
             return sym;
         } else {
-            sym = new SymbolicName(name);
+            sym = new SymbolicName(name, date);
             symbolicNames.put(name, sym);
 
             return sym;
