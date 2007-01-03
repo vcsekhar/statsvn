@@ -58,7 +58,7 @@ import net.sf.statsvn.util.SvnVersionMismatchException;
 /**
  * StatSvn Main Class; it starts the application and controls command-line
  * related stuff
- *
+ * 
  * @author Lukasz Pekacki
  * @author Richard Cyganiak
  * @version $Id: Main.java,v 1.47 2005/03/20 19:12:25 squig Exp $
@@ -81,7 +81,7 @@ public final class Main {
 
 	/**
 	 * Main method of StatCvs
-	 *
+	 * 
 	 * @param args
 	 *            command line options
 	 */
@@ -93,7 +93,7 @@ public final class Main {
 	}
 
 	private static void verifyArguments(final String[] args) {
-	    if (args.length == 0) {
+		if (args.length == 0) {
 			printProperUsageAndExit();
 		}
 		if (args.length == 1) {
@@ -111,13 +111,13 @@ public final class Main {
 			SvnConfigurationOptions.getTaskLogger().log(cex.getMessage());
 			System.exit(1);
 		}
-    }
+	}
 
 	public static void generate() {
 		try {
-		    SvnStartupUtils.checkSvnVersionSufficient();
-		    SvnStartupUtils.checkRepoRootAvailable();
-		    generateDefaultHTMLSuite();
+			SvnStartupUtils.checkSvnVersionSufficient();
+			SvnStartupUtils.checkRepoRootAvailable();
+			generateDefaultHTMLSuite();
 		} catch (final ConfigurationException cex) {
 			SvnConfigurationOptions.getTaskLogger().log(cex.getMessage());
 			System.exit(1);
@@ -130,13 +130,16 @@ public final class Main {
 		} catch (final SvnVersionMismatchException ever) {
 			printErrorMessageAndExit(ever.getMessage());
 		}
-    }
+	}
 
 	public static void init() {
-	    Messages.setPrimaryResource("net.sf.statsvn.statcvs"); // primary is statcvs.properties in net.sf.statsvn
+		Messages.setPrimaryResource("net.sf.statsvn.statcvs"); // primary is
+		// statcvs.properties
+		// in
+		// net.sf.statsvn
 
 		SvnConfigurationOptions.getTaskLogger().log(Messages.getString("PROJECT_NAME") + Messages.NL);
-    }
+	}
 
 	private static void initLogManager(final String loggingProperties) {
 		try {
@@ -212,7 +215,7 @@ public final class Main {
 	/**
 	 * Generates HTML report. {@link net.sf.statsvn.output.ConfigurationOptions}
 	 * must be initialized before calling this method.
-	 *
+	 * 
 	 * @throws LogSyntaxException
 	 *             if the logfile contains unexpected syntax
 	 * @throws IOException
@@ -227,11 +230,11 @@ public final class Main {
 	/**
 	 * Generates HTML report. {@link net.sf.statsvn.output.ConfigurationOptions}
 	 * must be initialized before calling this method.
-	 *
+	 * 
 	 * @param externalRepositoryFileManager
 	 *            RepositoryFileManager which is used to access the files in the
 	 *            repository.
-	 *
+	 * 
 	 * @throws LogSyntaxException
 	 *             if the logfile contains unexpected syntax
 	 * @throws IOException
@@ -302,26 +305,20 @@ public final class Main {
 	private static void dumpContent(final Repository repo) {
 		SortedSet revisions = repo.getRevisions();
 		int totalDelta = 0;
-		int totalAdded = 0;
-		int totalRemoved = 0;
-		int totalReplaced = 0;
 		int totalNewLines = 0;
 		int totalLastRev = 0;
 		SvnConfigurationOptions.getTaskLogger().log("\n\n#### DUMP PER REVISION ####");
 		for (Iterator it = revisions.iterator(); it.hasNext();) {
 			Revision rev = (Revision) it.next();
 			SvnConfigurationOptions.getTaskLogger().log(
-			        "Rev " + rev.getRevisionNumber() + " " + SDF.format(rev.getDate()) + " lines:" + rev.getLines() + "\tD:" + rev.getLinesDelta() + "\tA:"
-			                + rev.getLinesAdded() + "\tR:" + rev.getLinesRemoved() + "\tRep:" + rev.getReplacedLines() + "\tNew:" + rev.getNewLines()
+			        "Rev " + padRight(rev.getRevisionNumber(),5) + " " + SDF.format(rev.getDate()) + " lines:" + padRight(rev.getLines(), 5) + "\tD:"
+			                + padRight(rev.getLinesDelta(), 5) + "\tRep:" + padRight(rev.getReplacedLines(), 5) + "\tNew:" + padRight(rev.getNewLines(), 5)
 			                + "\tInitial:" + rev.isInitialRevision() + "\tBegLog:" + rev.isBeginOfLog() + "\tDead:" + rev.isDead() + "\t"
-			                + rev.getFile().getFilename());
+			                + rev.getFile().getFilenameWithPath());
 			totalDelta += rev.getLinesDelta();
 			if (rev.isBeginOfLog()) {
 				totalDelta += rev.getLines();
 			}
-			totalAdded += rev.getLinesAdded();
-			totalRemoved += rev.getLinesRemoved();
-			totalReplaced += rev.getLinesRemoved();
 			totalNewLines += rev.getNewLines();
 			VersionedFile file = rev.getFile();
 			Revision fileRev = file.getLatestRevision();
@@ -352,9 +349,9 @@ public final class Main {
 					sumDelta += revi.getLines();
 				}
 				SvnConfigurationOptions.getTaskLogger().log(
-				        "\tRevision:" + padRight(revi.getRevisionNumber(),5) + " \tDelta:" + padRight(revi.getLinesDelta(), 5) + "\tLines:" + padRight(revi.getLines(), 5)
-				                + "\tIni:" + revi.isInitialRevision() + "\tBegLog:" + revi.isBeginOfLog() + "\tDead:" + revi.isDead() + "\tSumDelta:"
-				                + padRight(sumDelta, 5));
+				        "\tRevision:" + padRight(revi.getRevisionNumber(), 5) + " \tDelta:" + padRight(revi.getLinesDelta(), 5) + "\tLines:"
+				                + padRight(revi.getLines(), 5) + "\tIni:" + revi.isInitialRevision() + "\tBegLog:" + revi.isBeginOfLog() + "\tDead:"
+				                + revi.isDead() + "\tSumDelta:" + padRight(sumDelta, 5));
 			}
 			if (sumDelta != rev.getCurrentLinesOfCode()) {
 				SvnConfigurationOptions.getTaskLogger().log(
@@ -377,9 +374,6 @@ public final class Main {
 		SvnConfigurationOptions.getTaskLogger().log(
 		        "Tot Last Rev file :" + padRight(totalLastRev, 5) + "\tDiff with Repo LOC " + (repo.getCurrentLOC() - totalLastRev));
 		SvnConfigurationOptions.getTaskLogger().log("Number of Mismatch:" + padRight(numberMisMatch, 5) + "\tLOC Mismatch:" + totalMisMatch);
-		SvnConfigurationOptions.getTaskLogger().log("Tot Added via Rev :" + padRight(totalAdded, 5) + "\tadded-removed:" + (totalAdded - totalRemoved));
-		SvnConfigurationOptions.getTaskLogger().log("Tot Repla via Rev :" + padRight(totalRemoved, 5));
-		SvnConfigurationOptions.getTaskLogger().log("Tot Remov via Rev :" + padRight(totalReplaced, 5));
 		SvnConfigurationOptions.getTaskLogger().log("Tot New L via Rev :" + padRight(totalNewLines, 5));
 	}
 
