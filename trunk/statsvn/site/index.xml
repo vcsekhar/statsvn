@@ -20,6 +20,8 @@
   <body>
     <!-- The body of the document contains a number of sections -->
     <section name="StatSVN News">
+    <p>2007-01-10: Version 0.3.0 is in SVN and adds 2 reports (RepoMap and LOC/Churn) as well as fixing a number of issues with
+    moving files, directories and deletion of those. More details on <a href="changes-report.html">this page</a>.</p>
 
     <p>2006-11-28: Version 0.2.0 is out and now supports Html and XDoc generation to ease integration with Maven (see <a href="statsvn/index.html">reports here</a>).
     <a href="http://digg.com/submit?phase=2&amp;url=www.statsvn.org&amp;title=StatSVN%3A%20Development%20Statistics%20from%20your%20Subversion%20Repository&amp;bodytext=The%20StatSVN%20team%20and%20ObjectLab%20are%20pleased%20to%20announce%20release%200%2E2%2E0%20of%20StatSVN,%20a%20tool%20that%20produces%20charts%20and%20reports%20such%20as%20the%20lines%20of%20code%20over%20time,%20per%20module%20and%20per%20developer%2E%20This%20release%20includes%20Html%20and%20Xdoc%20generation%20for%20easy%20integration%20with%20Maven%2E%20StatSVN%20is%20supported%20by%20ObjectLab%2Eco%2Euk&amp;topic=programming">
