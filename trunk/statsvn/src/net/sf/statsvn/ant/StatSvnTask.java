@@ -27,8 +27,6 @@ import net.sf.statcvs.output.ConfigurationException;
 import net.sf.statsvn.Main;
 import net.sf.statsvn.output.SvnConfigurationOptions;
 
-import org.apache.tools.ant.BuildException;
-
 /**
  * Ant task for running StatSVN.
  * 
@@ -61,7 +59,7 @@ public class StatSvnTask extends StatCvsTask {
 	 * @throws BuildException
 	 *             if an IO Error occurs
 	 */
-	public void execute() throws BuildException {
+	public void execute() {
 		try {
 			this.initProperties();
 
@@ -109,27 +107,27 @@ public class StatSvnTask extends StatCvsTask {
 	}
 
 	/**
-	 * @param svnPassword
+	 * @param password
 	 *            The svnPassword to set.
 	 */
-	public void setPassword(final String svnPassword) {
-		this.svnPassword = svnPassword;
+	public void setPassword(final String password) {
+		this.svnPassword = password;
 	}
 
 	/**
-	 * @param svnUsername
+	 * @param username
 	 *            The svnUsername to set.
 	 */
-	public void setUsername(final String svnUsername) {
-		this.svnUsername = svnUsername;
+	public void setUsername(final String username) {
+		this.svnUsername = username;
 	}
 
 	/**
-	 * @param numberSvnDiffThreads
+	 * @param threads
 	 *            the numberSvnDiffThreads to set
 	 */
-	public void setThreads(int numberSvnDiffThreads) {
-		this.numberSvnDiffThreads = numberSvnDiffThreads;
+	public void setThreads(int threads) {
+		this.numberSvnDiffThreads = threads;
 	}
 
 	/**

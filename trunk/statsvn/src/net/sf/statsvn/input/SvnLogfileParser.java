@@ -107,47 +107,13 @@ public class SvnLogfileParser {
 		long startTime = System.currentTimeMillis();
 		final String xmlFile = SvnConfigurationOptions.getCacheDir() + REPOSITORIES_XML;
 
-		final RepositoriesBuilder repositoriesBuilder = new RepositoriesBuilder();
-		FileInputStream repositoriesFile = null;
-		try {
-			repositoriesFile = new FileInputStream(xmlFile);
-			final SAXParser parser = factory.newSAXParser();
-			parser.parse(repositoriesFile, new SvnXmlRepositoriesFileHandler(repositoriesBuilder));
-			repositoriesFile.close();
-		} catch (final ParserConfigurationException e) {
-			SvnConfigurationOptions.getTaskLogger().log(e.toString());
-		} catch (final SAXException e) {
-			SvnConfigurationOptions.getTaskLogger().log(e.toString());
-		} catch (final IOException e) {
-			SvnConfigurationOptions.getTaskLogger().log(e.toString());
-		} finally {
-			if (repositoriesFile != null) {
-				repositoriesFile.close();
-			}
-		}
+		final RepositoriesBuilder repositoriesBuilder = readAndParseXmlFile(factory, xmlFile);
 		cacheFileName = SvnConfigurationOptions.getCacheDir() + repositoriesBuilder.getFileName(repositoryFileManager.getRepositoryUuid());
 		XMLUtil.writeXmlFile(repositoriesBuilder.getDocument(), xmlFile);
 		LOGGER.fine("parsing repositories finished in " + (System.currentTimeMillis() - startTime) + " ms.");
 		startTime = System.currentTimeMillis();
 
-		cacheBuilder = new CacheBuilder(builder, repositoryFileManager);
-		FileInputStream cacheFile = null;
-		try {
-			cacheFile = new FileInputStream(cacheFileName);
-			final SAXParser parser = factory.newSAXParser();
-			parser.parse(cacheFile, new SvnXmlCacheFileHandler(cacheBuilder));
-			cacheFile.close();
-		} catch (final ParserConfigurationException e) {
-			SvnConfigurationOptions.getTaskLogger().log(e.toString());
-		} catch (final SAXException e) {
-			SvnConfigurationOptions.getTaskLogger().log(e.toString());
-		} catch (final IOException e) {
-			SvnConfigurationOptions.getTaskLogger().log(e.toString());
-		} finally {
-			if (cacheFile != null) {
-				cacheFile.close();
-			}
-		}
+		readCache(factory);
 		LOGGER.fine("parsing line counts finished in " + (System.currentTimeMillis() - startTime) + " ms.");
 		startTime = System.currentTimeMillis();
 
@@ -260,6 +226,49 @@ public class SvnLogfileParser {
 		XMLUtil.writeXmlFile(cacheBuilder.getDocument(), cacheFileName);
 		LOGGER.fine("parsing svn diff finished in " + (System.currentTimeMillis() - startTime) + " ms.");
 	}
+
+	private void readCache(final SAXParserFactory factory) throws IOException {
+	    cacheBuilder = new CacheBuilder(builder, repositoryFileManager);
+		FileInputStream cacheFile = null;
+		try {
+			cacheFile = new FileInputStream(cacheFileName);
+			final SAXParser parser = factory.newSAXParser();
+			parser.parse(cacheFile, new SvnXmlCacheFileHandler(cacheBuilder));
+			cacheFile.close();
+		} catch (final ParserConfigurationException e) {
+			SvnConfigurationOptions.getTaskLogger().log(e.toString());
+		} catch (final SAXException e) {
+			SvnConfigurationOptions.getTaskLogger().log(e.toString());
+		} catch (final IOException e) {
+			SvnConfigurationOptions.getTaskLogger().log(e.toString());
+		} finally {
+			if (cacheFile != null) {
+				cacheFile.close();
+			}
+		}
+    }
+
+	private RepositoriesBuilder readAndParseXmlFile(final SAXParserFactory factory, final String xmlFile) throws IOException {
+	    final RepositoriesBuilder repositoriesBuilder = new RepositoriesBuilder();
+		FileInputStream repositoriesFile = null;
+		try {
+			repositoriesFile = new FileInputStream(xmlFile);
+			final SAXParser parser = factory.newSAXParser();
+			parser.parse(repositoriesFile, new SvnXmlRepositoriesFileHandler(repositoriesBuilder));
+			repositoriesFile.close();
+		} catch (final ParserConfigurationException e) {
+			SvnConfigurationOptions.getTaskLogger().log(e.toString());
+		} catch (final SAXException e) {
+			SvnConfigurationOptions.getTaskLogger().log(e.toString());
+		} catch (final IOException e) {
+			SvnConfigurationOptions.getTaskLogger().log(e.toString());
+		} finally {
+			if (repositoriesFile != null) {
+				repositoriesFile.close();
+			}
+		}
+	    return repositoriesBuilder;
+    }
 
 	/**
 	 * Parses the logfile. After <tt>parse()</tt> has finished, the result of
@@ -616,8 +625,9 @@ public class SvnLogfileParser {
 				}
 
 				SvnConfigurationOptions.getTaskLogger().log(
-				        Thread.currentThread().getName() + " svn diff " + ++calls + "/" + requiredDiffCalls + ": " + fileName + ", r" + oldRevision + " to r"
-				                + newRevision + ", +" + lineDiff[0] + " -" + lineDiff[1] + " (" + (end - start) + " ms.) ");
+				        Thread.currentThread().getName() + " svn diff " + ++calls + "/" + requiredDiffCalls + ": " + fileName 
+				        + ", r" + oldRevision + " to r" + newRevision + ", +" + lineDiff[0] + " -" + lineDiff[1] 
+				        + " (" + (end - start) + " ms.) ");
 			} catch (final BinaryDiffException e) {
 				// file is binary and has been deleted
 				cacheBuilder.newRevision(fileName, newRevision, "0", "0", true);
