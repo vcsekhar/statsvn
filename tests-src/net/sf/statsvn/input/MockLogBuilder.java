@@ -196,4 +196,9 @@ public class MockLogBuilder implements SvnLogBuilder {
     public void updateRevision(final String filename, final String revisionNumber, final int linesAdded, final int linesRemoved)
     {
     }
+
+	public void buildFile(String filename, boolean isBinary, boolean isInAttic, Map revBySymnames, Map dateBySymnames) {
+	    // TODO Auto-generated method stub
+	    
+    }
 }

@@ -46,8 +46,11 @@ import net.sf.statcvs.model.Revision;
  */
 public class BuilderTest extends TestCase {
 	private Builder builder;
+
 	private RevisionData rev1;
+
 	private RevisionData rev2;
+
 	private RevisionData rev3;
 
 	/**
@@ -71,7 +74,7 @@ public class BuilderTest extends TestCase {
 		rev1.setRevisionNumber("1.1");
 		rev1.setLoginName("author1");
 		rev1.setStateExp(true);
-        rev1.setStateAdded(true);
+		rev1.setStateAdded(true);
 		rev1.setDate(new Date(100000));
 		rev1.setComment("comment1");
 		rev2 = new RevisionData();
@@ -169,7 +172,7 @@ public class BuilderTest extends TestCase {
 	 * {@link Builder.getFiles()}
 	 */
 	public void testFilesOneFile() throws Exception {
-		builder.buildFile("file1", false, false, new HashMap());
+		builder.buildFile("file1", false, false, new HashMap(), new HashMap());
 		builder.buildRevision(rev1);
 		final Repository content = builder.createRepository();
 
@@ -186,9 +189,9 @@ public class BuilderTest extends TestCase {
 	 * {@link Builder.getFiles()}
 	 */
 	public void testFileTwoFiles() throws Exception {
-		builder.buildFile("file2", false, false, new HashMap());
+		builder.buildFile("file2", false, false, new HashMap(), new HashMap());
 		builder.buildRevision(rev1);
-		builder.buildFile("file3", false, false, new HashMap());
+		builder.buildFile("file3", false, false, new HashMap(), new HashMap());
 		builder.buildRevision(rev2);
 		final Repository content = builder.createRepository();
 
@@ -204,7 +207,7 @@ public class BuilderTest extends TestCase {
 	 * Tests {@link Builder.buildRevisionBegin}
 	 */
 	public void testBuildRevision() throws Exception {
-		builder.buildFile("file", false, false, new HashMap());
+		builder.buildFile("file", false, false, new HashMap(), new HashMap());
 		builder.buildRevision(rev3);
 		builder.buildRevision(rev2);
 		builder.buildRevision(rev1);
@@ -245,11 +248,11 @@ public class BuilderTest extends TestCase {
 		rev4.setStateExp(true);
 		rev4.setLoginName("somebody");
 		rev4.setDate(new Date(100000000));
-		builder.buildFile("dir/normal_file", true, false, new HashMap());
+		builder.buildFile("dir/normal_file", true, false, new HashMap(), new HashMap());
 		builder.buildRevision(rev3);
 		builder.buildRevision(rev2);
 		builder.buildRevision(rev1);
-		builder.buildFile("partial_logged_file", true, false, new HashMap());
+		builder.buildFile("partial_logged_file", true, false, new HashMap(), new HashMap());
 		builder.buildRevision(rev4);
 		final Repository content = builder.createRepository();
 
@@ -267,17 +270,17 @@ public class BuilderTest extends TestCase {
 	}
 
 	public void testNoAtticFiles() throws Exception {
-		builder.buildFile("file1", false, false, new HashMap());
-		builder.buildFile("file2", false, false, new HashMap());
-		builder.buildFile("file3", false, false, new HashMap());
+		builder.buildFile("file1", false, false, new HashMap(), new HashMap());
+		builder.buildFile("file2", false, false, new HashMap(), new HashMap());
+		builder.buildFile("file3", false, false, new HashMap(), new HashMap());
 		assertTrue(builder.getAtticFileNames().isEmpty());
 	}
 
 	public void testAtticFiles() throws Exception {
-		builder.buildFile("file1", false, false, new HashMap());
-		builder.buildFile("file2", false, true, new HashMap());
-		builder.buildFile("file3", false, true, new HashMap());
-		builder.buildFile("file4", false, false, new HashMap());
+		builder.buildFile("file1", false, false, new HashMap(), new HashMap());
+		builder.buildFile("file2", false, true, new HashMap(), new HashMap());
+		builder.buildFile("file3", false, true, new HashMap(), new HashMap());
+		builder.buildFile("file4", false, false, new HashMap(), new HashMap());
 		final Set attic = builder.getAtticFileNames();
 		assertTrue(attic.contains("file2"));
 		assertTrue(attic.contains("file3"));

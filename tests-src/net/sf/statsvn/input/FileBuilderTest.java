@@ -144,6 +144,6 @@ public class FileBuilderTest extends TestCase {
 //	}
 
 	private void initBuilder(final String filename, final boolean isBinary) {
-		fb = new FileBuilder(builder, filename, isBinary, new HashMap()); 
+		fb = new FileBuilder(builder, filename, isBinary, new HashMap(), new HashMap()); 
 	}
 }

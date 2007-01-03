@@ -74,7 +74,7 @@ public class LinesOfCodeTest extends TestCase {
 		super.setUp();
 		fileman = new DummyRepositoryFileManager();
 		builder = new Builder(fileman, null, null);
-		builder.buildFile("file", false, false, new HashMap());
+		builder.buildFile("file", false, false, new HashMap(), new HashMap());
 		file = null;
 		date11 = new Date(1100000000);
 		date12 = new Date(1200000000);
@@ -180,7 +180,7 @@ public class LinesOfCodeTest extends TestCase {
 	 */
 	public void testLinesOfCodeBinary() throws Exception {
 		fileman.setLinesOfCode("binaryfile", 100);
-		builder.buildFile("binaryfile", true, false, new HashMap());
+		builder.buildFile("binaryfile", true, false, new HashMap(), new HashMap());
 		buildRevisionInitial("1.1", date11);
 		finishBuilder();
 
@@ -303,7 +303,7 @@ public class LinesOfCodeTest extends TestCase {
 	}
 
 	private void addAnotherFile() {
-		builder.buildFile("file2", false, false, new HashMap());
+		builder.buildFile("file2", false, false, new HashMap(), new HashMap());
 		buildRevisionInitial("1.1", date11);
 	}
 

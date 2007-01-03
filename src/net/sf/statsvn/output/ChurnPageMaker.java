@@ -32,7 +32,6 @@ import java.util.Map.Entry;
 import net.sf.statcvs.Messages;
 import net.sf.statcvs.charts.ChartImage;
 import net.sf.statcvs.charts.SymbolicNameAnnotation;
-import net.sf.statcvs.model.Repository;
 import net.sf.statcvs.model.Revision;
 import net.sf.statcvs.output.ReportConfig;
 import net.sf.statcvs.pages.NavigationNode;
@@ -87,7 +86,7 @@ public class ChurnPageMaker {
 		for (Iterator it = changePerRevision.entrySet().iterator(); it.hasNext();) {
 			Map.Entry entry = (Entry) it.next();
 
-			SvnConfigurationOptions.getTaskLogger().log(entry.getKey() + " ==> " + entry.getValue());
+			SvnConfigurationOptions.getTaskLogger().log("Churn on " + entry.getKey() + " ==> " + entry.getValue());
 			timeLine.add(new Day((Date) entry.getKey()), ((Integer) entry.getValue()).intValue());
 		}
 
