@@ -29,9 +29,11 @@ import java.text.SimpleDateFormat;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
@@ -284,7 +286,7 @@ public final class Main {
 		config.setNonDeveloperLogins(ConfigurationOptions.getNonDeveloperLogins());
 
 		if (SvnConfigurationOptions.isDumpContent()) {
-			dumpContent(content);
+			new RepoDump(content).dump();
 		} else {
 			// add new reports
 			List extraReports = new ArrayList();
@@ -298,100 +300,5 @@ public final class Main {
 
 		LOGGER.info("runtime: " + (((double) endTime - startTime) / NUMBER_OF_MS_IN_ONE_SEC) + " seconds");
 		LOGGER.info("memory usage: " + (((double) memoryUsedOnEnd - memoryUsedOnStart) / KB_IN_ONE_MB) + " kb");
-	}
-
-	private static final SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-	private static void dumpContent(final Repository repo) {
-		SortedSet revisions = repo.getRevisions();
-		int totalDelta = 0;
-		int totalNewLines = 0;
-		int totalLastRev = 0;
-		SvnConfigurationOptions.getTaskLogger().log("\n\n#### DUMP PER REVISION ####");
-		for (Iterator it = revisions.iterator(); it.hasNext();) {
-			Revision rev = (Revision) it.next();
-			SvnConfigurationOptions.getTaskLogger().log(
-			        "Rev " + padRight(rev.getRevisionNumber(),5) + " " + SDF.format(rev.getDate()) + " lines:" + padRight(rev.getLines(), 5) + "\tD:"
-			                + padRight(rev.getLinesDelta(), 5) + "\tRep:" + padRight(rev.getReplacedLines(), 5) + "\tNew:" + padRight(rev.getNewLines(), 5)
-			                + "\tInitial:" + rev.isInitialRevision() + "\tBegLog:" + rev.isBeginOfLog() + "\tDead:" + rev.isDead() + "\t"
-			                + rev.getFile().getFilenameWithPath());
-			totalDelta += rev.getLinesDelta();
-			if (rev.isBeginOfLog()) {
-				totalDelta += rev.getLines();
-			}
-			totalNewLines += rev.getNewLines();
-			VersionedFile file = rev.getFile();
-			Revision fileRev = file.getLatestRevision();
-			if (fileRev.getRevisionNumber().equals(rev.getRevisionNumber())) {
-				totalLastRev += file.getCurrentLinesOfCode();
-			}
-		}
-
-		SvnConfigurationOptions.getTaskLogger().log("\n\n#### DUMP PER FILE ####");
-
-		int totalDeltaPerFile = 0;
-		SortedSet files = repo.getFiles();
-		int totalNumRevision = 0;
-		int fileNumber = 0;
-		int totalMisMatch = 0;
-		int numberMisMatch = 0;
-		for (Iterator it = files.iterator(); it.hasNext();) {
-			VersionedFile rev = (VersionedFile) it.next();
-			totalDeltaPerFile += rev.getCurrentLinesOfCode();
-			totalNumRevision += rev.getRevisions().size();
-			SvnConfigurationOptions.getTaskLogger().log("File " + ++fileNumber + "/ " + rev.getFilenameWithPath() + " \tLOC:" + rev.getCurrentLinesOfCode());
-			int sumDelta = 0;
-			for (Iterator it2 = rev.getRevisions().iterator(); it2.hasNext();) {
-				Revision revi = (Revision) it2.next();
-
-				sumDelta += revi.getLinesDelta();
-				if (revi.isBeginOfLog()) {
-					sumDelta += revi.getLines();
-				}
-				SvnConfigurationOptions.getTaskLogger().log(
-				        "\tRevision:" + padRight(revi.getRevisionNumber(), 5) + " \tDelta:" + padRight(revi.getLinesDelta(), 5) + "\tLines:"
-				                + padRight(revi.getLines(), 5) + "\tIni:" + revi.isInitialRevision() + "\tBegLog:" + revi.isBeginOfLog() + "\tDead:"
-				                + revi.isDead() + "\tSumDelta:" + padRight(sumDelta, 5));
-			}
-			if (sumDelta != rev.getCurrentLinesOfCode()) {
-				SvnConfigurationOptions.getTaskLogger().log(
-				        "\t~~~~~SUM DELTA DOES NOT MATCH LOC " + rev.getCurrentLinesOfCode() + " vs " + sumDelta + " Diff:"
-				                + (rev.getCurrentLinesOfCode() - sumDelta) + " ~~~~~~");
-				totalMisMatch += (rev.getCurrentLinesOfCode() - sumDelta);
-				numberMisMatch++;
-			}
-		}
-		SvnConfigurationOptions.getTaskLogger().log("----------------------------------");
-		SvnConfigurationOptions.getTaskLogger().log("Current Repo LOC  :" + repo.getCurrentLOC());
-		SvnConfigurationOptions.getTaskLogger().log("-----Via Files--------------------");
-		SvnConfigurationOptions.getTaskLogger().log("Number of Files   :" + files.size());
-		SvnConfigurationOptions.getTaskLogger().log("Sum C LOC via File:" + totalDeltaPerFile);
-		SvnConfigurationOptions.getTaskLogger().log("Number of Revision:" + totalNumRevision);
-		SvnConfigurationOptions.getTaskLogger().log("-----Via Revisions----------------");
-		SvnConfigurationOptions.getTaskLogger().log("Number of Revision:" + revisions.size());
-		SvnConfigurationOptions.getTaskLogger().log(
-		        "Sum Delta via Rev :" + padRight(totalDelta, 5) + "\tDiff with Repo LOC " + (repo.getCurrentLOC() - totalDelta));
-		SvnConfigurationOptions.getTaskLogger().log(
-		        "Tot Last Rev file :" + padRight(totalLastRev, 5) + "\tDiff with Repo LOC " + (repo.getCurrentLOC() - totalLastRev));
-		SvnConfigurationOptions.getTaskLogger().log("Number of Mismatch:" + padRight(numberMisMatch, 5) + "\tLOC Mismatch:" + totalMisMatch);
-		SvnConfigurationOptions.getTaskLogger().log("Tot New L via Rev :" + padRight(totalNewLines, 5));
-	}
-
-	private static String padRight(final int str, final int size) {
-		return padRight(String.valueOf(str), size);
-	}
-
-	private static String padRight(final String str, final int size) {
-		StringBuffer buf = new StringBuffer(str);
-		int requiredPadding = size;
-		if (str != null) {
-			requiredPadding = requiredPadding - str.length();
-		}
-		if (requiredPadding > 0) {
-			for (int i = 0; i < requiredPadding; i++) {
-				buf.append(" ");
-			}
-		}
-		return buf.toString();
 	}
 }
