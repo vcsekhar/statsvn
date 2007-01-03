@@ -31,18 +31,21 @@
     <p>StatSVN retrieves information from a Subversion repository and generates various tables and charts describing the project development, e.g.
     <ul>
     <li><a href="statsvn/loc.html">Timeline</a> for the lines of code</li>
-    <li>Lines of code for each <a href="statsvn/authors.html">developer</a></li>
-    <li>Activity by <a href="statsvn/authors.html#Activity_by_Clock_Time">Clock time</a></li>
-    <li><a href="statsvn/authors.html#Author_Activity">Authors Activity</a></li>
+    <li>Lines of code for each <a href="statsvn/developers.html">developer</a></li>
+    <li>Activity by <a href="statsvn/developers.html#Activity_by_Clock_Time">Clock time</a></li>
+    <li><a href="statsvn/developers.html#Author_Activity">Authors Activity</a></li>
     <li>Author activity per <a href="statsvn/user_jkealey.html#Modules">Module</a></li>
     <li>Author <a href="statsvn/user_jkealey.html#Most_Recent_Commits">Most Recent Commits</a> with links to ViewVc</li>
-    <li>Stats per <a href="statsvn/module_src_net_sf_statsvn_output.html">directory</a></li>
+    <li>Stats per <a href="statsvn/dir_src_net_sf_statsvn_output.html">directory</a></li>
     <li><a href="statsvn/file_sizes.html#File_Count">File count</a></li>
     <li><a href="statsvn/file_sizes.html#Average_File_Size">Average file size</a></li>
     <li><a href="statsvn/file_sizes.html#Largest_Files">Largest files</a></li>
     <li><a href="statsvn/file_sizes.html#Files_With_Most_Revisions">Files with most revisions</a></li>
     <li><a href="statsvn/dir_sizes.html#Directory_Sizes">Directory Sizes</a></li>    
-    <li><a href="statsvn/index.html#Repository_Tree">Repository tree</a> with file count and lines of code</li>
+    <li><a href="statsvn/index.html#Repository_Tags">Repository Tags</a> Number of LOC per version.</li>
+    <li><a href="statsvn/index.html#Directories">Repository tree</a> with file count and lines of code</li>
+    <li><a href="statsvn/churn.html">LOC and Churn</a> the evolution of LOC and the amount of change per day</li>
+    <li><a href="statsvn/repomap.html">Repo Map</a> the dynamic hierarchical view of your repo for the last 30 days</li>
     </ul>
     
     The current version of StatSVN generates a static suite of 
