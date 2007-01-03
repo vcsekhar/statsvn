@@ -245,7 +245,8 @@ public class SvnLogfileParser {
 		}
 		if (SvnConfigurationOptions.getNumberSvnDiffThreads() > 1 && poolService != null) {
 			SvnConfigurationOptions.getTaskLogger().log(
-			        "Scheduled " + requiredDiffCalls + " svn diff calls on " + SvnConfigurationOptions.getNumberSvnDiffThreads() + " threads.");
+			        "Scheduled " + requiredDiffCalls + " svn diff calls on " + Math.min(requiredDiffCalls, SvnConfigurationOptions.getNumberSvnDiffThreads())
+			                + " threads.");
 			poolService.shutdown();
 			try {
 				SvnConfigurationOptions.getTaskLogger().log("================ Wait for completion =========================");
@@ -369,7 +370,12 @@ public class SvnLogfileParser {
 							// avoid concurrent modification errors.
 							final List toMove = new ArrayList();
 							for (final Iterator it = childBuilder.getRevisions().subList(k, childBuilder.getRevisions().size()).iterator(); it.hasNext();) {
-								toMove.add(it.next());
+								RevisionData revToMove = (RevisionData) it.next();
+								// if
+								// (!revToMove.getRevisionNumber().equals(implicit.getRevisionNumber()))
+								// {
+								toMove.add(revToMove);
+								// }
 							}
 
 							// remove the revisions to be moved.
@@ -381,9 +387,10 @@ public class SvnLogfileParser {
 
 							// only add the implicit if the last one for the
 							// file is NOT a deletion!
-							if (!toMove.isEmpty() && !((RevisionData) toMove.get(0)).isDeletion()) {
-								builder.buildRevision(implicit);
-							}
+							// if (!toMove.isEmpty() && !((RevisionData)
+							// toMove.get(0)).isDeletion()) {
+							builder.buildRevision(implicit);
+							// }
 
 							// copy back the revisions we removed.
 							for (final Iterator it = toMove.iterator(); it.hasNext();) {
@@ -392,6 +399,31 @@ public class SvnLogfileParser {
 						}
 					}
 				}
+			}
+		}
+
+		// Some implicit revisions may have resulted in double deletion
+		// (e.g. deleting a directory and THEN deleting the parent directory).
+		// this will get rid of any consecutive deletion.
+		for (final Iterator iter = fileBuilders.iterator(); iter.hasNext();) {
+			final FileBuilder filebuilder = (FileBuilder) iter.next();
+
+			boolean previousIsDelete = false;
+			List toRemove = new ArrayList();
+			// for this file, iterate through all revisions and store any
+			// deletion revision that follows
+			// a deletion.
+			for (Iterator it = filebuilder.getRevisions().iterator(); it.hasNext();) {
+				RevisionData data = (RevisionData) it.next();
+				if (data.isDeletion() && previousIsDelete) {
+					toRemove.add(data);
+				}
+				previousIsDelete = data.isDeletion();
+			}
+
+			// get rid of the duplicate deletion for this file.
+			if (!toRemove.isEmpty()) {
+				filebuilder.getRevisions().removeAll(toRemove);
 			}
 		}
 

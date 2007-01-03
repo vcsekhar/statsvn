@@ -25,24 +25,17 @@ package net.sf.statsvn;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
-import java.util.SortedSet;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import net.sf.statcvs.Messages;
 import net.sf.statcvs.input.LogSyntaxException;
 import net.sf.statcvs.model.Repository;
-import net.sf.statcvs.model.Revision;
-import net.sf.statcvs.model.VersionedFile;
 import net.sf.statcvs.output.ConfigurationException;
 import net.sf.statcvs.output.ConfigurationOptions;
 import net.sf.statcvs.output.ReportConfig;
@@ -136,9 +129,7 @@ public final class Main {
 
 	public static void init() {
 		Messages.setPrimaryResource("net.sf.statsvn.statcvs"); // primary is
-		// statcvs.properties
-		// in
-		// net.sf.statsvn
+		// statcvs.properties in net.sf.statsvn
 
 		SvnConfigurationOptions.getTaskLogger().log(Messages.getString("PROJECT_NAME") + Messages.NL);
 	}
@@ -202,10 +193,11 @@ public final class Main {
 			e.printStackTrace(pw);
 			return sw.toString();
 		} catch (Exception e2) {
-			if (e != null)
+			if (e != null) {
 				return e.getMessage();
-			else
+			} else {
 				return "";
+			}
 		}
 	}
 
