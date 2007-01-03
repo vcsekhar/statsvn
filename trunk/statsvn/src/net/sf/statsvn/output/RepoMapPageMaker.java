@@ -17,7 +17,7 @@
  License along with this library; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  
-*/
+ */
 package net.sf.statsvn.output;
 
 import java.io.BufferedWriter;
@@ -44,9 +44,11 @@ import net.sf.statcvs.pages.Page;
 import net.sf.statcvs.util.FileUtils;
 
 /**
- * New report that Repo Map, a jtreemap-based report (applet) that shows the entire source tree 
- * in a hierarchical manner, the size of each box is related to LOC and the colour to the 
- * changes over the last 30 days (red -loc, green +loc).
+ * New report that Repo Map, a jtreemap-based report (applet) that shows the
+ * entire source tree in a hierarchical manner, the size of each box is related
+ * to LOC and the colour to the changes over the last 30 days (red -loc, green
+ * +loc).
+ * 
  * @author Benoit Xhenseval (www.objectlab.co.uk)
  * @see http://jtreemap.sourceforge.net for more about JTreeMap.
  */
@@ -91,8 +93,7 @@ public class RepoMapPageMaker {
 		        + " width=\"940\" height=\"600\"><param name=\"dataFile\" value=\"repomap.jtree\"/>" + "<param name=\"viewTree\" value=\"true\"/>"
 		        + "<param name=\"showWeight\" value=\"true\"/>" + "<param name=\"valuePrefix\" value=\"Change:\"/>"
 		        + "<param name=\"weightPrefix\" value=\"LOC:\"/>" + "<param name=\"dataFileType\" value=\"xml\"/>"
-		        + "<param name=\"colorProvider\" value=\"HSBLog\"/>"
-		        + "</applet>";
+		        + "<param name=\"colorProvider\" value=\"HSBLog\"/>" + "</applet>";
 	}
 
 	private void buildXmlForJTreeMap() {
@@ -126,7 +127,11 @@ public class RepoMapPageMaker {
 		InputStream stream = null;
 		try {
 			stream = RepoMapPageMaker.class.getResourceAsStream(WEB_FILE_PATH + jtreemapJar);
-			FileUtils.copyFile(stream, new File(ConfigurationOptions.getOutputDir() + jtreemapJar));
+			if (stream != null) {
+				FileUtils.copyFile(stream, new File(ConfigurationOptions.getOutputDir() + jtreemapJar));
+			} else {
+				throw new IOException("The stream to " + (WEB_FILE_PATH + jtreemapJar) + " failed, is it copied in the jar?");
+			}
 		} finally {
 			if (stream != null) {
 				stream.close();
@@ -184,7 +189,7 @@ public class RepoMapPageMaker {
 	}
 
 	private boolean handleEachFileInDir(final BufferedWriter out, final SortedSet files, final String name, boolean addedBranch) throws IOException {
-	    if (files != null && !files.isEmpty()) {
+		if (files != null && !files.isEmpty()) {
 			for (final Iterator file = files.iterator(); file.hasNext();) {
 				final VersionedFile vfile = (VersionedFile) file.next();
 
@@ -218,28 +223,28 @@ public class RepoMapPageMaker {
 				LOGGER.fine("===========>>> LOC=" + loc + " totalDelta=" + delta + " Delta%=" + percentage);
 			}
 		}
-	    return addedBranch;
-    }
+		return addedBranch;
+	}
 
 	private int calculateTotalDelta(final VersionedFile vfile) {
-	    int delta = 0;
-	    final SortedSet revisions = vfile.getRevisions();
-	    // take all deltas for the last 30 days.
-	    for (final Iterator rev = revisions.iterator(); rev.hasNext();) {
-	    	final Revision revision = (Revision) rev.next();
+		int delta = 0;
+		final SortedSet revisions = vfile.getRevisions();
+		// take all deltas for the last 30 days.
+		for (final Iterator rev = revisions.iterator(); rev.hasNext();) {
+			final Revision revision = (Revision) rev.next();
 
-	    	LOGGER.fine("Revision " + revision.getDate() + " file:" + vfile.getFilename() + " Dead:" + vfile.isDead() + " LOC:"
-	    	        + revision.getLines() + " delta:" + revision.getLinesDelta());
+			LOGGER.fine("Revision " + revision.getDate() + " file:" + vfile.getFilename() + " Dead:" + vfile.isDead() + " LOC:" + revision.getLines()
+			        + " delta:" + revision.getLinesDelta());
 
-	    	if (deadline.before(revision.getDate())) {
-	    		delta += revision.getLinesDelta();
+			if (deadline.before(revision.getDate())) {
+				delta += revision.getLinesDelta();
 
-	    		LOGGER.fine("Revision " + revision.getRevisionNumber() + " Delta:" + revision.getLinesDelta() + " totalDelta:" + delta + " LOC:"
-	    		        + revision.getLines() + " Dead:" + revision.isDead());
-	    	}
-	    }
-	    return delta;
-    }
+				LOGGER.fine("Revision " + revision.getRevisionNumber() + " Delta:" + revision.getLinesDelta() + " totalDelta:" + delta + " LOC:"
+				        + revision.getLines() + " Dead:" + revision.isDead());
+			}
+		}
+		return delta;
+	}
 
 	private void labelTag(final Writer result, final String name) throws IOException {
 		if (name == null || name.length() == 0) {
