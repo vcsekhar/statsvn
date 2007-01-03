@@ -61,6 +61,8 @@ public class ChurnPageMaker {
 
 	public NavigationNode toFile() {
 		final Page page = this.config.createPage("churn", Messages.getString("CHURN_TITLE"), Messages.getString("CHURN_TITLE"));
+		page.addRawContent("\n\n<!-- The LOC and Churn Report was designed by Benoit Xhenseval (http://www.objectlab.co.uk/open)-->");
+		page.addRawContent("\n<!-- Initially part of StatSVN -->\n\n");
 		page.addRawContent("<p>" + Messages.getString("CHURN_DESCRIPTION") + "</p>");
 		page.add(buildChart());
 		return page;
