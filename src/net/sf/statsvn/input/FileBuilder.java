@@ -35,7 +35,6 @@ import java.util.logging.Logger;
 
 import net.sf.statcvs.input.NoLineCountException;
 import net.sf.statcvs.model.VersionedFile;
-import net.sf.statsvn.output.SvnConfigurationOptions;
 
 /**
  * <p>
@@ -361,44 +360,44 @@ public class FileBuilder {
 			return symbolicNames;
 		}
 
-		final int currentRevision = Integer.parseInt(revisionData.getRevisionNumber());
+		final String currentRevision = revisionData.getRevisionNumber();
 //		SvnConfigurationOptions.getTaskLogger().log("CURRENT REVISION = " + currentRevision + " Deleted " + revisionData.isDeletion());
 
 		// go through each possible tag
 		for (final Iterator tags = revBySymnames.entrySet().iterator(); tags.hasNext();) {
 			final Map.Entry tag = (Map.Entry) tags.next();
 
-			final int tagRevision = Integer.parseInt((String) tag.getValue());
+			final String tagRevision = (String) tag.getValue();
 
 //			SvnConfigurationOptions.getTaskLogger().log("Considering tag REV " + tagRevision + " name=" + tag.getKey());
 
 			// go through the revisions for this file
 			// in order to find either the rev ON the tag or JUST BEFORE!
-			int previousRevisionForThisFile = Integer.parseInt(((RevisionData) revisions.get(revisions.size() - 1)).getRevisionNumber());
-			int revisionToTag = -1;
+			String previousRevisionForThisFile = ((RevisionData) revisions.get(revisions.size() - 1)).getRevisionNumber();
+			String revisionToTag = null;
 			for (ListIterator it = revisions.listIterator(revisions.size()); it.hasPrevious();) {
 				RevisionData data = (RevisionData) it.previous();
 
-				if (Integer.parseInt(data.getRevisionNumber()) == tagRevision) {
+				if (data.getRevisionNumber().equals(tagRevision)) {
 					revisionToTag = tagRevision;
 					break;
-				} else if (Integer.parseInt(data.getRevisionNumber()) > tagRevision) {
+				} else if (data.getRevisionNumber().compareTo(tagRevision) > 0) {
 					revisionToTag = previousRevisionForThisFile;
 					break;
 				}
 
-				previousRevisionForThisFile = Integer.parseInt(data.getRevisionNumber());
+				previousRevisionForThisFile = data.getRevisionNumber();
 			}
 
 			// if the LAST revision for this fuke is before the TAG revision
 			// and the file is NOT deleted, then we should tag it!
-			if (previousRevisionForThisFile < tagRevision && !revisionData.isDeletion()) {
+			if (previousRevisionForThisFile.compareTo(tagRevision) < 0 && !revisionData.isDeletion()) {
 				revisionToTag = previousRevisionForThisFile;
 			}
 
 //			SvnConfigurationOptions.getTaskLogger().log("Revision to TAG " + revisionToTag);
 
-			if (revisionToTag >= 0 && revisionToTag == currentRevision) {
+			if (revisionToTag !=null && revisionToTag.equals(currentRevision)) {
 				// previous revision is the last one for this tag
 				if (symbolicNames == null) {
 					symbolicNames = new TreeSet();
