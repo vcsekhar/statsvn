@@ -48,6 +48,7 @@ import org.jfree.data.xy.IntervalXYDataset;
  * @author Benoit Xhenseval (www.ObjectLab.co.uk)
  */
 public class LOCChurnChartMaker {
+	private static final double LOWER_MARGIN = 0.40;
 	private ChartImage chartFile = null;
 
 	/**
@@ -98,7 +99,7 @@ public class LOCChurnChartMaker {
 
 		// new...
 		final NumberAxis rangeAxis1 = (NumberAxis) plot.getRangeAxis();
-		rangeAxis1.setLowerMargin(0.40); // to leave room for volume bars
+		rangeAxis1.setLowerMargin(LOWER_MARGIN); // to leave room for volume bars
 
 		final DateAxis domainAxis = (DateAxis) plot.getDomainAxis();
 		domainAxis.setVerticalTickLabels(true);
