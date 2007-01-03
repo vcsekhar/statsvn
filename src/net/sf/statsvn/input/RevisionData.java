@@ -257,7 +257,10 @@ public class RevisionData {
      * @return the clone
      */
     public Object createCopy() {
-        return new RevisionData(revisionNumber, date, loginName, stateExp, stateDead, stateAdded, hasNoLines, linesAdded, linesRemoved, comment);
+    	RevisionData copy = new RevisionData(revisionNumber, date, stateExp, stateDead, stateAdded, hasNoLines, linesAdded, linesRemoved);
+    	copy.setComment(comment);
+    	copy.setLoginName(loginName);
+    	return copy;
     }
 
     /**
@@ -267,8 +270,6 @@ public class RevisionData {
      *            the revision number
      * @param date
      *            the revision date
-     * @param loginName
-     *            the revision login name
      * @param stateExp
      *            if this were the current revision, would the file still be live (not-dead)
      * @param stateDead
@@ -281,22 +282,18 @@ public class RevisionData {
      *            number of lines added
      * @param linesRemoved
      *            number of lines removed
-     * @param comment
-     *            the revision comment
      */
-    private RevisionData(final String revisionNumber, final Date date, final String loginName, final boolean stateExp,
+    private RevisionData(final String revisionNumber, final Date date, final boolean stateExp,
     		final boolean stateDead, final boolean stateAdded, final boolean hasNoLines,
-            final int linesAdded, final int linesRemoved, final String comment) {
+            final int linesAdded, final int linesRemoved) {
         super();
         this.revisionNumber = revisionNumber;
         this.date = date;
-        this.loginName = loginName;
         this.stateExp = stateExp;
         this.stateDead = stateDead;
         this.hasNoLines = hasNoLines;
         this.linesAdded = linesAdded;
         this.linesRemoved = linesRemoved;
-        this.comment = comment;
         this.stateAdded = stateAdded;
     }
 

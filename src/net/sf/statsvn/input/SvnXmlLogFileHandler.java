@@ -403,11 +403,4 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
 	private void warning(final String message) throws SAXException {
 		LOGGER.finer(message);
 	}
-
-	/* (non-Javadoc)
-     * @see org.xml.sax.helpers.DefaultHandler#endDocument()
-     */
-    public void endDocument() throws SAXException {
-	    super.endDocument();
-    }
 }

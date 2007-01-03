@@ -59,6 +59,8 @@ public class RepoMapPageMaker {
 
 	private static final String WEB_FILE_PATH = "web-files/";
 
+	private static final String REPO_FILE = "repomap-data.txt";
+
 	private final Date deadline;
 
 	private final ReportConfig config;
@@ -90,7 +92,7 @@ public class RepoMapPageMaker {
 
 	private String getApplet() {
 		return "<applet archive=\"./" + Messages.getString("JTREEMAP_JAR") + "\" code=\"net.sf.jtreemap.swing.example.JTreeMapAppletExample\""
-		        + " width=\"940\" height=\"600\"><param name=\"dataFile\" value=\"repomap.jtree\"/>" + "<param name=\"viewTree\" value=\"true\"/>"
+		        + " width=\"940\" height=\"600\"><param name=\"dataFile\" value=\"" + REPO_FILE + "\"/>" + "<param name=\"viewTree\" value=\"true\"/>"
 		        + "<param name=\"showWeight\" value=\"true\"/>" + "<param name=\"valuePrefix\" value=\"Change:\"/>"
 		        + "<param name=\"weightPrefix\" value=\"LOC:\"/>" + "<param name=\"dataFileType\" value=\"xml\"/>"
 		        + "<param name=\"colorProvider\" value=\"HSBLog\"/>" + "</applet>";
@@ -100,7 +102,7 @@ public class RepoMapPageMaker {
 		BufferedWriter out = null;
 		try {
 			copyJar(Messages.getString("JTREEMAP_JAR"));
-			out = new BufferedWriter(new FileWriter(ConfigurationOptions.getOutputDir() + "repomap.jtree"));
+			out = new BufferedWriter(new FileWriter(ConfigurationOptions.getOutputDir() + REPO_FILE));
 			out.write("<?xml version='1.0' encoding='ISO-8859-1'?>\n");
 			// out.append("<!DOCTYPE root SYSTEM \"TreeMap.dtd\" >\n");
 			out.write("<root>\n");
@@ -233,7 +235,8 @@ public class RepoMapPageMaker {
 		for (final Iterator rev = revisions.iterator(); rev.hasNext();) {
 			final Revision revision = (Revision) rev.next();
 
-			LOGGER.fine("Revision " + revision.getDate() + " file:" + vfile.getFilename() + " Dead:" + vfile.isDead() + " LOC:" + revision.getLines()
+			LOGGER.fine("Revision " + revision.getDate() + " file:" + vfile.getFilename() + " Dead:" + vfile.isDead() 
+					+ " LOC:" + revision.getLines()
 			        + " delta:" + revision.getLinesDelta());
 
 			if (deadline.before(revision.getDate())) {
