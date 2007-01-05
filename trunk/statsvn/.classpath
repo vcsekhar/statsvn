@@ -5,8 +5,8 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/ant.jar"/>
 	<classpathentry kind="lib" path="lib/junit.jar"/>
-	<classpathentry kind="lib" path="lib/statcvs-0.3.0-dev.jar" sourcepath="../../statcvs/src"/>
-	<classpathentry combineaccessrules="false" kind="src" path="../../statcvs"/>
+	<classpathentry kind="lib" path="lib/statcvs-0.3.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/statcvs"/>
 	<classpathentry kind="lib" path="lib/backport-util-concurrent-3.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
