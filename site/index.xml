@@ -20,6 +20,9 @@
   <body>
     <!-- The body of the document contains a number of sections -->
     <section name="StatSVN News">
+    <p><strong>Warning</strong>: if you're not using an English locale, please set the LANG environment variable to en_US when running the application until we resolve i18n issues with StatSVN
+    (the call to svn diff returns an localised string which may result in some results not being cached, the results are correct but StatSVN will ask for them again next time).</p>
+    
     <p>2007-01-10: Version 0.3.0 is in SVN and adds 2 reports (RepoMap and LOC/Churn) as well as fixing a number of issues with
     moving files, directories and deletion of those. More details on <a href="changes-report.html">this page</a>.</p>
 
