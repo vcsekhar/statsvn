@@ -3,6 +3,7 @@ package net.sf.statsvn.util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.logging.Logger;
 
 import net.sf.statcvs.util.LookaheadReader;
 import net.sf.statsvn.output.SvnConfigurationOptions;
@@ -16,6 +17,7 @@ import net.sf.statsvn.output.SvnConfigurationOptions;
  * @version $Id$
  */
 public final class SvnDiffUtils {
+	private static final Logger LOGGER = Logger.getLogger(SvnDiffUtils.class.getName());
 
 	private static final int PROPERTY_NAME_LINE = 4;
 
@@ -140,7 +142,9 @@ public final class SvnDiffUtils {
 		while (diffReader.hasNextLine()) {
 			diffReader.nextLine();
 			String currentLine = diffReader.getCurrentLine();
-			SvnConfigurationOptions.getTaskLogger().log(Thread.currentThread().getName() + " Diff Line: [" + currentLine + "]");
+			
+			LOGGER.fine(Thread.currentThread().getName() + " Diff Line: [" + currentLine + "]");
+			
 			if (currentLine.length() == 0) {
 				continue;
 			}
