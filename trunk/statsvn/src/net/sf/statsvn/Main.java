@@ -145,28 +145,23 @@ public final class Main {
 	}
 
 	private static void printProperUsageAndExit() {
+		final String cr = System.getProperty("line.separator");
 		SvnConfigurationOptions.getTaskLogger().log(
 		// max. 80 chars
 		        // 12345678901234567890123456789012345678901234567890123456789012345678901234567890
-		        "Usage: java -jar statsvn.jar [options] <logfile> <directory>\n" + "\n" + "Required parameters:\n"
-		                + "  <logfile>          path to the cvs logfile of the module\n"
-		                + "  <directory>        path to the directory of the checked out module\n" + "\n" + "Some options:\n"
-		                + "  -version           print the version information and exit\n" 
-		                + "  -output-dir <dir>  directory where HTML suite will be saved\n"
-		                + "  -include <pattern> include only files matching pattern, e.g. **/*.c;**/*.h\n"
-		                + "  -exclude <pattern> exclude matching files, e.g. tests/**;docs/**\n"
-		                + "  -tags <regexp>     show matching tags in lines of code chart, e.g. version-.*\n"
-		                + "  -title <title>     Project title to be used in reports\n" 
-		                + "  -viewvc <url>      integrate with ViewVC installation at <url>\n"
-		                + "  -bugzilla <url>    integrate with Bugzilla installation at <url>\n" 
-		                + "  -username <svnusername> username to pass to svn\n"
-		                + "  -password <svnpassword> password to pass to svn\n" 
-		                + "  -verbose           print extra progress information\n"
-		                + "  -xdoc              optional switch output to xdoc\n" 
-		                + "  -threads <int>     how many threads for svn diff (default: 25)"
-		                + "  -concurrencyThreshold <millisec> switch to concurrent svn diff if 1st call>threshold (default: 4000)"
-		                + "  -dump              dump the Repository content on console\n" 
-		                + "\nFull options list: http://www.statsvn.org");
+		        "Usage: java -jar statsvn.jar [options] <logfile> <directory>" + cr + cr + "Required parameters:" + cr
+		                + "  <logfile>          path to the cvs logfile of the module" + cr
+		                + "  <directory>        path to the directory of the checked out module" + cr + cr + "Some options:" + cr
+		                + "  -version           print the version information and exit" + cr + "  -output-dir <dir>  directory where HTML suite will be saved"
+		                + cr + "  -include <pattern> include only files matching pattern, e.g. **/*.c;**/*.h" + cr
+		                + "  -exclude <pattern> exclude matching files, e.g. tests/**;docs/**" + cr
+		                + "  -tags <regexp>     show matching tags in lines of code chart, e.g. version-.*" + cr
+		                + "  -title <title>     Project title to be used in reports" + cr + "  -viewvc <url>      integrate with ViewVC installation at <url>"
+		                + cr + "  -bugzilla <url>    integrate with Bugzilla installation at <url>" + cr + "  -username <svnusername> username to pass to svn"
+		                + cr + "  -password <svnpassword> password to pass to svn" + cr + "  -verbose           print extra progress information" + cr
+		                + "  -xdoc              optional switch output to xdoc" + cr + "  -threads <int>     how many threads for svn diff (default: 25)" + cr
+		                + "  -concurrencyThreshold <millisec> switch to concurrent svn diff if 1st call>threshold (default: 4000)" + cr
+		                + "  -dump              dump the Repository content on console" + cr + cr + "Full options list: http://www.statsvn.org");
 		System.exit(1);
 	}
 

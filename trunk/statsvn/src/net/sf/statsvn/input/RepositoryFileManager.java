@@ -209,10 +209,10 @@ public class RepositoryFileManager {
 		final String rev = SvnInfoUtils.getRevisionNumber(filename);
 		if (rev != null) {
 			return rev;
-		} else if (!SvnInfoUtils.isDirectory(filename)) {
-			throw new IOException("File " + filename + " has no revision");
-		} else {
+		} else if (SvnInfoUtils.isDirectory(filename)) {
 			return null;
+		} else {
+			throw new IOException("File " + filename + " has no revision");
 		}
 	}
 	
