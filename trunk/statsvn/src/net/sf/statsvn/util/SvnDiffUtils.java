@@ -51,7 +51,7 @@ public final class SvnDiffUtils {
 		filename = SvnInfoUtils.relativePathToUrl(filename);
 		svnDiffCommand = "svn diff  --old \"" + filename + "@" + oldRevNr + "\"  --new \"" + filename + "@" + newRevNr + "\""
 		        + SvnCommandHelper.getAuthString();
-		SvnConfigurationOptions.getTaskLogger().log("FIRING command line:\n[" + svnDiffCommand + "]");
+		SvnConfigurationOptions.getTaskLogger().log(Thread.currentThread().getName() + " FIRING command line:\n[" + svnDiffCommand + "]");
 		return ProcessUtils.call(svnDiffCommand);
 	}
 
@@ -140,20 +140,15 @@ public final class SvnDiffUtils {
 		while (diffReader.hasNextLine()) {
 			diffReader.nextLine();
 			String currentLine = diffReader.getCurrentLine();
-			SvnConfigurationOptions.getTaskLogger().log("Diff Line: [" + currentLine + "]");
+			SvnConfigurationOptions.getTaskLogger().log(Thread.currentThread().getName() + " Diff Line: [" + currentLine + "]");
 			if (currentLine.length() == 0) {
 				continue;
 			}
 			final char firstChar = currentLine.charAt(0);
-			final char secondChar = (currentLine.length() > 1 ? currentLine.charAt(1) : 0);
 			// very simple algorithm
-			if (firstChar == '+' && (secondChar == 0 || secondChar != '+')) {
-				// we detect a NEW line if first char is + but not the following
-				// character.
+			if (firstChar == '+') {
 				lineDiff[0]++;
-			} else if (firstChar == '-' && (secondChar == 0 || secondChar != '-')) {
-				// we detect a DELETED line if first char is - but not the
-				// following character.
+			} else if (firstChar == '-') {
 				lineDiff[1]++;
 			} else if (currentLine.indexOf(PROPERTY_CHANGE) == 0
 			        || (currentLine.indexOf(PROPERTY_NAME) == 0 && diffReader.getLineNumber() == PROPERTY_NAME_LINE)) {
