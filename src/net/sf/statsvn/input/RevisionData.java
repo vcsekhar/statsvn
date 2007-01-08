@@ -256,7 +256,7 @@ public class RevisionData {
      * 
      * @return the clone
      */
-    public Object createCopy() {
+    public RevisionData createCopy() {
     	RevisionData copy = new RevisionData(revisionNumber, date, stateExp, stateDead, stateAdded, hasNoLines, linesAdded, linesRemoved);
     	copy.setComment(comment);
     	copy.setLoginName(loginName);

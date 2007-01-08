@@ -230,7 +230,7 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
 		// relies on the fact that absoluteToRelativePath returns null for paths
 		// that are not on the branch.
 		String filename = repositoryFileManager.absoluteToRelativePath(stringData);
-		final RevisionData data = (RevisionData) currentRevisionData.createCopy();
+		final RevisionData data = currentRevisionData.createCopy();
 		if (!pathAction.equals("D")) {
 			data.setStateExp(true);
 			if (pathAction.equals("A") || pathAction.equals("R")) {

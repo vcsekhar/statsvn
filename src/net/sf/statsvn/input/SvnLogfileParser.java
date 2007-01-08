@@ -373,7 +373,7 @@ public class SvnLogfileParser {
 						// we found something to insert
 						if (k < childBuilder.getRevisions().size()) {
 							// we want to memorize this implicit action.
-							final RevisionData implicit = (RevisionData) parentData.createCopy();
+							final RevisionData implicit = parentData.createCopy();
 							implicitActions.add(implicit);
 
 							// avoid concurrent modification errors.
@@ -634,7 +634,7 @@ public class SvnLogfileParser {
 				fileBuilder.setBinary(true);
 				return;
 			} catch (final IOException e) {
-				SvnConfigurationOptions.getTaskLogger().log("Unable to obtain diff: " + e.getMessage());
+				SvnConfigurationOptions.getTaskLogger().log("IOException: Unable to obtain diff: " + e.toString());
 				return;
 			}
 			if (lineDiff[0] != -1 && lineDiff[1] != -1) {
