@@ -228,7 +228,7 @@ public class SvnLogfileParser {
 	}
 
 	private void readCache(final SAXParserFactory factory) throws IOException {
-	    cacheBuilder = new CacheBuilder(builder, repositoryFileManager);
+		cacheBuilder = new CacheBuilder(builder, repositoryFileManager);
 		FileInputStream cacheFile = null;
 		try {
 			cacheFile = new FileInputStream(cacheFileName);
@@ -246,10 +246,10 @@ public class SvnLogfileParser {
 				cacheFile.close();
 			}
 		}
-    }
+	}
 
 	private RepositoriesBuilder readAndParseXmlFile(final SAXParserFactory factory, final String xmlFile) throws IOException {
-	    final RepositoriesBuilder repositoriesBuilder = new RepositoriesBuilder();
+		final RepositoriesBuilder repositoriesBuilder = new RepositoriesBuilder();
 		FileInputStream repositoriesFile = null;
 		try {
 			repositoriesFile = new FileInputStream(xmlFile);
@@ -267,8 +267,8 @@ public class SvnLogfileParser {
 				repositoriesFile.close();
 			}
 		}
-	    return repositoriesBuilder;
-    }
+		return repositoriesBuilder;
+	}
 
 	/**
 	 * Parses the logfile. After <tt>parse()</tt> has finished, the result of
@@ -625,9 +625,8 @@ public class SvnLogfileParser {
 				}
 
 				SvnConfigurationOptions.getTaskLogger().log(
-				        Thread.currentThread().getName() + " svn diff " + ++calls + "/" + requiredDiffCalls + ": " + fileName 
-				        + ", r" + oldRevision + " to r" + newRevision + ", +" + lineDiff[0] + " -" + lineDiff[1] 
-				        + " (" + (end - start) + " ms.) ");
+				        Thread.currentThread().getName() + " svn diff " + ++calls + "/" + requiredDiffCalls + ": " + fileName + ", r" + oldRevision + " to r"
+				                + newRevision + ", +" + lineDiff[0] + " -" + lineDiff[1] + " (" + (end - start) + " ms.) ");
 			} catch (final BinaryDiffException e) {
 				// file is binary and has been deleted
 				cacheBuilder.newRevision(fileName, newRevision, "0", "0", true);
@@ -641,7 +640,7 @@ public class SvnLogfileParser {
 				builder.updateRevision(fileName, newRevision, lineDiff[0], lineDiff[1]);
 				cacheBuilder.newRevision(fileName, newRevision, lineDiff[0] + "", lineDiff[1] + "", false);
 			} else {
-				SvnConfigurationOptions.getTaskLogger().log("unknown behaviour; to be investigated");
+				SvnConfigurationOptions.getTaskLogger().log("unknown behaviour; to be investigated:" + fileName + " r:" + oldRevision + "/r:" + newRevision);
 			}
 
 			synchronized (cacheBuilder) {
