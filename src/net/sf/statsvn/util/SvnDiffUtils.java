@@ -3,9 +3,9 @@ package net.sf.statsvn.util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.logging.Logger;
 
 import net.sf.statcvs.util.LookaheadReader;
+import net.sf.statsvn.output.SvnConfigurationOptions;
 
 /**
  * Utilities class that manages calls to svn diff.
@@ -17,11 +17,13 @@ import net.sf.statcvs.util.LookaheadReader;
  */
 public final class SvnDiffUtils {
 
+	private static final int PROPERTY_NAME_LINE = 4;
+
 	private static final String PROPERTY_CHANGE = "Property changes on:";
 
-	private static final String BINARY_TYPE = "Cannot display: file marked as a binary type.";
+	private static final String PROPERTY_NAME = "Name:";
 
-	private static final Logger LOGGER = Logger.getLogger(SvnDiffUtils.class.getName());
+	private static final String BINARY_TYPE = "Cannot display: file marked as a binary type.";
 
 	/**
 	 * A utility class (only static methods) should be final and have a private
@@ -49,7 +51,7 @@ public final class SvnDiffUtils {
 		filename = SvnInfoUtils.relativePathToUrl(filename);
 		svnDiffCommand = "svn diff  --old \"" + filename + "@" + oldRevNr + "\"  --new \"" + filename + "@" + newRevNr + "\""
 		        + SvnCommandHelper.getAuthString();
-		LOGGER.fine("FIRING command line: " + svnDiffCommand);
+		SvnConfigurationOptions.getTaskLogger().log("FIRING command line:\n[" + svnDiffCommand + "]");
 		return ProcessUtils.call(svnDiffCommand);
 	}
 
@@ -93,12 +95,6 @@ public final class SvnDiffUtils {
 				pUtils.close();
 			}
 		}
-		// // not using logger because these diffs take lots of time and we want
-		// to
-		// // show on the standard output.
-		// SvnConfigurationOptions.getTaskLogger().log("svn diff of " + filename
-		// + ", r" + oldRevNr + " to r"
-		// + newRevNr + ", +" + lineDiff[0] + " -" + lineDiff[1]);
 
 		return lineDiff;
 	}
@@ -143,6 +139,7 @@ public final class SvnDiffUtils {
 		}
 		while (diffReader.hasNextLine()) {
 			diffReader.nextLine();
+			SvnConfigurationOptions.getTaskLogger().log("Diff Line: [" + diffReader.getCurrentLine() + "]");
 			if (diffReader.getCurrentLine().length() == 0) {
 				continue;
 			}
@@ -151,7 +148,8 @@ public final class SvnDiffUtils {
 				lineDiff[0]++;
 			} else if (diffReader.getCurrentLine().charAt(0) == '-') {
 				lineDiff[1]++;
-			} else if (diffReader.getCurrentLine().indexOf(PROPERTY_CHANGE) == 0) {
+			} else if (diffReader.getCurrentLine().indexOf(PROPERTY_CHANGE) == 0
+			        || (diffReader.getCurrentLine().indexOf(PROPERTY_NAME) == 0 && diffReader.getLineNumber() == PROPERTY_NAME_LINE)) {
 				propertyChange = true;
 			} else if (diffReader.getCurrentLine().indexOf(BINARY_TYPE) == 0) {
 				throw new BinaryDiffException();
