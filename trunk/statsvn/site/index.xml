@@ -20,8 +20,8 @@
   <body>
     <!-- The body of the document contains a number of sections -->
     <section name="StatSVN News">
-    <p><strong>Warning</strong>: if you're not using an English locale, please set the LANG environment variable to en_US when running the application until we resolve i18n issues with StatSVN
-    (the call to svn diff returns an localised string which may result in some results not being cached, the results are correct but StatSVN will ask for them again next time).</p>
+    <p><strong>Warning</strong>: if you're not using an English locale, please set the LANG environment variable to en_US when running the application until we resolve some i18n issues with StatSVN
+    (the call to svn diff returns a localised string which may result in some results not being cached, the results are correct but StatSVN will ask for them again next time).</p>
     
     <p>2007-01-10: Version 0.3.0 is in SVN and adds 2 reports (RepoMap and LOC/Churn) as well as fixing a number of issues with
     moving files, directories and deletion of those. More details on <a href="changes-report.html">this page</a>.</p>
@@ -62,6 +62,39 @@
     <section name="Where is the manual?">
     <p>The manual is available online as a <a href="http://svn.statsvn.org/statsvnwiki/">Wiki</a> and it is as up-to-date and comprehensive as you want it to be...</p>
     </section>
+
+    <section name="Quick Example for Maven 1">
+    <p>Prior to run maven site (or simply maven xdoc), you can generate the XDOC files by running:
+    <source>
+svn log -v --xml https://svn.sourceforge.net/svnroot/statsvn/ > svn.log
+java -jar statsvn.jar -xdoc -verbose -output-dir site\statsvn -tags "^0.2.0|^0.1.3|^0.1.2|^0.0.9" -title StatSVN 
+     -exclude "**/qalab.xml|**/*.pdf|**/etc/LICENSE" -viewvc http://svn.sourceforge.net/viewvc/statsvn/trunk ./svn.log .
+</source>This example will generate xdoc in directory site/statsvn, tag 0.2.0, 0.1.3, 0.1.2, 0.0.9, exclude qalab.xml and others. After that the XDOC would be picked up
+by "maven site" or "maven xdoc".</p>
+    
+    </section>
+
+    <section name="Quick Example of new 'dump'">
+    <p>There is a new dump facility
+    <source>
+svn log -v --xml https://svn.sourceforge.net/svnroot/statsvn/ > svn.log
+java -jar statsvn.jar -dump -verbose -exclude "**/qalab.xml|**/*.pdf|**/etc/LICENSE" ./svn.log .
+</source>This will generate a large amount of output but at the end this, if it shows OK for everything it is likely that StatSVN correctly understood your repository:
+<source>
+----------------------------------
+Current Repo Line Code :10508
+-----Via Files--------------------
+Number of Files via Files  :421
+Sum Current LOC via File   :10508       Diff with Repo LOC 0 OK
+# of File Revision via File:1902
+-----Via Revisions----------------
+# of Files via Revisions   :421         Diff with via Files:0 OK
+# of File Revision via Revi:1902        Diff with via Files:0 OK
+Sum Delta via Revisions    :10508       Diff with Repo LOC 0 OK
+Tot LOC via Last Rev file  :10508       Diff with Repo LOC 0 OK
+----------------------------------</source></p>    
+    </section>
+
 
   </body>
 </document>
