@@ -240,7 +240,7 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
 		if (copyfromRev != null && filename == null && stringData != null && stringData.indexOf("/tags/") >= 0) {
 //			SvnConfigurationOptions.getTaskLogger().log("= TAG " + stringData + " rev:" + copyfromRev);
 			String tag = stringData.substring("/tags/".length());
-			if (tag.indexOf("/") > 0) {
+			if (tag.indexOf("/") >= 0) {
 				tag = tag.substring(0, tag.indexOf("/"));
 			}
 

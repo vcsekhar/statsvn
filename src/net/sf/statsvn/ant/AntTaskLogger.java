@@ -37,7 +37,7 @@ public final class AntTaskLogger implements TaskLogger {
 	 */
 	public void log(final String text) {
 		if (shouldAcceptLog == null) {
-			shouldAcceptLog = new Boolean(ConfigurationOptions.getLoggingProperties().indexOf("debug") > 0);
+			shouldAcceptLog = Boolean.valueOf(ConfigurationOptions.getLoggingProperties().indexOf("debug") >= 0);
 		}
 		if (shouldAcceptLog.booleanValue()) {
 			task.log(text);
@@ -62,7 +62,7 @@ public final class AntTaskLogger implements TaskLogger {
 	 */
 	public void info(String arg) {
 		if (shouldAcceptInfo == null) {
-			shouldAcceptInfo = new Boolean(ConfigurationOptions.getLoggingProperties().indexOf("verbose") > 0);
+			shouldAcceptInfo = Boolean.valueOf(ConfigurationOptions.getLoggingProperties().indexOf("verbose") >= 0);
 		}
 		if (shouldAcceptInfo.booleanValue()) {
 			log(arg);
