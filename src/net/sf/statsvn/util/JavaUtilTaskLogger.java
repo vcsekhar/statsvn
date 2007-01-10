@@ -38,6 +38,6 @@ public class JavaUtilTaskLogger implements TaskLogger {
 	 *            the text to log.
 	 */
 	public void info(String arg) {
-	    LOGGER.warning(arg);
+	    LOGGER.info(arg);
     }
 }
