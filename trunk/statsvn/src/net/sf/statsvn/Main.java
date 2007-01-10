@@ -132,12 +132,20 @@ public final class Main {
 	}
 
 	private static void initLogManager(final String loggingProperties) {
+		InputStream stream = null;
 		try {
-			final InputStream stream = Main.class.getResourceAsStream(loggingProperties);
+			stream = Main.class.getResourceAsStream(loggingProperties);
 			LM.readConfiguration(stream);
-			stream.close();
 		} catch (final IOException e) {
 			SvnConfigurationOptions.getTaskLogger().error("ERROR: Logging could not be initialized!");
+		} finally {
+			if (stream != null) {
+				try {
+	                stream.close();
+                } catch (IOException e) {
+        			SvnConfigurationOptions.getTaskLogger().error("ERROR: could not close stream!");
+                }
+			}
 		}
 	}
 
@@ -262,7 +270,8 @@ public final class Main {
 			ConfigurationOptions.getWebRepository().setAtticFileNames(builder.getAtticFileNames());
 		}
 
-		SvnConfigurationOptions.getTaskLogger().info("Generating report for " + ConfigurationOptions.getProjectName() + " into " + ConfigurationOptions.getOutputDir());
+		SvnConfigurationOptions.getTaskLogger().info(
+		        "Generating report for " + ConfigurationOptions.getProjectName() + " into " + ConfigurationOptions.getOutputDir());
 		SvnConfigurationOptions.getTaskLogger().info("Using " + ConfigurationOptions.getCssHandler());
 		final Repository content = builder.createRepository();
 
