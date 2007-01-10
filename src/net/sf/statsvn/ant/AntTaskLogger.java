@@ -1,5 +1,7 @@
 package net.sf.statsvn.ant;
 
+import net.sf.statcvs.output.ConfigurationOptions;
+import net.sf.statsvn.output.SvnConfigurationOptions;
 import net.sf.statsvn.util.TaskLogger;
 
 import org.apache.tools.ant.Task;
@@ -11,46 +13,60 @@ import org.apache.tools.ant.Task;
  * @author Benoit Xhenseval
  */
 public final class AntTaskLogger implements TaskLogger {
-    /** the Ant task. */
-    private Task task;
+	/** the Ant task. */
+	private Task task;
 
-    /**
-     * Constructor that will hide the specific logging mechanism.
-     * 
-     * @param antTask
-     *            an Ant task
-     */
-    AntTaskLogger(final Task antTask) {
-        this.task = antTask;
-    }
+	private Boolean shouldAcceptLog = null;
 
-    /**
-     * Uses the Ant mechanism to log the text.
-     * 
-     * @param text
-     *            to be logged.
-     */
-    public void log(final String text) {
-        task.log(text);
-    }
+	private Boolean shouldAcceptInfo = null;
 
-    /**
-     * Uses the Ant mechanism to log the text.
-     * 
-     * @param text
-     *            to be logged.
-     */
+	/**
+	 * Constructor that will hide the specific logging mechanism.
+	 * 
+	 * @param antTask
+	 *            an Ant task
+	 */
+	AntTaskLogger(final Task antTask) {
+		this.task = antTask;
+	}
+
+	/**
+	 * Uses the Ant mechanism to log the text.
+	 * 
+	 * @param text
+	 *            to be logged.
+	 */
+	public void log(final String text) {
+		if (shouldAcceptLog == null) {
+			shouldAcceptLog = new Boolean(ConfigurationOptions.getLoggingProperties().indexOf("debug") > 0);
+		}
+		if (shouldAcceptLog.booleanValue()) {
+			task.log(text);
+		}
+	}
+
+	/**
+	 * Uses the Ant mechanism to log the text.
+	 * 
+	 * @param text
+	 *            to be logged.
+	 */
 	public void error(String arg) {
-	    log(arg);
-    }
+		log(arg);
+	}
 
-    /**
-     * Uses the Ant mechanism to log the text.
-     * 
-     * @param text
-     *            to be logged.
-     */
+	/**
+	 * Uses the Ant mechanism to log the text.
+	 * 
+	 * @param text
+	 *            to be logged.
+	 */
 	public void info(String arg) {
-	    log(arg);
-    }
+		if (shouldAcceptInfo == null) {
+			shouldAcceptInfo = new Boolean(ConfigurationOptions.getLoggingProperties().indexOf("verbose") > 0);
+		}
+		if (shouldAcceptInfo.booleanValue()) {
+			log(arg);
+		}
+	}
 }
