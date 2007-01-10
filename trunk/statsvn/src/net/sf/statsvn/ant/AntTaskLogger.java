@@ -1,7 +1,6 @@
 package net.sf.statsvn.ant;
 
 import net.sf.statcvs.output.ConfigurationOptions;
-import net.sf.statsvn.output.SvnConfigurationOptions;
 import net.sf.statsvn.util.TaskLogger;
 
 import org.apache.tools.ant.Task;
