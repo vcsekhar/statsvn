@@ -20,8 +20,8 @@ public final class SvnPropgetUtils {
 	private static List binaryFiles;
 
 	/**
-	 * A utility class (only static methods) should be final and have
-	 * a private constructor.
+	 * A utility class (only static methods) should be final and have a private
+	 * constructor.
 	 */
 	private SvnPropgetUtils() {
 	}
@@ -39,7 +39,7 @@ public final class SvnPropgetUtils {
 	 * Get the svn:mime-type for a certain file (leave null for all files).
 	 * 
 	 * @param revision
-	 *            revision for which to query; 
+	 *            revision for which to query;
 	 * @param filename
 	 *            the filename (or null for all files)
 	 * @return the inputstream from which to read the information.
@@ -48,15 +48,15 @@ public final class SvnPropgetUtils {
 		String svnPropgetCommand = "svn propget svn:mime-type";
 		if (revision != null && revision.length() > 0) {
 			svnPropgetCommand += " -r " + revision;
-		} 
+		}
 
 		if (filename != null && filename.length() > 0) {
 			svnPropgetCommand += " " + SvnInfoUtils.relativePathToUrl(filename).replace(" ", "%20");
-            
-            if (revision != null && revision.length() > 0) {
+
+			if (revision != null && revision.length() > 0) {
 				svnPropgetCommand += "@" + revision;
-			} 
-        } else {
+			}
+		} else {
 			svnPropgetCommand += " -R ";
 		}
 
@@ -182,7 +182,8 @@ public final class SvnPropgetUtils {
 		// are calling for one specific file.
 		final String octetStream = " - application/octet-stream";
 		// if is common binary file or identified as something other than text
-		if (line.endsWith(octetStream) || line.lastIndexOf(" - text/") < 0 && line.lastIndexOf(" - text/") == line.lastIndexOf(" - ") && line.lastIndexOf(" - ")>=0) {
+		if (line.endsWith(octetStream) || line.lastIndexOf(" - text/") < 0 && line.lastIndexOf(" - text/") == line.lastIndexOf(" - ")
+		        && line.lastIndexOf(" - ") >= 0) {
 			line = line.substring(0, line.lastIndexOf(" - "));
 			if (removeRoot) {
 				line = SvnInfoUtils.urlToRelativePath(line);

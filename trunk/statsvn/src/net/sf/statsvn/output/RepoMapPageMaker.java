@@ -33,7 +33,6 @@ import java.util.SortedSet;
 
 import net.sf.statcvs.Messages;
 import net.sf.statcvs.model.Directory;
-import net.sf.statcvs.model.Repository;
 import net.sf.statcvs.model.Revision;
 import net.sf.statcvs.model.VersionedFile;
 import net.sf.statcvs.output.ConfigurationOptions;
