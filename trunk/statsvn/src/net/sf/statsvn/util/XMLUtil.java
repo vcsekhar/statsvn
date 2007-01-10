@@ -136,9 +136,9 @@ public final class XMLUtil {
 			xformer.setOutputProperty(OutputKeys.INDENT, "yes");
 			xformer.transform(source, result);
 		} catch (final TransformerConfigurationException e) {
-			SvnConfigurationOptions.getTaskLogger().log(e.toString());
+			SvnConfigurationOptions.getTaskLogger().error(e.toString());
 		} catch (final TransformerException e) {
-			SvnConfigurationOptions.getTaskLogger().log(e.toString());
+			SvnConfigurationOptions.getTaskLogger().error(e.toString());
 		}
 	}
 }

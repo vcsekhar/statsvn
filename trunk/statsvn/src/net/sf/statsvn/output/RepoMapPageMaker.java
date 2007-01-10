@@ -55,8 +55,6 @@ import net.sf.statcvs.util.FileUtils;
 public class RepoMapPageMaker {
 	private static final int DAYS_FROM_LAST_DATE = 30;
 
-	private static final Logger LOGGER = Logger.getLogger(RepoMapPageMaker.class.getName());
-
 	private static final String WEB_FILE_PATH = "web-files/";
 
 	private static final String REPO_FILE = "repomap-data.txt";
@@ -119,7 +117,7 @@ public class RepoMapPageMaker {
 				try {
 					out.close();
 				} catch (final IOException e) {
-					SvnConfigurationOptions.getTaskLogger().log(e.toString());
+					SvnConfigurationOptions.getTaskLogger().error(e.toString());
 				}
 			}
 		}
@@ -155,7 +153,7 @@ public class RepoMapPageMaker {
 
 	private void doDirectory(final BufferedWriter out, final Directory dir) throws IOException {
 		indent++;
-		LOGGER.fine("Directory:" + getSpaces(indent) + dir.getName());
+		SvnConfigurationOptions.getTaskLogger().log("Directory:" + getSpaces(indent) + dir.getName());
 
 		if (dir.isEmpty()) {
 			indent--;
@@ -197,7 +195,7 @@ public class RepoMapPageMaker {
 
 				int loc = vfile.getCurrentLinesOfCode();
 
-				LOGGER.fine("File:" + vfile.getFilename() + " LOC:" + loc);
+				SvnConfigurationOptions.getTaskLogger().log("File:" + vfile.getFilename() + " LOC:" + loc);
 
 				int delta = calculateTotalDelta(vfile);
 				if (loc == 0) {
@@ -222,7 +220,7 @@ public class RepoMapPageMaker {
 				final double percentage = ((double) delta) / (double) loc * 100.0;
 				tag(out, "value", String.valueOf(percentage));
 				out.write("</leaf>\n");
-				LOGGER.fine("===========>>> LOC=" + loc + " totalDelta=" + delta + " Delta%=" + percentage);
+				SvnConfigurationOptions.getTaskLogger().log("===========>>> LOC=" + loc + " totalDelta=" + delta + " Delta%=" + percentage);
 			}
 		}
 		return addedBranch;
@@ -235,15 +233,16 @@ public class RepoMapPageMaker {
 		for (final Iterator rev = revisions.iterator(); rev.hasNext();) {
 			final Revision revision = (Revision) rev.next();
 
-			LOGGER.fine("Revision " + revision.getDate() + " file:" + vfile.getFilename() + " Dead:" + vfile.isDead() 
-					+ " LOC:" + revision.getLines()
-			        + " delta:" + revision.getLinesDelta());
+			SvnConfigurationOptions.getTaskLogger().log(
+			        "Revision " + revision.getDate() + " file:" + vfile.getFilename() + " Dead:" + vfile.isDead() + " LOC:" + revision.getLines() + " delta:"
+			                + revision.getLinesDelta());
 
 			if (deadline.before(revision.getDate())) {
 				delta += revision.getLinesDelta();
 
-				LOGGER.fine("Revision " + revision.getRevisionNumber() + " Delta:" + revision.getLinesDelta() + " totalDelta:" + delta + " LOC:"
-				        + revision.getLines() + " Dead:" + revision.isDead());
+				SvnConfigurationOptions.getTaskLogger().log(
+				        "Revision " + revision.getRevisionNumber() + " Delta:" + revision.getLinesDelta() + " totalDelta:" + delta + " LOC:"
+				                + revision.getLines() + " Dead:" + revision.isDead());
 			}
 		}
 		return delta;

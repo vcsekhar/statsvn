@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import net.sf.statcvs.util.LookaheadReader;
+import net.sf.statsvn.output.SvnConfigurationOptions;
 
 /**
  * Utilities class that manages calls to svn propget. Used to find binary files.
@@ -18,7 +18,6 @@ import net.sf.statcvs.util.LookaheadReader;
 public final class SvnPropgetUtils {
 
 	private static List binaryFiles;
-	private static final Logger LOGGER = Logger.getLogger(SvnPropgetUtils.class.getName());
 
 	/**
 	 * A utility class (only static methods) should be final and have
@@ -66,7 +65,7 @@ public final class SvnPropgetUtils {
 		try {
 			return ProcessUtils.call(svnPropgetCommand);
 		} catch (final Exception e) {
-			LOGGER.warning(e.toString());
+			SvnConfigurationOptions.getTaskLogger().info(e.toString());
 			return null;
 		}
 	}
@@ -87,7 +86,7 @@ public final class SvnPropgetUtils {
 					try {
 						pUtils.close();
 					} catch (final IOException e) {
-						LOGGER.warning(e.toString());
+						SvnConfigurationOptions.getTaskLogger().info(e.toString());
 					}
 				}
 			}
@@ -119,7 +118,7 @@ public final class SvnPropgetUtils {
 				throw new IOException(pUtils.getErrorMessage());
 			}
 		} catch (final IOException e) {
-			LOGGER.warning(e.getMessage());
+			SvnConfigurationOptions.getTaskLogger().info(e.getMessage());
 		}
 	}
 
@@ -147,13 +146,13 @@ public final class SvnPropgetUtils {
 				}
 			}
 		} catch (final IOException e) {
-			LOGGER.warning(e.toString());
+			SvnConfigurationOptions.getTaskLogger().info(e.toString());
 		} finally {
 			if (pUtils != null) {
 				try {
 					pUtils.close();
 				} catch (final IOException e) {
-					LOGGER.warning(e.toString());
+					SvnConfigurationOptions.getTaskLogger().info(e.toString());
 				}
 			}
 		}

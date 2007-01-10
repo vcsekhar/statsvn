@@ -13,4 +13,10 @@ public class SilentLogger implements TaskLogger {
      */
     public final void log(final String text) { // NOPMD
     }
+
+	public void error(String arg) { // NOPMD
+    }
+
+	public void info(String arg) { // NOPMD
+    }
 }

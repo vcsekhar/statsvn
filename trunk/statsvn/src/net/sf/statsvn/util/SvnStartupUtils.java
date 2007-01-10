@@ -3,11 +3,11 @@ package net.sf.statsvn.util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sf.statcvs.util.LookaheadReader;
+import net.sf.statsvn.output.SvnConfigurationOptions;
 
 /**
  * Utility class that verifies if the correct version of subversion is used.
@@ -27,7 +27,6 @@ public final class SvnStartupUtils {
     
     private static final String SVN_REPO_ROOT_NOTFOUND = "Repository root not available - verify that the project was checked out with svn version " 
     	+ SVN_MINIMUM_VERSION + " or above.";
-    private static final Logger LOGGER = Logger.getLogger(SvnStartupUtils.class.getName());
 
 	/**
 	 * A utility class (only static methods) should be final and have
@@ -73,15 +72,15 @@ public final class SvnStartupUtils {
 				throw new IOException(pUtils.getErrorMessage());
 			}
         } catch (final IOException e) {
-       		LOGGER.warning(e.getMessage());
+        	SvnConfigurationOptions.getTaskLogger().info(e.getMessage());
         } catch (final RuntimeException e) {
-       		LOGGER.warning(e.getMessage());
+        	SvnConfigurationOptions.getTaskLogger().info(e.getMessage());
         } finally {
         	if (pUtils != null) {
         		try {
 					pUtils.close();
 				} catch (final IOException e) {
-	        		LOGGER.warning(e.getMessage());
+					SvnConfigurationOptions.getTaskLogger().info(e.getMessage());
 				}
         	}
         }
@@ -118,13 +117,13 @@ public final class SvnStartupUtils {
 				throw new IOException(pUtils.getErrorMessage());
 			}
         } catch (final Exception e) {
-        		LOGGER.warning(e.getMessage());
+        	SvnConfigurationOptions.getTaskLogger().info(e.getMessage());
         } finally {
         	if (pUtils != null) {
         		try {
 					pUtils.close();
 				} catch (final IOException e) {
-	        		LOGGER.warning(e.getMessage());
+					SvnConfigurationOptions.getTaskLogger().info(e.getMessage());
 				}
         	}
         }

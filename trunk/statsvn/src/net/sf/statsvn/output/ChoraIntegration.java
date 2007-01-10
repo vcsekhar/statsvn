@@ -37,7 +37,6 @@ import net.sf.statcvs.output.WebRepositoryIntegration;
  */
 public class ChoraIntegration implements WebRepositoryIntegration {
 	private String baseURL;
-//	private Set atticFileNames = new HashSet();
 
 	/**
 	 * @param baseURL

@@ -35,6 +35,7 @@ import java.util.logging.Logger;
 
 import net.sf.statcvs.input.NoLineCountException;
 import net.sf.statcvs.model.VersionedFile;
+import net.sf.statsvn.output.SvnConfigurationOptions;
 
 /**
  * <p>
@@ -71,8 +72,6 @@ public class FileBuilder {
 
 	private static final int ONE_MIN_IN_MS = 60000;
 
-	private static final Logger LOGGER = Logger.getLogger(FileBuilder.class.getName());
-
 	private Builder builder;
 
 	private String name;
@@ -105,7 +104,7 @@ public class FileBuilder {
 		this.revBySymnames = revBySymnames;
 		this.dateBySymnames = dateBySymnames;
 
-		LOGGER.fine("logging " + name);
+		SvnConfigurationOptions.getTaskLogger().log("logging " + name);
 	}
 
 	/**
@@ -171,7 +170,7 @@ public class FileBuilder {
 			} else if (previousData.isDeletion()) {
 				buildDeletionRevision(file, previousData, previousLOC, symbolicNames);
 			} else {
-				LOGGER.warning("illegal state in " + file.getFilenameWithPath() + ":" + previousData.getRevisionNumber());
+				SvnConfigurationOptions.getTaskLogger().info("illegal state in " + file.getFilenameWithPath() + ":" + previousData.getRevisionNumber());
 			}
 		}
 
@@ -190,7 +189,7 @@ public class FileBuilder {
 			buildCreationRevision(file, currentData, 0, symbolicNames);
 			buildBeginOfLogRevision(file, beginOfLogDate, nextLinesOfCode, symbolicNames);
 		} else {
-			LOGGER.warning("illegal state in " + file.getFilenameWithPath() + ":" + currentData.getRevisionNumber());
+			SvnConfigurationOptions.getTaskLogger().info("illegal state in " + file.getFilenameWithPath() + ":" + currentData.getRevisionNumber());
 		}
 		return file;
 	}
@@ -213,7 +212,7 @@ public class FileBuilder {
 			revision = builder.getRevision(name);
 		} catch (final IOException e) {
 			if (!finalRevisionIsDead()) {
-				LOGGER.warning(e.getMessage());
+				SvnConfigurationOptions.getTaskLogger().info(e.getMessage());
 			}
 		}
 
@@ -224,14 +223,14 @@ public class FileBuilder {
 			if (!revisions.isEmpty()) {
 				final RevisionData firstAdded = (RevisionData) revisions.get(0);
 				if (!finalRevisionIsDead() && !firstAdded.getRevisionNumber().equals(revision)) {
-					LOGGER.warning("Revision of " + name + " does not match expected revision");
+					SvnConfigurationOptions.getTaskLogger().info("Revision of " + name + " does not match expected revision");
 				}
 			}
 			return builder.getLOC(name);
 			// }
 		} catch (final NoLineCountException e) {
 			if (!finalRevisionIsDead()) {
-				LOGGER.warning(e.getMessage());
+				SvnConfigurationOptions.getTaskLogger().info(e.getMessage());
 			}
 			return approximateFinalLOC();
 		}
@@ -361,7 +360,8 @@ public class FileBuilder {
 		}
 
 		final String currentRevision = revisionData.getRevisionNumber();
-//		SvnConfigurationOptions.getTaskLogger().log("CURRENT REVISION = " + currentRevision + " Deleted " + revisionData.isDeletion());
+		// SvnConfigurationOptions.getTaskLogger().log("CURRENT REVISION = " +
+		// currentRevision + " Deleted " + revisionData.isDeletion());
 
 		// go through each possible tag
 		for (final Iterator tags = revBySymnames.entrySet().iterator(); tags.hasNext();) {
@@ -369,7 +369,8 @@ public class FileBuilder {
 
 			final String tagRevision = (String) tag.getValue();
 
-//			SvnConfigurationOptions.getTaskLogger().log("Considering tag REV " + tagRevision + " name=" + tag.getKey());
+			// SvnConfigurationOptions.getTaskLogger().log("Considering tag REV
+			// " + tagRevision + " name=" + tag.getKey());
 
 			// go through the revisions for this file
 			// in order to find either the rev ON the tag or JUST BEFORE!
@@ -395,15 +396,17 @@ public class FileBuilder {
 				revisionToTag = previousRevisionForThisFile;
 			}
 
-//			SvnConfigurationOptions.getTaskLogger().log("Revision to TAG " + revisionToTag);
+			// SvnConfigurationOptions.getTaskLogger().log("Revision to TAG " +
+			// revisionToTag);
 
-			if (revisionToTag !=null && revisionToTag.equals(currentRevision)) {
+			if (revisionToTag != null && revisionToTag.equals(currentRevision)) {
 				// previous revision is the last one for this tag
 				if (symbolicNames == null) {
 					symbolicNames = new TreeSet();
 				}
-				LOGGER.fine("adding revision " + name + "," + revisionData.getRevisionNumber() + " to symname " + tag.getKey() + " Date:"
-				        + (Date) dateBySymnames.get(tag.getKey()));
+				SvnConfigurationOptions.getTaskLogger().log(
+				        "adding revision " + name + "," + revisionData.getRevisionNumber() + " to symname " + tag.getKey() + " Date:"
+				                + (Date) dateBySymnames.get(tag.getKey()));
 				symbolicNames.add(builder.getSymbolicName((String) tag.getKey(), (Date) dateBySymnames.get(tag.getKey())));
 			}
 		}

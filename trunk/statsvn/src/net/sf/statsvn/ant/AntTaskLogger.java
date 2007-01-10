@@ -33,4 +33,24 @@ public final class AntTaskLogger implements TaskLogger {
     public void log(final String text) {
         task.log(text);
     }
+
+    /**
+     * Uses the Ant mechanism to log the text.
+     * 
+     * @param text
+     *            to be logged.
+     */
+	public void error(String arg) {
+	    log(arg);
+    }
+
+    /**
+     * Uses the Ant mechanism to log the text.
+     * 
+     * @param text
+     *            to be logged.
+     */
+	public void info(String arg) {
+	    log(arg);
+    }
 }

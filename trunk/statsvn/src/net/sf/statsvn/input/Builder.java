@@ -33,7 +33,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
-import java.util.logging.Logger;
 
 import net.sf.statcvs.Messages;
 import net.sf.statcvs.input.CommitListBuilder;
@@ -66,7 +65,6 @@ import net.sf.statsvn.output.SvnConfigurationOptions;
  * 
  */
 public class Builder implements SvnLogBuilder {
-    private static final Logger LOGGER = Logger.getLogger(Builder.class.getName());
     private final Set atticFileNames = new HashSet();
     private final Map authors = new HashMap();
     private FileBuilder currentFileBuilder = null;
@@ -189,7 +187,7 @@ public class Builder implements SvnLogBuilder {
                 continue;
             }
             result.addFile(file);
-            LOGGER.finer("adding " + file.getFilenameWithPath() + " (" + file.getRevisions().size() + " revisions)");
+            SvnConfigurationOptions.getTaskLogger().log("adding " + file.getFilenameWithPath() + " (" + file.getRevisions().size() + " revisions)");
         }
 
         // Uh oh...

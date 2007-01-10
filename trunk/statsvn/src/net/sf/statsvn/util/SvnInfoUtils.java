@@ -3,13 +3,13 @@ package net.sf.statsvn.util;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.logging.Logger;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import net.sf.statcvs.input.LogSyntaxException;
+import net.sf.statsvn.output.SvnConfigurationOptions;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -276,8 +276,7 @@ public final class SvnInfoUtils {
 		if (sModuleName == null) {
 
 			if (getRootUrl().length() < getRepositoryUrl().length() || getRepositoryUrl().length() == 0) {
-				final Logger logger = Logger.getLogger(SvnInfoUtils.class.getName());
-				logger.warning("Unable to process module name.");
+				SvnConfigurationOptions.getTaskLogger().info("Unable to process module name.");
 				sModuleName = "";
 			} else {
 				sModuleName = getRootUrl().substring(getRepositoryUrl().length());
@@ -359,7 +358,7 @@ public final class SvnInfoUtils {
 		try {
 			return ProcessUtils.call(svnInfoCommand);
 		} catch (final Exception e) {
-			e.printStackTrace();
+			SvnConfigurationOptions.getTaskLogger().error(e.toString());
 			return null;
 		}
 	}

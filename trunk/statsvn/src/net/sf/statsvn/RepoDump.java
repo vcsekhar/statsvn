@@ -48,38 +48,38 @@ public class RepoDump {
 		SortedSet revisions = repository.getRevisions();
 		Set filesViaRevisions = dumpPerRevision(revisions);
 
-		SvnConfigurationOptions.getTaskLogger().log("\n\n#### DUMP PER FILE ####");
+		SvnConfigurationOptions.getTaskLogger().info("\n\n#### DUMP PER FILE ####");
 
 		SortedSet files = repository.getFiles();
 		dumpPerFile(files);
 
-		SvnConfigurationOptions.getTaskLogger().log("----------------------------------");
-		SvnConfigurationOptions.getTaskLogger().log("Current Repo Line Code :" + repository.getCurrentLOC());
-		SvnConfigurationOptions.getTaskLogger().log("-----Via Files--------------------");
-		SvnConfigurationOptions.getTaskLogger().log("Number of Files via Files  :" + files.size());
-		SvnConfigurationOptions.getTaskLogger().log(
+		SvnConfigurationOptions.getTaskLogger().info("----------------------------------");
+		SvnConfigurationOptions.getTaskLogger().info("Current Repo Line Code :" + repository.getCurrentLOC());
+		SvnConfigurationOptions.getTaskLogger().info("-----Via Files--------------------");
+		SvnConfigurationOptions.getTaskLogger().info("Number of Files via Files  :" + files.size());
+		SvnConfigurationOptions.getTaskLogger().info(
 		        "Sum Current LOC via File   :" + totalCurrentLOCPerFile + "\tDiff with Repo LOC " + (repository.getCurrentLOC() - totalCurrentLOCPerFile) + " "
 		                + (repository.getCurrentLOC() - totalCurrentLOCPerFile == 0 ? "OK" : "NOT Ok"));
-		SvnConfigurationOptions.getTaskLogger().log("# of File Revision via File:" + totalNumRevision);
-		SvnConfigurationOptions.getTaskLogger().log("-----Via Revisions----------------");
-		SvnConfigurationOptions.getTaskLogger().log(
+		SvnConfigurationOptions.getTaskLogger().info("# of File Revision via File:" + totalNumRevision);
+		SvnConfigurationOptions.getTaskLogger().info("-----Via Revisions----------------");
+		SvnConfigurationOptions.getTaskLogger().info(
 		        "# of Files via Revisions   :" + padIntRight(filesViaRevisions.size(), WIDTH_FOR_NUMBER) + "\tDiff with via Files:"
 		                + (files.size() - filesViaRevisions.size()) + (files.size() - filesViaRevisions.size() == 0 ? " OK" : "NOT Ok"));
-		SvnConfigurationOptions.getTaskLogger().log(
+		SvnConfigurationOptions.getTaskLogger().info(
 		        "# of File Revision via Revi:" + padIntRight(revisions.size(), WIDTH_FOR_NUMBER) + "\tDiff with via Files:"
 		                + (totalNumRevision - revisions.size()) + (totalNumRevision - revisions.size() == 0 ? " OK" : "NOT Ok"));
-		SvnConfigurationOptions.getTaskLogger().log(
+		SvnConfigurationOptions.getTaskLogger().info(
 		        "Sum Delta via Revisions    :" + padIntRight(totalDelta, WIDTH_FOR_NUMBER) + "\tDiff with Repo LOC " + (repository.getCurrentLOC() - totalDelta)
 		                + " " + (repository.getCurrentLOC() - totalDelta == 0 ? "OK" : "NOT Ok"));
 		if (numberMisMatch > 0) {
-			SvnConfigurationOptions.getTaskLogger().log("**** PROBLEM ******");
-			SvnConfigurationOptions.getTaskLogger().log(
+			SvnConfigurationOptions.getTaskLogger().info("**** PROBLEM ******");
+			SvnConfigurationOptions.getTaskLogger().info(
 			        "Number of Mismatches       :" + padIntRight(numberMisMatch, WIDTH_FOR_NUMBER) + "\tLOC Mismatch:" + totalMisMatch);
 		}
-		SvnConfigurationOptions.getTaskLogger().log(
+		SvnConfigurationOptions.getTaskLogger().info(
 		        "Tot LOC via Last Rev file  :" + padIntRight(totalLastRev, WIDTH_FOR_NUMBER) + "\tDiff with Repo LOC "
 		                + (repository.getCurrentLOC() - totalLastRev) + (repository.getCurrentLOC() - totalDelta == 0 ? " OK" : " NOT Ok"));
-		SvnConfigurationOptions.getTaskLogger().log("----------------------------------");
+		SvnConfigurationOptions.getTaskLogger().info("----------------------------------");
 	}
 
 	private void dumpPerFile(SortedSet files) {
@@ -92,7 +92,7 @@ public class RepoDump {
 			VersionedFile rev = (VersionedFile) it.next();
 			totalCurrentLOCPerFile += rev.getCurrentLinesOfCode();
 			totalNumRevision += rev.getRevisions().size();
-			SvnConfigurationOptions.getTaskLogger().log("File " + ++fileNumber + "/ " + rev.getFilenameWithPath() + " \tLOC:" + rev.getCurrentLinesOfCode());
+			SvnConfigurationOptions.getTaskLogger().info("File " + ++fileNumber + "/ " + rev.getFilenameWithPath() + " \tLOC:" + rev.getCurrentLinesOfCode());
 			int sumDelta = 0;
 			// go through all revisions for this file.
 			for (Iterator it2 = rev.getRevisions().iterator(); it2.hasNext();) {
@@ -102,14 +102,14 @@ public class RepoDump {
 				if (revi.isBeginOfLog()) {
 					sumDelta += revi.getLines();
 				}
-				SvnConfigurationOptions.getTaskLogger().log(
+				SvnConfigurationOptions.getTaskLogger().info(
 				        "\tRevision:" + padRight(revi.getRevisionNumber(), WIDTH_FOR_NUMBER) + " \tDelta:" + padIntRight(revi.getLinesDelta(), WIDTH_FOR_NUMBER)
 				                + "\tLines:" + padIntRight(revi.getLines(), WIDTH_FOR_NUMBER) + "\t" + printBoolean("Ini:", revi.isInitialRevision()) + "\t"
 				                + printBoolean("BegLog", revi.isBeginOfLog()) + "\t" + printBoolean("Dead", revi.isDead()) + "\tSumDelta:"
 				                + padIntRight(sumDelta, WIDTH_FOR_NUMBER));
 			}
 			if (sumDelta != rev.getCurrentLinesOfCode()) {
-				SvnConfigurationOptions.getTaskLogger().log(
+				SvnConfigurationOptions.getTaskLogger().info(
 				        "\t~~~~~SUM DELTA DOES NOT MATCH LOC " + rev.getCurrentLinesOfCode() + " vs " + sumDelta + " Diff:"
 				                + (rev.getCurrentLinesOfCode() - sumDelta) + " ~~~~~~");
 				totalMisMatch += (rev.getCurrentLinesOfCode() - sumDelta);
@@ -122,16 +122,16 @@ public class RepoDump {
 		totalDelta = 0;
 		Set filesViaRevisions = new HashSet();
 		totalLastRev = 0;
-		SvnConfigurationOptions.getTaskLogger().log("\n\n#### DUMP PER REVISION ####");
+		SvnConfigurationOptions.getTaskLogger().info("\n\n#### DUMP PER REVISION ####");
 		String previousRevision = "";
 		for (Iterator it = revisions.iterator(); it.hasNext();) {
 			Revision rev = (Revision) it.next();
 			if (!rev.getRevisionNumber().equals(previousRevision)) {
 				previousRevision = rev.getRevisionNumber();
 				SvnConfigurationOptions.getTaskLogger()
-				        .log("Revision " + padRight(rev.getRevisionNumber(), WIDTH_FOR_NUMBER) + " " + SDF.format(rev.getDate()));
+				        .info("Revision " + padRight(rev.getRevisionNumber(), WIDTH_FOR_NUMBER) + " " + SDF.format(rev.getDate()));
 			}
-			SvnConfigurationOptions.getTaskLogger().log(
+			SvnConfigurationOptions.getTaskLogger().info(
 			        "\tlines:" + padIntRight(rev.getLines(), WIDTH_FOR_NUMBER) + " D:" + padIntRight(rev.getLinesDelta(), WIDTH_FOR_NUMBER) + " Rep:"
 			                + padIntRight(rev.getReplacedLines(), WIDTH_FOR_NUMBER) + " New:" + padIntRight(rev.getNewLines(), WIDTH_FOR_NUMBER)
 			                + printBoolean(" Initial", rev.isInitialRevision()) + printBoolean(" BegLog", rev.isBeginOfLog())
