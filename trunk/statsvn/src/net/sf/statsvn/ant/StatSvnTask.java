@@ -107,7 +107,7 @@ public class StatSvnTask extends StatCvsTask {
 	 * @param cacheDirectory
 	 *            String representing the cache directory of the program
 	 */
-	public void setCacheDirectory(final String cacheDir) {
+	public void setCacheDir(final String cacheDir) {
 		this.cacheDirectory = cacheDir;
 	}
 
