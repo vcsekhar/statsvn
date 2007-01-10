@@ -69,8 +69,8 @@ public class RepoDump {
 		        "# of File Revision via Revi:" + padIntRight(revisions.size(), WIDTH_FOR_NUMBER) + "\tDiff with via Files:"
 		                + (totalNumRevision - revisions.size()) + (totalNumRevision - revisions.size() == 0 ? " OK" : "NOT Ok"));
 		SvnConfigurationOptions.getTaskLogger().info(
-		        "Sum Delta via Revisions    :" + padIntRight(totalDelta, WIDTH_FOR_NUMBER) + "\tDiff with Repo LOC " + (repository.getCurrentLOC() - totalDelta)
-		                + " " + (repository.getCurrentLOC() - totalDelta == 0 ? "OK" : "NOT Ok"));
+		        "Sum Delta via Revisions    :" + padIntRight(totalDelta, WIDTH_FOR_NUMBER) + "\tDiff with Repo LOC "
+		                + (repository.getCurrentLOC() - totalDelta) + " " + (repository.getCurrentLOC() - totalDelta == 0 ? "OK" : "NOT Ok"));
 		if (numberMisMatch > 0) {
 			SvnConfigurationOptions.getTaskLogger().info("**** PROBLEM ******");
 			SvnConfigurationOptions.getTaskLogger().info(
@@ -103,10 +103,10 @@ public class RepoDump {
 					sumDelta += revi.getLines();
 				}
 				SvnConfigurationOptions.getTaskLogger().info(
-				        "\tRevision:" + padRight(revi.getRevisionNumber(), WIDTH_FOR_NUMBER) + " \tDelta:" + padIntRight(revi.getLinesDelta(), WIDTH_FOR_NUMBER)
-				                + "\tLines:" + padIntRight(revi.getLines(), WIDTH_FOR_NUMBER) + "\t" + printBoolean("Ini:", revi.isInitialRevision()) + "\t"
-				                + printBoolean("BegLog", revi.isBeginOfLog()) + "\t" + printBoolean("Dead", revi.isDead()) + "\tSumDelta:"
-				                + padIntRight(sumDelta, WIDTH_FOR_NUMBER));
+				        "\tRevision:" + padRight(revi.getRevisionNumber(), WIDTH_FOR_NUMBER) + " \tDelta:"
+				                + padIntRight(revi.getLinesDelta(), WIDTH_FOR_NUMBER) + "\tLines:" + padIntRight(revi.getLines(), WIDTH_FOR_NUMBER) + "\t"
+				                + printBoolean("Ini:", revi.isInitialRevision()) + "\t" + printBoolean("BegLog", revi.isBeginOfLog()) + "\t"
+				                + printBoolean("Dead", revi.isDead()) + "\tSumDelta:" + padIntRight(sumDelta, WIDTH_FOR_NUMBER));
 			}
 			if (sumDelta != rev.getCurrentLinesOfCode()) {
 				SvnConfigurationOptions.getTaskLogger().info(
@@ -128,8 +128,8 @@ public class RepoDump {
 			Revision rev = (Revision) it.next();
 			if (!rev.getRevisionNumber().equals(previousRevision)) {
 				previousRevision = rev.getRevisionNumber();
-				SvnConfigurationOptions.getTaskLogger()
-				        .info("Revision " + padRight(rev.getRevisionNumber(), WIDTH_FOR_NUMBER) + " " + SDF.format(rev.getDate()));
+				SvnConfigurationOptions.getTaskLogger().info(
+				        "Revision " + padRight(rev.getRevisionNumber(), WIDTH_FOR_NUMBER) + " " + SDF.format(rev.getDate()));
 			}
 			SvnConfigurationOptions.getTaskLogger().info(
 			        "\tlines:" + padIntRight(rev.getLines(), WIDTH_FOR_NUMBER) + " D:" + padIntRight(rev.getLinesDelta(), WIDTH_FOR_NUMBER) + " Rep:"

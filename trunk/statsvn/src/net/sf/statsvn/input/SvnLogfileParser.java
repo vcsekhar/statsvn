@@ -627,8 +627,8 @@ public class SvnLogfileParser {
 				}
 
 				SvnConfigurationOptions.getTaskLogger().info(
-				        Thread.currentThread().getName() + " svn diff " + ++calls + "/" + requiredDiffCalls + ": " + fileName + ", r" + oldRevision + " to r"
-				                + newRevision + ", +" + lineDiff[0] + " -" + lineDiff[1] + " (" + (end - start) + " ms.) ");
+				        "svn diff " + ++calls + "/" + requiredDiffCalls + ": " + fileName + ", r" + oldRevision + " to r" + newRevision + ", +" + lineDiff[0]
+				                + " -" + lineDiff[1] + " (" + (end - start) + " ms.) " + Thread.currentThread().getName());
 			} catch (final BinaryDiffException e) {
 				// file is binary and has been deleted
 				cacheBuilder.newRevision(fileName, newRevision, "0", "0", true);
