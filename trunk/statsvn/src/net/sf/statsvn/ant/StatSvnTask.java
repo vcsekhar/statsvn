@@ -27,6 +27,8 @@ import net.sf.statcvs.output.ConfigurationException;
 import net.sf.statsvn.Main;
 import net.sf.statsvn.output.SvnConfigurationOptions;
 
+import org.apache.tools.ant.BuildException;
+
 /**
  * Ant task for running StatSVN.
  * 
@@ -82,6 +84,9 @@ public class StatSvnTask extends StatCvsTask {
 		if (this.cacheDirectory != null) {
 			SvnConfigurationOptions.setCacheDir(this.cacheDirectory);
 		}
+		else
+			SvnConfigurationOptions.setCacheDirToDefault();
+
 		if (this.svnPassword != null) {
 			SvnConfigurationOptions.setSvnPassword(this.svnPassword);
 		}
@@ -96,6 +101,9 @@ public class StatSvnTask extends StatCvsTask {
 		}
 
 		SvnConfigurationOptions.setTaskLogger(new AntTaskLogger(this));
+		
+		
+		
 	}
 
 	/**
