@@ -30,10 +30,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.SortedSet;
-import java.util.logging.Logger;
 
 import net.sf.statcvs.Messages;
 import net.sf.statcvs.model.Directory;
+import net.sf.statcvs.model.Repository;
 import net.sf.statcvs.model.Revision;
 import net.sf.statcvs.model.VersionedFile;
 import net.sf.statcvs.output.ConfigurationOptions;
