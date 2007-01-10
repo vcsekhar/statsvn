@@ -70,7 +70,7 @@ public final class ProcessUtils {
 					builder.append(diffReader.nextLine());
 				}
 			} catch (final IOException e) {
-				SvnConfigurationOptions.getTaskLogger().log(e.toString());
+				SvnConfigurationOptions.getTaskLogger().error(e.toString());
 			}
 
 			return builder.toString();

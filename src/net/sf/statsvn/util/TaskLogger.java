@@ -6,8 +6,20 @@ package net.sf.statsvn.util;
  */
 public interface TaskLogger {
     /**
-     * Generic interface for logging issue & debug info.
+     * Generic interface for logging debug info.
      * @param arg the string to log.
      */
     void log(String arg);
+
+    /**
+     * Generic interface for logging info.
+     * @param arg the string to log.
+     */
+    void info(String arg);
+
+    /**
+     * Generic interface for logging error.
+     * @param arg the string to log.
+     */
+    void error(String arg);
 }

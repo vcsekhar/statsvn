@@ -25,8 +25,6 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public class SvnXmlLogFileHandler extends DefaultHandler {
 
-	private static final Logger LOGGER = Logger.getLogger(SvnXmlLogFileHandler.class.getName());
-
 	private static final String INVALID_SVN_LOG_FILE = "Invalid SVN log file.";
 
 	private static final String AUTHOR = "author";
@@ -401,6 +399,6 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
 	 *             the error
 	 */
 	private void warning(final String message) throws SAXException {
-		LOGGER.finer(message);
+		SvnConfigurationOptions.getTaskLogger().info(message);
 	}
 }

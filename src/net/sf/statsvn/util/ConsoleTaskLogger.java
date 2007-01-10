@@ -20,4 +20,12 @@ public class ConsoleTaskLogger implements TaskLogger {
 	public final void log(final String text) {
 		STREAM.println(text);
 	}
+
+	public void error(String arg) {
+	    log(arg);
+    }
+
+	public void info(String arg) {
+	    log(arg);
+    }
 }

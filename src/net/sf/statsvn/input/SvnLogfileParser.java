@@ -35,7 +35,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -66,8 +65,6 @@ public class SvnLogfileParser {
 	private static final int INTERMEDIARY_SAVE_INTERVAL_MS = 120000;
 
 	private static final String REPOSITORIES_XML = "repositories.xml";
-
-	private static final Logger LOGGER = Logger.getLogger(SvnLogfileParser.class.getName());
 
 	private SvnLogBuilder builder;
 
@@ -111,11 +108,11 @@ public class SvnLogfileParser {
 		final RepositoriesBuilder repositoriesBuilder = readAndParseXmlFile(factory, xmlFile);
 		cacheFileName = SvnConfigurationOptions.getCacheDir() + repositoriesBuilder.getFileName(repositoryFileManager.getRepositoryUuid());
 		XMLUtil.writeXmlFile(repositoriesBuilder.getDocument(), xmlFile);
-		LOGGER.fine("parsing repositories finished in " + (System.currentTimeMillis() - startTime) + " ms.");
+		SvnConfigurationOptions.getTaskLogger().log("parsing repositories finished in " + (System.currentTimeMillis() - startTime) + " ms.");
 		startTime = System.currentTimeMillis();
 
 		readCache(factory);
-		LOGGER.fine("parsing line counts finished in " + (System.currentTimeMillis() - startTime) + " ms.");
+		SvnConfigurationOptions.getTaskLogger().log("parsing line counts finished in " + (System.currentTimeMillis() - startTime) + " ms.");
 		startTime = System.currentTimeMillis();
 
 		// update the cache xml file with the latest binary status information
@@ -188,8 +185,8 @@ public class SvnLogfileParser {
 					final String revNrOld = ((RevisionData) revisions.get(i + 1)).getRevisionNumber();
 
 					if (isFirstDiff) {
-						SvnConfigurationOptions.getTaskLogger().log("Contacting server to obtain line count information.");
-						SvnConfigurationOptions.getTaskLogger().log(
+						SvnConfigurationOptions.getTaskLogger().info("Contacting server to obtain line count information.");
+						SvnConfigurationOptions.getTaskLogger().info(
 						        "This information will be cached so that the next time you run StatSVN, results will be returned more quickly.");
 						isFirstDiff = false;
 					}
@@ -211,7 +208,7 @@ public class SvnLogfileParser {
 			}
 		}
 		if (SvnConfigurationOptions.getNumberSvnDiffThreads() > 1 && poolService != null) {
-			SvnConfigurationOptions.getTaskLogger().log(
+			SvnConfigurationOptions.getTaskLogger().info(
 			        "Scheduled " + requiredDiffCalls + " svn diff calls on " + Math.min(requiredDiffCalls, SvnConfigurationOptions.getNumberSvnDiffThreads())
 			                + " threads.");
 			poolService.shutdown();
@@ -221,11 +218,11 @@ public class SvnLogfileParser {
 					SvnConfigurationOptions.getTaskLogger().log("================ TIME OUT!!! =========================");
 				}
 			} catch (final InterruptedException e) {
-				SvnConfigurationOptions.getTaskLogger().log(e.toString());
+				SvnConfigurationOptions.getTaskLogger().error(e.toString());
 			}
 		}
 		XMLUtil.writeXmlFile(cacheBuilder.getDocument(), cacheFileName);
-		LOGGER.fine("parsing svn diff finished in " + (System.currentTimeMillis() - startTime) + " ms.");
+		SvnConfigurationOptions.getTaskLogger().log("parsing svn diff finished in " + (System.currentTimeMillis() - startTime) + " ms.");
 	}
 
 	private void readCache(final SAXParserFactory factory) throws IOException {
@@ -237,13 +234,13 @@ public class SvnLogfileParser {
 			parser.parse(cacheFile, new SvnXmlCacheFileHandler(cacheBuilder));
 			cacheFile.close();
 		} catch (final ParserConfigurationException e) {
-			SvnConfigurationOptions.getTaskLogger().log(e.toString());
+			SvnConfigurationOptions.getTaskLogger().error(e.toString());
 		} catch (final SAXException e) {
-			SvnConfigurationOptions.getTaskLogger().log(e.toString());
+			SvnConfigurationOptions.getTaskLogger().error(e.toString());
 		} catch (final FileNotFoundException e) {
 			SvnConfigurationOptions.getTaskLogger().log(e.toString());
 		} catch (final IOException e) {
-			SvnConfigurationOptions.getTaskLogger().log(e.toString());
+			SvnConfigurationOptions.getTaskLogger().error(e.toString());
 		} finally {
 			if (cacheFile != null) {
 				cacheFile.close();
@@ -260,11 +257,13 @@ public class SvnLogfileParser {
 			parser.parse(repositoriesFile, new SvnXmlRepositoriesFileHandler(repositoriesBuilder));
 			repositoriesFile.close();
 		} catch (final ParserConfigurationException e) {
-			SvnConfigurationOptions.getTaskLogger().log(e.toString());
+			SvnConfigurationOptions.getTaskLogger().error(e.toString());
 		} catch (final SAXException e) {
+			SvnConfigurationOptions.getTaskLogger().error(e.toString());
+		} catch (final FileNotFoundException e) {
 			SvnConfigurationOptions.getTaskLogger().log(e.toString());
 		} catch (final IOException e) {
-			SvnConfigurationOptions.getTaskLogger().log(e.toString());
+			SvnConfigurationOptions.getTaskLogger().error(e.toString());
 		} finally {
 			if (repositoriesFile != null) {
 				repositoriesFile.close();
@@ -312,7 +311,7 @@ public class SvnLogfileParser {
 		// folder.
 
 		final long startTime = System.currentTimeMillis();
-		LOGGER.fine("verifying implicit actions ...");
+		SvnConfigurationOptions.getTaskLogger().log("verifying implicit actions ...");
 
 		final HashSet implicitActions = new HashSet();
 
@@ -484,7 +483,7 @@ public class SvnLogfileParser {
 				}
 			}
 		}
-		LOGGER.fine("verifying implicit actions finished in " + (System.currentTimeMillis() - startTime) + " ms.");
+		SvnConfigurationOptions.getTaskLogger().log("verifying implicit actions finished in " + (System.currentTimeMillis() - startTime) + " ms.");
 	}
 
 	/**
@@ -524,7 +523,7 @@ public class SvnLogfileParser {
 	 */
 	protected SAXParserFactory parseSvnLog() throws IOException, LogSyntaxException {
 		final long startTime = System.currentTimeMillis();
-		LOGGER.fine("starting to parse...");
+		SvnConfigurationOptions.getTaskLogger().log("starting to parse...");
 
 		final SAXParserFactory factory = SAXParserFactory.newInstance();
 		try {
@@ -536,7 +535,7 @@ public class SvnLogfileParser {
 			throw new LogSyntaxException(e.getMessage());
 		}
 
-		LOGGER.fine("parsing svn log finished in " + (System.currentTimeMillis() - startTime) + " ms.");
+		SvnConfigurationOptions.getTaskLogger().log("parsing svn log finished in " + (System.currentTimeMillis() - startTime) + " ms.");
 		return factory;
 	}
 
@@ -627,7 +626,7 @@ public class SvnLogfileParser {
 					totalTime += (end - start);
 				}
 
-				SvnConfigurationOptions.getTaskLogger().log(
+				SvnConfigurationOptions.getTaskLogger().info(
 				        Thread.currentThread().getName() + " svn diff " + ++calls + "/" + requiredDiffCalls + ": " + fileName + ", r" + oldRevision + " to r"
 				                + newRevision + ", +" + lineDiff[0] + " -" + lineDiff[1] + " (" + (end - start) + " ms.) ");
 			} catch (final BinaryDiffException e) {
@@ -636,14 +635,14 @@ public class SvnLogfileParser {
 				fileBuilder.setBinary(true);
 				return;
 			} catch (final IOException e) {
-				SvnConfigurationOptions.getTaskLogger().log("IOException: Unable to obtain diff: " + e.toString());
+				SvnConfigurationOptions.getTaskLogger().error("IOException: Unable to obtain diff: " + e.toString());
 				return;
 			}
 			if (lineDiff[0] != -1 && lineDiff[1] != -1) {
 				builder.updateRevision(fileName, newRevision, lineDiff[0], lineDiff[1]);
 				cacheBuilder.newRevision(fileName, newRevision, lineDiff[0] + "", lineDiff[1] + "", false);
 			} else {
-				SvnConfigurationOptions.getTaskLogger().log("unknown behaviour; to be investigated:" + fileName + " r:" + oldRevision + "/r:" + newRevision);
+				SvnConfigurationOptions.getTaskLogger().info("unknown behaviour; to be investigated:" + fileName + " r:" + oldRevision + "/r:" + newRevision);
 			}
 
 			synchronized (cacheBuilder) {
@@ -654,7 +653,7 @@ public class SvnLogfileParser {
 					final double estimateLeftInMs = ((double) totalTime / (double) calls * (requiredDiffCalls - calls) / SvnConfigurationOptions
 					        .getNumberSvnDiffThreads());
 					end = System.currentTimeMillis();
-					SvnConfigurationOptions.getTaskLogger().log(
+					SvnConfigurationOptions.getTaskLogger().info(
 					        "Intermediary save took " + (end - start) + " ms. Estimated completion=" + new Date(end + (long) estimateLeftInMs));
 				}
 			}

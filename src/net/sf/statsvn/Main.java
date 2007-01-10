@@ -63,8 +63,6 @@ public final class Main {
 
 	private static final int NUMBER_OF_MS_IN_ONE_SEC = 1000;
 
-	private static final Logger LOGGER = Logger.getLogger("net.sf.statcvs");
-
 	private static final LogManager LM = LogManager.getLogManager();
 
 	/**
@@ -103,7 +101,7 @@ public final class Main {
 		try {
 			new SvnCommandLineParser(args).parse();
 		} catch (final ConfigurationException cex) {
-			SvnConfigurationOptions.getTaskLogger().log(cex.getMessage());
+			SvnConfigurationOptions.getTaskLogger().error(cex.getMessage());
 			System.exit(1);
 		}
 	}
@@ -114,7 +112,7 @@ public final class Main {
 			SvnStartupUtils.checkRepoRootAvailable();
 			generateDefaultHTMLSuite();
 		} catch (final ConfigurationException cex) {
-			SvnConfigurationOptions.getTaskLogger().log(cex.getMessage());
+			SvnConfigurationOptions.getTaskLogger().error(cex.getMessage());
 			System.exit(1);
 		} catch (final LogSyntaxException lex) {
 			printLogErrorMessageAndExit(lex.getMessage());
@@ -131,7 +129,7 @@ public final class Main {
 		Messages.setPrimaryResource("net.sf.statsvn.statcvs"); // primary is
 		// statcvs.properties in net.sf.statsvn
 
-		SvnConfigurationOptions.getTaskLogger().log(Messages.getString("PROJECT_NAME") + Messages.NL);
+		SvnConfigurationOptions.getTaskLogger().info(Messages.getString("PROJECT_NAME") + Messages.NL);
 	}
 
 	private static void initLogManager(final String loggingProperties) {
@@ -140,13 +138,13 @@ public final class Main {
 			LM.readConfiguration(stream);
 			stream.close();
 		} catch (final IOException e) {
-			SvnConfigurationOptions.getTaskLogger().log("ERROR: Logging could not be initialized!");
+			SvnConfigurationOptions.getTaskLogger().error("ERROR: Logging could not be initialized!");
 		}
 	}
 
 	private static void printProperUsageAndExit() {
 		final String cr = System.getProperty("line.separator");
-		SvnConfigurationOptions.getTaskLogger().log(
+		SvnConfigurationOptions.getTaskLogger().error(
 		// max. 80 chars
 		        // 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 		        "Usage: java -jar statsvn.jar [options] <logfile> <directory>" + cr + cr + "Required parameters:" + cr
@@ -166,24 +164,24 @@ public final class Main {
 	}
 
 	private static void printVersionAndExit() {
-		SvnConfigurationOptions.getTaskLogger().log("Version " + Messages.getString("PROJECT_VERSION"));
+		SvnConfigurationOptions.getTaskLogger().error("Version " + Messages.getString("PROJECT_VERSION"));
 		System.exit(1);
 	}
 
 	private static void printOutOfMemMessageAndExit() {
-		SvnConfigurationOptions.getTaskLogger().log("OutOfMemoryError.");
-		SvnConfigurationOptions.getTaskLogger().log("Try running java with the -mx option (e.g. -mx128m for 128Mb).");
+		SvnConfigurationOptions.getTaskLogger().error("OutOfMemoryError.");
+		SvnConfigurationOptions.getTaskLogger().error("Try running java with the -mx option (e.g. -mx128m for 128Mb).");
 		System.exit(1);
 	}
 
 	private static void printLogErrorMessageAndExit(final String message) {
-		SvnConfigurationOptions.getTaskLogger().log("Logfile parsing failed.");
-		SvnConfigurationOptions.getTaskLogger().log(message);
+		SvnConfigurationOptions.getTaskLogger().error("Logfile parsing failed.");
+		SvnConfigurationOptions.getTaskLogger().error(message);
 		System.exit(1);
 	}
 
 	private static void printIoErrorMessageAndExit(final String message) {
-		SvnConfigurationOptions.getTaskLogger().log(message);
+		SvnConfigurationOptions.getTaskLogger().error(message);
 		System.exit(1);
 	}
 
@@ -203,7 +201,7 @@ public final class Main {
 	}
 
 	private static void printErrorMessageAndExit(final String message) {
-		SvnConfigurationOptions.getTaskLogger().log(message);
+		SvnConfigurationOptions.getTaskLogger().error(message);
 		System.exit(1);
 	}
 
@@ -251,7 +249,7 @@ public final class Main {
 
 		initLogManager(ConfigurationOptions.getLoggingProperties());
 
-		LOGGER.info("Parsing SVN log '" + ConfigurationOptions.getLogFileName() + "'");
+		SvnConfigurationOptions.getTaskLogger().info("Parsing SVN log '" + ConfigurationOptions.getLogFileName() + "'");
 
 		final FileInputStream logFile = new FileInputStream(ConfigurationOptions.getLogFileName());
 		final Builder builder = new Builder(repFileMan, ConfigurationOptions.getIncludePattern(), ConfigurationOptions.getExcludePattern());
@@ -265,8 +263,8 @@ public final class Main {
 			ConfigurationOptions.getWebRepository().setAtticFileNames(builder.getAtticFileNames());
 		}
 
-		LOGGER.info("Generating report for " + ConfigurationOptions.getProjectName() + " into " + ConfigurationOptions.getOutputDir());
-		LOGGER.info("Using " + ConfigurationOptions.getCssHandler());
+		SvnConfigurationOptions.getTaskLogger().info("Generating report for " + ConfigurationOptions.getProjectName() + " into " + ConfigurationOptions.getOutputDir());
+		SvnConfigurationOptions.getTaskLogger().info("Using " + ConfigurationOptions.getCssHandler());
 		final Repository content = builder.createRepository();
 
 		// make JFreeChart work on systems without GUI
@@ -291,7 +289,7 @@ public final class Main {
 		final long endTime = System.currentTimeMillis();
 		final long memoryUsedOnEnd = Runtime.getRuntime().totalMemory();
 
-		LOGGER.info("runtime: " + (((double) endTime - startTime) / NUMBER_OF_MS_IN_ONE_SEC) + " seconds");
-		LOGGER.info("memory usage: " + (((double) memoryUsedOnEnd - memoryUsedOnStart) / KB_IN_ONE_MB) + " kb");
+		SvnConfigurationOptions.getTaskLogger().info("runtime: " + (((double) endTime - startTime) / NUMBER_OF_MS_IN_ONE_SEC) + " seconds");
+		SvnConfigurationOptions.getTaskLogger().info("memory usage: " + (((double) memoryUsedOnEnd - memoryUsedOnStart) / KB_IN_ONE_MB) + " kb");
 	}
 }

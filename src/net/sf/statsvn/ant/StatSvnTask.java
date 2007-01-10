@@ -72,7 +72,7 @@ public class StatSvnTask extends StatCvsTask {
 
 			Main.generate();
 		} catch (Exception e) {
-			SvnConfigurationOptions.getTaskLogger().log(Main.printStackTrace(e));
+			SvnConfigurationOptions.getTaskLogger().error(Main.printStackTrace(e));
 		}
 	}
 
@@ -101,9 +101,6 @@ public class StatSvnTask extends StatCvsTask {
 		}
 
 		SvnConfigurationOptions.setTaskLogger(new AntTaskLogger(this));
-		
-		
-		
 	}
 
 	/**

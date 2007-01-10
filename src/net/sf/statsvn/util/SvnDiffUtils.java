@@ -3,7 +3,6 @@ package net.sf.statsvn.util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.logging.Logger;
 
 import net.sf.statcvs.util.LookaheadReader;
 import net.sf.statsvn.output.SvnConfigurationOptions;
@@ -17,8 +16,6 @@ import net.sf.statsvn.output.SvnConfigurationOptions;
  * @version $Id$
  */
 public final class SvnDiffUtils {
-	private static final Logger LOGGER = Logger.getLogger(SvnDiffUtils.class.getName());
-
 	private static final int PROPERTY_NAME_LINE = 4;
 
 	private static final String PROPERTY_CHANGE = "Property changes on:";
@@ -53,7 +50,7 @@ public final class SvnDiffUtils {
 		filename = SvnInfoUtils.relativePathToUrl(filename);
 		svnDiffCommand = "svn diff  --old \"" + filename + "@" + oldRevNr + "\"  --new \"" + filename + "@" + newRevNr + "\""
 		        + SvnCommandHelper.getAuthString();
-		LOGGER.fine(Thread.currentThread().getName() + " FIRING command line:\n[" + svnDiffCommand + "]");
+		SvnConfigurationOptions.getTaskLogger().log(Thread.currentThread().getName() + " FIRING command line:\n[" + svnDiffCommand + "]");
 		return ProcessUtils.call(svnDiffCommand);
 	}
 
@@ -143,7 +140,7 @@ public final class SvnDiffUtils {
 			diffReader.nextLine();
 			String currentLine = diffReader.getCurrentLine();
 			
-			LOGGER.fine(Thread.currentThread().getName() + " Diff Line: [" + currentLine + "]");
+			SvnConfigurationOptions.getTaskLogger().log(Thread.currentThread().getName() + " Diff Line: [" + currentLine + "]");
 			
 			if (currentLine.length() == 0) {
 				continue;

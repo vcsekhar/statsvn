@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
 import java.util.Map.Entry;
-import java.util.logging.Logger;
 
 import net.sf.statcvs.Messages;
 import net.sf.statcvs.charts.ChartImage;
@@ -51,7 +50,6 @@ import org.jfree.data.time.TimeSeries;
  * @author Benoit Xhenseval (www.ObjectLab.co.uk)
  */
 public class ChurnPageMaker {
-    private static final Logger LOGGER = Logger.getLogger(ChurnPageMaker.class.getName());
 	private final ReportConfig config;
 
 	/**
@@ -90,7 +88,7 @@ public class ChurnPageMaker {
 		for (Iterator it = changePerRevision.entrySet().iterator(); it.hasNext();) {
 			Map.Entry entry = (Entry) it.next();
 
-			LOGGER.fine("Churn on " + entry.getKey() + " ==> " + entry.getValue());
+			SvnConfigurationOptions.getTaskLogger().log("Churn on " + entry.getKey() + " ==> " + entry.getValue());
 			timeLine.add(new Day((Date) entry.getKey()), ((Integer) entry.getValue()).intValue());
 		}
 

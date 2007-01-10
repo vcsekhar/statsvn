@@ -25,12 +25,12 @@ package net.sf.statsvn.input;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.logging.Logger;
 
 import net.sf.statcvs.input.LogSyntaxException;
 import net.sf.statcvs.input.NoLineCountException;
-import net.sf.statsvn.util.BinaryDiffException;
 import net.sf.statcvs.util.FileUtils;
+import net.sf.statsvn.output.SvnConfigurationOptions;
+import net.sf.statsvn.util.BinaryDiffException;
 import net.sf.statsvn.util.SvnDiffUtils;
 import net.sf.statsvn.util.SvnInfoUtils;
 import net.sf.statsvn.util.SvnPropgetUtils;
@@ -51,7 +51,6 @@ import net.sf.statsvn.util.SvnPropgetUtils;
  * @version $Id$
  */
 public class RepositoryFileManager {
-	private Logger logger;
 	private String path;
 
 	/**
@@ -62,7 +61,6 @@ public class RepositoryFileManager {
 	 */
 	public RepositoryFileManager(final String pathName) {
 		path = pathName;
-		logger = Logger.getLogger(getClass().getName());
 	}
 
 	/**
@@ -169,7 +167,7 @@ public class RepositoryFileManager {
 			final FileReader freader = new FileReader(absoluteName);
 			final BufferedReader reader = new BufferedReader(freader);
 			final int linecount = getLineCount(reader);
-			logger.finer("line count for '" + absoluteName + "': " + linecount);
+			SvnConfigurationOptions.getTaskLogger().log("line count for '" + absoluteName + "': " + linecount);
 			freader.close();
 			return linecount;
 		} catch (final IOException e) {

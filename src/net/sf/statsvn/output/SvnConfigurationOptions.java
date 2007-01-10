@@ -27,7 +27,7 @@ import java.io.File;
 import net.sf.statcvs.output.ConfigurationException;
 import net.sf.statcvs.output.ConfigurationOptions;
 import net.sf.statcvs.util.FileUtils;
-import net.sf.statsvn.util.ConsoleTaskLogger;
+import net.sf.statsvn.util.JavaUtilTaskLogger;
 import net.sf.statsvn.util.TaskLogger;
 
 /**
@@ -46,7 +46,7 @@ public final class SvnConfigurationOptions {
     private static final String DEFAULT_CACHE_DIR = System.getProperty("user.home") + FileUtils.getDirSeparator() + ".statsvn" + FileUtils.getDirSeparator();
     private static String svnUsername = null;
     private static String svnPassword = null;
-    private static TaskLogger taskLogger = new ConsoleTaskLogger();
+    private static TaskLogger taskLogger = new JavaUtilTaskLogger();
     private static int numberSvnDiffThreads = DEFAULT_NUMBER_THREADS;
     private static long thresholdInMsToUseConcurrency = DEFAULT_THRESHOLD_MS_FOR_CONCURRENCY;
     private static boolean dump = false;
