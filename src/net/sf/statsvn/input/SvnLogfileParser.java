@@ -24,6 +24,7 @@
 package net.sf.statsvn.input;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -238,6 +239,8 @@ public class SvnLogfileParser {
 		} catch (final ParserConfigurationException e) {
 			SvnConfigurationOptions.getTaskLogger().log(e.toString());
 		} catch (final SAXException e) {
+			SvnConfigurationOptions.getTaskLogger().log(e.toString());
+		} catch (final FileNotFoundException e) {
 			SvnConfigurationOptions.getTaskLogger().log(e.toString());
 		} catch (final IOException e) {
 			SvnConfigurationOptions.getTaskLogger().log(e.toString());
