@@ -33,7 +33,6 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import net.sf.statcvs.input.NoLineCountException;
-import net.sf.statcvs.model.Revision;
 import net.sf.statcvs.model.VersionedFile;
 import net.sf.statsvn.output.SvnConfigurationOptions;
 
