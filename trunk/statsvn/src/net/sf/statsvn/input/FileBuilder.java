@@ -31,9 +31,9 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
-import java.util.logging.Logger;
 
 import net.sf.statcvs.input.NoLineCountException;
+import net.sf.statcvs.model.Revision;
 import net.sf.statcvs.model.VersionedFile;
 import net.sf.statsvn.output.SvnConfigurationOptions;
 

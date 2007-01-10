@@ -31,7 +31,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.logging.LogManager;
-import java.util.logging.Logger;
 
 import net.sf.statcvs.Messages;
 import net.sf.statcvs.input.LogSyntaxException;

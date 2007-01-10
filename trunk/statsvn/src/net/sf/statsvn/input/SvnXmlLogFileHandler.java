@@ -4,7 +4,6 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.logging.Logger;
 
 import net.sf.statsvn.output.SvnConfigurationOptions;
 import net.sf.statsvn.util.XMLUtil;
