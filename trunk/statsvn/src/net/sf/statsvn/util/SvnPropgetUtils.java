@@ -51,7 +51,7 @@ public final class SvnPropgetUtils {
 		} 
 
 		if (filename != null && filename.length() > 0) {
-			svnPropgetCommand += " " + SvnInfoUtils.relativePathToUrl(filename);
+			svnPropgetCommand += " " + SvnInfoUtils.relativePathToUrl(filename).replace(" ", "%20");
             
             if (revision != null && revision.length() > 0) {
 				svnPropgetCommand += "@" + revision;
