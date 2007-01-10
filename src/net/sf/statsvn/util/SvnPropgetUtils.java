@@ -182,12 +182,11 @@ public final class SvnPropgetUtils {
 		// are calling for one specific file.
 		final String octetStream = " - application/octet-stream";
 		// if is common binary file or identified as something other than text
-		if (line.endsWith(octetStream) || line.lastIndexOf(" - text/") < 0 && line.lastIndexOf(" - text/") == line.lastIndexOf(" - ")) {
+		if (line.endsWith(octetStream) || line.lastIndexOf(" - text/") < 0 && line.lastIndexOf(" - text/") == line.lastIndexOf(" - ") && line.lastIndexOf(" - ")>=0) {
 			line = line.substring(0, line.lastIndexOf(" - "));
 			if (removeRoot) {
 				line = SvnInfoUtils.urlToRelativePath(line);
 			}
-
 			return line;
 		}
 
