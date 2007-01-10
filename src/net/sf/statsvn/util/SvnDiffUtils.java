@@ -53,7 +53,7 @@ public final class SvnDiffUtils {
 		filename = SvnInfoUtils.relativePathToUrl(filename);
 		svnDiffCommand = "svn diff  --old \"" + filename + "@" + oldRevNr + "\"  --new \"" + filename + "@" + newRevNr + "\""
 		        + SvnCommandHelper.getAuthString();
-		SvnConfigurationOptions.getTaskLogger().log(Thread.currentThread().getName() + " FIRING command line:\n[" + svnDiffCommand + "]");
+		LOGGER.fine(Thread.currentThread().getName() + " FIRING command line:\n[" + svnDiffCommand + "]");
 		return ProcessUtils.call(svnDiffCommand);
 	}
 
