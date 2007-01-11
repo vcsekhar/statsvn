@@ -13,6 +13,7 @@ import java.util.SortedSet;
 
 import net.sf.statcvs.model.Repository;
 import net.sf.statcvs.model.Revision;
+import net.sf.statcvs.model.SymbolicName;
 import net.sf.statcvs.model.VersionedFile;
 import net.sf.statsvn.output.SvnConfigurationOptions;
 
@@ -52,6 +53,7 @@ public class RepoDump {
 
 		SortedSet files = repository.getFiles();
 		dumpPerFile(files);
+		dumpPerTags();
 
 		SvnConfigurationOptions.getTaskLogger().info("----------------------------------");
 		SvnConfigurationOptions.getTaskLogger().info("Current Repo Line Code :" + repository.getCurrentLOC());
@@ -82,6 +84,25 @@ public class RepoDump {
 		SvnConfigurationOptions.getTaskLogger().info("----------------------------------");
 	}
 
+	private void dumpPerTags() {
+		if (repository.getSymbolicNames() != null) {
+			SvnConfigurationOptions.getTaskLogger().info("\n\n#### DUMP PER TAG ####");
+			for (Iterator it = repository.getSymbolicNames().iterator(); it.hasNext();) {
+				SymbolicName symbol = (SymbolicName) it.next();
+				SvnConfigurationOptions.getTaskLogger().info("\nTAG: " + symbol.getName() + " / " + symbol.getDate());
+				int loc = 0;
+				for (Iterator rev = symbol.getRevisions().iterator(); rev.hasNext();) {
+					Revision revision = (Revision) rev.next();
+					SvnConfigurationOptions.getTaskLogger().info(
+					        "  LOC:" + padIntRight(revision.getLines(), 5) + " Rev:" + padRight(revision.getRevisionNumber(), 5) + " File: "
+					                + revision.getFile().getFilenameWithPath() + " dead:" + revision.isDead());
+					loc += revision.getLines();
+				}
+				SvnConfigurationOptions.getTaskLogger().info("Total LOC: " + loc);
+			}
+		}
+	}
+
 	private void dumpPerFile(SortedSet files) {
 		totalCurrentLOCPerFile = 0;
 		totalNumRevision = 0;
@@ -102,11 +123,13 @@ public class RepoDump {
 				if (revi.isBeginOfLog()) {
 					sumDelta += revi.getLines();
 				}
-				SvnConfigurationOptions.getTaskLogger().info(
-				        "\tRevision:" + padRight(revi.getRevisionNumber(), WIDTH_FOR_NUMBER) + " \tDelta:"
-				                + padIntRight(revi.getLinesDelta(), WIDTH_FOR_NUMBER) + "\tLines:" + padIntRight(revi.getLines(), WIDTH_FOR_NUMBER) + "\t"
-				                + printBoolean("Ini:", revi.isInitialRevision()) + "\t" + printBoolean("BegLog", revi.isBeginOfLog()) + "\t"
-				                + printBoolean("Dead", revi.isDead()) + "\tSumDelta:" + padIntRight(sumDelta, WIDTH_FOR_NUMBER));
+				SvnConfigurationOptions.getTaskLogger()
+				        .info(
+				                "\tRevision:" + padRight(revi.getRevisionNumber(), WIDTH_FOR_NUMBER) + " \tDelta:"
+				                        + padIntRight(revi.getLinesDelta(), WIDTH_FOR_NUMBER) + "\tLines:" + padIntRight(revi.getLines(), WIDTH_FOR_NUMBER)
+				                        + "\t" + printBoolean("Ini:", revi.isInitialRevision()) + "\t" + printBoolean("BegLog", revi.isBeginOfLog()) + "\t"
+				                        + printBoolean("Dead", revi.isDead()) + "\tSumDelta:" + padIntRight(sumDelta, WIDTH_FOR_NUMBER) + " "
+				                        + revi.getSymbolicNames());
 			}
 			if (sumDelta != rev.getCurrentLinesOfCode()) {
 				SvnConfigurationOptions.getTaskLogger().info(
@@ -124,10 +147,14 @@ public class RepoDump {
 		totalLastRev = 0;
 		SvnConfigurationOptions.getTaskLogger().info("\n\n#### DUMP PER REVISION ####");
 		String previousRevision = "";
+		int revTotal = -1;
 		for (Iterator it = revisions.iterator(); it.hasNext();) {
 			Revision rev = (Revision) it.next();
 			if (!rev.getRevisionNumber().equals(previousRevision)) {
 				previousRevision = rev.getRevisionNumber();
+				if (revTotal != -1) {
+					SvnConfigurationOptions.getTaskLogger().info("Total for this rev: " + totalDelta);
+				}
 				SvnConfigurationOptions.getTaskLogger().info(
 				        "Revision " + padRight(rev.getRevisionNumber(), WIDTH_FOR_NUMBER) + " " + SDF.format(rev.getDate()));
 			}
@@ -135,12 +162,13 @@ public class RepoDump {
 			        "\tlines:" + padIntRight(rev.getLines(), WIDTH_FOR_NUMBER) + " D:" + padIntRight(rev.getLinesDelta(), WIDTH_FOR_NUMBER) + " Rep:"
 			                + padIntRight(rev.getReplacedLines(), WIDTH_FOR_NUMBER) + " New:" + padIntRight(rev.getNewLines(), WIDTH_FOR_NUMBER)
 			                + printBoolean(" Initial", rev.isInitialRevision()) + printBoolean(" BegLog", rev.isBeginOfLog())
-			                + printBoolean(" Dead", rev.isDead()) + " " + rev.getFile().getFilenameWithPath());
+			                + printBoolean(" Dead", rev.isDead()) + " " + rev.getFile().getFilenameWithPath() + " tags:" + rev.getSymbolicNames());
 
 			totalDelta += rev.getLinesDelta();
 			if (rev.isBeginOfLog()) {
 				totalDelta += rev.getLines();
 			}
+			revTotal = totalDelta;
 			VersionedFile file = rev.getFile();
 			Revision fileRev = file.getLatestRevision();
 			if (!fileRev.isDead() /*
@@ -151,6 +179,7 @@ public class RepoDump {
 			}
 			filesViaRevisions.add(file.getFilenameWithPath());
 		}
+		SvnConfigurationOptions.getTaskLogger().info("Total for this rev: " + totalDelta);
 		return filesViaRevisions;
 	}
 
