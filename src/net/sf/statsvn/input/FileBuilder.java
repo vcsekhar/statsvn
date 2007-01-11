@@ -33,6 +33,8 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import net.sf.statcvs.input.NoLineCountException;
+import net.sf.statcvs.model.Revision;
+import net.sf.statcvs.model.SymbolicName;
 import net.sf.statcvs.model.VersionedFile;
 import net.sf.statsvn.output.SvnConfigurationOptions;
 
@@ -306,7 +308,17 @@ public class FileBuilder {
 
 	private void buildBeginOfLogRevision(final VersionedFile file, final Date beginOfLogDate, final int loc, final SortedSet symbolicNames) {
 		final Date date = new Date(beginOfLogDate.getTime() - ONE_MIN_IN_MS);
-		file.addBeginOfLogRevision(date, loc, symbolicNames);
+		Revision dummyForMove = file.addBeginOfLogRevision(date, loc, symbolicNames);
+
+		// + BX: DO NOT add a 0.0 revision to this SymbolicNames set as this
+		// would duplicate the impact of the
+		// move on the TAG set.
+		if (symbolicNames != null) {
+			Iterator it = symbolicNames.iterator();
+			while (it.hasNext()) {
+				((SymbolicName) it.next()).getRevisions().remove(dummyForMove);
+			}
+		}
 	}
 
 	/**
@@ -354,63 +366,81 @@ public class FileBuilder {
 	private SortedSet createSymbolicNamesCollection(final RevisionData revisionData) {
 		SortedSet symbolicNames = null;
 
+		final int currentRevision = getRevisionAsInt(revisionData.getRevisionNumber());
+		SvnConfigurationOptions.getTaskLogger().log("\n" + name + " CURRENT REVISION = " + currentRevision + " Deleted " + revisionData.isDeletion());
+
 		if (revisions.isEmpty()) {
+			SvnConfigurationOptions.getTaskLogger().log("NO Revisions....");
 			return symbolicNames;
 		}
 
-		final String currentRevision = revisionData.getRevisionNumber();
-		// SvnConfigurationOptions.getTaskLogger().log("CURRENT REVISION = " +
-		// currentRevision + " Deleted " + revisionData.isDeletion());
 
 		// go through each possible tag
 		for (final Iterator tags = revBySymnames.entrySet().iterator(); tags.hasNext();) {
 			final Map.Entry tag = (Map.Entry) tags.next();
 
-			final String tagRevision = (String) tag.getValue();
+			final int tagRevision = getRevisionAsInt((String) tag.getValue());
 
-			// SvnConfigurationOptions.getTaskLogger().log("Considering tag REV
-			// " + tagRevision + " name=" + tag.getKey());
+			SvnConfigurationOptions.getTaskLogger().log("Considering tag REV " + tagRevision + " name=" + tag.getKey());
 
 			// go through the revisions for this file
 			// in order to find either the rev ON the tag or JUST BEFORE!
-			String previousRevisionForThisFile = ((RevisionData) revisions.get(revisions.size() - 1)).getRevisionNumber();
-			String revisionToTag = null;
+			int previousRevisionForThisFile = getRevisionAsInt(((RevisionData) revisions.get(revisions.size() - 1)).getRevisionNumber());
+			int revisionToTag = -1;
 			for (ListIterator it = revisions.listIterator(revisions.size()); it.hasPrevious();) {
 				RevisionData data = (RevisionData) it.previous();
 
-				if (data.getRevisionNumber().equals(tagRevision)) {
+				SvnConfigurationOptions.getTaskLogger().log(
+				        "File REV " + data.getRevisionNumber() + " =>" + data.getDate() + " vs " + tagRevision + " Deletion:" + data.isDeletion());
+
+				final int dataRev = getRevisionAsInt(data.getRevisionNumber());
+
+				if (revisionData.isDeletion() && currentRevision < dataRev) {
+					// the file is deleted (revisionData.isDeletion) AND the
+					// currentRevision is BEFORE the current tag
+					// so we should not tag this.
+				} else if (dataRev == tagRevision) {
 					revisionToTag = tagRevision;
 					break;
-				} else if (data.getRevisionNumber().compareTo(tagRevision) > 0) {
+				} else if (dataRev > tagRevision && tagRevision >= previousRevisionForThisFile) {
 					revisionToTag = previousRevisionForThisFile;
+					SvnConfigurationOptions.getTaskLogger().log("1/ Revision to TAG " + revisionToTag);
 					break;
 				}
 
-				previousRevisionForThisFile = data.getRevisionNumber();
+				previousRevisionForThisFile = getRevisionAsInt(data.getRevisionNumber());
 			}
 
 			// if the LAST revision for this fuke is before the TAG revision
 			// and the file is NOT deleted, then we should tag it!
-			if (previousRevisionForThisFile.compareTo(tagRevision) < 0 && !revisionData.isDeletion()) {
+			if (previousRevisionForThisFile < tagRevision && !revisionData.isDeletion()) {
 				revisionToTag = previousRevisionForThisFile;
+				SvnConfigurationOptions.getTaskLogger().log("2/ Revision to TAG " + revisionToTag);
 			}
 
-			// SvnConfigurationOptions.getTaskLogger().log("Revision to TAG " +
-			// revisionToTag);
+			SvnConfigurationOptions.getTaskLogger().log("Revision to TAG " + revisionToTag);
 
-			if (revisionToTag != null && revisionToTag.equals(currentRevision)) {
+			if (revisionToTag > 0 && revisionToTag == currentRevision) {
 				// previous revision is the last one for this tag
 				if (symbolicNames == null) {
 					symbolicNames = new TreeSet();
 				}
 				SvnConfigurationOptions.getTaskLogger().log(
-				        "adding revision " + name + "," + revisionData.getRevisionNumber() + " to symname " + tag.getKey() + " Date:"
-				                + (Date) dateBySymnames.get(tag.getKey()));
+				        "adding revision " + name + "," + currentRevision + " to symname " + tag.getKey() + " Date:" + (Date) dateBySymnames.get(tag.getKey())
+				                + " A:" + revisionData.getLinesAdded() + " R:" + revisionData.getLinesRemoved());
 				symbolicNames.add(builder.getSymbolicName((String) tag.getKey(), (Date) dateBySymnames.get(tag.getKey())));
 			}
 		}
 
 		return symbolicNames;
+	}
+
+	private int getRevisionAsInt(String revisionNumber) {
+		int rev = 0;
+		if (revisionNumber != null && !revisionNumber.equals("0.0")) {
+			rev = Integer.valueOf(revisionNumber).intValue();
+		}
+		return rev;
 	}
 
 	/**
