@@ -94,8 +94,8 @@ public class RepoDump {
 				for (Iterator rev = symbol.getRevisions().iterator(); rev.hasNext();) {
 					Revision revision = (Revision) rev.next();
 					SvnConfigurationOptions.getTaskLogger().info(
-					        "  LOC:" + padIntRight(revision.getLines(), 5) + " Rev:" + padRight(revision.getRevisionNumber(), 5) + " File: "
-					                + revision.getFile().getFilenameWithPath() + " dead:" + revision.isDead());
+					        "  LOC:" + padIntRight(revision.getLines(), WIDTH_FOR_NUMBER) + " Rev:" + padRight(revision.getRevisionNumber(), WIDTH_FOR_NUMBER)
+					                + " File: " + revision.getFile().getFilenameWithPath() + " dead:" + revision.isDead());
 					loc += revision.getLines();
 				}
 				SvnConfigurationOptions.getTaskLogger().info("Total LOC: " + loc);

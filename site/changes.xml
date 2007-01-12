@@ -4,7 +4,7 @@
     <title>StatSvn Changes</title>
   </properties>
   <body>
-    <release version="0.3.0-dev" date="in SVN" description="Maintenance, concurrent diff, new RepoMap Report">    
+    <release version="0.3.0" date="in SVN" description="Maintenance, concurrent diff, new RepoMap Report">    
        <action dev="benoitx" type="fix">Included a small fix in StatCVS (just post 0.3 release) in order to avoid NPE with Ant for ViewCVS integration.</action>
        <action dev="jkealey" type="update" issue="1601433" due-to="John Brugge">Earlier fix did not work on all operating systems; our support for spaces in filenames no longer causes problems.</action>
        <action dev="jkealey" type="fix" issue="1573421" due-to="John Brugge">Ant task was broken in 0.2.0; fixed and changed to use same conventions as StatCVS</action>
@@ -17,7 +17,7 @@
        	in a hierarchical manner, the size of each box is related to LOC and the colour to the changes over the last 30 days (red -loc, green +loc).</action>
        <action dev="benoitx" type="add" issue="1608782">Adding basic support for Symbolic Names (i.e. tags). You MUST get a log 
        	at the top level of the project, not the trunk level, e.g.: svn log -v --xml https://svn.sourceforge.net/svnroot/statsvn/ 
-       	That way, the log will contain some information about the tags.</action>
+       	That way, the log will contain some information about the tags.  At the moment, StatSVN only works with "/tags/" directory.</action>
        <action dev="benoitx" type="update" issue="1612184" due-to="Richard Cyganiak">Patch for upgrade to StatCVS 0.3.0-dev.</action>
        <action dev="benoitx" type="fix" issue="1612997" due-to="samuli">Removed 1.5-specific code.</action>
        <action dev="benoitx" type="fix" issue="1608474" due-to="samuli">Removed 1.5-specific code.</action>

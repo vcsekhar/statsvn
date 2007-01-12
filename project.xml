@@ -218,9 +218,9 @@
 
 	<versions>
 		<version>
-			<id>0.3.0-dev</id>
-			<name>0.3.0-dev</name>
-			<tag>0.3.0-dev</tag>
+			<id>0.3.0</id>
+			<name>0.3.0</name>
+			<tag>0.3.0</tag>
 		</version>
 		<version>
 			<id>0.2.0</id>

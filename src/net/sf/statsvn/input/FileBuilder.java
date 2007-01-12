@@ -374,7 +374,6 @@ public class FileBuilder {
 			return symbolicNames;
 		}
 
-
 		// go through each possible tag
 		for (final Iterator tags = revBySymnames.entrySet().iterator(); tags.hasNext();) {
 			final Map.Entry tag = (Map.Entry) tags.next();
@@ -399,6 +398,8 @@ public class FileBuilder {
 					// the file is deleted (revisionData.isDeletion) AND the
 					// currentRevision is BEFORE the current tag
 					// so we should not tag this.
+					previousRevisionForThisFile = getRevisionAsInt(data.getRevisionNumber());
+					continue;
 				} else if (dataRev == tagRevision) {
 					revisionToTag = tagRevision;
 					break;
