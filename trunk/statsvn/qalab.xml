@@ -252,9 +252,9 @@
         <summaryresult date="2007-01-12" filecount="2" module="statsvn"
             project="statsvn" statvalue="3" type="findbugs"/>
         <summaryresult date="2007-01-12" filecount="36" module="statsvn"
-            project="statsvn" statvalue="52" type="cobertura-line"/>
+            project="statsvn" statvalue="51" type="cobertura-line"/>
         <summaryresult date="2007-01-12" filecount="36" module="statsvn"
-            project="statsvn" statvalue="60" type="cobertura-branch"/>
+            project="statsvn" statvalue="58" type="cobertura-branch"/>
     </summary>
     <file id="statsvn-statsvn-net_sf_statsvn_output_package.html"
         module="statsvn" path="net/sf/statsvn/output/package.html" project="statsvn">
@@ -3905,8 +3905,8 @@
         <result date="2007-01-08" statvalue="20" type="cobertura-branch"/>
         <result date="2007-01-10" statvalue="21" type="cobertura-line"/>
         <result date="2007-01-10" statvalue="19" type="cobertura-branch"/>
-        <result date="2007-01-12" statvalue="21" type="cobertura-line"/>
-        <result date="2007-01-12" statvalue="19" type="cobertura-branch"/>
+        <result date="2007-01-12" statvalue="23" type="cobertura-line"/>
+        <result date="2007-01-12" statvalue="17" type="cobertura-branch"/>
     </file>
     <file id="statsvn-statsvn-net_sf_statsvn_output_ChurnPageMaker.java"
         module="statsvn"
