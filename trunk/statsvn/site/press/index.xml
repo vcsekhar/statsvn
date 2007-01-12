@@ -19,6 +19,15 @@
   </head>
   <body>
     <!-- The body of the document contains a number of sections -->
+    <section name="0.3.0">
+    <subsection name="On the web">
+	<ul>
+		<li>The Official press release for <a href="press-release-0.3.0.txt">0.3.0</a>.</li>
+	</ul>
+    </subsection>
+
+    </section>
+    
     <section name="0.2.0">
 
     <p>Here are some snipets of what we found on the web about StatSVN</p>
