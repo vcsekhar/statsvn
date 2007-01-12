@@ -70,7 +70,8 @@ svn log -v --xml https://svn.sourceforge.net/svnroot/statsvn/ > svn.log
 java -jar statsvn.jar -xdoc -verbose -output-dir site\statsvn -tags "^0.2.0|^0.1.3|^0.1.2|^0.0.9" -title StatSVN 
      -exclude "**/qalab.xml|**/*.pdf|**/etc/LICENSE" -viewvc http://svn.sourceforge.net/viewvc/statsvn/trunk ./svn.log .
 </source>This example will generate xdoc in directory site/statsvn, tag 0.2.0, 0.1.3, 0.1.2, 0.0.9, exclude qalab.xml and others. After that the XDOC would be picked up
-by "maven site" or "maven xdoc".</p>
+by "maven site" or "maven xdoc". Please note that in order to use the tags, you must use a log file not at 'trunk' level but just above, in order to include
+the tags directory. At the moment, StatSVN only works with "/tags/" directory.</p>
     
     </section>
 
