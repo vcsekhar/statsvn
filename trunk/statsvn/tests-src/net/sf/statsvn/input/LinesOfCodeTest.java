@@ -92,8 +92,8 @@ public class LinesOfCodeTest extends TestCase {
 	 * Method testLinesOfCodeWithoutRepository1.
 	 */
 	public void testLinesOfCodeWithoutRepository1() throws Exception {
-		buildRevision("1.2", date12, 5, 0);
-		buildRevisionInitial("1.1", date11);
+		buildRevision("2", date12, 5, 0);
+		buildRevisionInitial("1", date11);
 		finishBuilder();
 		assertEquals(5, file.getCurrentLinesOfCode());
 		assertRevisionLines(rev0, 5, 5, 5);
@@ -104,8 +104,8 @@ public class LinesOfCodeTest extends TestCase {
 	 * Method testLinesOfCodeWithoutRepository2.
 	 */
 	public void testLinesOfCodeWithoutRepository2() throws Exception {
-		buildRevision("1.2", date12, 0, 5);
-		buildRevisionInitial("1.1", date11);
+		buildRevision("2", date12, 0, 5);
+		buildRevisionInitial("1", date11);
 		finishBuilder();
 		assertEquals(0, file.getCurrentLinesOfCode());
 		assertRevisionLines(rev0, 0, -5, 0);
@@ -116,11 +116,11 @@ public class LinesOfCodeTest extends TestCase {
 	 * Method testLinesOfCodeWithoutRepository3.
 	 */
 	public void testLinesOfCodeWithoutRepository3() throws Exception {
-		buildRevision("1.5", date15, 10, 15);
-		buildRevision("1.4", date14, 10, 0);
-		buildRevision("1.3", date13, 25, 15);
-		buildRevision("1.2", date12, 10, 0);
-		buildRevisionInitial("1.1", date11);
+		buildRevision("5", date15, 10, 15);
+		buildRevision("4", date14, 10, 0);
+		buildRevision("3", date13, 25, 15);
+		buildRevision("2", date12, 10, 0);
+		buildRevisionInitial("1", date11);
 		finishBuilder();
 		assertEquals(30, file.getCurrentLinesOfCode());
 		assertRevisionLines(rev0, 30, -5, 10);
@@ -169,7 +169,7 @@ public class LinesOfCodeTest extends TestCase {
 	 */
 	public void testLinesOfCodeInitial() throws Exception {
 		fileman.setLinesOfCode("file", 100);
-		buildRevisionInitial("1.1", date11);
+		buildRevisionInitial("1", date11);
 		finishBuilder();
 		assertEquals(100, file.getCurrentLinesOfCode());
 		assertRevisionLines(rev0, 100, 100, 100);
@@ -181,7 +181,7 @@ public class LinesOfCodeTest extends TestCase {
 	public void testLinesOfCodeBinary() throws Exception {
 		fileman.setLinesOfCode("binaryfile", 100);
 		builder.buildFile("binaryfile", true, false, new HashMap(), new HashMap());
-		buildRevisionInitial("1.1", date11);
+		buildRevisionInitial("1", date11);
 		finishBuilder();
 
 		// get "binaryfile"
@@ -196,9 +196,9 @@ public class LinesOfCodeTest extends TestCase {
 	 * is available.
 	 */
 	public void testLinesOfCodeWithDeletion() throws Exception {
-		buildRevisionDead("1.3", date13);
-		buildRevision("1.2", date12, 100, 0);
-		buildRevisionInitial("1.1", date11);
+		buildRevisionDead("3", date13);
+		buildRevision("2", date12, 100, 0);
+		buildRevisionInitial("1", date11);
 		finishBuilder();
 		assertTrue(file.isDead());
 		assertEquals(0, file.getCurrentLinesOfCode());
@@ -213,9 +213,9 @@ public class LinesOfCodeTest extends TestCase {
 	 */
 	public void testLinesOfCodeWithRestore() throws Exception {
 		fileman.setLinesOfCode("file", 100);
-		buildRevision("1.3", date13, 0, 0);
-		buildRevisionDead("1.2", date12);
-		buildRevisionInitial("1.1", date11);
+		buildRevision("3", date13, 0, 0);
+		buildRevisionDead("2", date12);
+		buildRevisionInitial("1", date11);
 		finishBuilder();
 		assertTrue(!file.isDead());
 		assertEquals(100, file.getCurrentLinesOfCode());
@@ -257,11 +257,11 @@ public class LinesOfCodeTest extends TestCase {
 
 	public void testPartialLogOneRevision() throws Exception {
 		fileman.setLinesOfCode("file", 100);
-		buildRevision("1.5", date15, 80, 30);
+		buildRevision("5", date15, 80, 30);
 		finishBuilder();
 		assertEquals(3, file.getRevisions().size());
-		assertEquals("1.5", rev0.getRevisionNumber());
-		assertEquals("1.5", rev1.getRevisionNumber());
+		assertEquals("5", rev0.getRevisionNumber());
+		assertEquals("5", rev1.getRevisionNumber());
 		assertEquals("0.0", rev2.getRevisionNumber());
 		assertTrue(rev2.isBeginOfLog());
 		assertRevisionLines(rev0, 100, 50, 80);
@@ -304,7 +304,7 @@ public class LinesOfCodeTest extends TestCase {
 
 	private void addAnotherFile() {
 		builder.buildFile("file2", false, false, new HashMap(), new HashMap());
-		buildRevisionInitial("1.1", date11);
+		buildRevisionInitial("1", date11);
 	}
 
 	private void finishBuilder() {
