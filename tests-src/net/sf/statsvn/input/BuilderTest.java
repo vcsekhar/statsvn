@@ -71,21 +71,21 @@ public class BuilderTest extends TestCase {
 		builder = new Builder(null, null, null);
 		builder.buildModule("testmodule");
 		rev1 = new RevisionData();
-		rev1.setRevisionNumber("1.1");
+		rev1.setRevisionNumber("1");
 		rev1.setLoginName("author1");
 		rev1.setStateExp(true);
 		rev1.setStateAdded(true);
 		rev1.setDate(new Date(100000));
 		rev1.setComment("comment1");
 		rev2 = new RevisionData();
-		rev2.setRevisionNumber("1.2");
+		rev2.setRevisionNumber("2");
 		rev2.setLoginName("author2");
 		rev2.setStateExp(true);
 		rev2.setLines(10, 2);
 		rev2.setDate(new Date(200000));
 		rev2.setComment("comment2");
 		rev3 = new RevisionData();
-		rev3.setRevisionNumber("1.3");
+		rev3.setRevisionNumber("3");
 		rev3.setLoginName("author1");
 		rev3.setStateDead(true);
 		rev3.setDate(new Date(300000));
@@ -223,18 +223,18 @@ public class BuilderTest extends TestCase {
 		final Revision r3 = (Revision) it.next();
 		assertTrue(!it.hasNext());
 
-		assertEquals("1.1", r1.getRevisionNumber());
+		assertEquals("1", r1.getRevisionNumber());
 		assertTrue(r1.isInitialRevision());
 		assertEquals("author1", r1.getAuthor().getName());
 		assertEquals("comment1", r1.getComment());
 
-		assertEquals("1.2", r2.getRevisionNumber());
+		assertEquals("2", r2.getRevisionNumber());
 		assertTrue(!r2.isInitialRevision());
 		assertEquals(2, r2.getReplacedLines());
 		assertEquals(8, r2.getLinesDelta());
 		assertEquals("author2", r2.getAuthor().getName());
 
-		assertEquals("1.3", r3.getRevisionNumber());
+		assertEquals("3", r3.getRevisionNumber());
 		assertTrue(r3.isDead());
 		assertEquals("author1", r3.getAuthor().getName());
 
@@ -243,7 +243,7 @@ public class BuilderTest extends TestCase {
 
 	public void testStartDateForPartialLog() throws Exception {
 		final RevisionData rev4 = new RevisionData();
-		rev4.setRevisionNumber("1.5");
+		rev4.setRevisionNumber("5");
 		rev4.setLines(10, 5);
 		rev4.setStateExp(true);
 		rev4.setLoginName("somebody");
