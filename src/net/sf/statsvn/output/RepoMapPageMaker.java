@@ -1,8 +1,8 @@
 /*
- StatSVN - SVN Subversion statistics generation 
+ StatSVN - SVN Subversion statistics generation
  Copyright (C) 2006 Benoit Xhenseval
  http://www.statsvn.org
- 
+
  This library is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
  License as published by the Free Software Foundation; either
@@ -16,7 +16,7 @@
  You should have received a copy of the GNU Lesser General Public
  License along with this library; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- 
+
  */
 package net.sf.statsvn.output;
 
@@ -47,7 +47,7 @@ import net.sf.statcvs.util.FileUtils;
  * entire source tree in a hierarchical manner, the size of each box is related
  * to LOC and the colour to the changes over the last 30 days (red -loc, green
  * +loc).
- * 
+ *
  * @author Benoit Xhenseval (www.objectlab.co.uk)
  * @see http://jtreemap.sourceforge.net for more about JTreeMap.
  */
@@ -82,6 +82,7 @@ public class RepoMapPageMaker {
 
 		page.addRawContent("<p>" + Messages.getString("REPOMAP_DESCRIPTION") + "</p>");
 		page.addRawContent("<p>" + getApplet() + "</p>");
+		page.addRawContent("<p><small>This page uses <a href=\"http://jtreemap.sourceforge.net\">JTreeMap</a>.</small></p>");
 		buildXmlForJTreeMap();
 
 		return page;
