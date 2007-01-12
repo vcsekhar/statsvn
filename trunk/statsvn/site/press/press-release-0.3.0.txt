@@ -26,6 +26,7 @@ Version 0.3.0 includes, amongst others:
   to the server takes more than 2 seconds. Both threshold and threads
   are configurable
 - Added 'experimental' support for SymbolicLinks (tags).
+- Based on StatCVS 0.3 (plus one fix for ViewVC with Ant).
 - A number of fixes and improvements.
 
 The new XDoc support enables a basic level of integration of the stats
