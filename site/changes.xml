@@ -5,6 +5,9 @@
   </properties>
   <body>
     <release version="0.3.0-dev" date="in SVN" description="Maintenance, concurrent diff, new RepoMap Report">    
+       <action dev="jkealey" type="update" issue="1601433" due-to="John Brugge">Earlier fix did not work on all operating systems; our support for spaces in filenames no longer causes problems.</action>
+       <action dev="jkealey" type="fix" issue="1573421" due-to="John Brugge">Ant task was broken in 0.2.0; fixed and changed to use same conventions as StatCVS</action>
+       <action dev="jkealey" type="fix" issue="1605167" due-to="Anonymous">Fixed a mime-type problem discovered when running StatSVN on Widelands project.</action>
        <action dev="benoitx" type="fix">Fixed a number of issues related to the LOC for files that have been moved or directories moved and/or deleted.</action>
        <action dev="benoitx" type="fix" issue="1601433" due-to="Anonymous">The error report highlighted an issue with filenames containing space(s) in the svn diff call.</action>
        <action dev="benoitx" type="add">New Report: LOC and Churn shows the usual LOC with the amount of code touched per day. Hopefully the churn should go decreasingly towards a release.
