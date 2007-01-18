@@ -8,7 +8,7 @@
 	/>
 
     <meta name="keywords"
-        content="SubVersion, StatCVS, Statistics Subversion, Code Repository, java, open source" />
+        content="SubVersion, StatCVS, Statistics Subversion, svn, Code Repository, java, open source" />
     <meta name="Subject" content="Statistics Subversion" />
     <meta name="Copyright" content="StatSVN Team and ObjectLab Financial Ltd" />
     <meta name="Language" content="English" />
@@ -32,7 +32,7 @@
     <p>We're also pleased to mention that there is a Maven 2 plugin using StatSVN, it is available at <a href="http://stat-scm.sourceforge.net">http://stat-scm.sourceforge.net</a>.</p>
     </section>
 
-    <section name="So, what is StatSVN?">
+    <section name="So, what is StatSVN? Great statistics for SVN!">
     <p>StatSVN retrieves information from a Subversion repository and generates various tables and charts describing the project development, e.g.
     <ul>
     <li><a href="statsvn/loc.html">Timeline</a> for the lines of code</li>
