@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<rss version="0.91">
+  <channel>
+    <title>StatSVN News</title>
+    <link>http://www.statsvn.org</link>
+    <description>StatSVN News</description>
+    <language>en-us</language>
+    <copyright>Copyright 2007 StatSVN Sourceforge Development Group &amp; ObjectLab</copyright>
+    <item>
+      <title>StatSVN version 0.3.0 released</title>
+      <link>http://www.statsvn.org</link>
+      <description>
+<p>The StatSVN Team and ObjectLab are proud to announce v0.3.0 of StatSVN</p>
+
+<p>If you want to know what happened in your Subversion repository,
+this is the tool for you!</p>
+
+<p>StatSVN retrieves information from a Subversion repository and generates
+various tables and charts describing the project evolution, e.g.
+the lines of code over time, contribution of each developer, the
+evolution of modules, directories, files, the time and days when most
+checkins happen, etc. It also shows the commit logs and integrates 
+out of the box with ViewVc, BugZilla, Chora and others.</p>
+
+<p>The new version of StatSVN generates a static suite of HTML or XDoc
+documents containing tables and chart images.</p>
+
+<h2>Version 0.3.0 includes, amongst others:</h2>
+
+<ul>
+<li>New Line of Code and 'Churn' page that shows the evolution of LOC and
+  the number of lines touched. This gives a sense of the kind of activity
+  (new lines or re-working existing lines)</li>
+<li>New and dynamic repo based on JTreeMap that at a glance, shows the
+  last 30 days of changes in your repo. It is possible to drill down and
+  is very visual (based on an applet that requires jdk 5 jre).</li>
+<li>Fetching the line diff is now multi-threaded (25) by default if a call
+  to the server takes more than 2 seconds. Both threshold and threads
+  are configurable.</li>
+<li>Added 'experimental' support for SymbolicLinks (tags).</li>
+<li>Based on StatCVS 0.3 (plus one fix for ViewVC with Ant).</li>
+<li>A number of fixes and improvements.</li>
+</ul>
+
+<p>The new XDoc support enables a basic level of integration of the stats
+in a maven build.  This is demonstrated on the following page:
+<a href="http://www.statsvn.org/statsvn">http://www.statsvn.org/statsvn</a>.</p>
+
+<p>StatSVN is available now for download at <a href="http://www.statsvn.org">http://www.statsvn.org</a>.</p>
+
+<p>StatSVN is open source software, released under the terms of the LGPL,
+based on StatCVS, it uses JFreeChart and JTreeMap to generate charts.</p>
+
+<hr/>
+ 
+<p>ObjectLab is not new to the open-source community having used numerous OS 
+projects, participated in a few and sponsoring:</p>
+<ul><li>ObjectLab Kit (<a href="http://objectlabkit.sourceforge.net">http://objectlabkit.sourceforge.net</a>), a date calculation 
+  toolkit for business and finance;</li>
+<li>JTreeMap (<a href="http://jtreemap.sourceforge.net">http://jtreemap.sourceforge.net</a>) the only open source heatmap 
+  library for Java </li>
+<li>QALab (<a href="http://qalab.sourceforge.net">http://qalab.sourceforge.net</a>) QA Statistics for your build (now 
+  also integrated in JBuilder 2007).</li>
+</ul>  
+
+<p>We would like to thank our friends and colleagues for their help, reviews 
+and suggestions.</p>
+
+<p>Feel free to pass on to people who may be interested.</p>
+
+<p>Enjoy!!</p>
+
+<p>The StatSVN Team and ObjectLab.</p>
+      </description>
+    </item>
+  </channel>
+</rss>
