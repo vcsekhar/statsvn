@@ -8,8 +8,8 @@
 	/>
 
     <meta name="keywords"
-        content="SubVersion, StatCVS, Statistics Subversion, svn, Code Repository, java, open source" />
-    <meta name="Subject" content="Statistics Subversion" />
+        content="SubVersion, StatCVS, Statistics Subversion, svn, Code Repository, svn statistics, svn graphs, java, open source" />
+    <meta name="Subject" content="Statistics Subversion SVN" />
     <meta name="Copyright" content="StatSVN Team and ObjectLab Financial Ltd" />
     <meta name="Language" content="English" />
     <meta name="Designer" content="StatSVN Team and ObjectLab Financial Ltd" />
@@ -20,10 +20,12 @@
   <body>
     <!-- The body of the document contains a number of sections -->
     <section name="StatSVN News">
+    <p>Get the RSS feed of the news <a href="news.rss"><img src="images/rss.png"></img></a></p>
+    
     <p><strong>Warning</strong>: if you're not using an English locale, please set the LANG environment variable to en_US when running the application until we resolve some i18n issues with StatSVN
     (the call to svn diff returns a localised string which may result in some results not being cached, the results are correct but StatSVN will ask for them again next time).</p>
     
-    <p>2007-01-10: Version 0.3.0 is in SVN and adds 2 reports (RepoMap and LOC/Churn) as well as fixing a number of issues with
+    <p>2007-01-12: Version 0.3.0 is in SVN and adds 2 reports (RepoMap and LOC/Churn) as well as fixing a number of issues with
     moving files, directories and deletion of those. More details on <a href="changes-report.html">this page</a>.</p>
 
     <p>2006-11-28: Version 0.2.0 is out and now supports Html and XDoc generation to ease integration with Maven (see <a href="statsvn/index.html">reports here</a>).
