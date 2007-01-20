@@ -4,7 +4,10 @@
     <title>StatSvn Changes</title>
   </properties>
   <body>
-    <release version="0.3.0" date="2007-01-12" description="Maintenance, concurrent diff, new RepoMap Report">    
+    <release version="0.3.1-dev" date="in SVN" description="Maintenance">    
+       <action dev="jkealey" type="add" issue="1637082">Improved reporting of XML parsing errors.</action>
+    </release>
+    <release version="0.3.0" date="2007-01-12" description="Maintenance, concurrent diff, new RepoMap and Loc/Churn Reports">    
        <action dev="benoitx" type="fix">Included a small fix in StatCVS (just post 0.3 release) in order to avoid NPE with Ant for ViewCVS integration.</action>
        <action dev="jkealey" type="update" issue="1601433" due-to="John Brugge">Earlier fix did not work on all operating systems; our support for spaces in filenames no longer causes problems.</action>
        <action dev="jkealey" type="fix" issue="1573421" due-to="John Brugge">Ant task was broken in 0.2.0; fixed and changed to use same conventions as StatCVS</action>
