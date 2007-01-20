@@ -443,13 +443,13 @@ public final class SvnInfoUtils {
 				parser.parse(pUtils.getInputStream(), new SvnInfoHandler());
 
 				if (pUtils.hasErrorOccured()) {
-					throw new IOException(pUtils.getErrorMessage());
+					throw new IOException("svn info: " + pUtils.getErrorMessage());
 				}
 
 			} catch (final ParserConfigurationException e) {
-				throw new LogSyntaxException(e.getMessage());
+				throw new LogSyntaxException("svn info: " + e.getMessage());
 			} catch (final SAXException e) {
-				throw new LogSyntaxException(e.getMessage());
+				throw new LogSyntaxException("svn info: " + e.getMessage());
 			}
 		}
 	}
