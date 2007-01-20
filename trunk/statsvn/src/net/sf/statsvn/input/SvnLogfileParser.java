@@ -234,13 +234,13 @@ public class SvnLogfileParser {
 			parser.parse(cacheFile, new SvnXmlCacheFileHandler(cacheBuilder));
 			cacheFile.close();
 		} catch (final ParserConfigurationException e) {
-			SvnConfigurationOptions.getTaskLogger().error(e.toString());
+			SvnConfigurationOptions.getTaskLogger().error("Cache: " + e.toString());
 		} catch (final SAXException e) {
-			SvnConfigurationOptions.getTaskLogger().error(e.toString());
+			SvnConfigurationOptions.getTaskLogger().error("Cache: " + e.toString());
 		} catch (final FileNotFoundException e) {
-			SvnConfigurationOptions.getTaskLogger().log(e.toString());
+			SvnConfigurationOptions.getTaskLogger().log("Cache: " + e.toString());
 		} catch (final IOException e) {
-			SvnConfigurationOptions.getTaskLogger().error(e.toString());
+			SvnConfigurationOptions.getTaskLogger().error("Cache: " + e.toString());
 		} finally {
 			if (cacheFile != null) {
 				cacheFile.close();
@@ -257,13 +257,13 @@ public class SvnLogfileParser {
 			parser.parse(repositoriesFile, new SvnXmlRepositoriesFileHandler(repositoriesBuilder));
 			repositoriesFile.close();
 		} catch (final ParserConfigurationException e) {
-			SvnConfigurationOptions.getTaskLogger().error(e.toString());
+			SvnConfigurationOptions.getTaskLogger().error("Repositories: " + e.toString());
 		} catch (final SAXException e) {
-			SvnConfigurationOptions.getTaskLogger().error(e.toString());
+			SvnConfigurationOptions.getTaskLogger().error("Repositories: " + e.toString());
 		} catch (final FileNotFoundException e) {
-			SvnConfigurationOptions.getTaskLogger().log(e.toString());
+			SvnConfigurationOptions.getTaskLogger().log("Repositories: " + e.toString());
 		} catch (final IOException e) {
-			SvnConfigurationOptions.getTaskLogger().error(e.toString());
+			SvnConfigurationOptions.getTaskLogger().error("Repositories: " + e.toString());
 		} finally {
 			if (repositoriesFile != null) {
 				repositoriesFile.close();
@@ -530,9 +530,9 @@ public class SvnLogfileParser {
 			final SAXParser parser = factory.newSAXParser();
 			parser.parse(logFile, new SvnXmlLogFileHandler(builder, repositoryFileManager));
 		} catch (final ParserConfigurationException e) {
-			throw new LogSyntaxException(e.getMessage());
+			throw new LogSyntaxException("svn log: " + e.getMessage());
 		} catch (final SAXException e) {
-			throw new LogSyntaxException(e.getMessage());
+			throw new LogSyntaxException("svn log: " + e.getMessage());
 		}
 
 		SvnConfigurationOptions.getTaskLogger().log("parsing svn log finished in " + (System.currentTimeMillis() - startTime) + " ms.");
