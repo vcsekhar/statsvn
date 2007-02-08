@@ -485,7 +485,8 @@ public final class SvnInfoUtils {
 				return url.substring(getRootUrl().length());
 			}
 		} else {
-			return url.substring(url.lastIndexOf(getModuleName()));
+			// chop off the repo root from the url
+			return url.substring(getRepositoryUrl().length());
 		}
 	}
 
