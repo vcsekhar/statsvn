@@ -6,6 +6,7 @@
   <body>
     <release version="0.3.1-dev" date="in SVN" description="Maintenance">    
        <action dev="jkealey" type="add" issue="1637082">Improved reporting of XML parsing errors.</action>
+       <action dev="benoitx" type="fix" issue="1655200" due-to="Alejandro Scandroli">Changed the Maven dependencies to use a backport concurrent compiled with jdk 1.4</action>
     </release>
     <release version="0.3.0" date="2007-01-12" description="Maintenance, concurrent diff, new RepoMap and Loc/Churn Reports">    
        <action dev="benoitx" type="fix">Included a small fix in StatCVS (just post 0.3 release) in order to avoid NPE with Ant for ViewCVS integration.</action>
