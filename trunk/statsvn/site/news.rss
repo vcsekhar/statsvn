@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
-<rss version="0.91">
+<rss version="1.0">
   <channel>
     <title>StatSVN News</title>
     <link>http://www.statsvn.org</link>
@@ -10,15 +10,15 @@
 	
 	<item>
 	<title>Interested in contributing to StatSVN?</title>
-	<description>
+	<description><![CDATA[
 <p>Want to help? We're considering replacing our command line invocations with calls to <a href="http://www.svnkit.com">SVNKit</a> (formerly JavaSVN). Want to write the prototype implementation and see how well it performs? Let us know!</p>
-	</description>
+	]]></description>
 	</item>
 	
     <item>
       <title>StatSVN version 0.3.0 released</title>
       <link>http://www.statsvn.org</link>
-      <description>
+      <description><![CDATA[
 <p>The StatSVN Team and ObjectLab are proud to announce v0.3.0 of StatSVN</p>
 
 <p>If you want to know what happened in your Subversion repository,
@@ -80,7 +80,7 @@ and suggestions.</p>
 <p>Enjoy!!</p>
 
 <p>The StatSVN Team and ObjectLab.</p>
-      </description>
+      ]]></description>
     </item>
   </channel>
 </rss>
