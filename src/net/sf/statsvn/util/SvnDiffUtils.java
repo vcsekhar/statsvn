@@ -48,14 +48,13 @@ public final class SvnDiffUtils {
 	private static synchronized ProcessUtils callSvnDiff(final String oldRevNr, final String newRevNr, String filename) throws IOException {
 		String svnDiffCommand = null;
 		filename = SvnInfoUtils.relativePathToUrl(filename);
-		filename = filename.replace(" ", "%20");
-		svnDiffCommand = "svn diff  --old " + filename + "@" + oldRevNr + "  --new " + filename + "@" + newRevNr + ""
-		        + SvnCommandHelper.getAuthString();
+		filename = SvnInfoUtils.replace(" ", "%20", filename);
+		svnDiffCommand = "svn diff  --old " + filename + "@" + oldRevNr + "  --new " + filename + "@" + newRevNr + "" + SvnCommandHelper.getAuthString();
 		SvnConfigurationOptions.getTaskLogger().log(Thread.currentThread().getName() + " FIRING command line:\n[" + svnDiffCommand + "]");
 		return ProcessUtils.call(svnDiffCommand);
 	}
 
-	/**
+    /**
 	 * Returns line count differences between two revisions of a file.
 	 * 
 	 * @param oldRevNr
@@ -140,9 +139,9 @@ public final class SvnDiffUtils {
 		while (diffReader.hasNextLine()) {
 			diffReader.nextLine();
 			String currentLine = diffReader.getCurrentLine();
-			
+
 			SvnConfigurationOptions.getTaskLogger().log(Thread.currentThread().getName() + " Diff Line: [" + currentLine + "]");
-			
+
 			if (currentLine.length() == 0) {
 				continue;
 			}
