@@ -4,7 +4,9 @@
     <title>StatSvn Changes</title>
   </properties>
   <body>
-    <release version="0.3.1-dev" date="in SVN" description="Maintenance">    
+    <release version="0.3.1-dev" date="in SVN" description="Maintenance">
+       <action dev="benoitx" type="fix">Removed JDk 1.5 dependency on String.replace(CharSequence,CharSequence).</action>
+       <action dev="benoitx" type="fix" issue="1657197" due-to="p_michalczyk">Fixed an NPE in RepoPageMaker (only happening if repo has no dates.</action>
        <action dev="jkealey" type="add" issue="1637082">Improved reporting of XML parsing errors.</action>
        <action dev="benoitx" type="fix" issue="1655200" due-to="Alejandro Scandroli">Changed the Maven dependencies to use a backport concurrent compiled with jdk 1.4</action>
        <action dev="jpdaigle" type="fix" issue="1654750" due-to="Jean-Philippe Daigle">Fixed a glitch for SvnInfoUtils.urlToAbsolutePath path mangling</action>

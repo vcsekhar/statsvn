@@ -59,6 +59,8 @@ public class RepoMapPageMaker {
 	private static final String REPO_FILE = "repomap-data.txt";
 
 	private final Date deadline;
+	
+	private final Date currentDate;
 
 	private final ReportConfig config;
 
@@ -69,7 +71,10 @@ public class RepoMapPageMaker {
 	 */
 	public RepoMapPageMaker(final ReportConfig config) {
 		final Calendar cal = Calendar.getInstance();
-		cal.setTime(config.getRepository().getLastDate());
+		if (config !=null && config.getRepository() != null && config.getRepository().getLastDate()!=null) {
+			cal.setTime(config.getRepository().getLastDate());
+		}
+		currentDate = cal.getTime();
 		cal.add(Calendar.DATE, -DAYS_FROM_LAST_DATE);
 		deadline = cal.getTime();
 		this.config = config;
@@ -78,7 +83,7 @@ public class RepoMapPageMaker {
 	public NavigationNode toFile() {
 		final Page page = this.config.createPage("repomap", Messages.getString("REPOMAP_TITLE"), Messages.getString("REPOMAP_TITLE"));
 		page.addRawAttribute(Messages.getString("REPOMAP_START_DATE"), HTML.getDate(deadline));
-		page.addRawAttribute(Messages.getString("REPOMAP_END_DATE"), HTML.getDate(config.getRepository().getLastDate()));
+		page.addRawAttribute(Messages.getString("REPOMAP_END_DATE"), HTML.getDate(currentDate));
 
 		page.addRawContent("<p>" + Messages.getString("REPOMAP_DESCRIPTION") + "</p>");
 		page.addRawContent("<p>" + getApplet() + "</p>");
