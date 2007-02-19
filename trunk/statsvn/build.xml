@@ -12,7 +12,7 @@
 	<property name="src.filtered" value="src-temp" />
 	<property name="build" value="build" />
 	<property name="build.tests" value="build-tests" />
-	<property name="statcvs.jar" value="statcvs-0.3.jar" />
+	<property name="statcvs.jar" value="statcvs-${statcvs.version}.jar" />
 	<property name="concurrent.jar" value="backport-util-concurrent-3.0.jar" />
 	<property name="dist" value="dist" />
 	<property name="lib" value="lib" />
