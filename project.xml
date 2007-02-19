@@ -197,6 +197,7 @@
 				<include>**/LinesOfCodeTest.java</include>
 				<include>**/FileBuilderTest.java</include>
 				<include>**/CommitListBuilderTest.java</include>
+				<include>**/SvnInfoUtilTest.java</include>
 			</includes>
 			<resources>
 				<resource>
