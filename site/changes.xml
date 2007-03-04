@@ -5,6 +5,7 @@
   </properties>
   <body>
     <release version="0.3.1-dev" date="in SVN" description="Maintenance">
+       <action dev="benoitx" type="fix" issue="1673601" due-to="Benoit Xhenseval">Support the tags command line parameter (will only show a given set of tags).</action>
        <action dev="benoitx" type="fix">Removed JDk 1.5 dependency on String.replace(CharSequence,CharSequence).</action>
        <action dev="benoitx" type="fix" issue="1657197" due-to="p_michalczyk">Fixed an NPE in RepoPageMaker (only happening if repo has no dates.</action>
        <action dev="jkealey" type="add" issue="1637082">Improved reporting of XML parsing errors.</action>
