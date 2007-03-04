@@ -68,7 +68,7 @@ public class BuilderTest extends TestCase {
 	 */
 	protected void setUp() throws Exception {
 		super.setUp();
-		builder = new Builder(null, null, null);
+		builder = new Builder(null, null, null, null);
 		builder.buildModule("testmodule");
 		rev1 = new RevisionData();
 		rev1.setRevisionNumber("1");
@@ -96,7 +96,7 @@ public class BuilderTest extends TestCase {
 	 * Test if the module name is correctly passed on
 	 */
 	public void testBuildModule() {
-		final Builder b = new Builder(null, null, null);
+		final Builder b = new Builder(null, null, null, null);
 		b.buildModule("test");
 		assertEquals("test", b.getProjectName());
 		assertTrue(b.getAtticFileNames().isEmpty());
@@ -162,7 +162,7 @@ public class BuilderTest extends TestCase {
 	 * {@link Builder.getFiles()}
 	 */
 	public void testFilesEmpty() throws Exception {
-		final Builder builder1 = new Builder(null, null, null);
+		final Builder builder1 = new Builder(null, null, null, null);
 		Repository repository = builder1.createRepository();
 		assertTrue(repository.isEmpty());
 	}
@@ -263,7 +263,7 @@ public class BuilderTest extends TestCase {
 	}
 
 	public void testIncludePattern() throws Exception {
-		final Builder b = new Builder(null, new FilePatternMatcher("a*"), new FilePatternMatcher("*z"));
+		final Builder b = new Builder(null, new FilePatternMatcher("a*"), new FilePatternMatcher("*z"), null);
 		assertTrue(b.matchesPatterns("abc"));
 		assertTrue(!b.matchesPatterns("xyz"));
 		assertTrue(!b.matchesPatterns("az"));

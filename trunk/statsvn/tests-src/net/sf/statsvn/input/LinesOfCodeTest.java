@@ -73,7 +73,7 @@ public class LinesOfCodeTest extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		fileman = new DummyRepositoryFileManager();
-		builder = new Builder(fileman, null, null);
+		builder = new Builder(fileman, null, null, null);
 		builder.buildFile("file", false, false, new HashMap(), new HashMap());
 		file = null;
 		date11 = new Date(1100000000);
