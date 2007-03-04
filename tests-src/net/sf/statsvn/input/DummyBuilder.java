@@ -41,7 +41,7 @@ public class DummyBuilder extends Builder {
 	private final Directory subdir = dir1.createSubdirectory("subdir");
 
 	public DummyBuilder() {
-		super(null, null, null);
+		super(null, null, null, null);
 	}
 	
 	/* (non-Javadoc)
