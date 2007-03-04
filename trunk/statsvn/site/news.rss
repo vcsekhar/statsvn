@@ -9,11 +9,21 @@
     <copyright>Copyright 2007 StatSVN Sourceforge Development Group &amp; ObjectLab</copyright>
 	
 	<item>
+	<title>StatSVN Demos on some Open Source projects?</title>
+	<description><![CDATA[
+<p>StatSVN has released a few 'demos' against some well known open source projects, the list will grow but currently includes Spring Rich Client, Hibernate3 and Joda-Time. See http://www.statsvn.org/demo.</p>
+<p>Feel free to suggest some projects, they must be well-known!</p>
+	]]></description>
+	</item>
+	
+	<item>
 	<title>Interested in contributing to StatSVN?</title>
 	<description><![CDATA[
 <p>Want to help? We're considering replacing our command line invocations with calls to <a href="http://www.svnkit.com">SVNKit</a> (formerly JavaSVN). Want to write the prototype implementation and see how well it performs? Let us know!</p>
 	]]></description>
 	</item>
+	
+	
 	
     <item>
       <title>StatSVN version 0.3.0 released</title>
