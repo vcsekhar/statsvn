@@ -141,10 +141,10 @@ public final class Main {
 		} finally {
 			if (stream != null) {
 				try {
-	                stream.close();
-                } catch (IOException e) {
-        			SvnConfigurationOptions.getTaskLogger().error("ERROR: could not close stream!");
-                }
+					stream.close();
+				} catch (IOException e) {
+					SvnConfigurationOptions.getTaskLogger().error("ERROR: could not close stream!");
+				}
 			}
 		}
 	}
@@ -154,27 +154,19 @@ public final class Main {
 		SvnConfigurationOptions.getTaskLogger().error(
 		// max. 80 chars
 		        // 12345678901234567890123456789012345678901234567890123456789012345678901234567890
-		        "Usage: java -jar statsvn.jar [options] <logfile> <directory>" + cr + cr 
-		        		+ "Required parameters:" + cr
+		        "Usage: java -jar statsvn.jar [options] <logfile> <directory>" + cr + cr + "Required parameters:" + cr
 		                + "  <logfile>          path to the svn logfile of the module" + cr
-		                + "  <directory>        path to the directory of the checked out module" + cr + cr 
-		                + "Some options:" + cr
-		                + "  -version           print the version information and exit" + cr 
-		                + "  -output-dir <dir>  directory where HTML suite will be saved" + cr 
-		                + "  -include <pattern> include only files matching pattern, e.g. **/*.c;**/*.h" + cr
+		                + "  <directory>        path to the directory of the checked out module" + cr + cr + "Some options:" + cr
+		                + "  -version           print the version information and exit" + cr + "  -output-dir <dir>  directory where HTML suite will be saved"
+		                + cr + "  -include <pattern> include only files matching pattern, e.g. **/*.c;**/*.h" + cr
 		                + "  -exclude <pattern> exclude matching files, e.g. tests/**;docs/**" + cr
 		                + "  -tags <regexp>     show matching tags in lines of code chart, e.g. version-.*" + cr
-		                + "  -title <title>     Project title to be used in reports" + cr 
-		                + "  -viewvc <url>      integrate with ViewVC installation at <url>" + cr 
-		                + "  -bugzilla <url>    integrate with Bugzilla installation at <url>" + cr 
-		                + "  -username <svnusername> username to pass to svn" + cr 
-		                + "  -password <svnpassword> password to pass to svn" + cr 
-		                + "  -verbose           print extra progress information" + cr
-		                + "  -xdoc              optional switch output to xdoc" + cr 
-		                + "  -threads <int>     how many threads for svn diff (default: 25)" + cr
+		                + "  -title <title>     Project title to be used in reports" + cr + "  -viewvc <url>      integrate with ViewVC installation at <url>"
+		                + cr + "  -bugzilla <url>    integrate with Bugzilla installation at <url>" + cr + "  -username <svnusername> username to pass to svn"
+		                + cr + "  -password <svnpassword> password to pass to svn" + cr + "  -verbose           print extra progress information" + cr
+		                + "  -xdoc              optional switch output to xdoc" + cr + "  -threads <int>     how many threads for svn diff (default: 25)" + cr
 		                + "  -concurrencyThreshold <millisec> switch to concurrent svn diff if 1st call>threshold (default: 4000)" + cr
-		                + "  -dump              dump the Repository content on console" + cr + cr 
-		                + "Full options list: http://www.statsvn.org");
+		                + "  -dump              dump the Repository content on console" + cr + cr + "Full options list: http://www.statsvn.org");
 		System.exit(1);
 	}
 
@@ -267,7 +259,8 @@ public final class Main {
 		SvnConfigurationOptions.getTaskLogger().info("Parsing SVN log '" + ConfigurationOptions.getLogFileName() + "'");
 
 		final FileInputStream logFile = new FileInputStream(ConfigurationOptions.getLogFileName());
-		final Builder builder = new Builder(repFileMan, ConfigurationOptions.getIncludePattern(), ConfigurationOptions.getExcludePattern());
+		final Builder builder = new Builder(repFileMan, ConfigurationOptions.getIncludePattern(), ConfigurationOptions.getExcludePattern(),
+		        ConfigurationOptions.getSymbolicNamesPattern());
 		new SvnLogfileParser(repFileMan, logFile, builder).parse();
 		logFile.close();
 

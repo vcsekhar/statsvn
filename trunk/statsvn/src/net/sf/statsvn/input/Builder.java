@@ -33,6 +33,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.regex.Pattern;
 
 import net.sf.statcvs.Messages;
 import net.sf.statcvs.input.CommitListBuilder;
@@ -76,6 +77,7 @@ public class Builder implements SvnLogBuilder {
     private final RepositoryFileManager repositoryFileManager;
     private Date startDate = null;
     private final Map symbolicNames = new HashMap();
+	private final Pattern tagsPattern;
 
     /**
      * Creates a new <tt>Builder</tt>
@@ -87,10 +89,12 @@ public class Builder implements SvnLogBuilder {
      * @param excludePattern
      *            a list of Ant-style wildcard patterns, seperated by : or ;
      */
-    public Builder(final RepositoryFileManager repositoryFileManager, final FilePatternMatcher includePattern, final FilePatternMatcher excludePattern) {
+    public Builder(final RepositoryFileManager repositoryFileManager, final FilePatternMatcher includePattern, 
+    		final FilePatternMatcher excludePattern, final Pattern tagsPattern) {
         this.repositoryFileManager = repositoryFileManager;
         this.includePattern = includePattern;
         this.excludePattern = excludePattern;
+        this.tagsPattern = tagsPattern;
         directories.put("", Directory.createRoot());
     }
 
@@ -195,7 +199,8 @@ public class Builder implements SvnLogBuilder {
         final List commits = new CommitListBuilder(revisions).createCommitList();
         result.setCommits(commits);
 
-        result.setSymbolicNames(new TreeSet(symbolicNames.values()));
+//        result.setSymbolicNames(new TreeSet(symbolicNames.values()));
+		result.setSymbolicNames(getMatchingSymbolicNames());
 
         SvnConfigurationOptions.getTaskLogger().log("SYMBOLIC NAMES - "+symbolicNames);
         
@@ -358,4 +363,21 @@ public class Builder implements SvnLogBuilder {
             fb.updateRevision(revisionNumber, linesAdded, linesRemoved);
         }
     }
+
+    /**
+     * return only a set of matching tag names (from a list on the command line).
+     */
+    private SortedSet getMatchingSymbolicNames() {
+		TreeSet result = new TreeSet();
+		if (this.tagsPattern == null) {
+			return result;
+		}
+		for (Iterator it = this.symbolicNames.values().iterator(); it.hasNext();) {
+			final SymbolicName sn = (SymbolicName) it.next();
+			if (sn.getDate() != null && this.tagsPattern.matcher(sn.getName()).matches()) {
+				result.add(sn);
+			}
+		}
+		return result;
+	}
 }
