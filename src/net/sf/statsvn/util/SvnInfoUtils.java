@@ -1,6 +1,8 @@
 package net.sf.statsvn.util;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -279,7 +281,11 @@ public final class SvnInfoUtils {
 				SvnConfigurationOptions.getTaskLogger().info("Unable to process module name.");
 				sModuleName = "";
 			} else {
-				sModuleName = getRootUrl().substring(getRepositoryUrl().length());
+				try {
+	                sModuleName = URLDecoder.decode(getRootUrl().substring(getRepositoryUrl().length()), "UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                	SvnConfigurationOptions.getTaskLogger().error(e.toString());
+                }
 			}
 
 		}
