@@ -22,9 +22,16 @@
     <section name="Demos..">
     <p>We thought it would be nice to have some "demo" against some major OS projects, so here you go:</p>
     <ol>
-    <li><a href="spring-rich-c/statsvn">Spring Rich Client</a></li>
-    <li><a href="hibernate">Hibernate 3</a></li>
-    <li><a href="joda-time/statsvn">Joda Time</a></li>
+    <li><a href="subversion">Subversion</a> itself!</li>
+    <li><a href="spring-rich-c/statsvn">Spring Rich Client</a> (java rich client library from Spring)</li>
+    <li><a href="hibernate">Hibernate 3</a> (java persistence)</li>
+    <li><a href="joda-time/statsvn">Joda Time</a> (cool java time library)</li>
+    <li><a href="log4j/statsvn">Log4J</a> (Apache logging library for Java)</li>
+    <li><a href="ruby/statsvn">Ruby</a> (yes, the language!)</li>
+    <li><a href="groovy/statsvn">Groovy</a></li>
+    <li><a href="grails/statsvn">Grails</a></li>
+    <li><a href="felix">Felix</a> (Apache OSGi implementation)</li>
+    <!--<li><a href="ant/statsvn">Ant</a> (Apache Ant)</li>-->
     </ol>
     
     </section>

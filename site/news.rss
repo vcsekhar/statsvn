@@ -9,6 +9,15 @@
     <copyright>Copyright 2007 StatSVN Sourceforge Development Group &amp; ObjectLab</copyright>
 	
 	<item>
+	<title>New StatSVN Demos:Apache Felix, Apache Log4J, Ruby, Groovy, Grails, etc</title>
+	<description><![CDATA[
+<p>StatSVN has released a few 'demos' against some well known open source projects, the list will grow but currently includes Groovy, Grails, Ruby, Log4J, Apache Felix, Spring Rich Client, Hibernate3 and Joda-Time.</p>
+<p>See http://www.statsvn.org/demo.</p>
+<p>Feel free to suggest some projects, they must be well-known!</p>
+	]]></description>
+	</item>
+	
+	<item>
 	<title>StatSVN Demos on some Open Source projects?</title>
 	<description><![CDATA[
 <p>StatSVN has released a few 'demos' against some well known open source projects, the list will grow but currently includes Spring Rich Client, Hibernate3 and Joda-Time. See http://www.statsvn.org/demo.</p>
