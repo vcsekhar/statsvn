@@ -19,6 +19,15 @@
   </head>
   <body>
     <!-- The body of the document contains a number of sections -->
+    <section name="0.3.1">
+    <subsection name="On the web">
+	<ul>
+		<li>The Official press release for <a href="press-release-0.3.1.txt">0.3.1</a>.</li>
+	</ul>
+    </subsection>
+
+    </section>
+    
     <section name="0.3.0">
     <subsection name="On the web">
 	<ul>
