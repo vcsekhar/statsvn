@@ -4,7 +4,8 @@
     <title>StatSvn Changes</title>
   </properties>
   <body>
-    <release version="0.3.1-dev" date="in SVN" description="Maintenance">
+    <release version="0.3.1-dev" date="in SVN" description="Maintenance">     
+       <action dev="benoitx" type="fix" issue="1653392" due-to="Dermot Daly">Fixing url encoded module name.</action>
        <action dev="jpdaigle" type="add">Added EnvReport function to aid in identifying common failure cases (no change to StatSVN command line, it is a seperate executable class).</action>
        <action dev="benoitx" type="add">Added introduction page for demos.</action>
        <action dev="benoitx" type="fix" issue="1673601" due-to="Benoit Xhenseval">Support the tags command line parameter (will only show a given set of tags).</action>
