@@ -21,11 +21,14 @@
     <!-- The body of the document contains a number of sections -->
     <section name="StatSVN News">
     <p>Get the RSS feed of the news <a href="news.rss"><img src="images/rss.png"></img></a></p>
+
+    <p>2007-03-10 <strong>News</strong>: As part of release 0.3.1, we have launched a series of <a href="demo">demos</a> for some known projects: Subversion, Log4J, Spring Rich Client, Hibernate 3, Joda Time, Ruby, Groovy, Grails and Felix to start with.
+    Go on, admit it, you always wanted to know who did what and when on those projects...
+    <a href="http://digg.com/submit?phase=2&amp;url=www.statsvn.org&amp;title=StatSVN%200%2E3%2E1%20releases%20stats%20for%20well%20know%20OS%20projects&amp;bodytext=StatSVN%20and%20ObjectLab%20have%20released%20version%200%2E3%2E1%20of%20StatSVN%3A%20subversion%20statistics%20for%20Subversion%2E%20This%20release%20includes%20a%20demo%20site%20with%20statistics%20for%20some%20known%20projects%3A%20Subversion,%20Log4J,%20Spring%20Rich%20Client,%20Hibernate%203,%20Joda%20Time,%20Ruby,%20Groovy,%20Grails%20and%20Felix%20to%20start%20with&amp;topic=programming">
+	<img src="http://digg.com/img/badges/91x17-digg-button.png" width="91" height="17" alt="Digg!" style="vertical-align:middle" /></a></p>
     
     <p><strong>Warning</strong>: if you're not using an English locale, please set the LANG environment variable to en_US when running the application until we resolve some i18n issues with StatSVN
     (the call to svn diff returns a localised string which may result in some results not being cached, the results are correct but StatSVN will ask for them again next time).</p>
-
-    <p><strong>Warning</strong>: There is a known issue in StatCVS 0.3.0 that has been reported by a few StatSVN 0.3.0 users. We submitted a patch to StatCVS and this issue should be resolved in the next release. </p>
 	
 	<p>2007-02-07: Want to help? We're considering replacing our command line invocations with calls to <a href="http://www.svnkit.com">SVNKit</a> (formerly JavaSVN). Want to write the prototype implementation and see how well it performs? Let us know!</p>
 		

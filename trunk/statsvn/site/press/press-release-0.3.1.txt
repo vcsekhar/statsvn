@@ -13,27 +13,30 @@ out of the box with ViewVc, BugZilla, Chora and others.
 StatSVN generates a static suite of HTML or XDoc documents containing 
 tables and chart images.
 
-Version 0.3.0 includes, amongst others:
+Version 0.3.1 includes, amongst others:
 ---------------------------------------
 
 - DEMOS: We have decided to grab a few well known open source projects
   and publish some statistics on http://www.statsvn.org/demo
+  
+  We selected some very large projects (Ant has more than 500,000 revisions!)
+  to prove scalability.
   
   Amongst the selected ones are:
   * Subversion! (Well... we had to do that one...)
   * Hibernate 3
   * Spring Rich Client (java Rich Client library)
   * Groovy
-  * Ruby (Yes the language itself)
+  * Ruby (Yes the language itself, in c)
   * Grails
   * Log4J (Apache logging)
   * Joda Time (cool java date library)
   * Felix (Apache OSGi implementation)
-  * Ant (the Apache Build tool)
+  * Ant (the Apache Build tool) which has more than 500,000 Revisions!
 
 - New EnvReport function to aid in identifying common failure cases.
 - Removed any dependency on JDK 1.5 (even COMPILED with 1.4)
-- A few more bug fixes.
+- A few more bug fixes in both StatSVN and StatCVS.
 
 StatSVN is available now for download at http://www.statsvn.org
 
