@@ -125,4 +125,17 @@ public interface SvnLogBuilder {
 	 */
 	void updateRevision(String filename, String revisionNumber, int linesAdded, int linesRemoved);
 
+	/**
+	 * Matches a filename against the include and exclude patterns. If no
+	 * include pattern was specified, all files will be included. If no exclude
+	 * pattern was specified, no files will be excluded.
+	 * 
+	 * @param filename
+	 *            a filename
+	 * @return <tt>true</tt> if the filename matches one of the include
+	 *         patterns and does not match any of the exclude patterns. If it
+	 *         matches an include and an exclude pattern, <tt>false</tt> will
+	 *         be returned.
+	 */
+	boolean matchesPatterns(final String filename);
 }

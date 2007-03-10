@@ -52,7 +52,7 @@ import net.sf.statsvn.util.SvnVersionMismatchException;
 /**
  * StatSvn Main Class; it starts the application and controls command-line
  * related stuff
- * 
+ *
  * @author Lukasz Pekacki
  * @author Richard Cyganiak
  * @version $Id: Main.java,v 1.47 2005/03/20 19:12:25 squig Exp $
@@ -72,7 +72,7 @@ public final class Main {
 	}
 
 	/**
-	 * Main method of StatCvs
+	 * Main method of StatSVN
 	 * 
 	 * @param args
 	 *            command line options
@@ -256,7 +256,8 @@ public final class Main {
 
 		initLogManager(ConfigurationOptions.getLoggingProperties());
 
-		SvnConfigurationOptions.getTaskLogger().info("Parsing SVN log '" + ConfigurationOptions.getLogFileName() + "'");
+		SvnConfigurationOptions.getTaskLogger().info(
+		        "Parsing SVN log '" + ConfigurationOptions.getLogFileName() + "' exclude pattern '" + ConfigurationOptions.getExcludePattern() + "'");
 
 		final FileInputStream logFile = new FileInputStream(ConfigurationOptions.getLogFileName());
 		final Builder builder = new Builder(repFileMan, ConfigurationOptions.getIncludePattern(), ConfigurationOptions.getExcludePattern(),
