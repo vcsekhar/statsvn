@@ -27,11 +27,11 @@
     <li><a href="hibernate">Hibernate 3</a> (java persistence)</li>
     <li><a href="joda-time/statsvn">Joda Time</a> (cool java time library)</li>
     <li><a href="log4j/statsvn">Log4J</a> (Apache logging library for Java)</li>
-    <li><a href="ruby">Ruby</a> (yes, the language!)</li>
+    <li><a href="ruby/statsvn">Ruby</a> (yes, the language, in C!)</li>
     <li><a href="groovy">Groovy</a></li>
     <li><a href="grails/statsvn">Grails</a></li>
     <li><a href="felix">Felix</a> (Apache OSGi implementation)</li>
-    <!--<li><a href="ant">Ant</a> (Apache Ant)</li>-->
+    <li><a href="ant/statsvn">Ant</a> (Apache Ant, had more than 500,000 revisions)</li>
     </ol>
     
     </section>
