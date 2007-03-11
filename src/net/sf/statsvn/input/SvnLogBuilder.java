@@ -138,4 +138,13 @@ public interface SvnLogBuilder {
 	 *         be returned.
 	 */
 	boolean matchesPatterns(final String filename);
+
+	/**
+     * Matches a tag against the tag patterns. 
+     * 
+     * @param tag
+     *            a tag
+     * @return <tt>true</tt> if the tag matches the tag pattern.
+     */
+    boolean matchesTagPatterns(final String tag);
 }

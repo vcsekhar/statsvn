@@ -342,6 +342,21 @@ public class Builder implements SvnLogBuilder {
         return true;
     }
 
+
+    /**
+     * Matches a tag against the tag patterns. 
+     * 
+     * @param tag
+     *            a tag
+     * @return <tt>true</tt> if the tag matches the tag pattern.
+     */
+    public boolean matchesTagPatterns(final String tag) {
+        if (tagsPattern != null) {
+            return tagsPattern.matcher(tag).matches();
+        }
+        return false;
+    }
+
     
     /**
      * New in StatSVN: Updates a particular revision for a file with new line count information. If the file or revision does not exist, action will do nothing.
