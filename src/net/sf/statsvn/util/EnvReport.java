@@ -82,7 +82,7 @@ public final class EnvReport {
 		int maxWidth = 0;
 		StringBuffer buf = new StringBuffer();
 		if (keySet == null) {
-			keySet = (String[])props.keySet().toArray(new String[]{});
+			keySet = (String[])props.keySet().toArray(new String[props.keySet().size()]);
 		}
 		Vector vKeys = new Vector(Arrays.asList(keySet));
 		Collections.sort(vKeys);
@@ -117,13 +117,13 @@ public final class EnvReport {
 	    String versionLine = "";
 	    String line;
 	    Properties svnProps = new Properties();
-	    ProcessUtils pUtils = null;
+	    BufferedReader input = null;
 	    
         try {
         	svnProps.setProperty(KEY_SVN_ABLE_TO_RUN, "YES");
             Process proc = Runtime.getRuntime().exec(SVN_VERSION_COMMAND);
 
-            BufferedReader input = new BufferedReader(
+            input = new BufferedReader(
             		new InputStreamReader(proc.getInputStream()));
 			while ((line = input.readLine()) != null) {
                 if (line.matches(SVN_VERSION_LINE_PATTERN)) {
@@ -132,18 +132,18 @@ public final class EnvReport {
                 	break;
                 }
 			}
-			input.close();
         } catch (final Exception e) {
         	svnProps.setProperty(KEY_SVN_ABLE_TO_RUN, "NO: " + e.getMessage().trim());
         } finally {
         	svnProps.setProperty(KEY_SVN_VERSION, versionLine);
-        	if (pUtils != null) {
-        		try { 
-        			pUtils.close(); 
-       			} catch (final IOException e) {
-        			e.printStackTrace();
-        		}
-        	}
+			if (input != null) {
+				try {
+					input.close();
+				} catch (IOException ex) {
+					// swallow it
+					ex.printStackTrace();
+				}
+			}
         }
 		return svnProps;
 	}
