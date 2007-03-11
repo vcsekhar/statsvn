@@ -238,14 +238,15 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
 		}
 
 		if (copyfromRev != null && filename == null && stringData != null && stringData.indexOf("/tags/") >= 0) {
-//			SvnConfigurationOptions.getTaskLogger().log("= TAG " + stringData + " rev:" + copyfromRev);
-			String tag = stringData.substring("/tags/".length());
+			String tag = stringData.substring(stringData.indexOf("/tags/") + 6);
+			// SvnConfigurationOptions.getTaskLogger().info("= TAG " +
+			// stringData + " rev:" + copyfromRev + " ==> " + tag);
 			if (tag.indexOf("/") >= 0) {
 				tag = tag.substring(0, tag.indexOf("/"));
 			}
 
-			if (!tagsMap.containsKey(tag)) {
-				SvnConfigurationOptions.getTaskLogger().log("= TAG " + tag + " rev:" + copyfromRev);
+			if (!tagsMap.containsKey(tag) && builder.matchesTagPatterns(tag)) {
+				SvnConfigurationOptions.getTaskLogger().info("= TAG " + tag + " rev:" + copyfromRev + " stringData [" + stringData + "]");
 				tagsMap.put(tag, copyfromRev);
 				tagsDateMap.put(tag, currentRevisionData.getDate());
 			}
