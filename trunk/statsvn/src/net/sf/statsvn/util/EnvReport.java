@@ -19,7 +19,7 @@ import net.sf.statcvs.Messages;
  * @author jpdaigle jpdaigle@softwareengineering.ca
  * 
  */
-public class EnvReport {
+public final class EnvReport {
 	private static String[] envPropKeys = { 
 		"file.encoding",
 		"java.home",
@@ -30,6 +30,16 @@ public class EnvReport {
 		"user.country",
 		"user.language"
 		};
+
+    static final String SVN_VERSION_COMMAND = "svn --version";
+    static final String SVN_VERSION_LINE_PATTERN = ".* [0-9]+\\.[0-9]+\\.[0-9]+.*";
+    static final String KEY_SVN_ABLE_TO_RUN = "svn.able.to.run";
+    static final String KEY_SVN_VERSION = "svn.reportedversion";
+    static final String KEY_STATSVN_VERSION = "statsvn.reportedversion";
+
+	private EnvReport() {
+		// no public ctor
+	}
 	
 	public static void main(String[] args) {
 		System.out.println(getEnvReport());
@@ -71,20 +81,24 @@ public class EnvReport {
 	public static String fmtPropertiesForScreen(Properties props, String[] keySet) {
 		int maxWidth = 0;
 		StringBuffer buf = new StringBuffer();
-		if (keySet == null) keySet = (String[])props.keySet().toArray(new String[]{});
+		if (keySet == null) {
+			keySet = (String[])props.keySet().toArray(new String[]{});
+		}
 		Vector vKeys = new Vector(Arrays.asList(keySet));
 		Collections.sort(vKeys);
 
 		// First pass: find length of longest key
-		for(Iterator ite = vKeys.iterator(); ite.hasNext(); ) {
+		for(Iterator ite = vKeys.iterator(); ite.hasNext();) {
 			String key = ((String)ite.next()).trim();
 			maxWidth = (key.length() > maxWidth) ? key.length() : maxWidth;
 		}
 
 		// Second pass: output formatted keys / values
-		for(Iterator ite = vKeys.iterator(); ite.hasNext(); ) {
+		for(Iterator ite = vKeys.iterator(); ite.hasNext();) {
 			String key = ((String) ite.next()).trim();
-			for (int i = maxWidth - key.length(); i > 0; i--) buf.append(" ");
+			for (int i = maxWidth - key.length(); i > 0; i--) {
+				buf.append(" ");
+			}
 			buf.append(key).append(":[").append(props.getProperty(key).trim()).append("]\n");
 		}
 
@@ -99,10 +113,6 @@ public class EnvReport {
 	 * @return Property set
 	 */
 	public static Properties getSvnVersionInfo() {
-	    final String SVN_VERSION_COMMAND = "svn --version";
-	    final String SVN_VERSION_LINE_PATTERN = ".* [0-9]+\\.[0-9]+\\.[0-9]+.*";
-	    final String KEY_SVN_ABLE_TO_RUN = "svn.able.to.run";
-	    final String KEY_SVN_VERSION = "svn.reportedversion";
 
 	    String versionLine = "";
 	    String line;
@@ -128,8 +138,11 @@ public class EnvReport {
         } finally {
         	svnProps.setProperty(KEY_SVN_VERSION, versionLine);
         	if (pUtils != null) {
-        		try { pUtils.close(); }
-        		catch (final IOException e) { }
+        		try { 
+        			pUtils.close(); 
+       			} catch (final IOException e) {
+        			e.printStackTrace();
+        		}
         	}
         }
 		return svnProps;
@@ -140,7 +153,6 @@ public class EnvReport {
 	 * @return Property set
 	 */
 	public static Properties getStatSVNInfo() {
-	    final String KEY_STATSVN_VERSION = "statsvn.reportedversion";
 		Properties statsvnProps = new Properties();
 		statsvnProps.setProperty(KEY_STATSVN_VERSION, Messages.getString("PROJECT_VERSION"));
 		return statsvnProps;
