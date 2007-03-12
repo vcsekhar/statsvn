@@ -27,7 +27,7 @@ Version 0.3.1 includes, amongst others:
   * Hibernate 3
   * Spring Rich Client (java Rich Client library)
   * Groovy
-  * Ruby (Yes the language itself, in c)
+  * Ruby (Yes the language itself, in c and the repo is BIG!)
   * Grails
   * Log4J (Apache logging)
   * Joda Time (cool java date library)
