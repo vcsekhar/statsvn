@@ -34,6 +34,15 @@
     <li><a href="ant/statsvn">Ant</a> (Apache Ant, had more than 500,000 revisions)</li>
     </ol>
     
+    <p>If you would like us to add an open source project, please raise an issue on SF and provide us with the following information:</p>
+    <ol>
+    <li>Project Name</li>
+    <li>Project Home page</li>
+    <li>URL to anonymous Subversion server for the trunk</li>
+    <li>List of tags, versions that should be identified.</li>
+    </ol>
+    
+    <p>We cannot guarantee inclusion but you never know...</p>
     </section>
   </body>
 </document>
