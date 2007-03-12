@@ -191,7 +191,7 @@ public class SvnLogfileParser {
 	}
 
 	private void waitForPoolIfRequired(ExecutorService poolService) {
-	    if (SvnConfigurationOptions.getNumberSvnDiffThreads() > 1 && poolService != null) {
+		if (SvnConfigurationOptions.getNumberSvnDiffThreads() > 1 && poolService != null) {
 			SvnConfigurationOptions.getTaskLogger().info(
 			        "Scheduled " + requiredDiffCalls + " svn diff calls on " + Math.min(requiredDiffCalls, SvnConfigurationOptions.getNumberSvnDiffThreads())
 			                + " threads.");
@@ -205,10 +205,10 @@ public class SvnLogfileParser {
 				SvnConfigurationOptions.getTaskLogger().error(e.toString());
 			}
 		}
-    }
+	}
 
 	private void calculateNumberRequiredCalls(final Collection fileBuilders) {
-	    // Calculate the number of required calls...
+		// Calculate the number of required calls...
 		requiredDiffCalls = 0;
 		for (final Iterator iter = fileBuilders.iterator(); iter.hasNext();) {
 			final FileBuilder fileBuilder = (FileBuilder) iter.next();
@@ -230,7 +230,7 @@ public class SvnLogfileParser {
 			}
 		}
 		// END Calculate the number of required calls...
-    }
+	}
 
 	private void readCache(final SAXParserFactory factory) throws IOException {
 		cacheBuilder = new CacheBuilder(builder, repositoryFileManager);
@@ -391,63 +391,63 @@ public class SvnLogfileParser {
 	}
 
 	private void createImplicitAction(final HashSet implicitActions, final String child, final FileBuilder childBuilder, final RevisionData parentData, int k) {
-	    // we want to memorize this implicit action.
-	    final RevisionData implicit = parentData.createCopy();
-	    implicitActions.add(implicit);
+		// we want to memorize this implicit action.
+		final RevisionData implicit = parentData.createCopy();
+		implicitActions.add(implicit);
 
-	    // avoid concurrent modification errors.
-	    final List toMove = new ArrayList();
-	    for (final Iterator it = childBuilder.getRevisions().subList(k, childBuilder.getRevisions().size()).iterator(); it.hasNext();) {
-	    	RevisionData revToMove = (RevisionData) it.next();
-	    	// if
-	    	// (!revToMove.getRevisionNumber().equals(implicit.getRevisionNumber()))
-	    	// {
-	    	toMove.add(revToMove);
-	    	// }
-	    }
+		// avoid concurrent modification errors.
+		final List toMove = new ArrayList();
+		for (final Iterator it = childBuilder.getRevisions().subList(k, childBuilder.getRevisions().size()).iterator(); it.hasNext();) {
+			RevisionData revToMove = (RevisionData) it.next();
+			// if
+			// (!revToMove.getRevisionNumber().equals(implicit.getRevisionNumber()))
+			// {
+			toMove.add(revToMove);
+			// }
+		}
 
-	    // remove the revisions to be moved.
-	    childBuilder.getRevisions().removeAll(toMove);
+		// remove the revisions to be moved.
+		childBuilder.getRevisions().removeAll(toMove);
 
-	    // don't call addRevision directly. buildRevision
-	    // does more.
-	    builder.buildFile(child, false, false, new HashMap(), new HashMap());
+		// don't call addRevision directly. buildRevision
+		// does more.
+		builder.buildFile(child, false, false, new HashMap(), new HashMap());
 
-	    // only add the implicit if the last one for the
-	    // file is NOT a deletion!
-	    // if (!toMove.isEmpty() && !((RevisionData)
-	    // toMove.get(0)).isDeletion()) {
-	    builder.buildRevision(implicit);
-	    // }
+		// only add the implicit if the last one for the
+		// file is NOT a deletion!
+		// if (!toMove.isEmpty() && !((RevisionData)
+		// toMove.get(0)).isDeletion()) {
+		builder.buildRevision(implicit);
+		// }
 
-	    // copy back the revisions we removed.
-	    for (final Iterator it = toMove.iterator(); it.hasNext();) {
-	    	builder.buildRevision((RevisionData) it.next());
-	    }
-    }
+		// copy back the revisions we removed.
+		for (final Iterator it = toMove.iterator(); it.hasNext();) {
+			builder.buildRevision((RevisionData) it.next());
+		}
+	}
 
 	private int detectActionOnChildGivenActionOnParent(final FileBuilder childBuilder, int parentRevision) {
-	    int k;
-	    for (k = 0; k < childBuilder.getRevisions().size(); k++) {
-	    	final RevisionData childData = (RevisionData) childBuilder.getRevisions().get(k);
-	    	final int childRevision = Integer.parseInt(childData.getRevisionNumber());
+		int k;
+		for (k = 0; k < childBuilder.getRevisions().size(); k++) {
+			final RevisionData childData = (RevisionData) childBuilder.getRevisions().get(k);
+			final int childRevision = Integer.parseInt(childData.getRevisionNumber());
 
-	    	// we don't want to add duplicate entries for the
-	    	// same revision
-	    	if (parentRevision == childRevision) {
-	    		k = childBuilder.getRevisions().size();
-	    		break;
-	    	}
+			// we don't want to add duplicate entries for the
+			// same revision
+			if (parentRevision == childRevision) {
+				k = childBuilder.getRevisions().size();
+				break;
+			}
 
-	    	if (parentRevision > childRevision) {
-	    		break; // we must insert it here!
-	    	}
-	    }
-	    return k;
-    }
+			if (parentRevision > childRevision) {
+				break; // we must insert it here!
+			}
+		}
+		return k;
+	}
 
 	private void removePotentialInconsistencies(final HashSet implicitActions, final Collection fileBuilders) {
-	    for (final Iterator iter = fileBuilders.iterator(); iter.hasNext();) {
+		for (final Iterator iter = fileBuilders.iterator(); iter.hasNext();) {
 			final FileBuilder filebuilder = (FileBuilder) iter.next();
 
 			// make sure our attic is well set, with our new deletions that we
@@ -481,10 +481,10 @@ public class SvnLogfileParser {
 				}
 			}
 		}
-    }
+	}
 
 	private void cleanPotentialDuplicateImplicitActions(final Collection fileBuilders) {
-	    for (final Iterator iter = fileBuilders.iterator(); iter.hasNext();) {
+		for (final Iterator iter = fileBuilders.iterator(); iter.hasNext();) {
 			final FileBuilder filebuilder = (FileBuilder) iter.next();
 
 			boolean previousIsDelete = false;
@@ -505,16 +505,16 @@ public class SvnLogfileParser {
 				filebuilder.getRevisions().removeAll(toRemove);
 			}
 		}
-    }
+	}
 
 	private Collection fetchAllFileNames(final ArrayList files) {
-	    final Collection fileBuilders = builder.getFileBuilders().values();
+		final Collection fileBuilders = builder.getFileBuilders().values();
 		for (final Iterator iter = fileBuilders.iterator(); iter.hasNext();) {
 			final FileBuilder fileBuilder = (FileBuilder) iter.next();
 			files.add(fileBuilder.getName());
 		}
-	    return fileBuilders;
-    }
+		return fileBuilders;
+	}
 
 	/**
 	 * We have created FileBuilders for directories because we needed the
@@ -682,7 +682,7 @@ public class SvnLogfileParser {
 					        .getNumberSvnDiffThreads());
 					end = System.currentTimeMillis();
 					SvnConfigurationOptions.getTaskLogger().info(
-					        "Intermediary save took " + (end - start) + " ms. Estimated completion=" + new Date(end + (long) estimateLeftInMs));
+					        new Date() + " Intermediary save took " + (end - start) + " ms. Estimated completion=" + new Date(end + (long) estimateLeftInMs));
 				}
 			}
 		}
