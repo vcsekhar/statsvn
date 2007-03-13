@@ -4,6 +4,9 @@
     <title>StatSvn Changes</title>
   </properties>
   <body>
+    <release version="0.3.2-SNAPSHOT" date="in svn" description="Maintenance">     
+    </release>
+
     <release version="0.3.1" date="2007-03-10" description="Maintenance">     
        <action dev="benoitx" type="fix">Fix an issue in detecting tags that may be further down than the root directory of the log. Also use the tag pattern earlier on in the log parser, so only required tags will be considered.</action>
        <action dev="benoitx" type="fix">Exclude pattern is now used also for the diffs (avoid attempting to svn diff '.htaccess' at all cost!).</action>
