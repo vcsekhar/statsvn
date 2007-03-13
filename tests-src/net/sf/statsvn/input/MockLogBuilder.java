@@ -201,4 +201,14 @@ public class MockLogBuilder implements SvnLogBuilder {
 	    // TODO Auto-generated method stub
 	    
     }
+
+	public boolean matchesPatterns(String filename) {
+	    // TODO Auto-generated method stub
+	    return false;
+    }
+
+	public boolean matchesTagPatterns(String tag) {
+	    // TODO Auto-generated method stub
+	    return false;
+    }
 }

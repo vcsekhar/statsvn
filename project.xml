@@ -232,6 +232,11 @@
 
 	<versions>
 		<version>
+			<id>0.3.2-SNAPSHOT</id>
+			<name>0.3.2-SNAPSHOT</name>
+			<tag>0.3.2-SNAPSHOT</tag>
+		</version>
+		<version>
 			<id>0.3.1</id>
 			<name>0.3.1</name>
 			<tag>0.3.1</tag>
