@@ -9,6 +9,15 @@
     <copyright>Copyright 2007 StatSVN Sourceforge Development Group &amp; ObjectLab</copyright>
 	
 	<item>
+	<title>StatSVN publishes stats for Apache Synapse.</title>
+	<description><![CDATA[
+<p>StatSVN has released statistics for the Apache Synapse project.</p>
+<p>See http://www.statsvn.org/demo.</p>
+<p>Feel free to suggest some projects, they must be well-known!</p>
+	]]></description>
+	</item>
+	
+	<item>
 	<title>StatSVN adds Demos for Subversion, Mule, Ant and Spring RC.</title>
 	<description><![CDATA[
 <p>StatSVN has released a few more 'demos' for Ant, Subversion, Spring Rich Client and Mule.</p>
