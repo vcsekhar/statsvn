@@ -32,6 +32,7 @@
     <li><a href="grails/statsvn">Grails</a></li>
     <li><a href="felix">Felix</a> (Apache OSGi implementation)</li>
     <li><a href="ant/statsvn">Ant</a> (Apache Ant, had more than 500,000 revisions)</li>
+    <li><a href="mule/statsvn">Mule</a> (The World's most widely used open source ESB)</li>
     </ol>
     
     <p>If you would like us to add an open source project, please raise an issue on SF and provide us with the following information:</p>
