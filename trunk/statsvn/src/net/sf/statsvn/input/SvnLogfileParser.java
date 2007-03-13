@@ -658,11 +658,13 @@ public class SvnLogfileParser {
 				        "svn diff " + (++calls) + "/" + requiredDiffCalls + ": " + fileName + ", r" + oldRevision + " to r" + newRevision + ", +" + lineDiff[0]
 				                + " -" + lineDiff[1] + " (" + (end - start) + " ms.) " + Thread.currentThread().getName());
 			} catch (final BinaryDiffException e) {
+				calls++;
 				// file is binary and has been deleted
 				cacheBuilder.newRevision(fileName, newRevision, "0", "0", true);
 				fileBuilder.setBinary(true);
 				return;
 			} catch (final IOException e) {
+				calls++;
 				SvnConfigurationOptions.getTaskLogger().error("IOException: Unable to obtain diff: " + e.toString());
 				return;
 			}
