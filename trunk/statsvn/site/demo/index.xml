@@ -33,7 +33,8 @@
     <li><a href="felix">Felix</a> (Apache OSGi implementation)</li>
     <li><a href="ant/statsvn">Ant</a> (Apache Ant, had more than 500,000 revisions)</li>
     <li><a href="mule/statsvn">Mule</a> (The World's most widely used open source ESB)</li>
-    <li><a href="synapse/statsvn">Synapse</a> (Apache Synapse, Synapse is a mediation framework for Web Services. Synapse allows messages flowing through, into, or out of an organization to be mediated. Synapse, incidentally, is pronounced "sine-apse", and not "sin-apse".)</li>
+    <li><a href="synapse/statsvn">Synapse</a> (Apache Synapse, Synapse is a mediation framework for Web Services. Synapse allows messages flowing through, into, or out of an organization to be mediated.)</li>
+    <li><a href="qpid/statsvn">QPid</a> (Apache QPid, implementation of AMQP, Advanced Messaged Queuing Protocol)</li>
     </ol>
     
     <p>If you would like us to add an open source project, please raise an issue on SF and provide us with the following information:</p>
