@@ -9,6 +9,25 @@
     <copyright>Copyright 2007 StatSVN Sourceforge Development Group &amp; ObjectLab</copyright>
 	
 	<item>
+	<title>StatSVN publishes stats for QALab, ObjectLabKit, PZFileReader, XStream, Ant libs, etc.</title>
+	<description><![CDATA[
+<p>StatSVN has released statistics for the following project:</p>
+<ol>
+    <li><a href="qalab">QALab</a> A great tool for keeping track of QA statistics over time.</li>
+    <li><a href="pzfilereader">PZFileReader</a> Parsing of delimited strings or fixed-length strings.</li>
+    <li><a href="objectlabkit">ObjectLab Kit</a> Date Calculators for Business and Finance.</li>
+    <li><a href="jtreemap">JTreeMap</a> Heat Map library.</li>
+    <li><a href="ant-dotnet">AntLibs DotNet</a>.</li>
+    <li><a href="ant-svn">AntLibs Subversion</a>.</li>
+    <li><a href="antunit">AntLibs Ant Unit</a>.</li>
+    <li><a href="xstream">XStream</a> XStream is a simple library to serialize objects to XML and back again.</li>
+</ol>
+<p>See <a href="http://www.statsvn.org/demo">http://www.statsvn.org/demo</a></p>
+<p>Feel free to suggest some projects, they must be well-known!</p>
+	]]></description>
+	</item>
+	
+	<item>
 	<title>StatSVN publishes stats for Apache QPid.</title>
 	<description><![CDATA[
 <p>StatSVN has released statistics for the Apache QPid project, multi-language implementation of AMQP, Advanced Messaged Queuing Protocol.</p>
