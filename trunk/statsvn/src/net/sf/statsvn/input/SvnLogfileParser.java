@@ -684,7 +684,8 @@ public class SvnLogfileParser {
 					        .getNumberSvnDiffThreads());
 					end = System.currentTimeMillis();
 					SvnConfigurationOptions.getTaskLogger().info(
-					        new Date() + " Intermediary save took " + (end - start) + " ms. Estimated completion=" + new Date(end + (long) estimateLeftInMs));
+					        System.getProperty("line.separator") + new Date() + " Intermediary save took " + (end - start) + " ms. Estimated completion="
+					                + new Date(end + (long) estimateLeftInMs) + System.getProperty("line.separator"));
 				}
 			}
 		}
