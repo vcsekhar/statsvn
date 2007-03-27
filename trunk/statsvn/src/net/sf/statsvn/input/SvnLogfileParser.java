@@ -178,7 +178,6 @@ public class SvnLogfileParser {
 						final long start = System.currentTimeMillis();
 						diff.run();
 						final long end = System.currentTimeMillis();
-						calls++;
 						poolUseRequired = (end - start) > SvnConfigurationOptions.getThresholdInMsToUseConcurrency();
 					}
 				}
@@ -664,8 +663,8 @@ public class SvnLogfileParser {
 				fileBuilder.setBinary(true);
 				return;
 			} catch (final IOException e) {
-				calls++;
-				SvnConfigurationOptions.getTaskLogger().error("IOException: Unable to obtain diff: " + e.toString());
+				SvnConfigurationOptions.getTaskLogger()
+				        .error("" + (++calls) + "/" + requiredDiffCalls + " IOException: Unable to obtain diff: " + e.toString());
 				return;
 			}
 			if (lineDiff[0] != -1 && lineDiff[1] != -1) {
