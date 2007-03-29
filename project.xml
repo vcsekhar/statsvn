@@ -64,6 +64,17 @@
 	         </archive>
 	      </mailingList>
 		<mailingList>
+			<name>statsvn-users</name>
+			<subscribe>
+				http://lists.sourceforge.net/mailman/listinfo/statsvn-users
+			</subscribe>
+			<unsubscribe>
+				http://lists.sourceforge.net/mailman/listinfo/statsvn-users
+			</unsubscribe>
+			<post/>
+			<archive>http://sourceforge.net/mailarchive/forum.php?forum_name=statsvn-users</archive>
+		</mailingList>
+		<mailingList>
 			<name>statsvn-developers</name>
 			<subscribe>
 				http://lists.sourceforge.net/mailman/listinfo/statsvn-developers
