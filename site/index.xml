@@ -20,7 +20,7 @@
   <body>
     <!-- The body of the document contains a number of sections -->
     <section name="StatSVN News">
-    <p>Get the RSS feed of the news <a href="news.rss"><img src="images/rss.png"></img></a></p>
+    <p style="margin-top:10px; margin-bottom:0; padding-bottom:0; text-align:center; line-height:0"><a href="http://feeds.feedburner.com/StatSVNNews"><img src="http://feeds.feedburner.com/StatSVNNews.gif" alt="StatSVN News" style="border:0"/></a></p><p style="margin-top:5px; padding-top:0; font-size:x-small; text-align:center"><a href="http://www.feedburner.com/fb/a/headlineanimator/install?id=810225" onclick="window.open(this.href, 'haHowto', 'width=520,height=600,toolbar=no,address=no,resizable=yes,scrollbars'); return false" target="_blank">Grab this Headline Animator</a></p>
 
     <p>2007-03-10 <strong>News</strong>: As part of release 0.3.1, we have launched a series of <a href="demo">demos</a> for some known projects: Subversion, Ant, Log4J, Spring Rich Client, Hibernate 3, Joda Time, Ruby, Groovy, Grails and Felix to start with.
     Go on, admit it, you always wanted to know who did what and when on those projects...
@@ -39,6 +39,7 @@
     <a href="http://digg.com/submit?phase=2&amp;url=www.statsvn.org&amp;title=StatSVN%3A%20Development%20Statistics%20from%20your%20Subversion%20Repository&amp;bodytext=The%20StatSVN%20team%20and%20ObjectLab%20are%20pleased%20to%20announce%20release%200%2E2%2E0%20of%20StatSVN,%20a%20tool%20that%20produces%20charts%20and%20reports%20such%20as%20the%20lines%20of%20code%20over%20time,%20per%20module%20and%20per%20developer%2E%20This%20release%20includes%20Html%20and%20Xdoc%20generation%20for%20easy%20integration%20with%20Maven%2E%20StatSVN%20is%20supported%20by%20ObjectLab%2Eco%2Euk&amp;topic=programming">
 	<img src="http://digg.com/img/badges/91x17-digg-button.png" width="91" height="17" alt="Digg!" style="vertical-align:middle" /></a></p>
     <p>We're also pleased to mention that there is a Maven 2 plugin using StatSVN, it is available at <a href="http://stat-scm.sourceforge.net">http://stat-scm.sourceforge.net</a>.</p>
+    <p><a href="http://feeds.feedburner.com/StatSVNNews" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon16x16.png" alt="" style="vertical-align:middle;border:0"/></a> <a href="http://feeds.feedburner.com/StatSVNNews" rel="alternate" type="application/rss+xml">Subscribe to StatSVN News</a>.</p>
     </section>
 
     <section name="So, what is StatSVN? Great statistics for SVN!">

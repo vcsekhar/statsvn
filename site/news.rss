@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
-<rss version="1.0">
+<rss version="2.0">
   <channel>
     <title>StatSVN News</title>
     <link>http://www.statsvn.org</link>
@@ -9,18 +9,40 @@
     <copyright>Copyright 2007 StatSVN Sourceforge Development Group &amp; ObjectLab</copyright>
 	
 	<item>
+	<title>StatSVN publishes stats for JDK7, JBoss, ServiceMix, JRuby, Commons-Lang, TestNG, Maven 2, Maven 2 plugins and Continuum.</title>
+	<description><![CDATA[
+<p>StatSVN has released statistics for the following project:</p>
+<ol>
+	<li><strong>JDK7</strong> The java JDK version 7! Checkout the very latest changes!</li>
+	<li><strong>JBoss AS</strong> No less! Do not try this at home, the first batch of statistics required 102,000 calls to the server... now it is fast!</li>
+	<li><strong>JRuby</strong> is an 100% pure-Java implementation of the Ruby programming language!</li>
+	<li><strong>ServiceMix</strong> The Apache ServiceMix project is an ESB and component suite based on the Java Business Interface (JBI) standard - JSR 208</li>
+	<li><strong>Commons-Lang</strong> The Apache Commons Lang.</li>
+	<li><strong>TestNG</strong> the new testing framework!</li>
+	<li><strong>Maven 2</strong> The Apache Maven 2!</li>
+	<li><strong>Maven 2 Plugins</strong> The Apache Maven 2 Plugins!</li>
+	<li><strong>Continuum</strong> The Apache Continuum project!</li>
+</ol>
+<p>The line of code cache is also published.</p>
+<p>See <a href="http://www.statsvn.org/demo">http://www.statsvn.org/demo</a></p>
+<p>Feel free to suggest some projects, they must be well-known!</p>
+<p>Also, we took the liberty to add a few ads, please support us...</p>
+	]]></description>
+	</item>
+	
+	<item>
 	<title>StatSVN publishes stats for QALab, ObjectLabKit, PZFileReader, XStream, Ant libs, etc.</title>
 	<description><![CDATA[
 <p>StatSVN has released statistics for the following project:</p>
 <ol>
-    <li><a href="qalab">QALab</a> A great tool for keeping track of QA statistics over time.</li>
-    <li><a href="pzfilereader">PZFileReader</a> Parsing of delimited strings or fixed-length strings.</li>
-    <li><a href="objectlabkit">ObjectLab Kit</a> Date Calculators for Business and Finance.</li>
-    <li><a href="jtreemap">JTreeMap</a> Heat Map library.</li>
-    <li><a href="ant-dotnet">AntLibs DotNet</a>.</li>
-    <li><a href="ant-svn">AntLibs Subversion</a>.</li>
-    <li><a href="antunit">AntLibs Ant Unit</a>.</li>
-    <li><a href="xstream">XStream</a> XStream is a simple library to serialize objects to XML and back again.</li>
+    <li>QALab: A great tool for keeping track of QA statistics over time.</li>
+    <li>PZFileReader: Parsing of delimited strings or fixed-length strings.</li>
+    <li>ObjectLab Kit: Date Calculators for Business and Finance.</li>
+    <li>JTreeMap: Heat Map library.</li>
+    <li>AntLibs DotNet.</li>
+    <li>AntLibs Subversion.</li>
+    <li>AntLibs Ant Unit.</li>
+    <li>XStream: XStream is a simple library to serialize objects to XML and back again.</li>
 </ol>
 <p>See <a href="http://www.statsvn.org/demo">http://www.statsvn.org/demo</a></p>
 <p>Feel free to suggest some projects, they must be well-known!</p>
