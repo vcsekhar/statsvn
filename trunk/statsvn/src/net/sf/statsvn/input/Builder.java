@@ -30,6 +30,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -43,6 +44,7 @@ import net.sf.statcvs.model.Directory;
 import net.sf.statcvs.model.Repository;
 import net.sf.statcvs.model.SymbolicName;
 import net.sf.statcvs.model.VersionedFile;
+import net.sf.statcvs.output.ConfigurationOptions;
 import net.sf.statcvs.util.FilePatternMatcher;
 import net.sf.statcvs.util.FileUtils;
 import net.sf.statsvn.output.SvnConfigurationOptions;
@@ -232,8 +234,15 @@ public class Builder implements SvnLogBuilder {
 		if (this.authors.containsKey(lowerCaseName)) {
             return (Author) this.authors.get(lowerCaseName);
         }
-        final Author newAuthor = new Author(name);
-        this.authors.put(lowerCaseName, newAuthor);
+		final Properties p = ConfigurationOptions.getConfigProperties();
+		Author newAuthor = new Author(name);
+		this.authors.put(name.toLowerCase(), newAuthor);
+		if (p!=null) {
+			newAuthor.setRealName(p.getProperty("user."+name.toLowerCase()+".realName"));
+			newAuthor.setHomePageUrl(p.getProperty("user."+name.toLowerCase()+".url"));
+			newAuthor.setImageUrl(p.getProperty("user."+name.toLowerCase()+".image"));
+			newAuthor.setEmail(p.getProperty("user."+name.toLowerCase()+".email"));
+		}
         return newAuthor;
     }
 
