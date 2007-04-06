@@ -24,9 +24,9 @@
     <p>We thought it would be nice to have some "demo" against some major OS projects, so here you go:</p>
     <ol>
     <li><a href="subversion">Subversion</a> itself!</li>
-    <li><a href="spring-rich-c">Spring Rich Client</a> (java rich client library from Spring)</li>
+    <li><a href="spring-richclient">Spring Rich Client</a> (java rich client library from Spring)</li>
     <li><a href="hibernate">Hibernate 3</a> (java persistence)</li>
-    <li><a href="joda-time">Joda Time</a> (cool java time library)</li>
+    <li><a href="jodatime">Joda Time</a> (cool java time library)</li>
     <li><a href="log4j">Log4J</a> (Apache logging library for Java)</li>
     <li><a href="ruby">Ruby</a> (yes, the language, in C!)</li>
     <li><a href="groovy">Groovy</a></li>
@@ -41,16 +41,27 @@
     <li><a href="objectlabkit">ObjectLab Kit</a> Date Calculators for Business and Finance.</li>
     <li><a href="jtreemap">JTreeMap</a> Heat Map library.</li>
     <li><a href="ant-dotnet">AntLibs DotNet</a>.</li>
-    <!--<li><a href="ant-http">AntLibs HTTP</a>.</li>
-    <li><a href="ant-manual4eclipse">AntLibs Manual for Eclipse</a>.</li>-->
+    <li><a href="ant-http">AntLibs HTTP</a>.</li>
+    <li><a href="ant-manual4eclipse">AntLibs Manual for Eclipse</a>.</li>
     <li><a href="ant-svn">AntLibs Subversion</a>.</li>
     <li><a href="antunit">AntLibs Ant Unit</a>.</li>
     <li><a href="xstream">XStream</a> XStream is a simple library to serialize objects to XML and back again.</li>
-    <li><a href="jbossas">JBoss AS</a> No less!</li>
+    <li><a href="jbossas">JBoss AS</a> No less! Do not try this at home, the first batch of statistics required 102,000 calls to the server... now it is fast!</li>
     <li><a href="jruby">JRuby</a> JRuby is an 100% pure-Java implementation of the Ruby programming language!</li>
     <li><a href="servicemix">ServiceMix</a> The Apache ServiceMix project is an ESB and component suite based on the Java Business Interface (JBI) standard - JSR 208</li>
     <li><a href="commons-lang">Commons-Lang</a> The Apache Commons Lang.</li>
+    <li><a href="jdk7">JDK7</a> The java JDK version 7! Checkout the very latest changes!</li>
+    <li><a href="testng">TestNG</a> TestNG, the new testing framework!</li>
+    <li><a href="maven1">Maven 1</a> The Apache Maven 1!</li>
+    <li><a href="maven2">Maven 2</a> The Apache Maven 2!</li>
+    <li><a href="m2plugins">Maven 2 Plugins</a> The Apache Maven 2 Plugins!</li>
+    <li><a href="continuum">Continuum</a> The Apache Continuum project!</li>
+    <li><a href="pebble">Pebble</a> a Blog software!</li>
     </ol>
+    
+    <p>Furthermore, generating the stats for these projects is very intensive since we need to contact the Subversion server many times in order to get
+    the line differences.  However, do not despair, StatSVN creates a cache so that the next run is much much faster!  And the best is that you can download that cache
+    for the demo projects, <a href="repocache.zip">here! (a zip)</a>, just unzip it under your HOME directory ( in ".statsvn" directory).</p>
     
     <p>If you would like us to add an open source project, please raise an issue on SF and provide us with the following information:</p>
     <ol>
