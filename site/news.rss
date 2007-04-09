@@ -9,6 +9,12 @@
     <copyright>Copyright 2007 StatSVN Sourceforge Development Group &amp; ObjectLab</copyright>
 	
 	<item>
+		<title>This RSS is discontinued, please switch to ObjectLab Open Source news for news about StatSVN.</title>
+		<description>This RSS feed is discontinued, please switch to <a href="http://feeds.feedburner.com/ObjectLabOpenSourceNews">ObjectLab Open Source News</a> for news about StatSVN.
+		</description>
+	</item>
+	
+	<item>
 	<title>StatSVN publishes stats for JDK7, JBoss, ServiceMix, JRuby, Commons-Lang, TestNG, Maven 2, Maven 2 plugins and Continuum.</title>
 	<description><![CDATA[
 <p>StatSVN has released statistics for the following project:</p>
