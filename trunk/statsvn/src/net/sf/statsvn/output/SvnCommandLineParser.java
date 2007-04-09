@@ -80,6 +80,11 @@ public class SvnCommandLineParser extends CommandLineParser {
 				throw new ConfigurationException("Missing argument for -concurrency-threshold");
 			}
 			SvnConfigurationOptions.setThresholdInMsToUseConcurrency(Integer.parseInt(popNextArg()));
+		} else if (s.equals("tags-dir")) {
+			if (isArgsEmpty()) {
+				throw new ConfigurationException("Missing argument for -tags-dir");
+			}
+			SvnConfigurationOptions.setTagsDirectory(popNextArg());
 		} else if (s.equals("dump")) {
 			SvnConfigurationOptions.setDumpContent(true);
 		} else {
