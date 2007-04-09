@@ -9,6 +9,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import net.sf.statcvs.output.ConfigurationOptions;
 import net.sf.statsvn.output.SvnConfigurationOptions;
 
 import org.w3c.dom.Document;
@@ -211,6 +212,7 @@ public class CacheBuilder {
 		builderDOM = factoryDOM.newDocumentBuilder();
 		document = builderDOM.newDocument();
 		cache = document.createElement(CacheConfiguration.CACHE);
+		cache.setAttribute(CacheConfiguration.PROJECT, ConfigurationOptions.getProjectName());
 		document.appendChild(cache);
 	}
 
