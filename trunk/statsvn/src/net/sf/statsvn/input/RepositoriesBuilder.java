@@ -4,6 +4,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import net.sf.statcvs.output.ConfigurationOptions;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -26,6 +28,7 @@ public class RepositoriesBuilder {
 	private static final String REPOSITORIES = "repositories";
 	private static final String UUID = "uuid";
 	private static final String FILE = "file";
+	private static final String PROJECT = "project";
 	private static final String REPOSITORY = "repository";
 	private Document document = null;
 	private Element repositories = null;
@@ -67,6 +70,7 @@ public class RepositoriesBuilder {
 		final Element repository = document.createElement(REPOSITORY);
 		repository.setAttribute(UUID, uuid);
 		repository.setAttribute(FILE, file);
+		repository.setAttribute(PROJECT, ConfigurationOptions.getProjectName());
 		repositories.appendChild(repository);
 		return repository;
 	}
