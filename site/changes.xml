@@ -5,6 +5,8 @@
   </properties>
   <body>
     <release version="0.3.2-SNAPSHOT" date="in svn" description="Maintenance">     
+       <action dev="benoitx" type="add" issue="1692245">Added support for tags-dir as a way to specify 'top' directory where the tags are stored, defaulted to "/tags/".</action>
+       <action dev="benoitx" type="fix">Changed RSS to use the common one: http://feeds.feedburner.com/ObjectlabOpenSourceNews</action>
     </release>
 
     <release version="0.3.1" date="2007-03-10" description="Maintenance">     
@@ -14,7 +16,7 @@
        <action dev="jpdaigle" type="add">Added EnvReport function to aid in identifying common failure cases (no change to StatSVN command line, it is a seperate executable class).</action>
        <action dev="benoitx" type="add">Added introduction page for demos.</action>
        <action dev="benoitx" type="fix" issue="1673601" due-to="Benoit Xhenseval">Support the tags command line parameter (will only show a given set of tags).</action>
-       <action dev="benoitx" type="fix">Removed JDk 1.5 dependency on String.replace(CharSequence,CharSequence).</action>
+       <action dev="benoitx" type="fix">Removed JDK 1.5 dependency on String.replace(CharSequence,CharSequence).</action>
        <action dev="benoitx" type="fix" issue="1657197" due-to="p_michalczyk">Fixed an NPE in RepoPageMaker (only happening if repo has no dates.</action>
        <action dev="jkealey" type="add" issue="1637082">Improved reporting of XML parsing errors.</action>
        <action dev="benoitx" type="fix" issue="1655200" due-to="Alejandro Scandroli">Changed the Maven dependencies to use a backport concurrent compiled with jdk 1.4</action>

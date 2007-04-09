@@ -31,74 +31,86 @@ import net.sf.statsvn.util.JavaUtilTaskLogger;
 import net.sf.statsvn.util.TaskLogger;
 
 /**
- * Class for storing all command line parameters. The parameters are set by the {@link net.sf.statsvn.Main#main} method. Interested classes can read all
+ * Class for storing all command line parameters. The parameters are set by the
+ * {@link net.sf.statsvn.Main#main} method. Interested classes can read all
  * parameter values from here.
- *
+ * 
  * @todo Should be moved to more appropriate package and made non-public
- *
+ * 
  * @author jentzsch
  * @version $Id: ConfigurationOptions.java,v 1.17 2005/03/20 19:12:25 squig Exp $
  */
 public final class SvnConfigurationOptions {
-    private static final int DEFAULT_THRESHOLD_MS_FOR_CONCURRENCY = 2000;
-	private static final int DEFAULT_NUMBER_THREADS = 25;
-	private static String cacheDir = "";
-    private static final String DEFAULT_CACHE_DIR = System.getProperty("user.home") + FileUtils.getDirSeparator() + ".statsvn" + FileUtils.getDirSeparator();
-    private static String svnUsername = null;
-    private static String svnPassword = null;
-    private static TaskLogger taskLogger = new JavaUtilTaskLogger();
-    private static int numberSvnDiffThreads = DEFAULT_NUMBER_THREADS;
-    private static long thresholdInMsToUseConcurrency = DEFAULT_THRESHOLD_MS_FOR_CONCURRENCY;
-    private static boolean dump = false;
+	private static final int DEFAULT_THRESHOLD_MS_FOR_CONCURRENCY = 2000;
 
-    /**
-	 * A utility class (only static methods) should be final and have
-	 * a private constructor.
+	private static final int DEFAULT_NUMBER_THREADS = 25;
+
+	private static String cacheDir = "";
+
+	private static final String DEFAULT_CACHE_DIR = System.getProperty("user.home") + FileUtils.getDirSeparator() + ".statsvn" + FileUtils.getDirSeparator();
+
+	private static String svnUsername = null;
+
+	private static String svnPassword = null;
+
+	private static TaskLogger taskLogger = new JavaUtilTaskLogger();
+
+	private static int numberSvnDiffThreads = DEFAULT_NUMBER_THREADS;
+
+	private static long thresholdInMsToUseConcurrency = DEFAULT_THRESHOLD_MS_FOR_CONCURRENCY;
+
+	private static boolean dump = false;
+
+	private static String tagsDirectory = "/tags/";
+
+	/**
+	 * A utility class (only static methods) should be final and have a private
+	 * constructor.
 	 */
 	private SvnConfigurationOptions() {
 	}
 
-    /**
-     * Returns the cacheDir.
-     *
-     * @return String output Directory
-     */
-    public static String getCacheDir() {
-        return cacheDir;
-    }
+	/**
+	 * Returns the cacheDir.
+	 * 
+	 * @return String output Directory
+	 */
+	public static String getCacheDir() {
+		return cacheDir;
+	}
 
-    /**
-     * Sets the cacheDir.
-     *
-     * @param cacheDir
-     *            The cacheDir to set
-     * @throws ConfigurationException
-     *             if the cache directory cannot be created
-     */
-    public static void setCacheDir(String cacheDir) throws ConfigurationException {
-        if (!cacheDir.endsWith(FileUtils.getDirSeparator())) {
-            cacheDir += FileUtils.getDefaultDirSeparator();
-        }
-        final File cDir = new File(cacheDir);
-        if (!cDir.exists() && !cDir.mkdirs()) {
-            throw new ConfigurationException("Can't create cache directory: " + cacheDir);
-        }
-        SvnConfigurationOptions.cacheDir = cacheDir;
-    }
+	/**
+	 * Sets the cacheDir.
+	 * 
+	 * @param cacheDir
+	 *            The cacheDir to set
+	 * @throws ConfigurationException
+	 *             if the cache directory cannot be created
+	 */
+	public static void setCacheDir(String cacheDir) throws ConfigurationException {
+		if (!cacheDir.endsWith(FileUtils.getDirSeparator())) {
+			cacheDir += FileUtils.getDefaultDirSeparator();
+		}
+		final File cDir = new File(cacheDir);
+		if (!cDir.exists() && !cDir.mkdirs()) {
+			throw new ConfigurationException("Can't create cache directory: " + cacheDir);
+		}
+		SvnConfigurationOptions.cacheDir = cacheDir;
+	}
 
-    /**
-     * Sets the cacheDir to the DEFAULT_CACHE_DIR
-     *
-     * @throws ConfigurationException
-     *             if the cache directory cannot be created
-     */
-    public static void setCacheDirToDefault() throws ConfigurationException {
-    	setCacheDir(DEFAULT_CACHE_DIR);
-    }
+	/**
+	 * Sets the cacheDir to the DEFAULT_CACHE_DIR
+	 * 
+	 * @throws ConfigurationException
+	 *             if the cache directory cannot be created
+	 */
+	public static void setCacheDirToDefault() throws ConfigurationException {
+		setCacheDir(DEFAULT_CACHE_DIR);
+	}
 
-    public static File getCheckedOutDirectoryAsFile() {
-        return new File(FileUtils.getPathWithoutEndingSlash(ConfigurationOptions.getCheckedOutDirectory()) + FileUtils.getDirSeparator());
-    }
+	public static File getCheckedOutDirectoryAsFile() {
+		return new File(FileUtils.getPathWithoutEndingSlash(ConfigurationOptions.getCheckedOutDirectory()) + FileUtils.getDirSeparator());
+	}
 
 	/**
 	 * @return Returns the svnPassword.
@@ -108,7 +120,8 @@ public final class SvnConfigurationOptions {
 	}
 
 	/**
-	 * @param svnPassword The svnPassword to set.
+	 * @param svnPassword
+	 *            The svnPassword to set.
 	 */
 	public static void setSvnPassword(final String svnPassword) {
 		SvnConfigurationOptions.svnPassword = svnPassword;
@@ -122,7 +135,8 @@ public final class SvnConfigurationOptions {
 	}
 
 	/**
-	 * @param svnUsername The svnUsername to set.
+	 * @param svnUsername
+	 *            The svnUsername to set.
 	 */
 	public static void setSvnUsername(final String svnUsername) {
 		SvnConfigurationOptions.svnUsername = svnUsername;
@@ -136,7 +150,8 @@ public final class SvnConfigurationOptions {
 	}
 
 	/**
-	 * @param taskLogger the taskLogger to set
+	 * @param taskLogger
+	 *            the taskLogger to set
 	 */
 	public static void setTaskLogger(final TaskLogger taskLogger) {
 		SvnConfigurationOptions.taskLogger = taskLogger;
@@ -150,7 +165,8 @@ public final class SvnConfigurationOptions {
 	}
 
 	/**
-	 * @param numberSvnDiffThreads the numberSvnDiffThreads to set
+	 * @param numberSvnDiffThreads
+	 *            the numberSvnDiffThreads to set
 	 */
 	public static void setNumberSvnDiffThreads(int numberSvnDiffThreads) {
 		SvnConfigurationOptions.numberSvnDiffThreads = numberSvnDiffThreads;
@@ -164,17 +180,37 @@ public final class SvnConfigurationOptions {
 	}
 
 	/**
-	 * @param thresholdInMsToUseConcurrency the thresholdInMsToUseConcurrency to set
+	 * @param thresholdInMsToUseConcurrency
+	 *            the thresholdInMsToUseConcurrency to set
 	 */
 	public static void setThresholdInMsToUseConcurrency(long thresholdToUseConcurrency) {
 		SvnConfigurationOptions.thresholdInMsToUseConcurrency = thresholdToUseConcurrency;
 	}
-	
+
 	public static void setDumpContent(final boolean dumpContent) {
 		dump = dumpContent;
 	}
-	
+
 	public static boolean isDumpContent() {
 		return dump;
+	}
+
+	/**
+	 * Following request 1692245, add option -tags-dir to the command line.
+	 */
+	public static void setTagsDirectory(final String tagsDir) {
+		if (tagsDir != null) {
+			tagsDirectory = tagsDir.replace('\\', '/');
+			if (!tagsDirectory.endsWith("/")) {
+				tagsDirectory = tagsDir + "/";
+			}
+		}
+	}
+
+	/**
+	 * Following request 1692245, add option -tags-dir to the command line.
+	 */
+	public static String getTagsDirectory() {
+		return tagsDirectory;
 	}
 }
