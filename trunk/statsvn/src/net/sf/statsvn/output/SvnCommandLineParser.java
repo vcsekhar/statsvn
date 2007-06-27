@@ -87,6 +87,8 @@ public class SvnCommandLineParser extends CommandLineParser {
 			SvnConfigurationOptions.setTagsDirectory(popNextArg());
 		} else if (s.equals("dump")) {
 			SvnConfigurationOptions.setDumpContent(true);
+		} else if (s.equals("anonymize")) {
+			SvnConfigurationOptions.setAnonymize(true);
 		} else {
 			return false;
 		}

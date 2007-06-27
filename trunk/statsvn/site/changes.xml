@@ -8,6 +8,7 @@
        <action dev="benoitx" type="add" issue="1687928">I have added a small project attribute which makes it more obvious which cache belongs to what project in the repositories.xml and xml cache files.</action>
        <action dev="benoitx" type="add" issue="1692245">Added support for tags-dir as a way to specify 'top' directory where the tags are stored, defaulted to "/tags/".</action>
        <action dev="benoitx" type="fix">Changed RSS to use the common one: http://feeds.feedburner.com/ObjectlabOpenSourceNews</action>
+       <action dev="jpdaigle" type="add" issue="1743119">Added support for a '-anonymize' command line option, to anonymize committer names.</action>
     </release>
 
     <release version="0.3.1" date="2007-03-10" description="Maintenance">     

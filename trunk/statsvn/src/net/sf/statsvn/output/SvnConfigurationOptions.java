@@ -61,6 +61,8 @@ public final class SvnConfigurationOptions {
 
 	private static boolean dump = false;
 
+	private static boolean anonymize = false;
+	
 	private static String tagsDirectory = "/tags/";
 
 	/**
@@ -195,6 +197,14 @@ public final class SvnConfigurationOptions {
 		return dump;
 	}
 
+	public static void setAnonymize(final boolean bAnon) {
+		anonymize = bAnon;
+	}
+	
+	public static boolean isAnonymize() {
+		return anonymize;
+	}
+	
 	/**
 	 * Following request 1692245, add option -tags-dir to the command line.
 	 */

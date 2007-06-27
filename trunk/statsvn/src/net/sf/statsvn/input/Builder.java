@@ -230,18 +230,27 @@ public class Builder implements SvnLogBuilder {
 			name=Messages.getString("AUTHOR_UNKNOWN");
 		}
     	
-        String lowerCaseName = name.toLowerCase(Locale.getDefault());
+        final String lowerCaseName = name.toLowerCase(Locale.getDefault());
+        final boolean bAnon = SvnConfigurationOptions.isAnonymize();
 		if (this.authors.containsKey(lowerCaseName)) {
             return (Author) this.authors.get(lowerCaseName);
         }
+		
+		Author newAuthor;
+		if (bAnon) {
+			// The first time a particular name is encountered, create an anonymized name.
+			newAuthor = new Author(AuthorAnonymizingProvider.getNewName());
+		} else {
+			newAuthor = new Author(name);
+		}
+		
 		final Properties p = ConfigurationOptions.getConfigProperties();
-		Author newAuthor = new Author(name);
-		this.authors.put(name.toLowerCase(), newAuthor);
-		if (p!=null) {
-			newAuthor.setRealName(p.getProperty("user."+name.toLowerCase()+".realName"));
-			newAuthor.setHomePageUrl(p.getProperty("user."+name.toLowerCase()+".url"));
-			newAuthor.setImageUrl(p.getProperty("user."+name.toLowerCase()+".image"));
-			newAuthor.setEmail(p.getProperty("user."+name.toLowerCase()+".email"));
+		this.authors.put(lowerCaseName, newAuthor);
+		if (p!=null && !bAnon) {
+			newAuthor.setRealName(p.getProperty("user."+lowerCaseName+".realName"));
+			newAuthor.setHomePageUrl(p.getProperty("user."+lowerCaseName+".url"));
+			newAuthor.setImageUrl(p.getProperty("user."+lowerCaseName+".image"));
+			newAuthor.setEmail(p.getProperty("user."+lowerCaseName+".email"));
 		}
         return newAuthor;
     }
@@ -403,5 +412,18 @@ public class Builder implements SvnLogBuilder {
 			}
 		}
 		return result;
+	}
+    
+    private static final class AuthorAnonymizingProvider {
+    	private AuthorAnonymizingProvider() {
+    		// no access
+    	}
+    	
+		private static int count = 0;
+
+		static synchronized String getNewName() {
+			return "author" + (String.valueOf(++count));
+		}
+
 	}
 }
