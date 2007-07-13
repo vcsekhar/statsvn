@@ -52,7 +52,7 @@ import net.sf.statsvn.util.SvnVersionMismatchException;
 /**
  * StatSvn Main Class; it starts the application and controls command-line
  * related stuff
- *
+ * 
  * @author Lukasz Pekacki
  * @author Richard Cyganiak
  * @version $Id: Main.java,v 1.47 2005/03/20 19:12:25 squig Exp $
@@ -164,12 +164,11 @@ public final class Main {
 		                + "  -title <title>     Project title to be used in reports" + cr + "  -viewvc <url>      integrate with ViewVC installation at <url>"
 		                + cr + "  -bugzilla <url>    integrate with Bugzilla installation at <url>" + cr + "  -username <svnusername> username to pass to svn"
 		                + cr + "  -password <svnpassword> password to pass to svn" + cr + "  -verbose           print extra progress information" + cr
-		                + "  -xdoc                 optional switch output to xdoc" + cr 
-		                + "  -threads <int>        how many threads for svn diff (default: 25)" + cr
-		                + "  -concurrencyThreshold <millisec> switch to concurrent svn diff if 1st call>threshold (default: 4000)" + cr
-		                + "  -dump                 dump the Repository content on console" + cr 
-		                + "  -tags-dir <directory> optional, specifies the director for tags (default '/tags/')" + cr 
-		                + cr + "Full options list: http://www.statsvn.org");
+		                + "  -xdoc                 optional switch output to xdoc" + cr + "  -threads <int>        how many threads for svn diff (default: 25)"
+		                + cr + "  -concurrencyThreshold <millisec> switch to concurrent svn diff if 1st call>threshold (default: 4000)" + cr
+		                + "  -dump                 dump the Repository content on console" + cr
+		                + "  -tags-dir <directory> optional, specifies the director for tags (default '/tags/')" + cr + cr
+		                + "Full options list: http://www.statsvn.org");
 		System.exit(1);
 	}
 
@@ -289,6 +288,8 @@ public final class Main {
 		config.setWebBugtracker(ConfigurationOptions.getWebBugtracker());
 		config.setNonDeveloperLogins(ConfigurationOptions.getNonDeveloperLogins());
 
+		validate(config);
+
 		if (SvnConfigurationOptions.isDumpContent()) {
 			new RepoDump(content).dump();
 		} else {
@@ -304,5 +305,12 @@ public final class Main {
 
 		SvnConfigurationOptions.getTaskLogger().info("runtime: " + (((double) endTime - startTime) / NUMBER_OF_MS_IN_ONE_SEC) + " seconds");
 		SvnConfigurationOptions.getTaskLogger().info("memory usage: " + (((double) memoryUsedOnEnd - memoryUsedOnStart) / KB_IN_ONE_MB) + " kb");
+	}
+
+	private static void validate(ReportConfig config) {
+		if (config.getRepository() == null || config.getRepository().getRoot() == null || config.getRepository().getDirectories() == null) {
+			printErrorMessageAndExit("The repository object is not valid. Please check your settings." + System.getProperty("line.separator")
+			        + "Is the log file empty? Do you run from a checked out directory? Do you have non-committed items?");
+		}
 	}
 }
