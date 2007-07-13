@@ -5,6 +5,7 @@
   </properties>
   <body>
     <release version="0.3.2-SNAPSHOT" date="in svn" description="Maintenance">     
+       <action dev="benoitx" type="add">I have added a validation mechanism that checks the Repository object once the log is parsed, if root is null, it will terminate the execution.</action>
        <action dev="benoitx" type="add" issue="1687928">I have added a small project attribute which makes it more obvious which cache belongs to what project in the repositories.xml and xml cache files.</action>
        <action dev="benoitx" type="add" issue="1692245">Added support for tags-dir as a way to specify 'top' directory where the tags are stored, defaulted to "/tags/".</action>
        <action dev="benoitx" type="fix">Changed RSS to use the common one: http://feeds.feedburner.com/ObjectlabOpenSourceNews</action>
