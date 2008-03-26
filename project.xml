@@ -135,6 +135,16 @@
 			<url>http://www.xhenseval.com</url>
 			<timezone>+0</timezone>
 		</developer>
+		<developer>
+			<name>Marcin Jekot</name>
+			<id>marchy</id>
+			<email>marchy at users dot sourceforge dot net</email>
+			<organization>Individual</organization>
+			<roles>
+				<role>Maven Repo</role>
+			</roles>
+			<timezone>+0</timezone>
+		</developer>
 	</developers>
 
    	<contributors>
