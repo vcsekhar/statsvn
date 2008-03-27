@@ -298,7 +298,11 @@ public final class Main {
 			extraReports.add(new RepoMapPageMaker(config).toFile());
 			extraReports.add(new ChurnPageMaker(config).toFile());
 
-			new ReportSuiteMaker(config, ConfigurationOptions.getNotes(), extraReports).toFile().write();
+	        if ("xml".equalsIgnoreCase(ConfigurationOptions.getOutputFormat())) {
+				new ReportSuiteMaker(config, ConfigurationOptions.getNotes(), extraReports).toXml();
+	        } else {
+	            new ReportSuiteMaker(config, ConfigurationOptions.getNotes(), extraReports).toFile().write();
+	        }
 		}
 		final long endTime = System.currentTimeMillis();
 		final long memoryUsedOnEnd = Runtime.getRuntime().totalMemory();

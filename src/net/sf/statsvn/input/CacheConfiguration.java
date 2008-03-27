@@ -20,4 +20,5 @@ public class CacheConfiguration {
 	protected static final String REVISION = "revision";
 	protected static final String UNKNOWN = "unknown";
 	protected static final String PROJECT = "project";
+	public static final String XML_VERSION = "version";
 }
