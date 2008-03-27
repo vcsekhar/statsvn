@@ -115,7 +115,7 @@ public class ChoraIntegration implements WebRepositoryIntegration {
 //		this.atticFileNames = atticFileNames;
 	}
 
-//	private boolean isInAttic(final VersionedFile file) {
-//		return atticFileNames.contains(file.getFilenameWithPath());
-//	}
+	public String getBaseUrl() {
+	    return baseURL;
+    }
 }
