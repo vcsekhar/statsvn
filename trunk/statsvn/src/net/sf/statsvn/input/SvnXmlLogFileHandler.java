@@ -42,7 +42,7 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
 
 	private static final String PATHS = "paths";
 
-	private SvnLogBuilder builder;
+	private final SvnLogBuilder builder;
 
 	private ArrayList currentFilenames;
 
@@ -60,11 +60,11 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
 
 	private String copyfromPath = "";
 
-	private RepositoryFileManager repositoryFileManager;
+	private final RepositoryFileManager repositoryFileManager;
 
-	private HashMap tagsMap = new HashMap();
+	private final HashMap tagsMap = new HashMap();
 
-	private HashMap tagsDateMap = new HashMap();
+	private final HashMap tagsDateMap = new HashMap();
 
 	/**
 	 * Default constructor.
@@ -226,7 +226,7 @@ public class SvnXmlLogFileHandler extends DefaultHandler {
 
 		// relies on the fact that absoluteToRelativePath returns null for paths
 		// that are not on the branch.
-		String filename = repositoryFileManager.absoluteToRelativePath(stringData);
+		final String filename = repositoryFileManager.absoluteToRelativePath(stringData);
 		final RevisionData data = currentRevisionData.createCopy();
 		if (!pathAction.equals("D")) {
 			data.setStateExp(true);

@@ -73,17 +73,17 @@ public class FileBuilder {
 
 	private static final int ONE_MIN_IN_MS = 60000;
 
-	private Builder builder;
+	private final Builder builder;
 
-	private String name;
+	private final String name;
 
 	private boolean binary;
 
 	private final List revisions = new ArrayList();
 
-	private Map revBySymnames;
+	private final Map revBySymnames;
 
-	private Map dateBySymnames;
+	private final Map dateBySymnames;
 
 	private int locDelta;
 
@@ -308,13 +308,13 @@ public class FileBuilder {
 
 	private void buildBeginOfLogRevision(final VersionedFile file, final Date beginOfLogDate, final int loc, final SortedSet symbolicNames) {
 		final Date date = new Date(beginOfLogDate.getTime() - ONE_MIN_IN_MS);
-		Revision dummyForMove = file.addBeginOfLogRevision(date, loc, symbolicNames);
+		final Revision dummyForMove = file.addBeginOfLogRevision(date, loc, symbolicNames);
 
 		// + BX: DO NOT add a 0.0 revision to this SymbolicNames set as this
 		// would duplicate the impact of the
 		// move on the TAG set.
 		if (symbolicNames != null) {
-			Iterator it = symbolicNames.iterator();
+			final Iterator it = symbolicNames.iterator();
 			while (it.hasNext()) {
 				((SymbolicName) it.next()).getRevisions().remove(dummyForMove);
 			}
@@ -386,8 +386,8 @@ public class FileBuilder {
 			// in order to find either the rev ON the tag or JUST BEFORE!
 			int previousRevisionForThisFile = getRevisionAsInt(((RevisionData) revisions.get(revisions.size() - 1)).getRevisionNumber());
 			int revisionToTag = -1;
-			for (ListIterator it = revisions.listIterator(revisions.size()); it.hasPrevious();) {
-				RevisionData data = (RevisionData) it.previous();
+			for (final ListIterator it = revisions.listIterator(revisions.size()); it.hasPrevious();) {
+				final RevisionData data = (RevisionData) it.previous();
 
 				SvnConfigurationOptions.getTaskLogger().log(
 				        "File REV " + data.getRevisionNumber() + " =>" + data.getDate() + " vs " + tagRevision + " Deletion:" + data.isDeletion());
@@ -427,8 +427,8 @@ public class FileBuilder {
 					symbolicNames = new TreeSet();
 				}
 				SvnConfigurationOptions.getTaskLogger().log(
-				        "adding revision " + name + "," + currentRevision + " to symname " + tag.getKey() + " Date:" + (Date) dateBySymnames.get(tag.getKey())
-				                + " A:" + revisionData.getLinesAdded() + " R:" + revisionData.getLinesRemoved());
+				        "adding revision " + name + "," + currentRevision + " to symname " + tag.getKey() + " Date:" + dateBySymnames.get(tag.getKey()) + " A:"
+				                + revisionData.getLinesAdded() + " R:" + revisionData.getLinesRemoved());
 				symbolicNames.add(builder.getSymbolicName((String) tag.getKey(), (Date) dateBySymnames.get(tag.getKey())));
 			}
 		}
@@ -436,7 +436,7 @@ public class FileBuilder {
 		return symbolicNames;
 	}
 
-	private int getRevisionAsInt(String revisionNumber) {
+	private int getRevisionAsInt(final String revisionNumber) {
 		int rev = 0;
 		if (revisionNumber != null && !revisionNumber.equals("0.0")) {
 			rev = Integer.valueOf(revisionNumber).intValue();

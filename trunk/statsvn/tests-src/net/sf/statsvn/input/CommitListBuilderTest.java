@@ -30,9 +30,9 @@ import junit.framework.TestCase;
 import net.sf.statcvs.input.CommitListBuilder;
 import net.sf.statcvs.model.Author;
 import net.sf.statcvs.model.Commit;
-import net.sf.statcvs.model.VersionedFile;
 import net.sf.statcvs.model.Directory;
 import net.sf.statcvs.model.Revision;
+import net.sf.statcvs.model.VersionedFile;
 
 /**
  * @author Anja Jentzsch
@@ -44,20 +44,33 @@ public class CommitListBuilderTest extends TestCase {
 	private static final int DATE = 10000000;
 
 	private Revision rev1;
+
 	private Revision rev2;
+
 	private Revision rev3;
+
 	private Revision rev4;
+
 	private Revision rev4b;
+
 	private Revision rev5;
+
 	private Revision rev6;
+
 	private Revision rev6b;
+
 	private Revision rev7;
+
 	private Revision rev8;
+
 	private List commits;
+
 	private Author author1;
+
 	private Author author2;
+
 	private Author author3;
-	
+
 	/**
 	 * Constructor for CommitListBuilderTest.
 	 * @param arg0 input argument
@@ -101,12 +114,12 @@ public class CommitListBuilderTest extends TestCase {
 		runBuilder(null);
 		assertEquals(0, commits.size());
 	}
-	
+
 	/**
 	 * Method testOneRevision.
 	 */
 	public void testOneRevision() {
-		final Revision[] revs = {rev1};
+		final Revision[] revs = { rev1 };
 		runBuilder(revs);
 		assertEquals(1, commits.size());
 		assertEquals(1, getCommit(0).getRevisions().size());
@@ -117,7 +130,7 @@ public class CommitListBuilderTest extends TestCase {
 	 * Method testOneCommitMultipleRevisions.
 	 */
 	public void testOneCommitMultipleRevisions() {
-		final Revision[] revs = {rev1, rev4b, rev5};
+		final Revision[] revs = { rev1, rev4b, rev5 };
 		runBuilder(revs);
 		assertEquals(1, commits.size());
 		assertEquals(3, getCommit(0).getRevisions().size());
@@ -130,7 +143,7 @@ public class CommitListBuilderTest extends TestCase {
 	 * Method testMultipleCommits.
 	 */
 	public void testMultipleCommits() {
-		final Revision[] revs = {rev1, rev2, rev3};
+		final Revision[] revs = { rev1, rev2, rev3 };
 		runBuilder(revs);
 		assertEquals(3, commits.size());
 		assertEquals(1, getCommit(0).getRevisions().size());
@@ -140,12 +153,12 @@ public class CommitListBuilderTest extends TestCase {
 		assertTrue(getCommit(1).getRevisions().contains(rev2));
 		assertTrue(getCommit(2).getRevisions().contains(rev3));
 	}
-		
+
 	/**
 	 * Method testSimultaneousCommits.
 	 */
 	public void testSimultaneousCommits() {
-		final Revision[] revs = {rev1, rev2, rev4, rev5, rev6};
+		final Revision[] revs = { rev1, rev2, rev4, rev5, rev6 };
 		runBuilder(revs);
 		assertEquals(3, commits.size());
 		assertEquals(2, getCommit(0).getRevisions().size());

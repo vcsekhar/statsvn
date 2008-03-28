@@ -34,14 +34,17 @@ import org.w3c.dom.Document;
  */
 public final class XMLUtil {
 	private static final int ONE_SEC_IN_MILLISECS = 1000;
+
 	private static final int IDOT_POSITION_IFNEG = 20;
+
 	private static final int NORMAL_IDOT_POSITION = 19;
 
 	/**
 	 * A utility class (only static methods) should be final and have
 	 * a private constructor.
 	 */
-	private XMLUtil() {}
+	private XMLUtil() {
+	}
 
 	/**
 	 * For some reason, can't find this utility method in the java framework.

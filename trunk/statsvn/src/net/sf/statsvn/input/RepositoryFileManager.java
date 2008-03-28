@@ -52,7 +52,7 @@ import net.sf.statsvn.util.SvnPropgetUtils;
  * @version $Id$
  */
 public class RepositoryFileManager {
-	private String path;
+	private final String path;
 
 	/**
 	 * Creates a new instance with root at <code>pathName</code>.
@@ -150,19 +150,19 @@ public class RepositoryFileManager {
 	public int[] getLineDiff(final String oldRevNr, final String newRevNr, final String filename) throws IOException, BinaryDiffException {
 		return SvnDiffUtils.getLineDiff(oldRevNr, newRevNr, filename);
 	}
-	
-	 /**
-	 * Returns line count differences for all files in a particular revision.
-	 * 
-	 * @param newRevNr
-	 *            new revision number
-	 * @return A vector of object[3] array of [filename, int[2](lines added, lines removed), isBinary] is returned.
-	 * @throws IOException
-	 *             problem parsing the stream
-	 * @throws BinaryDiffException
-	 *             if the error message is due to trying to diff binary files.
-	 */
-	public Vector getRevisionDiff(final String newRevNr)   throws IOException, BinaryDiffException {
+
+	/**
+	* Returns line count differences for all files in a particular revision.
+	* 
+	* @param newRevNr
+	*            new revision number
+	* @return A vector of object[3] array of [filename, int[2](lines added, lines removed), isBinary] is returned.
+	* @throws IOException
+	*             problem parsing the stream
+	* @throws BinaryDiffException
+	*             if the error message is due to trying to diff binary files.
+	*/
+	public Vector getRevisionDiff(final String newRevNr) throws IOException, BinaryDiffException {
 		return SvnDiffUtils.getLineDiff(newRevNr);
 	}
 
@@ -229,7 +229,7 @@ public class RepositoryFileManager {
 			throw new IOException("File " + filename + " has no revision");
 		}
 	}
-	
+
 	/**
 	 * Assumes #loadInfo(String) has been called.
 	 *  

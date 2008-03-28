@@ -35,9 +35,9 @@ import org.w3c.dom.NodeList;
  * @version $Id$
  */
 public class CacheBuilder {
-	private SvnLogBuilder builder;
+	private final SvnLogBuilder builder;
 
-	private RepositoryFileManager repositoryFileManager;
+	private final RepositoryFileManager repositoryFileManager;
 
 	private Element currentPath = null;
 

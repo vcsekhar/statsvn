@@ -24,32 +24,31 @@ public class SvnDiffUtilsTest extends TestCase {
 			SvnConfigurationOptions.setSvnPassword("PASSWORD");
 			ConfigurationOptions.setCheckedOutDirectory("k:\\work\\lavablast");
 			SvnInfoUtils.loadInfo();
-			
-	        Vector output = SvnDiffUtils.getLineDiff("2435");
-	        
-	        for (Iterator iter = output.iterator(); iter.hasNext();) {
-	            Object[] element = (Object[]) iter.next();
-	            if (element.length == 3)
-	            {
-	            	String file = element[0].toString();
-	            	int[] diff = (int[]) element[1];
-	            	Boolean isBinary = (Boolean) element[2];
-	            	System.out.println("File: " + file + ", Added: " + diff[0] + ", Removed: " + diff[1] + ", Binary:" + isBinary);
-	            }
-            }
-	        
-        } catch (IOException e) {
-	        // TODO Auto-generated catch block
-	        e.printStackTrace();
-        } catch (BinaryDiffException e) {
-	        // TODO Auto-generated catch block
-	        e.printStackTrace();
-        } catch (ConfigurationException e) {
-	        // TODO Auto-generated catch block
-	        e.printStackTrace();
-        } catch (LogSyntaxException e) {
-	        // TODO Auto-generated catch block
-	        e.printStackTrace();
-        }
+
+			final Vector output = SvnDiffUtils.getLineDiff("2435");
+
+			for (final Iterator iter = output.iterator(); iter.hasNext();) {
+				final Object[] element = (Object[]) iter.next();
+				if (element.length == 3) {
+					final String file = element[0].toString();
+					final int[] diff = (int[]) element[1];
+					final Boolean isBinary = (Boolean) element[2];
+					System.out.println("File: " + file + ", Added: " + diff[0] + ", Removed: " + diff[1] + ", Binary:" + isBinary);
+				}
+			}
+
+		} catch (final IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (final BinaryDiffException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (final ConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (final LogSyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

@@ -46,12 +46,12 @@ public class RepoDump {
 	}
 
 	public void dump() {
-		SortedSet revisions = repository.getRevisions();
-		Set filesViaRevisions = dumpPerRevision(revisions);
+		final SortedSet revisions = repository.getRevisions();
+		final Set filesViaRevisions = dumpPerRevision(revisions);
 
 		SvnConfigurationOptions.getTaskLogger().info("\n\n#### DUMP PER FILE ####");
 
-		SortedSet files = repository.getFiles();
+		final SortedSet files = repository.getFiles();
 		dumpPerFile(files);
 		dumpPerTags();
 
@@ -87,12 +87,12 @@ public class RepoDump {
 	private void dumpPerTags() {
 		if (repository.getSymbolicNames() != null) {
 			SvnConfigurationOptions.getTaskLogger().info("\n\n#### DUMP PER TAG ####");
-			for (Iterator it = repository.getSymbolicNames().iterator(); it.hasNext();) {
-				SymbolicName symbol = (SymbolicName) it.next();
+			for (final Iterator it = repository.getSymbolicNames().iterator(); it.hasNext();) {
+				final SymbolicName symbol = (SymbolicName) it.next();
 				SvnConfigurationOptions.getTaskLogger().info("\nTAG: " + symbol.getName() + " / " + symbol.getDate());
 				int loc = 0;
-				for (Iterator rev = symbol.getRevisions().iterator(); rev.hasNext();) {
-					Revision revision = (Revision) rev.next();
+				for (final Iterator rev = symbol.getRevisions().iterator(); rev.hasNext();) {
+					final Revision revision = (Revision) rev.next();
 					SvnConfigurationOptions.getTaskLogger().info(
 					        "  LOC:" + padIntRight(revision.getLines(), WIDTH_FOR_NUMBER) + " Rev:" + padRight(revision.getRevisionNumber(), WIDTH_FOR_NUMBER)
 					                + " File: " + revision.getFile().getFilenameWithPath() + " dead:" + revision.isDead());
@@ -103,21 +103,21 @@ public class RepoDump {
 		}
 	}
 
-	private void dumpPerFile(SortedSet files) {
+	private void dumpPerFile(final SortedSet files) {
 		totalCurrentLOCPerFile = 0;
 		totalNumRevision = 0;
 		int fileNumber = 0;
 		totalMisMatch = 0;
 		numberMisMatch = 0;
-		for (Iterator it = files.iterator(); it.hasNext();) {
-			VersionedFile rev = (VersionedFile) it.next();
+		for (final Iterator it = files.iterator(); it.hasNext();) {
+			final VersionedFile rev = (VersionedFile) it.next();
 			totalCurrentLOCPerFile += rev.getCurrentLinesOfCode();
 			totalNumRevision += rev.getRevisions().size();
 			SvnConfigurationOptions.getTaskLogger().info("File " + ++fileNumber + "/ " + rev.getFilenameWithPath() + " \tLOC:" + rev.getCurrentLinesOfCode());
 			int sumDelta = 0;
 			// go through all revisions for this file.
-			for (Iterator it2 = rev.getRevisions().iterator(); it2.hasNext();) {
-				Revision revi = (Revision) it2.next();
+			for (final Iterator it2 = rev.getRevisions().iterator(); it2.hasNext();) {
+				final Revision revi = (Revision) it2.next();
 
 				sumDelta += revi.getLinesDelta();
 				if (revi.isBeginOfLog()) {
@@ -141,15 +141,15 @@ public class RepoDump {
 		}
 	}
 
-	private Set dumpPerRevision(SortedSet revisions) {
+	private Set dumpPerRevision(final SortedSet revisions) {
 		totalDelta = 0;
-		Set filesViaRevisions = new HashSet();
+		final Set filesViaRevisions = new HashSet();
 		totalLastRev = 0;
 		SvnConfigurationOptions.getTaskLogger().info("\n\n#### DUMP PER REVISION ####");
 		String previousRevision = "";
 		int revTotal = -1;
-		for (Iterator it = revisions.iterator(); it.hasNext();) {
-			Revision rev = (Revision) it.next();
+		for (final Iterator it = revisions.iterator(); it.hasNext();) {
+			final Revision rev = (Revision) it.next();
 			if (!rev.getRevisionNumber().equals(previousRevision)) {
 				previousRevision = rev.getRevisionNumber();
 				if (revTotal != -1) {
@@ -169,12 +169,12 @@ public class RepoDump {
 				totalDelta += rev.getLines();
 			}
 			revTotal = totalDelta;
-			VersionedFile file = rev.getFile();
-			Revision fileRev = file.getLatestRevision();
+			final VersionedFile file = rev.getFile();
+			final Revision fileRev = file.getLatestRevision();
 			if (!fileRev.isDead() /*
-									 * &&
-									 * fileRev.getRevisionNumber().equals(rev.getRevisionNumber())
-									 */&& !filesViaRevisions.contains(file.getFilenameWithPath())) {
+											 * &&
+											 * fileRev.getRevisionNumber().equals(rev.getRevisionNumber())
+											 */&& !filesViaRevisions.contains(file.getFilenameWithPath())) {
 				totalLastRev += file.getCurrentLinesOfCode();
 			}
 			filesViaRevisions.add(file.getFilenameWithPath());
@@ -192,7 +192,7 @@ public class RepoDump {
 	}
 
 	private String padRight(final String str, final int size) {
-		StringBuffer buf = new StringBuffer(str);
+		final StringBuffer buf = new StringBuffer(str);
 		int requiredPadding = size;
 		if (str != null) {
 			requiredPadding = requiredPadding - str.length();

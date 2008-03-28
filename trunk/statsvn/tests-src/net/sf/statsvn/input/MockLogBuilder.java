@@ -33,18 +33,17 @@ import junit.framework.Assert;
  */
 public class MockLogBuilder implements SvnLogBuilder {
 	private final LinkedList expectedMethods = new LinkedList();
+
 	private final LinkedList expectedData = new LinkedList();
 
-    
+	/*
+	 *  (non-Javadoc)
+	 * @see net.sf.statsvn.input.SvnLogBuilder#addToAttic(java.lang.String)
+	 * @todo implementation
+	 */
+	public void addToAttic(final String filename) {
+	}
 
-    /*
-     *  (non-Javadoc)
-     * @see net.sf.statsvn.input.SvnLogBuilder#addToAttic(java.lang.String)
-     * @todo implementation
-     */
-    public void addToAttic(final String filename) {
-    }
-    
 	/* (non-Javadoc)
 	 * @see net.sf.statsvn.input.SvnLogBuilder#buildModule(java.lang.String)
 	 */
@@ -70,9 +69,8 @@ public class MockLogBuilder implements SvnLogBuilder {
 		if (expectedMethods.isEmpty()) {
 			Assert.fail("expected no more revisions");
 		}
-		if (!"buildRevision".equals(expectedMethods.getFirst())
-				&& !"nextRevision".equals(expectedMethods.getFirst())
-				&& !((String) expectedMethods.getFirst()).startsWith("current")) {
+		if (!"buildRevision".equals(expectedMethods.getFirst()) && !"nextRevision".equals(expectedMethods.getFirst())
+		        && !((String) expectedMethods.getFirst()).startsWith("current")) {
 			Assert.assertEquals(expectedMethods.getFirst(), "buildRevision");
 		}
 		if ("buildRevision".equals(expectedMethods.getFirst())) {
@@ -99,17 +97,17 @@ public class MockLogBuilder implements SvnLogBuilder {
 			} else if ("currentAuthor".equals(expected)) {
 				Assert.assertEquals(expectedData.removeFirst(), data.getLoginName());
 			} else if ("currentComment".equals(expected)) {
-				Assert.assertEquals(expectedData.removeFirst(), data.getComment());				
+				Assert.assertEquals(expectedData.removeFirst(), data.getComment());
 			} else if ("currentStateExp".equals(expected)) {
-				Assert.assertTrue(data.isStateExp());				
+				Assert.assertTrue(data.isStateExp());
 			} else if ("currentStateDead".equals(expected)) {
-				Assert.assertTrue(data.isStateDead());				
+				Assert.assertTrue(data.isStateDead());
 			} else if ("currentLines".equals(expected)) {
 				Assert.assertEquals(expectedData.removeFirst(), new Integer(data.getLinesAdded()));
 				Assert.assertEquals(expectedData.removeFirst(), new Integer(data.getLinesRemoved()));
 			} else if ("currentNoLines".equals(expected)) {
 				Assert.assertTrue(data.hasNoLines());
-			} else {	// can't happen
+			} else { // can't happen
 				Assert.fail("bad state: " + expected);
 			}
 		}
@@ -138,39 +136,39 @@ public class MockLogBuilder implements SvnLogBuilder {
 	public void expectNextRevision() {
 		expectedMethods.add("nextRevision");
 	}
-	
+
 	public void expectCurrentRevisionNumber(final String revision) {
 		expectedMethods.add("currentRevisionNumber");
 		expectedData.add(revision);
 	}
-	
+
 	public void expectCurrentDate(final Date date) {
 		expectedMethods.add("currentDate");
 		expectedData.add(date);
 	}
-	
+
 	public void expectCurrentAuthor(final String name) {
 		expectedMethods.add("currentAuthor");
 		expectedData.add(name);
 	}
-	
+
 	public void expectCurrentComment(final String comment) {
 		expectedMethods.add("currentComment");
 		expectedData.add(comment);
 	}
-	
+
 	public void expectCurrentStateExp() {
 		expectedMethods.add("currentStateExp");
 	}
-	
+
 	public void expectCurrentStateDead() {
 		expectedMethods.add("currentStateDead");
 	}
-	
+
 	public void expectCurrentNoLines() {
 		expectedMethods.add("currentNoLines");
 	}
-	
+
 	public void expectCurrentLines(final int added, final int removed) {
 		expectedMethods.add("currentLines");
 		expectedData.add(new Integer(added));
@@ -189,26 +187,25 @@ public class MockLogBuilder implements SvnLogBuilder {
 	public Map getFileBuilders() {
 		return null;
 	}
-    
+
 	/**
 	 * @todo implementation
 	 */
-    public void updateRevision(final String filename, final String revisionNumber, final int linesAdded, final int linesRemoved)
-    {
-    }
+	public void updateRevision(final String filename, final String revisionNumber, final int linesAdded, final int linesRemoved) {
+	}
 
-	public void buildFile(String filename, boolean isBinary, boolean isInAttic, Map revBySymnames, Map dateBySymnames) {
-	    // TODO Auto-generated method stub
-	    
-    }
+	public void buildFile(final String filename, final boolean isBinary, final boolean isInAttic, final Map revBySymnames, final Map dateBySymnames) {
+		// TODO Auto-generated method stub
 
-	public boolean matchesPatterns(String filename) {
-	    // TODO Auto-generated method stub
-	    return false;
-    }
+	}
 
-	public boolean matchesTagPatterns(String tag) {
-	    // TODO Auto-generated method stub
-	    return false;
-    }
+	public boolean matchesPatterns(final String filename) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean matchesTagPatterns(final String tag) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

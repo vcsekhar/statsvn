@@ -45,7 +45,7 @@ public class AllTests {
 		//$JUnit-BEGIN$
 
 		suite.addTestSuite(SvnInfoUtilTest.class);
-		
+
 		//$JUnit-END$
 		return suite;
 	}

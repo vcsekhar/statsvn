@@ -7,16 +7,16 @@ package net.sf.statsvn.util;
  * @version $Revision$
  */
 public class SilentLogger implements TaskLogger {
-    /**
-     * log text to the System.out.
-     * @param text the text to log.
-     */
-    public final void log(final String text) { // NOPMD
-    }
+	/**
+	 * log text to the System.out.
+	 * @param text the text to log.
+	 */
+	public final void log(final String text) { // NOPMD
+	}
 
-	public void error(String arg) { // NOPMD
-    }
+	public void error(final String arg) { // NOPMD
+	}
 
-	public void info(String arg) { // NOPMD
-    }
+	public void info(final String arg) { // NOPMD
+	}
 }

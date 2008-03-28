@@ -27,7 +27,7 @@ public final class SvnDiffUtils {
 	private static final String BINARY_TYPE = "Cannot display: file marked as a binary type.";
 
 	private static final String INDEX_MARKER = "Index: ";
-	
+
 	/**
 	 * A utility class (only static methods) should be final and have a private
 	 * constructor.
@@ -57,7 +57,7 @@ public final class SvnDiffUtils {
 		SvnConfigurationOptions.getTaskLogger().log(Thread.currentThread().getName() + " FIRING command line:\n[" + svnDiffCommand + "]");
 		return ProcessUtils.call(svnDiffCommand);
 	}
-	
+
 	/**
 	 * Calls svn diff on all files for given revision and revision-1.  
 	 * 
@@ -67,14 +67,14 @@ public final class SvnDiffUtils {
 	 *         non-empty, will return the error stream instead of the default
 	 *         input stream.
 	 */
-	private static synchronized ProcessUtils callSvnDiff( final String newRevNr) throws IOException {
+	private static synchronized ProcessUtils callSvnDiff(final String newRevNr) throws IOException {
 		String svnDiffCommand = null;
 		svnDiffCommand = "svn diff -c " + newRevNr + " " + SvnInfoUtils.getRootUrl() + " " + SvnCommandHelper.getAuthString();
 		SvnConfigurationOptions.getTaskLogger().log(Thread.currentThread().getName() + " FIRING command line:\n[" + svnDiffCommand + "]");
 		return ProcessUtils.call(svnDiffCommand);
-	}	
+	}
 
-    /**
+	/**
 	 * Returns line count differences between two revisions of a file.
 	 * 
 	 * @param oldRevNr
@@ -116,32 +116,32 @@ public final class SvnDiffUtils {
 	 * @throws BinaryDiffException if the error message is due to trying to diff binary files.
 	 */
 	private static void verifyOutput(final ProcessUtils pUtils) throws IOException, BinaryDiffException {
-	    if (pUtils.hasErrorOccured()) {
-	    	// The binary checking code here might be useless... as it may
-	    	// be output on the standard out.
-	    	final String msg = pUtils.getErrorMessage();
-	    	if (isBinaryErrorMessage(msg)) {
-	    		throw new BinaryDiffException();
-	    	} else {
-	    		throw new IOException(msg);
-	    	}
-	    }
-    }
-	
-	 /**
-	 * Returns line count differences for all files in a particular revision.
-	 * 
-	 * @param newRevNr
-	 *            new revision number
-	 * @return A vector of object[3] array of [filename, int[2](lines added, lines removed), isBinary] is returned.
-	 * @throws IOException
-	 *             problem parsing the stream
-	 * @throws BinaryDiffException
-	 *             if the error message is due to trying to diff binary files.
-	 */
+		if (pUtils.hasErrorOccured()) {
+			// The binary checking code here might be useless... as it may
+			// be output on the standard out.
+			final String msg = pUtils.getErrorMessage();
+			if (isBinaryErrorMessage(msg)) {
+				throw new BinaryDiffException();
+			} else {
+				throw new IOException(msg);
+			}
+		}
+	}
+
+	/**
+	* Returns line count differences for all files in a particular revision.
+	* 
+	* @param newRevNr
+	*            new revision number
+	* @return A vector of object[3] array of [filename, int[2](lines added, lines removed), isBinary] is returned.
+	* @throws IOException
+	*             problem parsing the stream
+	* @throws BinaryDiffException
+	*             if the error message is due to trying to diff binary files.
+	*/
 	public static Vector getLineDiff(final String newRevNr) throws IOException, BinaryDiffException {
-		Vector answer = new Vector();
-		
+		final Vector answer = new Vector();
+
 		ProcessUtils pUtils = null;
 		try {
 			pUtils = callSvnDiff(newRevNr);
@@ -149,25 +149,24 @@ public final class SvnDiffUtils {
 			final LookaheadReader diffReader = new LookaheadReader(new InputStreamReader(diffStream));
 			String currFile = null;
 			StringBuilder sb = new StringBuilder();
-			while (diffReader.hasNextLine())
-			{
-				String currLine = diffReader.nextLine();
-				 
-				if (currFile==null && currLine.startsWith(INDEX_MARKER)) {
+			while (diffReader.hasNextLine()) {
+				final String currLine = diffReader.nextLine();
+
+				if (currFile == null && currLine.startsWith(INDEX_MARKER)) {
 					currFile = currLine.substring(INDEX_MARKER.length());
-				} else if (currFile!=null && currLine.startsWith(INDEX_MARKER)) {
+				} else if (currFile != null && currLine.startsWith(INDEX_MARKER)) {
 					appendResults(answer, currFile, sb);
 					sb = new StringBuilder();
 					currFile = currLine.substring(INDEX_MARKER.length());
 				}
-				
+
 				sb.append(currLine);
 				sb.append(System.getProperty("line.separator"));
 			}
-			
+
 			// last file
 			appendResults(answer, currFile, sb);
-			
+
 			verifyOutput(pUtils);
 		} finally {
 			if (pUtils != null) {
@@ -188,26 +187,26 @@ public final class SvnDiffUtils {
 	 * @throws BinaryDiffException
 	 *             if the error message is due to trying to diff binary files.
 	 */
-	private static void appendResults(Vector answer, String currFile, StringBuilder sb) throws IOException {
-	    int[] lineDiff;
-	    Boolean isBinary=Boolean.FALSE;
-	    
-	    final LookaheadReader individualDiffReader = new LookaheadReader(new StringReader(sb.toString()));
-	    try {
-	        lineDiff = parseDiff(individualDiffReader);
-        } catch (BinaryDiffException e) {
-        	lineDiff = new int[2];
-        	lineDiff[0]=0;
-        	lineDiff[1]=0;
-        	isBinary=Boolean.TRUE;
-        	
-        }
-	    Object[] results = new Object[3];
-	    results[0] = currFile;
-	    results[1] = lineDiff;
-	    results[2] = isBinary;
-	    answer.add(results);
-    }
+	private static void appendResults(final Vector answer, final String currFile, final StringBuilder sb) throws IOException {
+		int[] lineDiff;
+		Boolean isBinary = Boolean.FALSE;
+
+		final LookaheadReader individualDiffReader = new LookaheadReader(new StringReader(sb.toString()));
+		try {
+			lineDiff = parseDiff(individualDiffReader);
+		} catch (final BinaryDiffException e) {
+			lineDiff = new int[2];
+			lineDiff[0] = 0;
+			lineDiff[1] = 0;
+			isBinary = Boolean.TRUE;
+
+		}
+		final Object[] results = new Object[3];
+		results[0] = currFile;
+		results[1] = lineDiff;
+		results[2] = isBinary;
+		answer.add(results);
+	}
 
 	/**
 	 * Returns true if msg is an error message display that the file is binary.
@@ -249,7 +248,7 @@ public final class SvnDiffUtils {
 		}
 		while (diffReader.hasNextLine()) {
 			diffReader.nextLine();
-			String currentLine = diffReader.getCurrentLine();
+			final String currentLine = diffReader.getCurrentLine();
 
 			SvnConfigurationOptions.getTaskLogger().log(Thread.currentThread().getName() + " Diff Line: [" + currentLine + "]");
 

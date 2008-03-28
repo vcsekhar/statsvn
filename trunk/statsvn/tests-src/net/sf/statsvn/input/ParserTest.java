@@ -41,10 +41,10 @@ import net.sf.statcvs.util.LookaheadReader;
  * @version $Id: ParserTest.java,v 1.5 2004/10/10 11:29:07 cyganiak Exp $
  */
 public class ParserTest extends TestCase {
-	private final static Calendar calendar =
-			Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+	private final static Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
 
 	private MockLogBuilder mock;
+
 	private RevisionData rev1;
 
 	public ParserTest(final String arg0) {
@@ -76,7 +76,7 @@ public class ParserTest extends TestCase {
 		parseLog("simple.log");
 		mock.verify();
 	}
-	
+
 	/**
 	 * Tests a logfile which was created when uncommited files were present in
 	 * the working copy ("? filename" lines at the beginning). They must be
@@ -163,14 +163,14 @@ public class ParserTest extends TestCase {
 		parseLog("delimiter-in-comment.log");
 		mock.verify();
 	}
-	
+
 	/**
 	 * Tests for exception on empty logfile 
 	 * @throws Exception
 	 */
 	public void testEmptyLog() throws Exception {
 		final ByteArrayInputStream stream = new ByteArrayInputStream("".getBytes());
-        // test needs to be changed to use the new mandatory repositoryFileManager
+		// test needs to be changed to use the new mandatory repositoryFileManager
 		final SvnLogfileParser parser = new SvnLogfileParser(null, stream, mock);
 		try {
 			parser.parse();
@@ -186,7 +186,7 @@ public class ParserTest extends TestCase {
 	 */
 	public void testBogusLog() throws Exception {
 		final ByteArrayInputStream stream = new ByteArrayInputStream("foo\nbar".getBytes());
-        // test needs to be changed to use the new mandatory repositoryFileManager
+		// test needs to be changed to use the new mandatory repositoryFileManager
 		final SvnLogfileParser parser = new SvnLogfileParser(null, stream, mock);
 		try {
 			parser.parse();
@@ -207,7 +207,7 @@ public class ParserTest extends TestCase {
 		final Reader reader = new InputStreamReader(getClass().getResourceAsStream("simple.log2"));
 		final LookaheadReader lookahead = new LookaheadReader(reader);
 		lookahead.nextLine();
-//		new FileBlockParser(lookahead, mock, true).parse();
+		//		new FileBlockParser(lookahead, mock, true).parse();
 		mock.verify();
 		reader.close();
 	}
@@ -220,7 +220,7 @@ public class ParserTest extends TestCase {
 		mock.expectBuildFile("LICENSE", false, false);
 		mock.expectCurrentRevisionNumber("1.1");
 		parseOneFile("simple.log2");
-		mock.verify();		
+		mock.verify();
 	}
 
 	/**
@@ -231,7 +231,7 @@ public class ParserTest extends TestCase {
 		mock.expectBuildFile("LICENSE", false, false);
 		mock.expectCurrentRevisionNumber("1.1");
 		parseOneFile("description.log2");
-		mock.verify();		
+		mock.verify();
 	}
 
 	/**
@@ -242,7 +242,7 @@ public class ParserTest extends TestCase {
 		mock.expectBuildFile("LICENSE", false, false);
 		mock.expectCurrentRevisionNumber("1.1");
 		parseOneFile("locks.log2");
-		mock.verify();		
+		mock.verify();
 	}
 
 	/**
@@ -253,7 +253,7 @@ public class ParserTest extends TestCase {
 		mock.expectBuildFile("LICENSE", false, false);
 		mock.expectCurrentRevisionNumber("1.1");
 		parseOneFile("access-list.log2");
-		mock.verify();		
+		mock.verify();
 	}
 
 	/**
@@ -265,7 +265,7 @@ public class ParserTest extends TestCase {
 		mock.expectBuildFile("LICENSE", false, false);
 		mock.expectCurrentRevisionNumber("1.1");
 		parseOneFile("no-symbolic-names.log2");
-		mock.verify();		
+		mock.verify();
 	}
 
 	/**
@@ -277,21 +277,21 @@ public class ParserTest extends TestCase {
 		mock.expectBuildFile("LICENSE", false, true);
 		mock.expectCurrentRevisionNumber("1.1");
 		parseOneFile("in-attic.log2");
-		mock.verify();		
+		mock.verify();
 	}
 
 	public void testTwoRevisions() throws Exception {
 		mock.expectBuildFile("LICENSE", false, false);
 		mock.expectCurrentRevisionNumber("1.2");
 		mock.expectCurrentAuthor("jentzsch");
-		mock.expectCurrentDate(createDate(2003,6,5,19,32,58));
+		mock.expectCurrentDate(createDate(2003, 6, 5, 19, 32, 58));
 		mock.expectCurrentComment("comment2");
 		mock.expectCurrentStateExp();
 		mock.expectCurrentLines(10, 0);
 		mock.expectNextRevision();
 		mock.expectCurrentRevisionNumber("1.1");
 		mock.expectCurrentAuthor("cyganiak");
-		mock.expectCurrentDate(createDate(2003,6,4,19,32,58));
+		mock.expectCurrentDate(createDate(2003, 6, 4, 19, 32, 58));
 		mock.expectCurrentComment("comment1");
 		mock.expectCurrentNoLines();
 		parseOneFile("two-revisions.log2");
@@ -306,7 +306,7 @@ public class ParserTest extends TestCase {
 		mock.expectBuildFile("LICENSE", true, false);
 		mock.expectCurrentRevisionNumber("1.1");
 		parseOneFile("binary.log2");
-		mock.verify();		
+		mock.verify();
 	}
 
 	/**
@@ -329,9 +329,10 @@ public class ParserTest extends TestCase {
 			// is expected because log ends right within a revision
 		}
 	}
+
 	private void parseLog(final String name) throws Exception {
 		final InputStream stream = getClass().getResourceAsStream(name);
-        // test needs to be changed to use the new mandatory repositoryFileManager
+		// test needs to be changed to use the new mandatory repositoryFileManager
 		new SvnLogfileParser(null, stream, mock).parse();
 	}
 
@@ -339,7 +340,7 @@ public class ParserTest extends TestCase {
 		final Reader reader = new InputStreamReader(getClass().getResourceAsStream(name));
 		final LookaheadReader lookahead = new LookaheadReader(reader);
 		lookahead.nextLine();
-//		new FileBlockParser(lookahead, mock, false).parse();
+		//		new FileBlockParser(lookahead, mock, false).parse();
 		reader.close();
 	}
 

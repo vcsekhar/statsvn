@@ -23,8 +23,8 @@ import java.util.Date;
 import java.util.HashMap;
 
 import junit.framework.TestCase;
-import net.sf.statcvs.model.VersionedFile;
 import net.sf.statcvs.model.Revision;
+import net.sf.statcvs.model.VersionedFile;
 
 /**
  * Tests for {@link FileBuilder}
@@ -36,12 +36,18 @@ import net.sf.statcvs.model.Revision;
  */
 public class FileBuilderTest extends TestCase {
 	private FileBuilder fb;
-	private DummyBuilder builder;
+
+	private final DummyBuilder builder;
+
 	private final Date date1 = new Date(100000000);
+
 	private final Date date2 = new Date(200000000);
-	private RevisionData rev1;
-	private RevisionData rev1dead;
-	private RevisionData rev1branch;
+
+	private final RevisionData rev1;
+
+	private final RevisionData rev1dead;
+
+	private final RevisionData rev1branch;
 
 	public FileBuilderTest(final String arg0) {
 		super(arg0);
@@ -52,8 +58,8 @@ public class FileBuilderTest extends TestCase {
 		rev1.setLoginName("author1");
 		rev1.setComment("comment");
 		rev1.setStateExp(true);
-        rev1.setStateAdded(true);
-		rev1dead= new RevisionData();
+		rev1.setStateAdded(true);
+		rev1dead = new RevisionData();
 		rev1dead.setDate(date1);
 		rev1dead.setRevisionNumber("1");
 		rev1dead.setLoginName("author1");
@@ -80,7 +86,7 @@ public class FileBuilderTest extends TestCase {
 		fb.createFile(date1);
 	}
 
-	public void testNotInLogTimespan() throws Exception {	
+	public void testNotInLogTimespan() throws Exception {
 		initBuilder("nolinecount", false);
 		assertNull(fb.createFile(null));
 	}
@@ -119,31 +125,31 @@ public class FileBuilderTest extends TestCase {
 		assertTrue(rev.isInitialRevision());
 	}
 
-// not relevant for SVN
-//	/**
-//	 * A file added only on a subbranch and not merged
-//	 * into the trunk must be ignored.
-//	 * @throws Exception
-//	 */
-//	public void testAddOnSubbranch() throws Exception {
-//		initBuilder("nolinecount", false);
-//		fb.addRevisionData(rev1dead);
-//		fb.addRevisionData(rev1branch);
-//		VersionedFile file = fb.createFile(date1);
-//		assertNull(file);
-//	}
-	
-//  not relevant for SVN    
-//	public void testIgnoreRevisionsOnBranches() throws Exception {
-//		initBuilder("file", false);
-//		fb.addRevisionData(rev1);
-//		fb.addRevisionData(rev1branch);
-//		VersionedFile file = fb.createFile(date1);
-//		assertEquals(1, file.getRevisions().size());
-//		assertEquals("1.1", file.getInitialRevision().getRevisionNumber());
-//	}
+	// not relevant for SVN
+	//	/**
+	//	 * A file added only on a subbranch and not merged
+	//	 * into the trunk must be ignored.
+	//	 * @throws Exception
+	//	 */
+	//	public void testAddOnSubbranch() throws Exception {
+	//		initBuilder("nolinecount", false);
+	//		fb.addRevisionData(rev1dead);
+	//		fb.addRevisionData(rev1branch);
+	//		VersionedFile file = fb.createFile(date1);
+	//		assertNull(file);
+	//	}
+
+	//  not relevant for SVN    
+	//	public void testIgnoreRevisionsOnBranches() throws Exception {
+	//		initBuilder("file", false);
+	//		fb.addRevisionData(rev1);
+	//		fb.addRevisionData(rev1branch);
+	//		VersionedFile file = fb.createFile(date1);
+	//		assertEquals(1, file.getRevisions().size());
+	//		assertEquals("1.1", file.getInitialRevision().getRevisionNumber());
+	//	}
 
 	private void initBuilder(final String filename, final boolean isBinary) {
-		fb = new FileBuilder(builder, filename, isBinary, new HashMap(), new HashMap()); 
+		fb = new FileBuilder(builder, filename, isBinary, new HashMap(), new HashMap());
 	}
 }

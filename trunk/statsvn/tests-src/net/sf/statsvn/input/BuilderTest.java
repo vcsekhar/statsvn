@@ -30,11 +30,11 @@ import java.util.Set;
 
 import junit.framework.TestCase;
 import net.sf.statcvs.model.Author;
-import net.sf.statcvs.model.Repository;
-import net.sf.statcvs.model.VersionedFile;
 import net.sf.statcvs.model.Directory;
-import net.sf.statcvs.util.FilePatternMatcher;
+import net.sf.statcvs.model.Repository;
 import net.sf.statcvs.model.Revision;
+import net.sf.statcvs.model.VersionedFile;
+import net.sf.statcvs.util.FilePatternMatcher;
 
 /**
  * Test cases for {@link Builder}.
@@ -163,7 +163,7 @@ public class BuilderTest extends TestCase {
 	 */
 	public void testFilesEmpty() throws Exception {
 		final Builder builder1 = new Builder(null, null, null, null);
-		Repository repository = builder1.createRepository();
+		final Repository repository = builder1.createRepository();
 		assertTrue(repository.isEmpty());
 	}
 

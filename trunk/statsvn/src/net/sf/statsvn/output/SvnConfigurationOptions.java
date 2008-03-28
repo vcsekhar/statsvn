@@ -62,12 +62,12 @@ public final class SvnConfigurationOptions {
 	private static boolean dump = false;
 
 	private static boolean anonymize = false;
-	
+
 	private static String tagsDirectory = "/tags/";
 
 	// use the newer diff. will be overridden if this is not possible. 
-	private static boolean useLegacyDiff = false; 
-	
+	private static boolean useLegacyDiff = false;
+
 	/**
 	 * A utility class (only static methods) should be final and have a private
 	 * constructor.
@@ -173,7 +173,7 @@ public final class SvnConfigurationOptions {
 	 * @param numberSvnDiffThreads
 	 *            the numberSvnDiffThreads to set
 	 */
-	public static void setNumberSvnDiffThreads(int numberSvnDiffThreads) {
+	public static void setNumberSvnDiffThreads(final int numberSvnDiffThreads) {
 		SvnConfigurationOptions.numberSvnDiffThreads = numberSvnDiffThreads;
 	}
 
@@ -188,7 +188,7 @@ public final class SvnConfigurationOptions {
 	 * @param thresholdInMsToUseConcurrency
 	 *            the thresholdInMsToUseConcurrency to set
 	 */
-	public static void setThresholdInMsToUseConcurrency(long thresholdToUseConcurrency) {
+	public static void setThresholdInMsToUseConcurrency(final long thresholdToUseConcurrency) {
 		SvnConfigurationOptions.thresholdInMsToUseConcurrency = thresholdToUseConcurrency;
 	}
 
@@ -203,11 +203,11 @@ public final class SvnConfigurationOptions {
 	public static void setAnonymize(final boolean bAnon) {
 		anonymize = bAnon;
 	}
-	
+
 	public static boolean isAnonymize() {
 		return anonymize;
 	}
-	
+
 	/**
 	 * Following request 1692245, add option -tags-dir to the command line.
 	 */
@@ -226,7 +226,7 @@ public final class SvnConfigurationOptions {
 	public static String getTagsDirectory() {
 		return tagsDirectory;
 	}
-	
+
 	/**
 	 * Should we use a one diff per-file-per-revision or should we use the newer one diff per-revision?
 	 * 
@@ -235,15 +235,14 @@ public final class SvnConfigurationOptions {
 	public static boolean isLegacyDiff() {
 		return useLegacyDiff;
 	}
-	
+
 	/**
 	 * Should we use a one diff per-file-per-revision or should we use the newer one diff per-revision?
 	 * 
 	 * @param isLegacy true if the legacy diff should be used.  
 	 */
-	public static void setLegacyDiff(boolean isLegacy)
-	{
+	public static void setLegacyDiff(final boolean isLegacy) {
 		useLegacyDiff = isLegacy;
 	}
-	
+
 }

@@ -1,4 +1,5 @@
 package net.sf.statsvn.util;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -20,48 +21,44 @@ import net.sf.statcvs.Messages;
  * 
  */
 public final class EnvReport {
-	private static String[] envPropKeys = { 
-		"file.encoding",
-		"java.home",
-		"java.runtime.version",
-		"os.arch",
-		"os.name",
-		"os.version",
-		"user.country",
-		"user.language"
-		};
+	private static String[] envPropKeys = { "file.encoding", "java.home", "java.runtime.version", "os.arch", "os.name", "os.version", "user.country",
+	        "user.language" };
 
-    static final String SVN_VERSION_COMMAND = "svn --version";
-    static final String SVN_VERSION_LINE_PATTERN = ".* [0-9]+\\.[0-9]+\\.[0-9]+.*";
-    static final String KEY_SVN_ABLE_TO_RUN = "svn.able.to.run";
-    static final String KEY_SVN_VERSION = "svn.reportedversion";
-    static final String KEY_STATSVN_VERSION = "statsvn.reportedversion";
+	static final String SVN_VERSION_COMMAND = "svn --version";
+
+	static final String SVN_VERSION_LINE_PATTERN = ".* [0-9]+\\.[0-9]+\\.[0-9]+.*";
+
+	static final String KEY_SVN_ABLE_TO_RUN = "svn.able.to.run";
+
+	static final String KEY_SVN_VERSION = "svn.reportedversion";
+
+	static final String KEY_STATSVN_VERSION = "statsvn.reportedversion";
 
 	private EnvReport() {
 		// no public ctor
 	}
-	
-	public static void main(String[] args) {
+
+	public static void main(final String[] args) {
 		System.out.println(getEnvReport());
 	}
-	
+
 	public static String getEnvReport() {
-		StringBuffer buf = new StringBuffer();
+		final StringBuffer buf = new StringBuffer();
 		buf.append("\nWhen reporting a StatSVN bug or requesting assistance,\n");
 		buf.append("please include the entirety of the output below.\n");
 		buf.append("No personally-identifiable information is included.\n\n");
-		
+
 		buf.append("=== Java Runtime Properties ===\n");
 		buf.append(fmtPropertiesForScreen(System.getProperties(), envPropKeys));
 
 		buf.append("\n");
 		buf.append("=== Subversion Properties ===\n");
 		buf.append(fmtPropertiesForScreen(getSvnVersionInfo(), null));
-		
+
 		buf.append("\n");
 		buf.append("=== StatSVN Properties ===\n");
 		buf.append(fmtPropertiesForScreen(getStatSVNInfo(), null));
-		
+
 		return buf.toString();
 	}
 
@@ -78,24 +75,24 @@ public final class EnvReport {
 	 * @return Formatted text block with property keys and values, with a
 	 *         newline after every set.
 	 */
-	public static String fmtPropertiesForScreen(Properties props, String[] keySet) {
+	public static String fmtPropertiesForScreen(final Properties props, String[] keySet) {
 		int maxWidth = 0;
-		StringBuffer buf = new StringBuffer();
+		final StringBuffer buf = new StringBuffer();
 		if (keySet == null) {
-			keySet = (String[])props.keySet().toArray(new String[props.keySet().size()]);
+			keySet = (String[]) props.keySet().toArray(new String[props.keySet().size()]);
 		}
-		Vector vKeys = new Vector(Arrays.asList(keySet));
+		final Vector vKeys = new Vector(Arrays.asList(keySet));
 		Collections.sort(vKeys);
 
 		// First pass: find length of longest key
-		for(Iterator ite = vKeys.iterator(); ite.hasNext();) {
-			String key = ((String)ite.next()).trim();
+		for (final Iterator ite = vKeys.iterator(); ite.hasNext();) {
+			final String key = ((String) ite.next()).trim();
 			maxWidth = (key.length() > maxWidth) ? key.length() : maxWidth;
 		}
 
 		// Second pass: output formatted keys / values
-		for(Iterator ite = vKeys.iterator(); ite.hasNext();) {
-			String key = ((String) ite.next()).trim();
+		for (final Iterator ite = vKeys.iterator(); ite.hasNext();) {
+			final String key = ((String) ite.next()).trim();
 			for (int i = maxWidth - key.length(); i > 0; i--) {
 				buf.append(" ");
 			}
@@ -114,48 +111,47 @@ public final class EnvReport {
 	 */
 	public static Properties getSvnVersionInfo() {
 
-	    String versionLine = "";
-	    String line;
-	    Properties svnProps = new Properties();
-	    BufferedReader input = null;
-	    
-        try {
-        	svnProps.setProperty(KEY_SVN_ABLE_TO_RUN, "YES");
-            Process proc = Runtime.getRuntime().exec(SVN_VERSION_COMMAND);
+		String versionLine = "";
+		String line;
+		final Properties svnProps = new Properties();
+		BufferedReader input = null;
 
-            input = new BufferedReader(
-            		new InputStreamReader(proc.getInputStream()));
+		try {
+			svnProps.setProperty(KEY_SVN_ABLE_TO_RUN, "YES");
+			final Process proc = Runtime.getRuntime().exec(SVN_VERSION_COMMAND);
+
+			input = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 			while ((line = input.readLine()) != null) {
-                if (line.matches(SVN_VERSION_LINE_PATTERN)) {
-                    // We have our version line
-                	versionLine = line.trim();
-                	break;
-                }
+				if (line.matches(SVN_VERSION_LINE_PATTERN)) {
+					// We have our version line
+					versionLine = line.trim();
+					break;
+				}
 			}
-        } catch (final Exception e) {
-        	svnProps.setProperty(KEY_SVN_ABLE_TO_RUN, "NO: " + e.getMessage().trim());
-        } finally {
-        	svnProps.setProperty(KEY_SVN_VERSION, versionLine);
+		} catch (final Exception e) {
+			svnProps.setProperty(KEY_SVN_ABLE_TO_RUN, "NO: " + e.getMessage().trim());
+		} finally {
+			svnProps.setProperty(KEY_SVN_VERSION, versionLine);
 			if (input != null) {
 				try {
 					input.close();
-				} catch (IOException ex) {
+				} catch (final IOException ex) {
 					// swallow it
 					ex.printStackTrace();
 				}
 			}
-        }
+		}
 		return svnProps;
 	}
-	
+
 	/**
 	 * Get information about the current version of StatSVN.
 	 * @return Property set
 	 */
 	public static Properties getStatSVNInfo() {
-		Properties statsvnProps = new Properties();
+		final Properties statsvnProps = new Properties();
 		statsvnProps.setProperty(KEY_STATSVN_VERSION, Messages.getString("PROJECT_VERSION"));
 		return statsvnProps;
 	}
-	
+
 }

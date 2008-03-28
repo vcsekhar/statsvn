@@ -59,4 +59,3 @@ public class AllTests {
 		TestRunner.run(suite());
 	}
 }
-
