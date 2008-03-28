@@ -89,6 +89,8 @@ public class SvnCommandLineParser extends CommandLineParser {
 			SvnConfigurationOptions.setDumpContent(true);
 		} else if (s.equals("anonymize")) {
 			SvnConfigurationOptions.setAnonymize(true);
+		} else if (s.equals("force-legacy-diff")) {
+			SvnConfigurationOptions.setLegacyDiff(true);
 		} else {
 			return false;
 		}

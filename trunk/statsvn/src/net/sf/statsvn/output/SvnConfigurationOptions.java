@@ -65,6 +65,9 @@ public final class SvnConfigurationOptions {
 	
 	private static String tagsDirectory = "/tags/";
 
+	// use the newer diff. will be overridden if this is not possible. 
+	private static boolean useLegacyDiff = false; 
+	
 	/**
 	 * A utility class (only static methods) should be final and have a private
 	 * constructor.
@@ -223,4 +226,24 @@ public final class SvnConfigurationOptions {
 	public static String getTagsDirectory() {
 		return tagsDirectory;
 	}
+	
+	/**
+	 * Should we use a one diff per-file-per-revision or should we use the newer one diff per-revision?
+	 * 
+	 * @return true if legacy diff should be used. 
+	 */
+	public static boolean isLegacyDiff() {
+		return useLegacyDiff;
+	}
+	
+	/**
+	 * Should we use a one diff per-file-per-revision or should we use the newer one diff per-revision?
+	 * 
+	 * @param isLegacy true if the legacy diff should be used.  
+	 */
+	public static void setLegacyDiff(boolean isLegacy)
+	{
+		useLegacyDiff = isLegacy;
+	}
+	
 }
