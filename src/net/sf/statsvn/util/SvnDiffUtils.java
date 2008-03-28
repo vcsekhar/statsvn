@@ -53,7 +53,7 @@ public final class SvnDiffUtils {
 		String svnDiffCommand = null;
 		filename = SvnInfoUtils.relativePathToUrl(filename);
 		filename = SvnInfoUtils.replace(" ", "%20", filename);
-		svnDiffCommand = "svn diff --diff-cmd diff --old " + filename + "@" + oldRevNr + "  --new " + filename + "@" + newRevNr + "" + SvnCommandHelper.getAuthString();
+		svnDiffCommand = "svn diff --old " + filename + "@" + oldRevNr + "  --new " + filename + "@" + newRevNr + "" + SvnCommandHelper.getAuthString();
 		SvnConfigurationOptions.getTaskLogger().log(Thread.currentThread().getName() + " FIRING command line:\n[" + svnDiffCommand + "]");
 		return ProcessUtils.call(svnDiffCommand);
 	}
@@ -69,7 +69,7 @@ public final class SvnDiffUtils {
 	 */
 	private static synchronized ProcessUtils callSvnDiff( final String newRevNr) throws IOException {
 		String svnDiffCommand = null;
-		svnDiffCommand = "svn diff --diff-cmd diff -c " + newRevNr + " " + SvnInfoUtils.getRootUrl() + " " + SvnCommandHelper.getAuthString();
+		svnDiffCommand = "svn diff -c " + newRevNr + " " + SvnInfoUtils.getRootUrl() + " " + SvnCommandHelper.getAuthString();
 		SvnConfigurationOptions.getTaskLogger().log(Thread.currentThread().getName() + " FIRING command line:\n[" + svnDiffCommand + "]");
 		return ProcessUtils.call(svnDiffCommand);
 	}	
@@ -115,7 +115,7 @@ public final class SvnDiffUtils {
 	 * @throws IOException problem parsing the stream
 	 * @throws BinaryDiffException if the error message is due to trying to diff binary files.
 	 */
-	private static void verifyOutput(ProcessUtils pUtils) throws IOException, BinaryDiffException {
+	private static void verifyOutput(final ProcessUtils pUtils) throws IOException, BinaryDiffException {
 	    if (pUtils.hasErrorOccured()) {
 	    	// The binary checking code here might be useless... as it may
 	    	// be output on the standard out.
