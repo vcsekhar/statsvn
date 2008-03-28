@@ -5,7 +5,8 @@
   </properties>
   <body>
     <release version="0.3.2-SNAPSHOT" date="in svn" description="Maintenance">        
-       <action dev="benoitx" type="add" due-to="Martin Majlis">Applied patch to StatCVS to add Affected files count per commit.</action>
+       <action dev="jkealey" type="add">Performance enhancement. If SVN 1.4 is available, do one diff per revision instead of one diff per file per revision. Added -force-legacy-diff option to retain previous functionality.</action>
+	   <action dev="benoitx" type="add" due-to="Martin Majlis">Applied patch to StatCVS to add Affected files count per commit.</action>
        <action dev="benoitx" issue="1839303" due-to="Martin Majlis">Applied patch to StatCVS to add Revision number on commit page.</action>
        <action dev="benoitx" issue="1839303" due-to="Martin Majlis">Applied patch to StatCVS to add Revision number on commit page.</action>
        <action dev="benoitx" type="add">I have added a validation mechanism that checks the Repository object once the log is parsed, if root is null, it will terminate the execution.</action>
