@@ -42,8 +42,8 @@ import net.sf.statcvs.pages.ReportSuiteMaker;
 import net.sf.statsvn.input.Builder;
 import net.sf.statsvn.input.RepositoryFileManager;
 import net.sf.statsvn.input.SvnLogfileParser;
-import net.sf.statsvn.output.ChurnPageMaker;
-import net.sf.statsvn.output.RepoMapPageMaker;
+import net.sf.statcvs.output.ChurnPageMaker;
+import net.sf.statcvs.output.RepoMapPageMaker;
 import net.sf.statsvn.output.SvnCommandLineParser;
 import net.sf.statsvn.output.SvnConfigurationOptions;
 import net.sf.statsvn.util.SvnStartupUtils;
@@ -298,12 +298,12 @@ public final class Main {
 		} else {
 			// add new reports
 			List extraReports = new ArrayList();
-			extraReports.add(new RepoMapPageMaker(config).toFile());
-			extraReports.add(new ChurnPageMaker(config).toFile());
 
 	        if ("xml".equalsIgnoreCase(ConfigurationOptions.getOutputFormat())) {
 				new ReportSuiteMaker(config, ConfigurationOptions.getNotes(), extraReports).toXml();
 	        } else {
+				extraReports.add(new RepoMapPageMaker(config).toFile());
+				extraReports.add(new ChurnPageMaker(config).toFile());
 	            new ReportSuiteMaker(config, ConfigurationOptions.getNotes(), extraReports).toFile().write();
 	        }
 		}
