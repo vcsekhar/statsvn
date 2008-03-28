@@ -13,7 +13,7 @@ import org.apache.tools.ant.Task;
  */
 public final class AntTaskLogger implements TaskLogger {
 	/** the Ant task. */
-	private Task task;
+	private final Task task;
 
 	private Boolean shouldAcceptLog = null;
 
@@ -50,7 +50,7 @@ public final class AntTaskLogger implements TaskLogger {
 	 * @param text
 	 *            to be logged.
 	 */
-	public void error(String arg) {
+	public void error(final String arg) {
 		log(arg);
 	}
 
@@ -60,7 +60,7 @@ public final class AntTaskLogger implements TaskLogger {
 	 * @param text
 	 *            to be logged.
 	 */
-	public void info(String arg) {
+	public void info(final String arg) {
 		if (shouldAcceptInfo == null) {
 			shouldAcceptInfo = Boolean.valueOf(ConfigurationOptions.getLoggingProperties().indexOf("verbose") >= 0);
 		}

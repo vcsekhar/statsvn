@@ -24,13 +24,21 @@ import org.w3c.dom.NodeList;
  */
 public class RepositoriesBuilder {
 	private static final String FILE_EXTENSION = ".xml";
+
 	private static final String FILE_PREFIX = "cache_";
+
 	private static final String REPOSITORIES = "repositories";
+
 	private static final String UUID = "uuid";
+
 	private static final String FILE = "file";
+
 	private static final String PROJECT = "project";
+
 	private static final String REPOSITORY = "repository";
+
 	private Document document = null;
+
 	private Element repositories = null;
 
 	/**
@@ -81,8 +89,7 @@ public class RepositoriesBuilder {
 	 * @throws ParserConfigurationException
 	 */
 	public void buildRoot() throws ParserConfigurationException {
-		final DocumentBuilderFactory factoryDOM = DocumentBuilderFactory
-				.newInstance();
+		final DocumentBuilderFactory factoryDOM = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builderDOM;
 		builderDOM = factoryDOM.newDocumentBuilder();
 		document = builderDOM.newDocument();
@@ -119,7 +126,6 @@ public class RepositoriesBuilder {
 		}
 		return "";
 	}
-	
 
 	/**
 	 * Returns the DOM object when building is complete.

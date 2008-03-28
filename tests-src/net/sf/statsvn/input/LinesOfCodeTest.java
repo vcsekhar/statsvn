@@ -31,8 +31,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import junit.framework.TestCase;
-import net.sf.statcvs.model.VersionedFile;
 import net.sf.statcvs.model.Revision;
+import net.sf.statcvs.model.VersionedFile;
 
 /**
  * Test cases for {@link Builder}, covering LOC calculations.
@@ -46,17 +46,29 @@ import net.sf.statcvs.model.Revision;
  */
 public class LinesOfCodeTest extends TestCase {
 	private Builder builder;
+
 	private VersionedFile file;
+
 	private Date date11;
+
 	private Date date12;
+
 	private Date date13;
+
 	private Date date14;
+
 	private Date date15;
+
 	private Revision rev0;
+
 	private Revision rev1;
+
 	private Revision rev2;
+
 	private Revision rev3;
+
 	private Revision rev4;
+
 	private DummyRepositoryFileManager fileman;
 
 	/**
@@ -87,7 +99,7 @@ public class LinesOfCodeTest extends TestCase {
 		rev3 = null;
 		rev4 = null;
 	}
-	
+
 	/**
 	 * Method testLinesOfCodeWithoutRepository1.
 	 */
@@ -130,38 +142,38 @@ public class LinesOfCodeTest extends TestCase {
 		assertRevisionLines(rev4, 5, 5, 5);
 	}
 
-//  not relevant for SVN
-//	/**
-//	 * Test a file whose initial revision is dead (this means it was
-//	 * added on another branch). The builder should filter this file,
-//	 * so the Repository should be empty.
-//	 */
-//	public void testLinesOfCodeDeadInitial() throws Exception {
-// not relevant for SVN
-//		buildRevisionDead("1.1", date11);
-//		try {
-//			finishBuilder();
-//			fail("should have thrown EmptyRepositoryException");
-//		} catch (EmptyRepositoryException expected) {
-//			// is expected
-//		}
-//	}
+	//  not relevant for SVN
+	//	/**
+	//	 * Test a file whose initial revision is dead (this means it was
+	//	 * added on another branch). The builder should filter this file,
+	//	 * so the Repository should be empty.
+	//	 */
+	//	public void testLinesOfCodeDeadInitial() throws Exception {
+	// not relevant for SVN
+	//		buildRevisionDead("1.1", date11);
+	//		try {
+	//			finishBuilder();
+	//			fail("should have thrown EmptyRepositoryException");
+	//		} catch (EmptyRepositoryException expected) {
+	//			// is expected
+	//		}
+	//	}
 
-//  not relevant for SVN
-//	/**
-//	 * Test a file whose initial revision is dead (this means it was
-//	 * added on another branch), but that was later merged into the
-//	 * trunk.
-//	 */
-//	public void testLinesOfCodeDeadInitialMerged() throws Exception {
-//		buildRevision("1.2", date12, 10, 0);
-//		buildRevisionDead("1.1", date11);
-//		fileman.setLinesOfCode("file", 10);
-//		finishBuilder();
-//		assertTrue(rev0.isInitialRevision());
-//		assertRevisionLines(rev0, 10, 10, 10);
-//		assertEquals(1, file.getRevisions().size());
-//	}
+	//  not relevant for SVN
+	//	/**
+	//	 * Test a file whose initial revision is dead (this means it was
+	//	 * added on another branch), but that was later merged into the
+	//	 * trunk.
+	//	 */
+	//	public void testLinesOfCodeDeadInitialMerged() throws Exception {
+	//		buildRevision("1.2", date12, 10, 0);
+	//		buildRevisionDead("1.1", date11);
+	//		fileman.setLinesOfCode("file", 10);
+	//		finishBuilder();
+	//		assertTrue(rev0.isInitialRevision());
+	//		assertRevisionLines(rev0, 10, 10, 10);
+	//		assertEquals(1, file.getRevisions().size());
+	//	}
 
 	/**
 	 * Simple test to make sure that the Builder pulls the LOC number
@@ -269,8 +281,7 @@ public class LinesOfCodeTest extends TestCase {
 		assertRevisionLines(rev2, 50, 0, 0);
 	}
 
-	private void buildRevision(final String revision, final Date date,
-			final int linesAdded, final int linesRemoved) {
+	private void buildRevision(final String revision, final Date date, final int linesAdded, final int linesRemoved) {
 		final RevisionData data = new RevisionData();
 		data.setStateExp(true);
 		data.setRevisionNumber(revision);
@@ -330,11 +341,9 @@ public class LinesOfCodeTest extends TestCase {
 			// do nothing
 		}
 	}
-	
-	private void assertRevisionLines(final Revision revision, 
-			final int effectiveLinesOfCode, final int locChange, final int lineValue) {
-		assertEquals("effective lines of code", effectiveLinesOfCode,
-				revision.getLines());
+
+	private void assertRevisionLines(final Revision revision, final int effectiveLinesOfCode, final int locChange, final int lineValue) {
+		assertEquals("effective lines of code", effectiveLinesOfCode, revision.getLines());
 		assertEquals("lines of code change", locChange, revision.getLinesDelta());
 		assertEquals("line value", lineValue, revision.getNewLines());
 	}

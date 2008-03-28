@@ -70,11 +70,11 @@ public class ChoraIntegration implements WebRepositoryIntegration {
 	public String getFileHistoryUrl(final VersionedFile file) {
 		// chora doesn't seem to support deleted files for subversion
 		// repositories
-//		if (isInAttic(file)) {
-			// String path = file.getDirectory().getPath();
-			// String filename = file.getFilename();
-			// return baseURL + "/" + path + "Attic/" + filename;
-//		}
+		//		if (isInAttic(file)) {
+		// String path = file.getDirectory().getPath();
+		// String filename = file.getFilename();
+		// return baseURL + "/" + path + "Attic/" + filename;
+		//		}
 		return this.baseURL + "/?f=" + file.getFilenameWithPath();
 	}
 
@@ -105,17 +105,17 @@ public class ChoraIntegration implements WebRepositoryIntegration {
 		}
 
 		return this.baseURL + "/diff.php?f=" + oldRevision.getFile().getFilenameWithPath() + "&r1=" + oldRevision.getRevisionNumber() + "&r2="
-				+ newRevision.getRevisionNumber() + "&ty=h";
+		        + newRevision.getRevisionNumber() + "&ty=h";
 	}
 
 	/**
 	 * @see net.sf.statsvn.output.WebRepositoryIntegration#setAtticFileNames(java.util.Set)
 	 */
 	public void setAtticFileNames(final Set atticFileNames) {
-//		this.atticFileNames = atticFileNames;
+		//		this.atticFileNames = atticFileNames;
 	}
 
 	public String getBaseUrl() {
-	    return baseURL;
-    }
+		return baseURL;
+	}
 }

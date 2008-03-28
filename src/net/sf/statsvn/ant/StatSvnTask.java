@@ -27,6 +27,8 @@ import net.sf.statcvs.output.ConfigurationException;
 import net.sf.statsvn.Main;
 import net.sf.statsvn.output.SvnConfigurationOptions;
 
+import org.apache.tools.ant.BuildException;
+
 /**
  * Ant task for running StatSVN.
  * 
@@ -45,8 +47,8 @@ public class StatSvnTask extends StatCvsTask {
 	private int numberSvnDiffThreads;
 
 	private long thresholdInMsToUseConcurrency;
-	
-	private boolean useLegacyDiff=false;
+
+	private boolean useLegacyDiff = false;
 
 	/**
 	 * Constructor for StatSvnTask.
@@ -71,7 +73,7 @@ public class StatSvnTask extends StatCvsTask {
 			// that step as it is done in initProperties
 
 			Main.generate();
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			SvnConfigurationOptions.getTaskLogger().error(Main.printStackTrace(e));
 		}
 	}
@@ -133,7 +135,7 @@ public class StatSvnTask extends StatCvsTask {
 	 * @param threads
 	 *            the numberSvnDiffThreads to set
 	 */
-	public void setThreads(int threads) {
+	public void setThreads(final int threads) {
 		this.numberSvnDiffThreads = threads;
 	}
 
@@ -141,18 +143,16 @@ public class StatSvnTask extends StatCvsTask {
 	 * @param thresholdInMsToUseConcurrency
 	 *            the thresholdInMsToUseConcurrency to set
 	 */
-	public void setConcurrencyThreshold(long thresholdToUseConcurrency) {
+	public void setConcurrencyThreshold(final long thresholdToUseConcurrency) {
 		this.thresholdInMsToUseConcurrency = thresholdToUseConcurrency;
 	}
 
-	
 	/**
 	 * Should we use a one diff per-file-per-revision or should we use the newer one diff per-revision?
 	 * 
 	 * @param isLegacy true if the legacy diff should be used.  
 	 */
-	public void setLegacyDiff(boolean isLegacy)
-	{
+	public void setLegacyDiff(final boolean isLegacy) {
 		this.useLegacyDiff = isLegacy;
 	}
 }

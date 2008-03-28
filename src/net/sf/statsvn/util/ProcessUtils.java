@@ -22,6 +22,7 @@ import net.sf.statsvn.output.SvnConfigurationOptions;
  */
 public final class ProcessUtils {
 	private BufferedInputStream inputStream;
+
 	private BufferedInputStream errorStream;
 
 	/**
@@ -39,7 +40,7 @@ public final class ProcessUtils {
 
 		return util;
 	}
-	
+
 	public void close() throws IOException {
 		if (errorStream != null) {
 			errorStream.close();

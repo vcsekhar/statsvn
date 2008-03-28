@@ -21,11 +21,11 @@ public class ConsoleTaskLogger implements TaskLogger {
 		STREAM.println(text);
 	}
 
-	public void error(String arg) {
-	    log(arg);
-    }
+	public void error(final String arg) {
+		log(arg);
+	}
 
-	public void info(String arg) {
-	    log(arg);
-    }
+	public void info(final String arg) {
+		log(arg);
+	}
 }

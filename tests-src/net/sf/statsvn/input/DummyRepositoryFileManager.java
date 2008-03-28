@@ -46,8 +46,11 @@ import net.sf.statsvn.util.SvnPropgetUtils;
 public class DummyRepositoryFileManager extends RepositoryFileManager {
 
 	protected HashMap hmFinalLineCounts;
+
 	protected String sFinalLineCountsFile;
+
 	protected String sSvnInfoUtilPath;
+
 	protected String sSvnPropgetPath;
 
 	/**
@@ -75,15 +78,15 @@ public class DummyRepositoryFileManager extends RepositoryFileManager {
 	 *            command.
 	 * @throws IOException
 	 */
-	public DummyRepositoryFileManager(final String checkedOutPath, final String sSvnInfoUtilPath, final String sSvnPropgetPath, 
-			final String sFinalLineCountsFile) throws IOException {
+	public DummyRepositoryFileManager(final String checkedOutPath, final String sSvnInfoUtilPath, final String sSvnPropgetPath,
+	        final String sFinalLineCountsFile) throws IOException {
 		super(checkedOutPath);
 		this.sSvnInfoUtilPath = sSvnInfoUtilPath;
 		this.sSvnPropgetPath = sSvnPropgetPath;
 		this.sFinalLineCountsFile = sFinalLineCountsFile;
 
 		final InputStream stream = new FileInputStream(sSvnPropgetPath);
-		ProcessUtils pUtils = new ProcessUtils();
+		final ProcessUtils pUtils = new ProcessUtils();
 		try {
 			pUtils.setInputStream(stream);
 			SvnPropgetUtils.loadBinaryFiles(pUtils);
@@ -170,7 +173,7 @@ public class DummyRepositoryFileManager extends RepositoryFileManager {
 	public void loadInfo() throws LogSyntaxException, IOException {
 
 		final FileInputStream stream = new FileInputStream(sSvnInfoUtilPath);
-		ProcessUtils pUtils = new ProcessUtils();
+		final ProcessUtils pUtils = new ProcessUtils();
 		try {
 			pUtils.setInputStream(stream);
 			SvnInfoUtils.loadInfo(pUtils);

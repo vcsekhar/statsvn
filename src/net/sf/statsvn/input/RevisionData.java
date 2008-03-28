@@ -34,283 +34,292 @@ import java.util.Date;
  * @version $Id$
  */
 public class RevisionData {
-    private String revisionNumber;
-    private Date date;
-    private String loginName;
-    private boolean stateExp = false;
-    private boolean stateDead = false;
-    private boolean stateAdded = false;
-    private boolean hasNoLines = true;
-    private int linesAdded;
-    private int linesRemoved;
-    private String comment = "";
-    private String copyfromPath;
-    private String copyfromRevision;
-    
-    
-    public RevisionData() {
-    }
+	private String revisionNumber;
 
-    /**
-     * @return Returns the loginName.
-     */
-    public String getLoginName() {
-        return loginName;
-    }
+	private Date date;
 
-    /**
-     * @param authorName
-     *            The loginName to set.
-     */
-    public void setLoginName(final String authorName) {
-        this.loginName = authorName;
-    }
+	private String loginName;
 
-    /**
-     * @return Returns the date.
-     */
-    public Date getDate() {
-        return date != null ? new Date(date.getTime()) : null;
-    }
+	private boolean stateExp = false;
 
-    /**
-     * @param date
-     *            The date to set.
-     */
-    public void setDate(final Date date) {
-    	if (date != null) {
-    		this.date = new Date(date.getTime());
-    	} else {
-    		this.date = null;
-    	}
-    }
+	private boolean stateDead = false;
 
-    /**
-     * @return Returns the linesAdded.
-     */
-    public int getLinesAdded() {
-        return linesAdded;
-    }
+	private boolean stateAdded = false;
 
-    /**
-     * @return Returns the linesRemoved.
-     */
-    public int getLinesRemoved() {
-        return linesRemoved;
-    }
+	private boolean hasNoLines = true;
 
-    /**
-     * Checks if the revision contains numbers for the added and removed lines.
-     * 
-     * @return true if the revision contains numbers for the added and removed lines
-     */
-    public boolean hasNoLines() {
-        return hasNoLines;
-    }
+	private int linesAdded;
 
-    /**
-     * Sets the number of added and removed lines.
-     * 
-     * @param added
-     *            The number of added lines
-     * @param removed
-     *            The number of removed lines
-     */
-    public void setLines(final int added, final int removed) {
-        this.linesAdded = added;
-        this.linesRemoved = removed;
-        hasNoLines = false;
-    }
+	private int linesRemoved;
 
-    /**
-     * @return Returns the revisionNumber.
-     */
-    public String getRevisionNumber() {
-        return revisionNumber;
-    }
+	private String comment = "";
 
-    /**
-     * Sets the revision number.
-     * 
-     * @param revision
-     *            The revision number
-     */
-    public void setRevisionNumber(final String revision) {
-        this.revisionNumber = revision;
-    }
+	private String copyfromPath;
 
-    /**
-     * Is this revision a deletion?
-     * 
-     * @param isDead
-     *            <tt>true</tt> if revision is a deletion.
-     */
-    public void setStateDead(final boolean isDead) {
-        stateDead = isDead;
-    }
+	private String copyfromRevision;
 
-    /**
-     * Is the revision exposed. This is CVS speak for any "live" revisionNumber, that is, if this is the current revisionNumber, then a file exists in the
-     * working copy.
-     * 
-     * New in StatSVN: We use it to mean this revision is not a deletion revision. (modify, add or replace)
-     * 
-     * @param isExposed
-     *            <tt>true</tt> true if the revision is not a deletion.
-     */
-    public void setStateExp(final boolean isExposed) {
-        stateExp = isExposed;
-    }
+	public RevisionData() {
+	}
 
-    /**
-     * Is this revision an addition?
-     * 
-     * New in StatSVN: This is no longer a still exists in working copy. We use it to mean this revision is not a deletion revision.
-     * 
-     * @param isAdded
-     */
-    public void setStateAdded(final boolean isAdded) {
-        stateAdded = isAdded;
-    }
+	/**
+	 * @return Returns the loginName.
+	 */
+	public String getLoginName() {
+		return loginName;
+	}
 
-    /**
-     * @return Returns the comment.
-     */
-    public String getComment() {
-        return comment;
-    }
+	/**
+	 * @param authorName
+	 *            The loginName to set.
+	 */
+	public void setLoginName(final String authorName) {
+		this.loginName = authorName;
+	}
 
-    /**
-     * @param comment
-     *            The comment to set.
-     */
-    public void setComment(final String comment) {
-        this.comment = comment;
-    }
+	/**
+	 * @return Returns the date.
+	 */
+	public Date getDate() {
+		return date != null ? new Date(date.getTime()) : null;
+	}
 
-    /**
-     * Returns <tt>true</tt> if this revisionNumber is the removal of a file.
-     * 
-     * @return <tt>true</tt> if this revisionNumber deletes the file.
-     * 
-     */
-    public boolean isDeletion() {
-        return stateDead;
-    }
+	/**
+	 * @param date
+	 *            The date to set.
+	 */
+	public void setDate(final Date date) {
+		if (date != null) {
+			this.date = new Date(date.getTime());
+		} else {
+			this.date = null;
+		}
+	}
 
-    /**
-     * Returns <tt>true</tt> if this revisionNumber is a normal change.
-     * 
-     * New in StatSVN: This was isChangeOrRestore before.
-     * 
-     * @return <tt>true</tt> if this is a normal change or a restore.
-     */
-    public boolean isChange() {
-        // return stateExp && !hasNoLines;
-        return stateExp && !stateAdded;
-    }
+	/**
+	 * @return Returns the linesAdded.
+	 */
+	public int getLinesAdded() {
+		return linesAdded;
+	}
 
-    /**
-     * Returns <tt>true</tt> if this revisionNumber is the creation of a new file or a restore.. The distinction between these two cases can be made by
-     * looking at the previous (in time, not log order) revisionNumber. If it was a deletion, then this revisionNumber is a restore.
-     * 
-     * New in StatSVN: This was isCreation before.
-     * 
-     * @return <tt>true</tt> if this is the creation of a new file.
-     */
-    public boolean isCreationOrRestore() {
-        // return stateExp && hasNoLines;
-        return stateExp && stateAdded;
-    }
+	/**
+	 * @return Returns the linesRemoved.
+	 */
+	public int getLinesRemoved() {
+		return linesRemoved;
+	}
 
-    /**
-     * Returns <tt>true</tt> if this is an Exp ("exposed"?) revisionNumber. This is CVS speak for any "live" revisionNumber, that is, if this is the current
-     * revisionNumber, then a file exists in the working copy.
-     * 
-     * New in StatSVN: We use it to mean this revision is not a deletion revision. (modify, add or replace)
-     * 
-     * @return <tt>true</tt> if this is an Exp revisionNumber
-     */
-    public boolean isStateExp() {
-        return stateExp;
-    }
+	/**
+	 * Checks if the revision contains numbers for the added and removed lines.
+	 * 
+	 * @return true if the revision contains numbers for the added and removed lines
+	 */
+	public boolean hasNoLines() {
+		return hasNoLines;
+	}
 
-    /**
-     * Returns <tt>true</tt> if this is a dead revisionNumber. If this is the current revisionNumber, then the file does not exist in the working copy.
-     * 
-     * @return <tt>true</tt> if this is a dead revisionNumber
-     */
-    public boolean isStateDead() {
-        return stateDead;
-    }
+	/**
+	 * Sets the number of added and removed lines.
+	 * 
+	 * @param added
+	 *            The number of added lines
+	 * @param removed
+	 *            The number of removed lines
+	 */
+	public void setLines(final int added, final int removed) {
+		this.linesAdded = added;
+		this.linesRemoved = removed;
+		hasNoLines = false;
+	}
 
-    /**
-     * Returns the current revision data in string format.
-     */
-    public String toString() {
-        return "RevisionData " + revisionNumber;
-    }
+	/**
+	 * @return Returns the revisionNumber.
+	 */
+	public String getRevisionNumber() {
+		return revisionNumber;
+	}
 
-    /**
-     * Returns a new instance of the RevisionData, with the same fields as the current one.
-     * 
-     * @return the clone
-     */
-    public RevisionData createCopy() {
-    	RevisionData copy = new RevisionData(revisionNumber, date, stateExp, stateDead, stateAdded, hasNoLines, linesAdded, linesRemoved);
-    	copy.setComment(comment);
-    	copy.setLoginName(loginName);
-    	return copy;
-    }
+	/**
+	 * Sets the revision number.
+	 * 
+	 * @param revision
+	 *            The revision number
+	 */
+	public void setRevisionNumber(final String revision) {
+		this.revisionNumber = revision;
+	}
 
-    /**
-     * Private constructor used by (@link #clone())
-     * 
-     * @param revisionNumber
-     *            the revision number
-     * @param date
-     *            the revision date
-     * @param stateExp
-     *            if this were the current revision, would the file still be live (not-dead)
-     * @param stateDead
-     *            is this a deletion revision
-     * @param stateAdded
-     *            is this an addition revision
-     * @param hasNoLines
-     *            have we set the line counts?
-     * @param linesAdded
-     *            number of lines added
-     * @param linesRemoved
-     *            number of lines removed
-     */
-    private RevisionData(final String revisionNumber, final Date date, final boolean stateExp,
-    		final boolean stateDead, final boolean stateAdded, final boolean hasNoLines,
-            final int linesAdded, final int linesRemoved) {
-        super();
-        this.revisionNumber = revisionNumber;
-        this.date = date;
-        this.stateExp = stateExp;
-        this.stateDead = stateDead;
-        this.hasNoLines = hasNoLines;
-        this.linesAdded = linesAdded;
-        this.linesRemoved = linesRemoved;
-        this.stateAdded = stateAdded;
-    }
+	/**
+	 * Is this revision a deletion?
+	 * 
+	 * @param isDead
+	 *            <tt>true</tt> if revision is a deletion.
+	 */
+	public void setStateDead(final boolean isDead) {
+		stateDead = isDead;
+	}
 
-    public String getCopyfromPath() {
-        return copyfromPath;
-    }
+	/**
+	 * Is the revision exposed. This is CVS speak for any "live" revisionNumber, that is, if this is the current revisionNumber, then a file exists in the
+	 * working copy.
+	 * 
+	 * New in StatSVN: We use it to mean this revision is not a deletion revision. (modify, add or replace)
+	 * 
+	 * @param isExposed
+	 *            <tt>true</tt> true if the revision is not a deletion.
+	 */
+	public void setStateExp(final boolean isExposed) {
+		stateExp = isExposed;
+	}
 
-    public void setCopyfromPath(final String copyfromPath) {
-        this.copyfromPath = copyfromPath;
-    }
+	/**
+	 * Is this revision an addition?
+	 * 
+	 * New in StatSVN: This is no longer a still exists in working copy. We use it to mean this revision is not a deletion revision.
+	 * 
+	 * @param isAdded
+	 */
+	public void setStateAdded(final boolean isAdded) {
+		stateAdded = isAdded;
+	}
 
-    public String getCopyfromRevision() {
-        return copyfromRevision;
-    }
+	/**
+	 * @return Returns the comment.
+	 */
+	public String getComment() {
+		return comment;
+	}
 
-    public void setCopyfromRevision(final String copyfromRevision) {
-        this.copyfromRevision = copyfromRevision;
-    }
+	/**
+	 * @param comment
+	 *            The comment to set.
+	 */
+	public void setComment(final String comment) {
+		this.comment = comment;
+	}
+
+	/**
+	 * Returns <tt>true</tt> if this revisionNumber is the removal of a file.
+	 * 
+	 * @return <tt>true</tt> if this revisionNumber deletes the file.
+	 * 
+	 */
+	public boolean isDeletion() {
+		return stateDead;
+	}
+
+	/**
+	 * Returns <tt>true</tt> if this revisionNumber is a normal change.
+	 * 
+	 * New in StatSVN: This was isChangeOrRestore before.
+	 * 
+	 * @return <tt>true</tt> if this is a normal change or a restore.
+	 */
+	public boolean isChange() {
+		// return stateExp && !hasNoLines;
+		return stateExp && !stateAdded;
+	}
+
+	/**
+	 * Returns <tt>true</tt> if this revisionNumber is the creation of a new file or a restore.. The distinction between these two cases can be made by
+	 * looking at the previous (in time, not log order) revisionNumber. If it was a deletion, then this revisionNumber is a restore.
+	 * 
+	 * New in StatSVN: This was isCreation before.
+	 * 
+	 * @return <tt>true</tt> if this is the creation of a new file.
+	 */
+	public boolean isCreationOrRestore() {
+		// return stateExp && hasNoLines;
+		return stateExp && stateAdded;
+	}
+
+	/**
+	 * Returns <tt>true</tt> if this is an Exp ("exposed"?) revisionNumber. This is CVS speak for any "live" revisionNumber, that is, if this is the current
+	 * revisionNumber, then a file exists in the working copy.
+	 * 
+	 * New in StatSVN: We use it to mean this revision is not a deletion revision. (modify, add or replace)
+	 * 
+	 * @return <tt>true</tt> if this is an Exp revisionNumber
+	 */
+	public boolean isStateExp() {
+		return stateExp;
+	}
+
+	/**
+	 * Returns <tt>true</tt> if this is a dead revisionNumber. If this is the current revisionNumber, then the file does not exist in the working copy.
+	 * 
+	 * @return <tt>true</tt> if this is a dead revisionNumber
+	 */
+	public boolean isStateDead() {
+		return stateDead;
+	}
+
+	/**
+	 * Returns the current revision data in string format.
+	 */
+	public String toString() {
+		return "RevisionData " + revisionNumber;
+	}
+
+	/**
+	 * Returns a new instance of the RevisionData, with the same fields as the current one.
+	 * 
+	 * @return the clone
+	 */
+	public RevisionData createCopy() {
+		final RevisionData copy = new RevisionData(revisionNumber, date, stateExp, stateDead, stateAdded, hasNoLines, linesAdded, linesRemoved);
+		copy.setComment(comment);
+		copy.setLoginName(loginName);
+		return copy;
+	}
+
+	/**
+	 * Private constructor used by (@link #clone())
+	 * 
+	 * @param revisionNumber
+	 *            the revision number
+	 * @param date
+	 *            the revision date
+	 * @param stateExp
+	 *            if this were the current revision, would the file still be live (not-dead)
+	 * @param stateDead
+	 *            is this a deletion revision
+	 * @param stateAdded
+	 *            is this an addition revision
+	 * @param hasNoLines
+	 *            have we set the line counts?
+	 * @param linesAdded
+	 *            number of lines added
+	 * @param linesRemoved
+	 *            number of lines removed
+	 */
+	private RevisionData(final String revisionNumber, final Date date, final boolean stateExp, final boolean stateDead, final boolean stateAdded,
+	        final boolean hasNoLines, final int linesAdded, final int linesRemoved) {
+		super();
+		this.revisionNumber = revisionNumber;
+		this.date = date;
+		this.stateExp = stateExp;
+		this.stateDead = stateDead;
+		this.hasNoLines = hasNoLines;
+		this.linesAdded = linesAdded;
+		this.linesRemoved = linesRemoved;
+		this.stateAdded = stateAdded;
+	}
+
+	public String getCopyfromPath() {
+		return copyfromPath;
+	}
+
+	public void setCopyfromPath(final String copyfromPath) {
+		this.copyfromPath = copyfromPath;
+	}
+
+	public String getCopyfromRevision() {
+		return copyfromRevision;
+	}
+
+	public void setCopyfromRevision(final String copyfromRevision) {
+		this.copyfromRevision = copyfromRevision;
+	}
 
 }

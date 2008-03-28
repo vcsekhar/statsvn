@@ -68,11 +68,11 @@ public class SvnLogfileParser {
 
 	private static final String REPOSITORIES_XML = "repositories.xml";
 
-	private SvnLogBuilder builder;
+	private final SvnLogBuilder builder;
 
-	private InputStream logFile;
+	private final InputStream logFile;
 
-	private RepositoryFileManager repositoryFileManager;
+	private final RepositoryFileManager repositoryFileManager;
 
 	private CacheBuilder cacheBuilder;
 
@@ -174,10 +174,11 @@ public class SvnLogfileParser {
 							SvnConfigurationOptions.getTaskLogger().info(
 							        "This information will be cached so that the next time you run StatSVN, results will be returned more quickly.");
 
-							if (SvnConfigurationOptions.isLegacyDiff())
+							if (SvnConfigurationOptions.isLegacyDiff()) {
 								SvnConfigurationOptions.getTaskLogger().info("Using the legacy Subversion 1.3 diff mechanism: one diff per file per revision.");
-							else
+							} else {
 								SvnConfigurationOptions.getTaskLogger().info("Using the Subversion 1.4 diff mechanism: one diff per revision.");
+							}
 
 							isFirstDiff = false;
 						}
@@ -193,8 +194,8 @@ public class SvnLogfileParser {
 				}
 			}
 		} else {
-			for (Iterator iter = revsForNewDiff.iterator(); iter.hasNext();) {
-				String revNrNew = (String) iter.next();
+			for (final Iterator iter = revsForNewDiff.iterator(); iter.hasNext();) {
+				final String revNrNew = (String) iter.next();
 				final PerRevDiffTask diff = new PerRevDiffTask(revNrNew, builder.getFileBuilders());
 
 				poolUseRequired = executeTask(poolService, poolUseRequired, diff);
@@ -207,7 +208,7 @@ public class SvnLogfileParser {
 		SvnConfigurationOptions.getTaskLogger().log("parsing svn diff finished in " + (System.currentTimeMillis() - startTime) + " ms.");
 	}
 
-	private boolean executeTask(ExecutorService poolService, boolean poolUseRequired, final DiffTask diff) {
+	private boolean executeTask(final ExecutorService poolService, boolean poolUseRequired, final DiffTask diff) {
 		if (poolUseRequired && SvnConfigurationOptions.getNumberSvnDiffThreads() > 1) {
 			poolService.execute(diff);
 		} else {
@@ -219,7 +220,7 @@ public class SvnLogfileParser {
 		return poolUseRequired;
 	}
 
-	private void waitForPoolIfRequired(ExecutorService poolService) {
+	private void waitForPoolIfRequired(final ExecutorService poolService) {
 		if (SvnConfigurationOptions.getNumberSvnDiffThreads() > 1 && poolService != null) {
 			SvnConfigurationOptions.getTaskLogger().info(
 			        "Scheduled " + requiredDiffCalls + " svn diff calls on " + Math.min(requiredDiffCalls, SvnConfigurationOptions.getNumberSvnDiffThreads())
@@ -240,8 +241,9 @@ public class SvnLogfileParser {
 		// Calculate the number of required calls...
 		requiredDiffCalls = 0;
 
-		if (!SvnConfigurationOptions.isLegacyDiff())
+		if (!SvnConfigurationOptions.isLegacyDiff()) {
 			revsForNewDiff = new HashSet();
+		}
 
 		for (final Iterator iter = fileBuilders.iterator(); iter.hasNext();) {
 			final FileBuilder fileBuilder = (FileBuilder) iter.next();
@@ -262,8 +264,9 @@ public class SvnLogfileParser {
 						if (revsForNewDiff == null || !revsForNewDiff.contains(revNrNew)) {
 							requiredDiffCalls++;
 
-							if (revsForNewDiff != null)
+							if (revsForNewDiff != null) {
 								revsForNewDiff.add(revNrNew);
+							}
 						}
 					}
 				}
@@ -430,7 +433,8 @@ public class SvnLogfileParser {
 		SvnConfigurationOptions.getTaskLogger().log("verifying implicit actions finished in " + (System.currentTimeMillis() - startTime) + " ms.");
 	}
 
-	private void createImplicitAction(final HashSet implicitActions, final String child, final FileBuilder childBuilder, final RevisionData parentData, int k) {
+	private void createImplicitAction(final HashSet implicitActions, final String child, final FileBuilder childBuilder, final RevisionData parentData,
+	        final int k) {
 		// we want to memorize this implicit action.
 		final RevisionData implicit = parentData.createCopy();
 		implicitActions.add(implicit);
@@ -438,7 +442,7 @@ public class SvnLogfileParser {
 		// avoid concurrent modification errors.
 		final List toMove = new ArrayList();
 		for (final Iterator it = childBuilder.getRevisions().subList(k, childBuilder.getRevisions().size()).iterator(); it.hasNext();) {
-			RevisionData revToMove = (RevisionData) it.next();
+			final RevisionData revToMove = (RevisionData) it.next();
 			// if
 			// (!revToMove.getRevisionNumber().equals(implicit.getRevisionNumber()))
 			// {
@@ -466,7 +470,7 @@ public class SvnLogfileParser {
 		}
 	}
 
-	private int detectActionOnChildGivenActionOnParent(final FileBuilder childBuilder, int parentRevision) {
+	private int detectActionOnChildGivenActionOnParent(final FileBuilder childBuilder, final int parentRevision) {
 		int k;
 		for (k = 0; k < childBuilder.getRevisions().size(); k++) {
 			final RevisionData childData = (RevisionData) childBuilder.getRevisions().get(k);
@@ -528,12 +532,12 @@ public class SvnLogfileParser {
 			final FileBuilder filebuilder = (FileBuilder) iter.next();
 
 			boolean previousIsDelete = false;
-			List toRemove = new ArrayList();
+			final List toRemove = new ArrayList();
 			// for this file, iterate through all revisions and store any
 			// deletion revision that follows
 			// a deletion.
-			for (Iterator it = filebuilder.getRevisions().iterator(); it.hasNext();) {
-				RevisionData data = (RevisionData) it.next();
+			for (final Iterator it = filebuilder.getRevisions().iterator(); it.hasNext();) {
+				final RevisionData data = (RevisionData) it.next();
 				if (data.isDeletion() && previousIsDelete) {
 					toRemove.add(data);
 				}
@@ -721,7 +725,7 @@ public class SvnLogfileParser {
 			fileBuilder.setBinary(true);
 		}
 
-		protected void trackFileDiff(int[] lineDiff) {
+		protected void trackFileDiff(final int[] lineDiff) {
 			if (lineDiff[0] != -1 && lineDiff[1] != -1) {
 				builder.updateRevision(fileName, newRevision, lineDiff[0], lineDiff[1]);
 				cacheBuilder.newRevision(fileName, newRevision, lineDiff[0] + "", lineDiff[1] + "", false);
@@ -775,7 +779,7 @@ public class SvnLogfileParser {
 				                + Thread.currentThread().getName());
 
 				for (int i = 0; i < results.size(); i++) {
-					Object[] element = (Object[]) results.get(i);
+					final Object[] element = (Object[]) results.get(i);
 
 					if (element.length == 3 && fileBuilders.containsKey(element[0].toString())) {
 						fileName = element[0].toString();
@@ -783,7 +787,7 @@ public class SvnLogfileParser {
 						lineDiff = (int[]) element[1];
 						oldRevision = "?";
 
-						Boolean isBinary = (Boolean) element[2];
+						final Boolean isBinary = (Boolean) element[2];
 						if (isBinary.booleanValue()) {
 							trackBinaryFile();
 						}

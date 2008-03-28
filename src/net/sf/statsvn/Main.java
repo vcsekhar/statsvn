@@ -35,15 +35,15 @@ import java.util.logging.LogManager;
 import net.sf.statcvs.Messages;
 import net.sf.statcvs.input.LogSyntaxException;
 import net.sf.statcvs.model.Repository;
+import net.sf.statcvs.output.ChurnPageMaker;
 import net.sf.statcvs.output.ConfigurationException;
 import net.sf.statcvs.output.ConfigurationOptions;
+import net.sf.statcvs.output.RepoMapPageMaker;
 import net.sf.statcvs.output.ReportConfig;
 import net.sf.statcvs.pages.ReportSuiteMaker;
 import net.sf.statsvn.input.Builder;
 import net.sf.statsvn.input.RepositoryFileManager;
 import net.sf.statsvn.input.SvnLogfileParser;
-import net.sf.statcvs.output.ChurnPageMaker;
-import net.sf.statcvs.output.RepoMapPageMaker;
 import net.sf.statsvn.output.SvnCommandLineParser;
 import net.sf.statsvn.output.SvnConfigurationOptions;
 import net.sf.statsvn.util.SvnStartupUtils;
@@ -107,10 +107,12 @@ public final class Main {
 
 	public static void generate() {
 		try {
-			final boolean isNewerDiffPossible  = SvnStartupUtils.checkDiffPerRevPossible(SvnStartupUtils.checkSvnVersionSufficient());
+			final boolean isNewerDiffPossible = SvnStartupUtils.checkDiffPerRevPossible(SvnStartupUtils.checkSvnVersionSufficient());
 			// fall-back to older option.
-			if (!isNewerDiffPossible) SvnConfigurationOptions.setLegacyDiff(true);
-			
+			if (!isNewerDiffPossible) {
+				SvnConfigurationOptions.setLegacyDiff(true);
+			}
+
 			SvnStartupUtils.checkRepoRootAvailable();
 			generateDefaultHTMLSuite();
 		} catch (final ConfigurationException cex) {
@@ -145,7 +147,7 @@ public final class Main {
 			if (stream != null) {
 				try {
 					stream.close();
-				} catch (IOException e) {
+				} catch (final IOException e) {
 					SvnConfigurationOptions.getTaskLogger().error("ERROR: could not close stream!");
 				}
 			}
@@ -197,13 +199,13 @@ public final class Main {
 		System.exit(1);
 	}
 
-	public static String printStackTrace(Exception e) {
+	public static String printStackTrace(final Exception e) {
 		try {
-			StringWriter sw = new StringWriter();
-			PrintWriter pw = new PrintWriter(sw);
+			final StringWriter sw = new StringWriter();
+			final PrintWriter pw = new PrintWriter(sw);
 			e.printStackTrace(pw);
 			return sw.toString();
-		} catch (Exception e2) {
+		} catch (final Exception e2) {
 			if (e != null) {
 				return e.getMessage();
 			} else {
@@ -285,7 +287,7 @@ public final class Main {
 		// make JFreeChart work on systems without GUI
 		System.setProperty("java.awt.headless", "true");
 
-		ReportConfig config = new ReportConfig(content, ConfigurationOptions.getProjectName(), ConfigurationOptions.getOutputDir(), ConfigurationOptions
+		final ReportConfig config = new ReportConfig(content, ConfigurationOptions.getProjectName(), ConfigurationOptions.getOutputDir(), ConfigurationOptions
 		        .getMarkupSyntax(), ConfigurationOptions.getCssHandler());
 		config.setWebRepository(ConfigurationOptions.getWebRepository());
 		config.setWebBugtracker(ConfigurationOptions.getWebBugtracker());
@@ -297,15 +299,15 @@ public final class Main {
 			new RepoDump(content).dump();
 		} else {
 			// add new reports
-			List extraReports = new ArrayList();
+			final List extraReports = new ArrayList();
 
-	        if ("xml".equalsIgnoreCase(ConfigurationOptions.getOutputFormat())) {
+			if ("xml".equalsIgnoreCase(ConfigurationOptions.getOutputFormat())) {
 				new ReportSuiteMaker(config, ConfigurationOptions.getNotes(), extraReports).toXml();
-	        } else {
+			} else {
 				extraReports.add(new RepoMapPageMaker(config).toFile());
 				extraReports.add(new ChurnPageMaker(config).toFile());
-	            new ReportSuiteMaker(config, ConfigurationOptions.getNotes(), extraReports).toFile().write();
-	        }
+				new ReportSuiteMaker(config, ConfigurationOptions.getNotes(), extraReports).toFile().write();
+			}
 		}
 		final long endTime = System.currentTimeMillis();
 		final long memoryUsedOnEnd = Runtime.getRuntime().totalMemory();
@@ -314,7 +316,7 @@ public final class Main {
 		SvnConfigurationOptions.getTaskLogger().info("memory usage: " + (((double) memoryUsedOnEnd - memoryUsedOnStart) / KB_IN_ONE_MB) + " kb");
 	}
 
-	private static void validate(ReportConfig config) {
+	private static void validate(final ReportConfig config) {
 		if (config.getRepository() == null || config.getRepository().getRoot() == null || config.getRepository().getDirectories() == null) {
 			printErrorMessageAndExit("The repository object is not valid. Please check your settings." + System.getProperty("line.separator")
 			        + "Is the log file empty? Do you run from a checked out directory? Do you have non-committed items?");

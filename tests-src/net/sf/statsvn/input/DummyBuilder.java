@@ -33,17 +33,23 @@ import net.sf.statcvs.model.Directory;
  */
 public class DummyBuilder extends Builder {
 	private final Author author1 = new Author("author1");
+
 	private final Author author2 = new Author("author2");
+
 	private final Author author3 = new Author("author3");
+
 	private final Directory root = Directory.createRoot();
+
 	private final Directory dir1 = root.createSubdirectory("dir1");
+
 	private final Directory dir2 = root.createSubdirectory("dir2");
+
 	private final Directory subdir = dir1.createSubdirectory("subdir");
 
 	public DummyBuilder() {
 		super(null, null, null, null);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see net.sf.statsvn.input.Builder#getAuthor(java.lang.String)
 	 */

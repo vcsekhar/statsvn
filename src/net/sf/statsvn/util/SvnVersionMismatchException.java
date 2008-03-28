@@ -12,18 +12,18 @@ package net.sf.statsvn.util;
  * @version $Id$
  */
 public class SvnVersionMismatchException extends Exception {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    public SvnVersionMismatchException() {
-        super("Subversion binary is incorrect version or not found. Please verify that "
-        		+"you have installed the Subversion command-line client and it is on your path.");
-    }
+	public SvnVersionMismatchException() {
+		super("Subversion binary is incorrect version or not found. Please verify that "
+		        + "you have installed the Subversion command-line client and it is on your path.");
+	}
 
-    public SvnVersionMismatchException(final String m) {
-        super(m);
-    }
+	public SvnVersionMismatchException(final String m) {
+		super(m);
+	}
 
-    public SvnVersionMismatchException(final String found, final String required) {
-        super("Subversion binary is incorrect version. Found: " + found + ", required: " + required);
-    }
+	public SvnVersionMismatchException(final String found, final String required) {
+		super("Subversion binary is incorrect version. Found: " + found + ", required: " + required);
+	}
 }

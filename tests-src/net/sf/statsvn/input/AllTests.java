@@ -49,8 +49,7 @@ public class AllTests {
 		suite.addTestSuite(LinesOfCodeTest.class);
 		suite.addTestSuite(FileBuilderTest.class);
 		suite.addTestSuite(CommitListBuilderTest.class);
-		
-		
+
 		// CVS tests
 		/*
 		

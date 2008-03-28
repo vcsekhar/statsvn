@@ -3,7 +3,6 @@
  */
 package net.sf.statsvn.util;
 
-import net.sf.statsvn.util.SvnInfoUtils;
 import junit.framework.TestCase;
 
 /**

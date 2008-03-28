@@ -32,7 +32,7 @@ public final class SvnInfoUtils {
 	 */
 	private SvnInfoUtils() {
 	}
-	
+
 	/**
 	 * SAX parser for the svn info --xml command.
 	 * 
@@ -41,10 +41,15 @@ public final class SvnInfoUtils {
 	protected static class SvnInfoHandler extends DefaultHandler {
 
 		private boolean isRootFolder = false;
+
 		private String sCurrentKind;
+
 		private String sCurrentRevision;
+
 		private String sCurrentUrl;
+
 		private String stringData = "";
+
 		private String sCurrentPath;
 
 		/**
@@ -72,9 +77,8 @@ public final class SvnInfoUtils {
 				sCurrentUrl = stringData;
 			} else if (eName.equals("entry")) {
 				if (sCurrentRevision == null || sCurrentUrl == null || sCurrentKind == null) {
-					throw new SAXException("Invalid svn info xml; unable to find revision or url for path [" 
-							+ sCurrentPath + "]" + " revision="
-							+ sCurrentRevision + " url:" + sCurrentUrl + " kind:" + sCurrentKind);
+					throw new SAXException("Invalid svn info xml; unable to find revision or url for path [" + sCurrentPath + "]" + " revision="
+					        + sCurrentRevision + " url:" + sCurrentUrl + " kind:" + sCurrentKind);
 				}
 
 				HM_REVISIONS.put(urlToRelativePath(sCurrentUrl), sCurrentRevision);
@@ -101,7 +105,7 @@ public final class SvnInfoUtils {
 				sCurrentPath = attributes.getValue("path");
 				if (!isValidInfoEntry(attributes)) {
 					throw new SAXException("Invalid svn info xml for entry element. Please verify that you have checked out this project using "
-							+ "Subversion 1.3 or above, not only that you are currently using this version.");
+					        + "Subversion 1.3 or above, not only that you are currently using this version.");
 				}
 
 				if (sRootUrl == null && isRootFolder(attributes)) {
@@ -115,7 +119,7 @@ public final class SvnInfoUtils {
 			} else if (eName.equals("commit")) {
 				if (!isValidCommit(attributes)) {
 					throw new SAXException("Invalid svn info xml for commit element. Please verify that you have checked out this project using "
-							+ "Subversion 1.3 or above, not only that you are currently using this version.");
+					        + "Subversion 1.3 or above, not only that you are currently using this version.");
 				}
 				sCurrentRevision = attributes.getValue("revision");
 			}
@@ -155,8 +159,7 @@ public final class SvnInfoUtils {
 		 * @return true if is a valid info entry.
 		 */
 		private static boolean isValidInfoEntry(final Attributes attributes) {
-			return attributes != null && attributes.getValue("path") != null && attributes.getValue("kind") != null 
-				&& attributes.getValue("revision") != null;
+			return attributes != null && attributes.getValue("path") != null && attributes.getValue("kind") != null && attributes.getValue("revision") != null;
 		}
 	}
 
@@ -282,10 +285,10 @@ public final class SvnInfoUtils {
 				sModuleName = "";
 			} else {
 				try {
-	                sModuleName = URLDecoder.decode(getRootUrl().substring(getRepositoryUrl().length()), "UTF-8");
-                } catch (UnsupportedEncodingException e) {
-                	SvnConfigurationOptions.getTaskLogger().error(e.toString());
-                }
+					sModuleName = URLDecoder.decode(getRootUrl().substring(getRepositoryUrl().length()), "UTF-8");
+				} catch (final UnsupportedEncodingException e) {
+					SvnConfigurationOptions.getTaskLogger().error(e.toString());
+				}
 			}
 
 		}
@@ -545,29 +548,29 @@ public final class SvnInfoUtils {
 	 * @param originalString
 	 * @return
 	 */
-    public static String replace(final String originalPattern, final String newPattern, final String originalString) {
-        if ((originalPattern == null) || (originalPattern.length() == 0) || (originalString == null)) {
-            return originalString;
-        }
+	public static String replace(final String originalPattern, final String newPattern, final String originalString) {
+		if ((originalPattern == null) || (originalPattern.length() == 0) || (originalString == null)) {
+			return originalString;
+		}
 
-        final StringBuffer newString = new StringBuffer(originalString.length());
-        int index = 0;
-        final int originalLength = originalPattern.length();
-        int previousIndex = 0;
+		final StringBuffer newString = new StringBuffer(originalString.length());
+		int index = 0;
+		final int originalLength = originalPattern.length();
+		int previousIndex = 0;
 
-        while ((index = originalString.indexOf(originalPattern, index)) != -1) {
-            newString.append(originalString.substring(previousIndex, index)).append(newPattern);
-            index += originalLength;
-            previousIndex = index;
-        }
+		while ((index = originalString.indexOf(originalPattern, index)) != -1) {
+			newString.append(originalString.substring(previousIndex, index)).append(newPattern);
+			index += originalLength;
+			previousIndex = index;
+		}
 
-        if (previousIndex == 0) {
-            newString.append(originalString);
-        } else if (previousIndex != originalString.length()) {
-            newString.append(originalString.substring(previousIndex));
-        }
+		if (previousIndex == 0) {
+			newString.append(originalString);
+		} else if (previousIndex != originalString.length()) {
+			newString.append(originalString.substring(previousIndex));
+		}
 
-        return newString.toString();
-    }
+		return newString.toString();
+	}
 
 }
