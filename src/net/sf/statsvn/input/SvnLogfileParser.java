@@ -35,6 +35,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Vector;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -73,6 +75,8 @@ public class SvnLogfileParser {
 	private RepositoryFileManager repositoryFileManager;
 
 	private CacheBuilder cacheBuilder;
+
+	private HashSet revsForNewDiff = null;
 
 	/**
 	 * Default Constructor
@@ -133,60 +137,86 @@ public class SvnLogfileParser {
 		calls = 0;
 		groupStart = System.currentTimeMillis();
 		boolean poolUseRequired = false;
-		for (final Iterator iter = fileBuilders.iterator(); iter.hasNext();) {
-			final FileBuilder fileBuilder = (FileBuilder) iter.next();
-			final String fileName = fileBuilder.getName();
-			if (fileBuilder.isBinary() || !builder.matchesPatterns(fileName)) {
-				continue;
-			}
-			final List revisions = fileBuilder.getRevisions();
-			for (int i = 0; i < revisions.size(); i++) {
-				// line diffs are expensive operations. therefore, the result is
-				// stored in the
-				// cacheBuilder and eventually persisted in the cache xml file.
-				// the next time
-				// the file is read the line diffs (or 0/0 in case of binary
-				// files) are intialized
-				// in the RevisionData. this cause hasNoLines to be false which
-				// in turn causes the
-				// if clause below to be skipped.
-				if (i + 1 < revisions.size() && ((RevisionData) revisions.get(i)).hasNoLines() && !((RevisionData) revisions.get(i)).isDeletion()) {
-					if (((RevisionData) revisions.get(i + 1)).isDeletion()) {
-						continue;
-					}
-					final String revNrNew = ((RevisionData) revisions.get(i)).getRevisionNumber();
-					if (cacheBuilder.isBinary(fileName, revNrNew)) {
-						continue;
-					}
-					final String revNrOld = ((RevisionData) revisions.get(i + 1)).getRevisionNumber();
 
-					if (isFirstDiff) {
-						SvnConfigurationOptions.getTaskLogger().info("Contacting server to obtain line count information.");
-						SvnConfigurationOptions.getTaskLogger().info(
-						        "This information will be cached so that the next time you run StatSVN, results will be returned more quickly.");
-						isFirstDiff = false;
-					}
+		if (SvnConfigurationOptions.isLegacyDiff()) {
+			for (final Iterator iter = fileBuilders.iterator(); iter.hasNext();) {
+				final FileBuilder fileBuilder = (FileBuilder) iter.next();
+				final String fileName = fileBuilder.getName();
+				if (fileBuilder.isBinary() || !builder.matchesPatterns(fileName)) {
+					continue;
+				}
+				final List revisions = fileBuilder.getRevisions();
+				for (int i = 0; i < revisions.size(); i++) {
+					// line diffs are expensive operations. therefore, the
+					// result is
+					// stored in the
+					// cacheBuilder and eventually persisted in the cache xml
+					// file.
+					// the next time
+					// the file is read the line diffs (or 0/0 in case of binary
+					// files) are intialized
+					// in the RevisionData. this cause hasNoLines to be false
+					// which
+					// in turn causes the
+					// if clause below to be skipped.
+					if (i + 1 < revisions.size() && ((RevisionData) revisions.get(i)).hasNoLines() && !((RevisionData) revisions.get(i)).isDeletion()) {
+						if (((RevisionData) revisions.get(i + 1)).isDeletion()) {
+							continue;
+						}
+						final String revNrNew = ((RevisionData) revisions.get(i)).getRevisionNumber();
+						if (cacheBuilder.isBinary(fileName, revNrNew)) {
+							continue;
+						}
+						final String revNrOld = ((RevisionData) revisions.get(i + 1)).getRevisionNumber();
 
-					final DiffTask diff = new DiffTask(fileName, revNrNew, revNrOld, fileBuilder);
+						if (isFirstDiff) {
+							SvnConfigurationOptions.getTaskLogger().info("Contacting server to obtain line count information.");
+							SvnConfigurationOptions.getTaskLogger().info(
+							        "This information will be cached so that the next time you run StatSVN, results will be returned more quickly.");
 
-					// SvnConfigurationOptions.getTaskLogger().log(Thread.currentThread().getName()
-					// + " Schedule task for " + fileName + " rev:" + revNrNew);
+							if (SvnConfigurationOptions.isLegacyDiff())
+								SvnConfigurationOptions.getTaskLogger().info("Using the legacy Subversion 1.3 diff mechanism: one diff per file per revision.");
+							else
+								SvnConfigurationOptions.getTaskLogger().info("Using the Subversion 1.4 diff mechanism: one diff per revision.");
 
-					if (poolUseRequired && SvnConfigurationOptions.getNumberSvnDiffThreads() > 1) {
-						poolService.execute(diff);
-					} else {
-						final long start = System.currentTimeMillis();
-						diff.run();
-						final long end = System.currentTimeMillis();
-						poolUseRequired = (end - start) > SvnConfigurationOptions.getThresholdInMsToUseConcurrency();
+							isFirstDiff = false;
+						}
+
+						final DiffTask diff = new DiffTask(fileName, revNrNew, revNrOld, fileBuilder);
+
+						// SvnConfigurationOptions.getTaskLogger().log(Thread.currentThread().getName()
+						// + " Schedule task for " + fileName + " rev:" +
+						// revNrNew);
+
+						poolUseRequired = executeTask(poolService, poolUseRequired, diff);
 					}
 				}
 			}
+		} else {
+			for (Iterator iter = revsForNewDiff.iterator(); iter.hasNext();) {
+				String revNrNew = (String) iter.next();
+				final PerRevDiffTask diff = new PerRevDiffTask(revNrNew, builder.getFileBuilders());
+
+				poolUseRequired = executeTask(poolService, poolUseRequired, diff);
+			}
+
 		}
 		waitForPoolIfRequired(poolService);
 		SvnConfigurationOptions.getTaskLogger().log("parsing svn diff");
 		XMLUtil.writeXmlFile(cacheBuilder.getDocument(), cacheFileName);
 		SvnConfigurationOptions.getTaskLogger().log("parsing svn diff finished in " + (System.currentTimeMillis() - startTime) + " ms.");
+	}
+
+	private boolean executeTask(ExecutorService poolService, boolean poolUseRequired, final DiffTask diff) {
+		if (poolUseRequired && SvnConfigurationOptions.getNumberSvnDiffThreads() > 1) {
+			poolService.execute(diff);
+		} else {
+			final long start = System.currentTimeMillis();
+			diff.run();
+			final long end = System.currentTimeMillis();
+			poolUseRequired = (end - start) > SvnConfigurationOptions.getThresholdInMsToUseConcurrency();
+		}
+		return poolUseRequired;
 	}
 
 	private void waitForPoolIfRequired(ExecutorService poolService) {
@@ -209,6 +239,10 @@ public class SvnLogfileParser {
 	private void calculateNumberRequiredCalls(final Collection fileBuilders) {
 		// Calculate the number of required calls...
 		requiredDiffCalls = 0;
+
+		if (!SvnConfigurationOptions.isLegacyDiff())
+			revsForNewDiff = new HashSet();
+
 		for (final Iterator iter = fileBuilders.iterator(); iter.hasNext();) {
 			final FileBuilder fileBuilder = (FileBuilder) iter.next();
 			final String fileName = fileBuilder.getName();
@@ -223,7 +257,14 @@ public class SvnLogfileParser {
 						if (cacheBuilder.isBinary(fileName, revNrNew)) {
 							continue;
 						}
-						requiredDiffCalls++;
+						// count if legacy diff or this rev wasn't already
+						// counted.
+						if (revsForNewDiff == null || !revsForNewDiff.contains(revNrNew)) {
+							requiredDiffCalls++;
+
+							if (revsForNewDiff != null)
+								revsForNewDiff.add(revNrNew);
+						}
 					}
 				}
 			}
@@ -578,14 +619,17 @@ public class SvnLogfileParser {
 
 	private String cacheFileName;
 
-	final class DiffTask implements Runnable {
-		private String fileName;
+	protected class DiffTask implements Runnable {
+		protected String fileName;
 
-		private String newRevision;
+		protected String newRevision;
 
-		private String oldRevision;
+		protected String oldRevision;
 
-		private FileBuilder fileBuilder;
+		protected FileBuilder fileBuilder;
+
+		protected DiffTask() {
+		}
 
 		public DiffTask(final String fileName, final String newRevision, final String oldRevision, final FileBuilder fileBuilder) {
 			super();
@@ -658,22 +702,35 @@ public class SvnLogfileParser {
 				                + " -" + lineDiff[1] + " (" + (end - start) + " ms.) " + Thread.currentThread().getName());
 			} catch (final BinaryDiffException e) {
 				calls++;
-				// file is binary and has been deleted
-				cacheBuilder.newRevision(fileName, newRevision, "0", "0", true);
-				fileBuilder.setBinary(true);
+				trackBinaryFile();
 				return;
 			} catch (final IOException e) {
 				SvnConfigurationOptions.getTaskLogger()
 				        .error("" + (++calls) + "/" + requiredDiffCalls + " IOException: Unable to obtain diff: " + e.toString());
 				return;
 			}
+
+			trackFileDiff(lineDiff);
+
+			performIntermediarySave(end);
+		}
+
+		protected void trackBinaryFile() {
+			// file is binary and has been deleted
+			cacheBuilder.newRevision(fileName, newRevision, "0", "0", true);
+			fileBuilder.setBinary(true);
+		}
+
+		protected void trackFileDiff(int[] lineDiff) {
 			if (lineDiff[0] != -1 && lineDiff[1] != -1) {
 				builder.updateRevision(fileName, newRevision, lineDiff[0], lineDiff[1]);
 				cacheBuilder.newRevision(fileName, newRevision, lineDiff[0] + "", lineDiff[1] + "", false);
 			} else {
 				SvnConfigurationOptions.getTaskLogger().info("unknown behaviour; to be investigated:" + fileName + " r:" + oldRevision + "/r:" + newRevision);
 			}
+		}
 
+		protected void performIntermediarySave(long end) {
 			synchronized (cacheBuilder) {
 				if (end - groupStart > INTERMEDIARY_SAVE_INTERVAL_MS) {
 					final long start = System.currentTimeMillis();
@@ -688,5 +745,69 @@ public class SvnLogfileParser {
 				}
 			}
 		}
+
 	}
+
+	protected class PerRevDiffTask extends DiffTask {
+		protected Map fileBuilders;
+
+		public PerRevDiffTask(final String newRevision, final Map fileBuilders) {
+			this.newRevision = newRevision;
+			this.fileBuilders = fileBuilders;
+		}
+
+		public void run() {
+			int[] lineDiff;
+			Vector results;
+			long end = 0L;
+			try {
+				// SvnConfigurationOptions.getTaskLogger().log(Thread.currentThread().getName()
+				// + " Starts... now");
+				final long start = System.currentTimeMillis();
+				results = repositoryFileManager.getRevisionDiff(newRevision);
+				end = System.currentTimeMillis();
+				synchronized (cacheBuilder) {
+					totalTime += (end - start);
+				}
+
+				SvnConfigurationOptions.getTaskLogger().info(
+				        "svn diff " + (++calls) + "/" + requiredDiffCalls + " on r" + newRevision + " (" + (end - start) + " ms.) "
+				                + Thread.currentThread().getName());
+
+				for (int i = 0; i < results.size(); i++) {
+					Object[] element = (Object[]) results.get(i);
+
+					if (element.length == 3 && fileBuilders.containsKey(element[0].toString())) {
+						fileName = element[0].toString();
+						fileBuilder = (FileBuilder) fileBuilders.get(fileName);
+						lineDiff = (int[]) element[1];
+						oldRevision = "?";
+
+						Boolean isBinary = (Boolean) element[2];
+						if (isBinary.booleanValue()) {
+							trackBinaryFile();
+						}
+
+						SvnConfigurationOptions.getTaskLogger().info("\t " + fileName + ", on r" + newRevision + ", +" + lineDiff[0] + " -" + lineDiff[1]);
+
+						trackFileDiff(lineDiff);
+					} else {
+						SvnConfigurationOptions.getTaskLogger().error("Problem with diff " + i + " for revision " + newRevision + ".");
+					}
+				}
+
+			} catch (final BinaryDiffException e) {
+				// not supposed to happen. tracked individually.
+				return;
+			} catch (final IOException e) {
+				SvnConfigurationOptions.getTaskLogger()
+				        .error("" + (++calls) + "/" + requiredDiffCalls + " IOException: Unable to obtain diff: " + e.toString());
+				return;
+			}
+
+			performIntermediarySave(end);
+		}
+
+	}
+
 }

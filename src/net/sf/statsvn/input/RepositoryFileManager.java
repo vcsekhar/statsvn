@@ -25,6 +25,7 @@ package net.sf.statsvn.input;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Vector;
 
 import net.sf.statcvs.input.LogSyntaxException;
 import net.sf.statcvs.input.NoLineCountException;
@@ -148,6 +149,21 @@ public class RepositoryFileManager {
 	 */
 	public int[] getLineDiff(final String oldRevNr, final String newRevNr, final String filename) throws IOException, BinaryDiffException {
 		return SvnDiffUtils.getLineDiff(oldRevNr, newRevNr, filename);
+	}
+	
+	 /**
+	 * Returns line count differences for all files in a particular revision.
+	 * 
+	 * @param newRevNr
+	 *            new revision number
+	 * @return A vector of object[3] array of [filename, int[2](lines added, lines removed), isBinary] is returned.
+	 * @throws IOException
+	 *             problem parsing the stream
+	 * @throws BinaryDiffException
+	 *             if the error message is due to trying to diff binary files.
+	 */
+	public Vector getRevisionDiff(final String newRevNr)   throws IOException, BinaryDiffException {
+		return SvnDiffUtils.getLineDiff(newRevNr);
 	}
 
 	/**

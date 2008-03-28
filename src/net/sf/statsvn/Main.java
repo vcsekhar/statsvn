@@ -107,7 +107,10 @@ public final class Main {
 
 	public static void generate() {
 		try {
-			SvnStartupUtils.checkSvnVersionSufficient();
+			final boolean isNewerDiffPossible  = SvnStartupUtils.checkDiffPerRevPossible(SvnStartupUtils.checkSvnVersionSufficient());
+			// fall-back to older option.
+			if (!isNewerDiffPossible) SvnConfigurationOptions.setLegacyDiff(true);
+			
 			SvnStartupUtils.checkRepoRootAvailable();
 			generateDefaultHTMLSuite();
 		} catch (final ConfigurationException cex) {

@@ -19,6 +19,7 @@ import net.sf.statsvn.output.SvnConfigurationOptions;
 public final class SvnStartupUtils {
     private static final String SVN_VERSION_COMMAND = "svn --version";
     private static final String SVN_MINIMUM_VERSION = "1.3.0";
+    private static final String SVN_MINIMUM_VERSION_DIFF_PER_REV = "1.4.0";
     private static final String SVN_VERSION_LINE_PATTERN = ".* [0-9]+\\.[0-9]+\\.[0-9]+.*";
     private static final String SVN_VERSION_PATTERN = "[0-9]+\\.[0-9]+\\.[0-9]+";
     
@@ -36,12 +37,14 @@ public final class SvnStartupUtils {
 	}
 
 	/**
-     * Verifies that the current revision of SVN is SVN_MINIMUM_VERSION
-     * 
-     * @throws SvnVersionMismatchException
-     *             if SVN executable not found or version less than SVN_MINIMUM_VERSION
-     */
-    public static synchronized void checkSvnVersionSufficient() throws SvnVersionMismatchException {
+	 * Verifies that the current revision of SVN is SVN_MINIMUM_VERSION
+	 * 
+	 * @throws SvnVersionMismatchException
+	 *             if SVN executable not found or version less than
+	 *             SVN_MINIMUM_VERSION
+	 * @return the version string
+	 */
+	public static synchronized String checkSvnVersionSufficient() throws SvnVersionMismatchException {
     	ProcessUtils pUtils = null;
         try {
             
@@ -60,7 +63,7 @@ public final class SvnStartupUtils {
 
                         // we perform a simple string comparison against the version numbers
                         if (versionString.compareTo(SVN_MINIMUM_VERSION) >= 0) {
-							return; // success
+							return versionString; // success
 						} else {
 							throw new SvnVersionMismatchException(versionString, SVN_MINIMUM_VERSION);
 						}
@@ -131,4 +134,9 @@ public final class SvnStartupUtils {
         throw new SvnVersionMismatchException(SVN_REPO_ROOT_NOTFOUND);
 
 	}
+    
+    public static synchronized boolean checkDiffPerRevPossible(String version) {
+        // we perform a simple string comparison against the version numbers
+        return version.compareTo(SVN_MINIMUM_VERSION_DIFF_PER_REV) >= 0;
+    }
 }
