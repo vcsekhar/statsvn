@@ -45,6 +45,8 @@ public class StatSvnTask extends StatCvsTask {
 	private int numberSvnDiffThreads;
 
 	private long thresholdInMsToUseConcurrency;
+	
+	private boolean useLegacyDiff=false;
 
 	/**
 	 * Constructor for StatSvnTask.
@@ -97,7 +99,9 @@ public class StatSvnTask extends StatCvsTask {
 		if (this.thresholdInMsToUseConcurrency != 0) {
 			SvnConfigurationOptions.setThresholdInMsToUseConcurrency(this.thresholdInMsToUseConcurrency);
 		}
-
+		if (this.useLegacyDiff) { // only override if we don't want it. 
+			SvnConfigurationOptions.setLegacyDiff(true);
+		}
 		SvnConfigurationOptions.setTaskLogger(new AntTaskLogger(this));
 	}
 
@@ -141,4 +145,14 @@ public class StatSvnTask extends StatCvsTask {
 		this.thresholdInMsToUseConcurrency = thresholdToUseConcurrency;
 	}
 
+	
+	/**
+	 * Should we use a one diff per-file-per-revision or should we use the newer one diff per-revision?
+	 * 
+	 * @param isLegacy true if the legacy diff should be used.  
+	 */
+	public void setLegacyDiff(boolean isLegacy)
+	{
+		this.useLegacyDiff = isLegacy;
+	}
 }
