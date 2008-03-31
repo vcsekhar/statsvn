@@ -22,8 +22,10 @@
   <body>
     <!-- The body of the document contains a number of sections -->
     <section name="StatSVN News">
-    <p style="margin-top:10px; margin-bottom:0; padding-bottom:0; text-align:center; line-height:0"><a href="http://feeds.feedburner.com/~r/ObjectlabOpenSourceNews/~6/1"><img src="http://feeds.feedburner.com/ObjectlabOpenSourceNews.1.gif" alt="ObjectLab Open Source News" style="border:0"/></a></p><p style="margin-top:5px; padding-top:0; font-size:x-small; text-align:center"><a href="http://www.feedburner.com/fb/a/headlineanimator/install?id=829470&amp;w=1" onclick="window.open(this.href, 'haHowto', 'width=520,height=600,toolbar=no,address=no,resizable=yes,scrollbars'); return false" target="_blank">Grab this Headline Animator</a></p>
- 
+    <p style="margin-top:10px; margin-bottom:0; padding-bottom:0; text-align:center; line-height:0"><a href="http://feeds.feedburner.com/~r/ObjectlabOpenSourceNews/~6/1"><img src="http://feeds.feedburner.com/ObjectlabOpenSourceNews.1.gif" alt="ObjectLab Open Source News" style="border:0"/></a></p><p style="margin-top:5px; padding-top:0; font-size:x-small; text-align:center"><a href="http://www.feedburner.com/fb/a/headlineanimator/install?id=829470&amp;w=1" target="_blank">Grab this Headline Animator</a></p>
+
+	<p>2008-03-31: After a year of inactivity, we've started working on our next release and have made a few enhancements. <a href="http://blog.lavablast.com/post/2008/03/Upcoming-StatCVSStatSVN-release.aspx">We need your help!</a>. </p>
+	
     <p>2007-03-10 <strong>News</strong>: As part of release 0.3.1, we have launched a series of <a href="demo">demos</a> for some known projects: Subversion, Ant, Log4J, Spring Rich Client, Hibernate 3, Joda Time, Ruby, Groovy, Grails and Felix to start with.
     Go on, admit it, you always wanted to know who did what and when on those projects...
     <a href="http://digg.com/submit?phase=2&amp;url=www.statsvn.org&amp;title=StatSVN%200%2E3%2E1%20releases%20stats%20for%20well%20know%20OS%20projects&amp;bodytext=StatSVN%20and%20ObjectLab%20have%20released%20version%200%2E3%2E1%20of%20StatSVN%3A%20subversion%20statistics%20for%20Subversion%2E%20This%20release%20includes%20a%20demo%20site%20with%20statistics%20for%20some%20known%20projects%3A%20Subversion,%20Log4J,%20Spring%20Rich%20Client,%20Hibernate%203,%20Joda%20Time,%20Ruby,%20Groovy,%20Grails%20and%20Felix%20to%20start%20with&amp;topic=programming">
