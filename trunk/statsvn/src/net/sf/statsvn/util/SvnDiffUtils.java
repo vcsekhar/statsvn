@@ -148,7 +148,7 @@ public final class SvnDiffUtils {
 			final InputStream diffStream = pUtils.getInputStream();
 			final LookaheadReader diffReader = new LookaheadReader(new InputStreamReader(diffStream));
 			String currFile = null;
-			StringBuilder sb = new StringBuilder();
+			StringBuffer sb = new StringBuffer();
 			while (diffReader.hasNextLine()) {
 				final String currLine = diffReader.nextLine();
 
@@ -156,7 +156,7 @@ public final class SvnDiffUtils {
 					currFile = currLine.substring(INDEX_MARKER.length());
 				} else if (currFile != null && currLine.startsWith(INDEX_MARKER)) {
 					appendResults(answer, currFile, sb);
-					sb = new StringBuilder();
+					sb = new StringBuffer();
 					currFile = currLine.substring(INDEX_MARKER.length());
 				}
 
@@ -187,7 +187,7 @@ public final class SvnDiffUtils {
 	 * @throws BinaryDiffException
 	 *             if the error message is due to trying to diff binary files.
 	 */
-	private static void appendResults(final Vector answer, final String currFile, final StringBuilder sb) throws IOException {
+	private static void appendResults(final Vector answer, final String currFile, final StringBuffer sb) throws IOException {
 		int[] lineDiff;
 		Boolean isBinary = Boolean.FALSE;
 
