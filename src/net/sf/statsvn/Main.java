@@ -169,7 +169,9 @@ public final class Main {
 		                + "  -title <title>     Project title to be used in reports" + cr + "  -viewvc <url>      integrate with ViewVC installation at <url>"
 		                + cr + "  -bugzilla <url>    integrate with Bugzilla installation at <url>" + cr + "  -username <svnusername> username to pass to svn"
 		                + cr + "  -password <svnpassword> password to pass to svn" + cr + "  -verbose           print extra progress information" + cr
-		                + "  -xdoc                 optional switch output to xdoc" + cr + "  -threads <int>        how many threads for svn diff (default: 25)"
+		                + "  -xdoc                 optional switch output to xdoc" + cr 
+		                + "  -xml                  optional switch output to xml" + cr 
+		                + "  -threads <int>        how many threads for svn diff (default: 25)"
 		                + cr + "  -concurrencyThreshold <millisec> switch to concurrent svn diff if 1st call>threshold (default: 4000)" + cr
 		                + "  -dump                 dump the Repository content on console" + cr
 		                + "  -tags-dir <directory> optional, specifies the director for tags (default '/tags/')" + cr + cr
