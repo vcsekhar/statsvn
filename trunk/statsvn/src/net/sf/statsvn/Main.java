@@ -159,18 +159,24 @@ public final class Main {
 		        // 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 		        "Usage: java -jar statsvn.jar [options] <logfile> <directory>" + cr + cr + "Required parameters:" + cr
 		                + "  <logfile>          path to the svn logfile of the module" + cr
-		                + "  <directory>        path to the directory of the checked out module" + cr + cr + "Some options:" + cr
-		                + "  -version           print the version information and exit" + cr + "  -output-dir <dir>  directory where HTML suite will be saved"
-		                + cr + "  -include <pattern> include only files matching pattern, e.g. **/*.c;**/*.h" + cr
+		                + "  <directory>        path to the directory of the checked out module" + cr + cr 
+		                + "Some options:" + cr
+		                + "  -version           print the version information and exit" + cr  
+		                + "  -output-dir <dir>  directory where HTML suite will be saved" + cr
+		                + "  -include <pattern> include only files matching pattern, e.g. **/*.c;**/*.h" + cr
 		                + "  -exclude <pattern> exclude matching files, e.g. tests/**;docs/**" + cr
 		                + "  -tags <regexp>     show matching tags in lines of code chart, e.g. version-.*" + cr
-		                + "  -title <title>     Project title to be used in reports" + cr + "  -viewvc <url>      integrate with ViewVC installation at <url>"
-		                + cr + "  -bugzilla <url>    integrate with Bugzilla installation at <url>" + cr + "  -username <svnusername> username to pass to svn"
-		                + cr + "  -password <svnpassword> password to pass to svn" + cr + "  -verbose           print extra progress information" + cr
+		                + "  -title <title>     Project title to be used in reports" + cr 
+		                + "  -viewvc <url>      integrate with ViewVC installation at <url>" +cr
+		                + "  -trac <url>        integrate with Trac at <url>" + cr
+		                + "  -bugzilla <url>    integrate with Bugzilla installation at <url>" + cr 
+		                + "  -username <svnusername> username to pass to svn" + cr
+		                + "  -password <svnpassword> password to pass to svn" + cr 
+		                + "  -verbose           print extra progress information" + cr
 		                + "  -xdoc                 optional switch output to xdoc" + cr 
 		                + "  -xml                  optional switch output to xml" + cr 
-		                + "  -threads <int>        how many threads for svn diff (default: 25)"
-		                + cr + "  -concurrencyThreshold <millisec> switch to concurrent svn diff if 1st call>threshold (default: 4000)" + cr
+		                + "  -threads <int>        how many threads for svn diff (default: 25)" + cr
+		                + "  -concurrencyThreshold <millisec> switch to concurrent svn diff if 1st call>threshold (default: 4000)" + cr
 		                + "  -dump                 dump the Repository content on console" + cr
 		                + "  -tags-dir <directory> optional, specifies the director for tags (default '/tags/')" + cr + cr
 		                + "Full options list: http://www.statsvn.org");
