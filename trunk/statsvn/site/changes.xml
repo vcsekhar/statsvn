@@ -5,6 +5,7 @@
     </properties>
     <body>
         <release version="0.4.0" date="2008-04-20" description="Maintenance+move to StatCVS">
+            <action dev="benoitx" type="add" due-to="Nilendra Weerasinghe">Added support for an XML export of the main reports, just  use option -xml, based on patched proposed by Nilendra Weerasinghe.</action>
             <action dev="benoitx" type="add" issue="1639462" due-to="Jean-Francois Burdet">Applied patch for [ 1639462 ] Added TRAC Support.</action>
             <action dev="benoitx" type="add" issue="1932689" due-to="Martin Majlis">
                 Applied patch to StatCVS to show the Head Revision (had to change it to hide it for CVS as it does not make sense for CVS).
