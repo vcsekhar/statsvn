@@ -33,9 +33,8 @@
          <item name="LavaBlast" href="http://www.lavablast.com/" />
       </menu>      
       <footer>
+	<a href="http://www.lavablast.com"><img src="/images/lavablast.png" alt="LavaBlast Franchise Software"/></a>
 	<img src="http://sourceforge.net/sflogo.php?group_id=57558&amp;type=2"/>
-	<a href="http://digg.com/submit?phase=2&amp;url=www.statsvn.org&amp;title=StatSVN%3A%20Development%20Statistics%20from%20your%20Subversion%20Repository&amp;bodytext=A%20Development%20Statistics%20from%20your%20Subversion%20Repository&amp;topic=programming">
-		<img src="http://digg.com/img/badges/91x17-digg-button.png" width="91" height="17" alt="Digg!" /></a>	
  	<a href="http://www.lavablast.com" target="_blank">Hosting by LavaBlast - Software solutions for franchisors</a>
       <script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
       </script>
