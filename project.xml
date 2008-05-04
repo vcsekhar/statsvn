@@ -6,13 +6,11 @@
 	<groupId>net.sf.statsvn</groupId>
 	<currentVersion>${statsvn.version}</currentVersion>
 
-	<organization>
-		<name>StatSVN Sourceforge Development Group</name>
+    <organization>
+        <name>Appendium - Portfolio Financing Platform</name>
         <url>http://www.appendium.com/</url>
-          <logo>
-             http://www.appendium.com/openimages/appendium_logo.jpg
-          </logo>
-	</organization>
+        <logo>http://www.appendium.com/openimages/appendium_logo.jpg</logo>
+    </organization>
 
 	<inceptionYear>2006</inceptionYear>
 	<package>net.sf.statsvn</package>
