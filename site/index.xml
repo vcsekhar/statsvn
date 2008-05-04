@@ -24,7 +24,7 @@
     <section name="StatSVN News">
     <p style="margin-top:10px; margin-bottom:0; padding-bottom:0; text-align:center; line-height:0"><a href="http://feeds.feedburner.com/~r/ObjectlabOpenSourceNews/~6/1"><img src="http://feeds.feedburner.com/ObjectlabOpenSourceNews.1.gif" alt="ObjectLab Open Source News" style="border:0"/></a></p><p style="margin-top:5px; padding-top:0; font-size:x-small; text-align:center"><a href="http://www.feedburner.com/fb/a/headlineanimator/install?id=829470&amp;w=1" target="_blank">Grab this Headline Animator</a></p>
 
-    <p>2008-05-04 <a href="http://www.appendium.com">Appendium Ltd</a> and <a href="http://www.lavablast.com">LavaBlast</a> are pleased to announce the release of version 0.4.0 of StatSVN. More details on <a href="http://blog.lavablast.com/post/2008/03/Upcoming-StatCVSStatSVN-release.aspx">this blog!</a>. </p>
+    <p>2008-05-04 <a href="http://www.appendium.com">Appendium Ltd</a> and <a href="http://www.lavablast.com">LavaBlast</a> are pleased to announce the release of version 0.4.0 of StatSVN. More details on <a href="http://blog.lavablast.com/post/2008/03/Upcoming-StatCVSStatSVN-release.aspx">this blog!</a> and the <a href="changes-report.html">changelog</a>. </p>
 	
     <p>2007-03-10 <strong>News</strong>: As part of release 0.3.1, we have launched a series of <a href="demo">demos</a> for some known projects: Subversion, Ant, Log4J, Spring Rich Client, Hibernate 3, Joda Time, Ruby, Groovy, Grails and Felix to start with.
     Go on, admit it, you always wanted to know who did what and when on those projects...
