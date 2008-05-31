@@ -164,8 +164,9 @@ public final class SvnDiffUtils {
 				sb.append(System.getProperty("line.separator"));
 			}
 
-			// last file
-			appendResults(answer, currFile, sb);
+            // last file
+            if (currFile!=null)
+                appendResults(answer, currFile, sb);
 
 			verifyOutput(pUtils);
 		} finally {
