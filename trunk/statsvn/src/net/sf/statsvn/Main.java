@@ -176,7 +176,7 @@ public final class Main {
 		                + "  -xdoc                 optional switch output to xdoc" + cr 
 		                + "  -xml                  optional switch output to xml" + cr 
 		                + "  -threads <int>        how many threads for svn diff (default: 25)" + cr
-		                + "  -concurrencyThreshold <millisec> switch to concurrent svn diff if 1st call>threshold (default: 4000)" + cr
+		                + "  -concurrency-threshold <millisec> switch to concurrent svn diff if 1st call>threshold (default: 4000)" + cr
 		                + "  -dump                 dump the Repository content on console" + cr
 		                + "  -tags-dir <directory> optional, specifies the director for tags (default '/tags/')" + cr + cr
 		                + "Full options list: http://www.statsvn.org");

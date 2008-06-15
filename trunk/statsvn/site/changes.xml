@@ -6,6 +6,7 @@
     <body>
         <release version="0.4.1" date="2008-05-31" description="Maintenance">
         	<action dev="jkealey" type="fix" due-to="Joseph Armbruster">Fixed issue when the only change was a property change.</action>
+        	<action dev="jkealey" type="fix" issue="1993217" due-to="Edward Oubrayrie">Fixed issue in command line help with regards to -concurrency-threshold</action>
         </release>
         <release version="0.4.0" date="2008-04-20" description="Maintenance+move to StatCVS">
             <action dev="benoitx" type="add" due-to="Nilendra Weerasinghe">Added support for an XML export of the main reports, just  use option -xml, based on patched proposed by Nilendra Weerasinghe.</action>
