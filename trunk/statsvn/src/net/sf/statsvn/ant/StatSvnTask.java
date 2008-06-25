@@ -27,8 +27,6 @@ import net.sf.statcvs.output.ConfigurationException;
 import net.sf.statsvn.Main;
 import net.sf.statsvn.output.SvnConfigurationOptions;
 
-import org.apache.tools.ant.BuildException;
-
 /**
  * Ant task for running StatSVN.
  * 
@@ -60,7 +58,7 @@ public class StatSvnTask extends StatCvsTask {
 	/**
 	 * Runs the task
 	 * 
-	 * @throws BuildException
+	 * @throws buildException
 	 *             if an IO Error occurs
 	 */
 	public void execute() {
