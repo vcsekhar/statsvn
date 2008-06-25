@@ -178,6 +178,7 @@ public final class Main {
 		                + "  -threads <int>        how many threads for svn diff (default: 25)" + cr
 		                + "  -concurrency-threshold <millisec> switch to concurrent svn diff if 1st call>threshold (default: 4000)" + cr
 		                + "  -dump                 dump the Repository content on console" + cr
+                        + "  -charset <charset> specify the charset to use for html/xdoc\n"
 		                + "  -tags-dir <directory> optional, specifies the director for tags (default '/tags/')" + cr + cr
 		                + "Full options list: http://www.statsvn.org");
 		System.exit(1);
@@ -294,7 +295,7 @@ public final class Main {
 		System.setProperty("java.awt.headless", "true");
 
 		final ReportConfig config = new ReportConfig(content, ConfigurationOptions.getProjectName(), ConfigurationOptions.getOutputDir(), ConfigurationOptions
-		        .getMarkupSyntax(), ConfigurationOptions.getCssHandler());
+		        .getMarkupSyntax(), ConfigurationOptions.getCssHandler(), ConfigurationOptions.getCharSet());
 		config.setWebRepository(ConfigurationOptions.getWebRepository());
 		config.setWebBugtracker(ConfigurationOptions.getWebBugtracker());
 		config.setNonDeveloperLogins(ConfigurationOptions.getNonDeveloperLogins());
