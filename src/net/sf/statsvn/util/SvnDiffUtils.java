@@ -18,7 +18,9 @@ import net.sf.statsvn.output.SvnConfigurationOptions;
  * @version $Id$
  */
 public final class SvnDiffUtils {
-	private static final int PROPERTY_NAME_LINE = 4;
+	public static final int RESULT_SIZE = 3;
+
+    private static final int PROPERTY_NAME_LINE = 4;
 
 	private static final String PROPERTY_CHANGE = "Property changes on:";
 
@@ -165,8 +167,9 @@ public final class SvnDiffUtils {
 			}
 
             // last file
-            if (currFile!=null)
+            if (currFile!=null) {
                 appendResults(answer, currFile, sb);
+            }
 
 			verifyOutput(pUtils);
 		} finally {
@@ -202,7 +205,7 @@ public final class SvnDiffUtils {
 			isBinary = Boolean.TRUE;
 
 		}
-		final Object[] results = new Object[3];
+		final Object[] results = new Object[RESULT_SIZE];
 		results[0] = currFile;
 		results[1] = lineDiff;
 		results[2] = isBinary;
