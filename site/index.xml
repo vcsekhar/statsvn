@@ -77,7 +77,7 @@
     </section>
     
     <section name="Where is the manual?">
-    <p>The manual is available online as a <a href="http://svn.statsvn.org/statsvnwiki/">Wiki</a> and it is as up-to-date and comprehensive as you want it to be...</p>
+    <p>The manual is available online as a <a href="http://wiki.statsvn.org/">Wiki</a> and it is as up-to-date and comprehensive as you want it to be...</p>
     </section>
 
     <section name="Quick Example for Maven 1">
