@@ -4,6 +4,9 @@
         <title>StatSVN Changes</title>
     </properties>
     <body>
+        <release version="0.5.0" date="2008-04-01" description="Maintenance">
+       		<action dev="benoitx" type="add">Add new report for 12m Rolling Developer report.</action>
+        </release>
         <release version="0.4.1" date="2008-06-20" description="Maintenance">
         	<action dev="jkealey" type="fix" issue="1963918" due-to="Joseph Armbruster">Fixed issue when the only change was a property change.</action>
         	<action dev="jkealey" type="fix" issue="1993217" due-to="Edward Oubrayrie">Fixed issue in command line help with regards to -concurrency-threshold</action>
