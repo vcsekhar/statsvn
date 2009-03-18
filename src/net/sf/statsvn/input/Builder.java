@@ -267,6 +267,7 @@ public class Builder implements SvnLogBuilder {
                     return (Author) this.authors.get(replacementUser);
                 }
                 lowerCaseName = replacementUser;
+                newAuthor = new Author(lowerCaseName);
             }
         }
 
