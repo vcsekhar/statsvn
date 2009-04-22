@@ -311,8 +311,6 @@ public final class Main {
 			if ("xml".equalsIgnoreCase(ConfigurationOptions.getOutputFormat())) {
 				new ReportSuiteMaker(config, ConfigurationOptions.getNotes(), extraReports).toXml();
 			} else {
-				//				extraReports.add(new RepoMapPageMaker(config).toFile());
-				//				extraReports.add(new ChurnPageMaker(config).toFile());
 				new ReportSuiteMaker(config, ConfigurationOptions.getNotes(), extraReports).toFile().write();
 			}
 		}
