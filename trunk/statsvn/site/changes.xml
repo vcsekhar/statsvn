@@ -4,10 +4,21 @@
 		<title>StatSVN Changes</title>
 	</properties>
 	<body>
-		<release version="0.5.0" date="2008-04-01" description="Maintenance">
+		<release version="0.5.0" date="2009-05-22" description="Maintenance">
 			<action dev="benoitx" type="add">Add new report for 12m Rolling Developer report.</action>
 			<action dev="benoitx" type="add">
 				Add ability to MERGE 2 users through the config-file user.[userName].replacedBy=[newUserName]
+			</action>
+			<action dev="benoitx" type="add">
+				Add ability to MERGE 2 users through the config-file user.[userName].replacedBy=[newUserName]
+			</action>
+			<action dev="benoitx" type="add">
+				A bit of fun, added links to Twitter. In the statsvn.properties file defining the user, See
+				<a href="http://wiki.statsvn.org/User%20Manual.ashx">manual</a>
+			</action>
+			<action dev="benoitx" type="add">
+				Charts are now configurable, See
+				<a href="http://wiki.statsvn.org/User%20Manual.ashx">manual</a>
 			</action>
 		</release>
 		<release version="0.4.1" date="2008-06-20" description="Maintenance">

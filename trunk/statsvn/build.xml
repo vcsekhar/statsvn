@@ -147,7 +147,7 @@
 		</jar>
 	</target>
 
-	<target name="release" depends="zip.source,dist,test,zip">
+	<target name="release" depends="clean,dist,javadoc,zip.source,dist,test,zip">
 	</target>
 
 	<target name="zip" depends="dist">
