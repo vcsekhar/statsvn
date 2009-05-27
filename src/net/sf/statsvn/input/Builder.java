@@ -92,6 +92,14 @@ public class Builder implements SvnLogBuilder {
     private final Map symbolicNames = new HashMap();
 
     private final Pattern tagsPattern;
+    
+    public void clean() {
+        atticFileNames.clear();
+        authors.clear();
+        directories.clear();
+        fileBuilders.clear();
+        symbolicNames.clear();
+    }
 
     /**
      * Creates a new <tt>Builder</tt>

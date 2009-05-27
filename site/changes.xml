@@ -4,23 +4,27 @@
 		<title>StatSVN Changes</title>
 	</properties>
 	<body>
-		<release version="0.5.0" date="2009-05-22" description="Maintenance">
-			<action dev="benoitx" type="add">Add new report for 12m Rolling Developer report.</action>
-			<action dev="benoitx" type="add">
-				Add ability to MERGE 2 users through the config-file user.[userName].replacedBy=[newUserName]
-			</action>
-			<action dev="benoitx" type="add">
-				Add ability to MERGE 2 users through the config-file user.[userName].replacedBy=[newUserName]
-			</action>
-			<action dev="benoitx" type="add">
-				A bit of fun, added links to Twitter. In the statsvn.properties file defining the user, See
-				<a href="http://wiki.statsvn.org/User%20Manual.ashx">manual</a>
-			</action>
-			<action dev="benoitx" type="add">
-				Charts are now configurable, See
-				<a href="http://wiki.statsvn.org/User%20Manual.ashx">manual</a>
-			</action>
+		<release version="0.6.0" date="in SVN" description="Maintenance">
+			<action dev="benoitx" type="add">Reduce scope for the Builder (might save some memory).</action>
 		</release>
+        <release version="0.5.0" date="2009-05-22" description="Maintenance">
+            <action dev="benoitx" type="add">Add new report for 12m Rolling Developer report.</action>
+            <action dev="benoitx" type="add">
+                Add ability to MERGE 2 users through the config-file user.[userName].replacedBy=[newUserName]
+            </action>
+            <action dev="benoitx" type="add">
+                A bit of fun, added links to Twitter. In the statsvn.properties file defining the user, See
+                <a href="http://wiki.statsvn.org/User%20Manual.ashx">manual</a>
+            </action>
+            <action dev="benoitx" type="add">
+                Charts are now configurable, See
+                <a href="http://wiki.statsvn.org/User%20Manual.ashx">manual</a>
+            </action>
+            <action dev="benoitx" type="add">
+                Through StatCVS, a few cool Twitter features to either have links to your Twitter profile, widgets (see <a href="statsvn/user_benoitx.html">this page</a>) or to be able to Tweet some StatSVN stats straight from
+                the StatSVN generated pages (see <a href="statsvn/index.html">this page</a>).
+            </action>
+        </release>
 		<release version="0.4.1" date="2008-06-20" description="Maintenance">
 			<action dev="jkealey" type="fix" issue="1963918" due-to="Joseph Armbruster">Fixed issue when the only change was a property change.</action>
 			<action dev="jkealey" type="fix" issue="1993217" due-to="Edward Oubrayrie">Fixed issue in command line help with regards to -concurrency-threshold</action>
