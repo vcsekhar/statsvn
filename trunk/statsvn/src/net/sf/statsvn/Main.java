@@ -264,7 +264,11 @@ public final class Main {
         initLogManager(ConfigurationOptions.getLoggingProperties());
 
         SvnConfigurationOptions.getTaskLogger().info(
-                "Parsing SVN log '" + ConfigurationOptions.getLogFileName() + "' exclude pattern '" + ConfigurationOptions.getExcludePattern() + "'");
+                "Parsing SVN log '"
+                        + ConfigurationOptions.getLogFileName()
+                        + "'"
+                        + (ConfigurationOptions.getExcludePattern() != null ? " exclude pattern '" + ConfigurationOptions.getExcludePattern() + "'"
+                                : "No exclude pattern"));
 
         FileInputStream logFile = null;
         Builder builder = null;
@@ -296,7 +300,7 @@ public final class Main {
 
         builder.clean();
         builder = null;
-                
+
         // make JFreeChart work on systems without GUI
         System.setProperty("java.awt.headless", "true");
 
@@ -329,8 +333,10 @@ public final class Main {
 
     private static void validate(final ReportConfig config) {
         if (config.getRepository() == null || config.getRepository().getRoot() == null || config.getRepository().getDirectories() == null) {
-            printErrorMessageAndExit("The repository object is not valid. Please check your settings." + System.getProperty("line.separator")
-                    + "Is the log file empty? Do you run from a checked out directory? Do you have non-committed items?");
+            String cr = System.getProperty("line.separator");
+            printErrorMessageAndExit("The repository object is not valid. Please check your settings." + cr + "Possible reasons:" + cr
+                    + "1/ Did you use the option -v to create the SVN log" + cr + "2/ Is the log file empty?" + cr
+                    + "3/ Do you run from a checked out directory (you should)?" + cr + "4/ Do you have non-committed items?");
         }
     }
 }
