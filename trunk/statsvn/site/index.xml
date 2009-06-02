@@ -115,7 +115,7 @@
     </section>
 
     <section name="Quick Example for Maven 1">
-    <p>Prior to run maven site (or simply maven xdoc), you can generate the XDOC files by running:
+    <p>Prior to run maven site (or simply maven xdoc), you can generate the XDOC files by running: (<strong>do not forget -v</strong>).
     <source>
 svn log -v --xml https://svn.sourceforge.net/svnroot/statsvn/ > svn.log
 java -jar statsvn.jar -xdoc -verbose -output-dir site\statsvn -tags "^0.2.0|^0.1.3|^0.1.2|^0.0.9" -title StatSVN 
@@ -127,7 +127,7 @@ the tags directory. At the moment, StatSVN only works with "/tags/" directory.</
     </section>
 
     <section name="Quick Example of new 'dump'">
-    <p>There is a new dump facility
+    <p>There is a new dump facility (<strong>do not forget -v</strong>).
     <source>
 svn log -v --xml https://svn.sourceforge.net/svnroot/statsvn/ > svn.log
 java -jar statsvn.jar -dump -verbose -exclude "**/qalab.xml|**/*.pdf|**/etc/LICENSE" ./svn.log .
