@@ -5,6 +5,7 @@
 	</properties>
 	<body>
 		<release version="0.6.0" date="in SVN" description="Maintenance">
+			<action dev="benoitx" type="add">Automatic shortening of page URL, using bit.ly javascript for Twitter integration.</action>
 			<action dev="benoitx" type="add">Reduce scope for the Builder (might save some memory).</action>
 		</release>
         <release version="0.5.0" date="2009-05-22" description="Maintenance">
