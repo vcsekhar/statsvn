@@ -26,14 +26,13 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 
 import net.sf.statcvs.input.LogSyntaxException;
 import net.sf.statcvs.input.NoLineCountException;
+import net.sf.statsvn.util.ISvnProcessor;
 import net.sf.statsvn.util.ProcessUtils;
-import net.sf.statsvn.util.SvnInfoUtils;
-import net.sf.statsvn.util.SvnPropgetUtils;
+import net.sf.statsvn.util.SvnCommandLineProcessor;
 
 /**
  * Dummy <tt>RepositoryFileManager</tt> for unit tests
@@ -85,14 +84,7 @@ public class DummyRepositoryFileManager extends RepositoryFileManager {
 		this.sSvnPropgetPath = sSvnPropgetPath;
 		this.sFinalLineCountsFile = sFinalLineCountsFile;
 
-		final InputStream stream = new FileInputStream(sSvnPropgetPath);
-		final ProcessUtils pUtils = new ProcessUtils();
-		try {
-			pUtils.setInputStream(stream);
-			SvnPropgetUtils.loadBinaryFiles(pUtils);
-		} finally {
-			pUtils.close();
-		}
+		getProcessor().getPropgetProcessor().loadBinaryFiles(sSvnPropgetPath);
 
 		final FileReader freader = new FileReader(sFinalLineCountsFile);
 		final BufferedReader reader = new BufferedReader(freader);
@@ -159,7 +151,7 @@ public class DummyRepositoryFileManager extends RepositoryFileManager {
 	 * @return true if it is marked as a binary file
 	 */
 	public boolean isBinary(final String relativePath) {
-		return SvnPropgetUtils.getBinaryFiles().contains(relativePath);
+		return getProcessor().getPropgetProcessor().getBinaryFiles().contains(relativePath);
 	}
 
 	/**
@@ -176,7 +168,7 @@ public class DummyRepositoryFileManager extends RepositoryFileManager {
 		final ProcessUtils pUtils = new ProcessUtils();
 		try {
 			pUtils.setInputStream(stream);
-			SvnInfoUtils.loadInfo(pUtils);
+			getProcessor().getInfoProcessor().loadInfo(pUtils);
 		} finally {
 			pUtils.close();
 		}
@@ -193,4 +185,13 @@ public class DummyRepositoryFileManager extends RepositoryFileManager {
 	public void setLinesOfCode(final String filename, final int lines) {
 		hmFinalLineCounts.put(filename, new Integer(lines));
 	}
+	
+	   
+    private ISvnProcessor svnProcessor;
+    public ISvnProcessor getProcessor()
+    {
+        if (svnProcessor==null) svnProcessor = new SvnCommandLineProcessor();
+        return svnProcessor;
+    }
+    
 }

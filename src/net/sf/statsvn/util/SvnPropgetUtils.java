@@ -1,6 +1,8 @@
 package net.sf.statsvn.util;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,23 +17,29 @@ import net.sf.statsvn.output.SvnConfigurationOptions;
  * 
  * @version $Id$
  */
-public final class SvnPropgetUtils {
+public final class SvnPropgetUtils implements ISvnPropgetProcessor {
 
-	private static List binaryFiles;
+	private List binaryFiles;
 
-	/**
-	 * A utility class (only static methods) should be final and have a private
-	 * constructor.
-	 */
-	private SvnPropgetUtils() {
-	}
+    protected ISvnProcessor processor;
+
+    /**
+     * Invokes propget via the svn propget via the command line.  
+     */
+    public SvnPropgetUtils(ISvnProcessor processor) {
+        this.processor = processor;
+    }
+
+    protected ISvnProcessor getProcessor() {
+        return processor;
+    }
 
 	/**
 	 * Get the svn:mime-types for all files, latest revision.
 	 * 
 	 * @return the inputstream from which to read the information.
 	 */
-	private static synchronized ProcessUtils getFileMimeTypes() {
+	protected synchronized ProcessUtils getFileMimeTypes() {
 		return getFileMimeTypes(null, null);
 	}
 
@@ -44,14 +52,14 @@ public final class SvnPropgetUtils {
 	 *            the filename (or null for all files)
 	 * @return the inputstream from which to read the information.
 	 */
-	protected static synchronized ProcessUtils getFileMimeTypes(final String revision, final String filename) {
+	protected synchronized ProcessUtils getFileMimeTypes(final String revision, final String filename) {
 		String svnPropgetCommand = "svn propget svn:mime-type";
 		if (revision != null && revision.length() > 0) {
 			svnPropgetCommand += " -r " + revision;
 		}
 
 		if (filename != null && filename.length() > 0) {
-			svnPropgetCommand += " " + SvnInfoUtils.replace(" ", "%20", SvnInfoUtils.relativePathToUrl(filename));
+			svnPropgetCommand += " " + StringUtils.replace(" ", "%20", getProcessor().getInfoProcessor().relativePathToUrl(filename));
 
 			if (revision != null && revision.length() > 0) {
 				svnPropgetCommand += "@" + revision;
@@ -70,12 +78,10 @@ public final class SvnPropgetUtils {
 		}
 	}
 
-	/**
-	 * Returns the list of binary files in the working directory.
-	 * 
-	 * @return the list of binary files
-	 */
-	public static List getBinaryFiles() {
+	/* (non-Javadoc)
+     * @see net.sf.statsvn.util.ISvnPropgetProcessor#getBinaryFiles()
+     */
+	public List getBinaryFiles() {
 		if (binaryFiles == null) {
 			ProcessUtils pUtils = null;
 			try {
@@ -94,7 +100,26 @@ public final class SvnPropgetUtils {
 
 		return binaryFiles;
 	}
-
+	
+	
+    /**
+     * Loads the list of binary files from the input stream equivalent to an svn
+     * propget command.
+     * 
+     * @param path
+     *            a file on disk which contains the results of an svn propget
+     */	
+	public void loadBinaryFiles(final String path) throws IOException
+	{
+       final InputStream stream = new FileInputStream(path);
+        final ProcessUtils pUtils = new ProcessUtils();
+        try {
+            pUtils.setInputStream(stream);
+            loadBinaryFiles(pUtils);
+        } finally {
+            pUtils.close();
+        }
+	}
 	/**
 	 * Loads the list of binary files from the input stream equivalent to an svn
 	 * propget command.
@@ -102,7 +127,7 @@ public final class SvnPropgetUtils {
 	 * @param stream
 	 *            stream equivalent to an svn propget command
 	 */
-	public static void loadBinaryFiles(final ProcessUtils pUtils) {
+	protected void loadBinaryFiles(final ProcessUtils pUtils) {
 		// public for tests
 		binaryFiles = new ArrayList();
 		final LookaheadReader mimeReader = new LookaheadReader(new InputStreamReader(pUtils.getInputStream()));
@@ -122,18 +147,10 @@ public final class SvnPropgetUtils {
 		}
 	}
 
-	/**
-	 * It was first thought that a the mime-type of a file's previous revision
-	 * could be found. This is not the case. Leave revision null until future
-	 * upgrade of svn propget command line.
-	 * 
-	 * @param revision
-	 *            the revision to query
-	 * @param filename
-	 *            the filename
-	 * @return if that version of a file is binary
-	 */
-	public static boolean isBinaryFile(final String revision, final String filename) {
+	/* (non-Javadoc)
+     * @see net.sf.statsvn.util.ISvnPropgetProcessor#isBinaryFile(java.lang.String, java.lang.String)
+     */
+	public boolean isBinaryFile(final String revision, final String filename) {
 		ProcessUtils pUtils = null;
 		try {
 			pUtils = getFileMimeTypes(revision, filename);
@@ -174,7 +191,7 @@ public final class SvnPropgetUtils {
 	 * @return should return lib\junit.jar in both cases, given that
 	 *         removeRoot==true in the second case.
 	 */
-	private static String getBinaryFilename(final String currentLine, final boolean removeRoot) {
+	protected String getBinaryFilename(final String currentLine, final boolean removeRoot) {
 		// want to make sure we only have / in end result.
 		String line = removeRoot ? currentLine : currentLine.replace('\\', '/');
 
@@ -186,7 +203,7 @@ public final class SvnPropgetUtils {
 		        && line.lastIndexOf(" - ") >= 0) {
 			line = line.substring(0, line.lastIndexOf(" - "));
 			if (removeRoot) {
-				line = SvnInfoUtils.urlToRelativePath(line);
+				line = getProcessor().getInfoProcessor().urlToRelativePath(line);
 			}
 			return line;
 		}
