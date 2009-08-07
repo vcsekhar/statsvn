@@ -32,9 +32,12 @@ import net.sf.statcvs.input.NoLineCountException;
 import net.sf.statcvs.util.FileUtils;
 import net.sf.statsvn.output.SvnConfigurationOptions;
 import net.sf.statsvn.util.BinaryDiffException;
-import net.sf.statsvn.util.SvnDiffUtils;
-import net.sf.statsvn.util.SvnInfoUtils;
-import net.sf.statsvn.util.SvnPropgetUtils;
+import net.sf.statsvn.util.ISvnDiffProcessor;
+import net.sf.statsvn.util.ISvnInfoProcessor;
+import net.sf.statsvn.util.ISvnProcessor;
+import net.sf.statsvn.util.ISvnPropgetProcessor;
+import net.sf.statsvn.util.ISvnVersionProcessor;
+import net.sf.statsvn.util.SvnCommandLineProcessor;
 
 /**
  * Manages a checked-out repository and provides access to line number counts
@@ -73,7 +76,7 @@ public class RepositoryFileManager {
 	 * @return Example: svn://svn.statsvn.org/statsvn/trunk/statsvn/package.html
 	 */
 	public String absolutePathToUrl(final String absolute) {
-		return SvnInfoUtils.absolutePathToUrl(absolute);
+		return getInfoProcessor().absolutePathToUrl(absolute);
 	}
 
 	/**
@@ -88,7 +91,7 @@ public class RepositoryFileManager {
 	 * @return Example: package.html
 	 */
 	public String absoluteToRelativePath(final String stringData) {
-		return SvnInfoUtils.absoluteToRelativePath(stringData);
+		return getInfoProcessor().absoluteToRelativePath(stringData);
 	}
 
 	/**
@@ -99,7 +102,7 @@ public class RepositoryFileManager {
 	 *            the relative path.
 	 */
 	public void addDirectory(final String relativePath) {
-		SvnInfoUtils.addDirectory(relativePath);
+		getInfoProcessor().addDirectory(relativePath);
 	}
 
 	/**
@@ -111,7 +114,7 @@ public class RepositoryFileManager {
 	 * @return <tt>true</tt> if it exists
 	 */
 	public boolean existsInWorkingCopy(final String relativePath) {
-		return SvnInfoUtils.existsInWorkingCopy(relativePath);
+		return getInfoProcessor().existsInWorkingCopy(relativePath);
 	}
 
 	/**
@@ -148,7 +151,8 @@ public class RepositoryFileManager {
 	 * 
 	 */
 	public int[] getLineDiff(final String oldRevNr, final String newRevNr, final String filename) throws IOException, BinaryDiffException {
-		return SvnDiffUtils.getLineDiff(oldRevNr, newRevNr, filename);
+	    
+		return getDiffProcessor().getLineDiff(oldRevNr, newRevNr, filename);
 	}
 
 	/**
@@ -163,7 +167,7 @@ public class RepositoryFileManager {
 	*             if the error message is due to trying to diff binary files.
 	*/
 	public Vector getRevisionDiff(final String newRevNr) throws IOException, BinaryDiffException {
-		return SvnDiffUtils.getLineDiff(newRevNr);
+		return getDiffProcessor().getLineDiff(newRevNr);
 	}
 
 	/**
@@ -199,7 +203,7 @@ public class RepositoryFileManager {
 	 *         repository.
 	 */
 	public String getModuleName() {
-		return SvnInfoUtils.getModuleName();
+		return getInfoProcessor().getModuleName();
 	}
 
 	/**
@@ -208,7 +212,7 @@ public class RepositoryFileManager {
 	 * @return The uuid of the repository.
 	 */
 	public String getRepositoryUuid() {
-		return SvnInfoUtils.getRepositoryUuid();
+		return getInfoProcessor().getRepositoryUuid();
 	}
 
 	/**
@@ -220,10 +224,10 @@ public class RepositoryFileManager {
 	 * @return the revision of filename
 	 */
 	public String getRevision(final String filename) throws IOException {
-		final String rev = SvnInfoUtils.getRevisionNumber(filename);
+		final String rev = getInfoProcessor().getRevisionNumber(filename);
 		if (rev != null) {
 			return rev;
-		} else if (SvnInfoUtils.isDirectory(filename)) {
+		} else if (getInfoProcessor().isDirectory(filename)) {
 			return null;
 		} else {
 			throw new IOException("File " + filename + " has no revision");
@@ -237,7 +241,7 @@ public class RepositoryFileManager {
 	 *         (last checked out revision number)
 	 */
 	public String getRootRevisionNumber() {
-		return SvnInfoUtils.getRootRevisionNumber();
+		return getInfoProcessor().getRootRevisionNumber();
 	}
 
 	/**
@@ -248,7 +252,7 @@ public class RepositoryFileManager {
 	 * @return true if it is marked as a binary file
 	 */
 	public boolean isBinary(final String relativePath) {
-		return SvnPropgetUtils.getBinaryFiles().contains(relativePath);
+		return getPropgetProcessor().getBinaryFiles().contains(relativePath);
 	}
 
 	/**
@@ -259,7 +263,7 @@ public class RepositoryFileManager {
 	 * @return true if it is a known directory.
 	 */
 	public boolean isDirectory(final String relativePath) {
-		return SvnInfoUtils.isDirectory(relativePath);
+		return getInfoProcessor().isDirectory(relativePath);
 	}
 
 	/**
@@ -271,7 +275,7 @@ public class RepositoryFileManager {
 	 *             if there is an error reading from the stream
 	 */
 	public void loadInfo() throws LogSyntaxException, IOException {
-		SvnInfoUtils.loadInfo();
+		getInfoProcessor().loadInfo();
 	}
 
 	/**
@@ -285,7 +289,7 @@ public class RepositoryFileManager {
 	 * 
 	 */
 	public String relativePathToUrl(final String relative) {
-		return SvnInfoUtils.relativePathToUrl(relative);
+		return getInfoProcessor().relativePathToUrl(relative);
 	}
 
 	/**
@@ -298,7 +302,7 @@ public class RepositoryFileManager {
 	 * 
 	 */
 	public String relativeToAbsolutePath(final String relative) {
-		return SvnInfoUtils.relativeToAbsolutePath(relative);
+		return getInfoProcessor().relativeToAbsolutePath(relative);
 	}
 
 	/**
@@ -310,7 +314,7 @@ public class RepositoryFileManager {
 	 * @return Example: /trunk/statsvn, /trunk/statsvn/package.html
 	 */
 	public String urlToAbsolutePath(final String url) {
-		return SvnInfoUtils.urlToAbsolutePath(url);
+		return getInfoProcessor().urlToAbsolutePath(url);
 	}
 
 	/**
@@ -322,6 +326,31 @@ public class RepositoryFileManager {
 	 * @return Example: ".", package.html
 	 */
 	public String urlToRelativePath(final String url) {
-		return SvnInfoUtils.urlToRelativePath(url);
+		return getInfoProcessor().urlToRelativePath(url);
 	}
+	
+	private ISvnProcessor svnProcessor;
+	public ISvnProcessor getProcessor()
+	{
+	    if (svnProcessor==null) svnProcessor = new SvnCommandLineProcessor();
+	    return svnProcessor;
+	}
+	
+	protected ISvnDiffProcessor getDiffProcessor()
+    {
+        return getProcessor().getDiffProcessor();
+    }
+	
+    protected ISvnInfoProcessor getInfoProcessor()
+    {
+        return getProcessor().getInfoProcessor();
+    }	
+    protected ISvnPropgetProcessor getPropgetProcessor()
+    {
+        return getProcessor().getPropgetProcessor();
+    }	
+    protected ISvnVersionProcessor getVersionProcessor()
+    {
+        return getProcessor().getVersionProcessor();
+    }
 }

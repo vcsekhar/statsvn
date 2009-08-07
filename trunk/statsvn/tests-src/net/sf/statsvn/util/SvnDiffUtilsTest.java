@@ -23,9 +23,12 @@ public class SvnDiffUtilsTest extends TestCase {
 			SvnConfigurationOptions.setSvnUsername("jkealey");
 			SvnConfigurationOptions.setSvnPassword("PASSWORD");
 			ConfigurationOptions.setCheckedOutDirectory("k:\\work\\lavablast");
-			SvnInfoUtils.loadInfo();
+			
+			ISvnProcessor processor = new SvnCommandLineProcessor();
+			processor.getInfoProcessor().loadInfo();
 
-			final Vector output = SvnDiffUtils.getLineDiff("2435");
+			ISvnDiffProcessor diffUtils = processor.getDiffProcessor();
+			final Vector output = diffUtils.getLineDiff("2435");
 
 			for (final Iterator iter = output.iterator(); iter.hasNext();) {
 				final Object[] element = (Object[]) iter.next();

@@ -44,7 +44,6 @@ import net.sf.statsvn.input.RepositoryFileManager;
 import net.sf.statsvn.input.SvnLogfileParser;
 import net.sf.statsvn.output.SvnCommandLineParser;
 import net.sf.statsvn.output.SvnConfigurationOptions;
-import net.sf.statsvn.util.SvnStartupUtils;
 import net.sf.statsvn.util.SvnVersionMismatchException;
 
 /**
@@ -105,14 +104,16 @@ public final class Main {
 
     public static void generate() {
         try {
-            final boolean isNewerDiffPossible = SvnStartupUtils.checkDiffPerRevPossible(SvnStartupUtils.checkSvnVersionSufficient());
+            RepositoryFileManager manager = createRepoManager();
+            String version = manager.getProcessor().getVersionProcessor().checkSvnVersionSufficient();
+            final boolean isNewerDiffPossible = manager.getProcessor().getVersionProcessor().checkDiffPerRevPossible(version);
             // fall-back to older option.
             if (!isNewerDiffPossible) {
                 SvnConfigurationOptions.setLegacyDiff(true);
             }
 
-            SvnStartupUtils.checkRepoRootAvailable();
-            generateDefaultHTMLSuite();
+            manager.getProcessor().getInfoProcessor().checkRepoRootAvailable();
+            generateDefaultHTMLSuite(manager);
         } catch (final ConfigurationException cex) {
             SvnConfigurationOptions.getTaskLogger().error(cex.getMessage());
             System.exit(1);
@@ -231,7 +232,11 @@ public final class Main {
      *             if a required ConfigurationOption was not set
      */
     public static void generateDefaultHTMLSuite() throws LogSyntaxException, IOException, ConfigurationException {
-        generateDefaultHTMLSuite(new RepositoryFileManager(ConfigurationOptions.getCheckedOutDirectory()));
+        generateDefaultHTMLSuite(createRepoManager());
+    }
+
+    private static RepositoryFileManager createRepoManager() {
+        return new RepositoryFileManager(ConfigurationOptions.getCheckedOutDirectory());
     }
 
     /**

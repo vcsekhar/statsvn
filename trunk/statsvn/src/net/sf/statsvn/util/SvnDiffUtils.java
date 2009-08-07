@@ -17,27 +17,33 @@ import net.sf.statsvn.output.SvnConfigurationOptions;
  * 
  * @version $Id$
  */
-public final class SvnDiffUtils {
-	public static final int RESULT_SIZE = 3;
+public final class SvnDiffUtils implements ISvnDiffProcessor {
+    public static final int RESULT_SIZE = 3;
 
-    private static final int PROPERTY_NAME_LINE = 4;
+	protected static final int PROPERTY_NAME_LINE = 4;
 
-	private static final String PROPERTY_CHANGE = "Property changes on:";
+    protected static final String PROPERTY_CHANGE = "Property changes on:";
 
-	private static final String PROPERTY_NAME = "Name:";
+	protected static final String PROPERTY_NAME = "Name:";
 
-	private static final String BINARY_TYPE = "Cannot display: file marked as a binary type.";
+	protected static final String BINARY_TYPE = "Cannot display: file marked as a binary type.";
 
-	private static final String INDEX_MARKER = "Index: ";
+	protected static final String INDEX_MARKER = "Index: ";
+	
+	protected ISvnProcessor processor;
 
 	/**
-	 * A utility class (only static methods) should be final and have a private
-	 * constructor.
+	 * Invokes diffs using the svn diff command line. 
 	 */
-	private SvnDiffUtils() {
+	public SvnDiffUtils(ISvnProcessor processor) {
+	    this.processor = processor;
 	}
 
-	/**
+	protected ISvnProcessor getProcessor() {
+        return processor;
+    }
+
+    /**
 	 * Calls svn diff for the filename and revisions given. Will use URL
 	 * invocation, to ensure that we get diffs even for deleted files.
 	 * 
@@ -51,10 +57,10 @@ public final class SvnDiffUtils {
 	 *         non-empty, will return the error stream instead of the default
 	 *         input stream.
 	 */
-	private static synchronized ProcessUtils callSvnDiff(final String oldRevNr, final String newRevNr, String filename) throws IOException {
+	protected synchronized ProcessUtils callSvnDiff(final String oldRevNr, final String newRevNr, String filename) throws IOException {
 		String svnDiffCommand = null;
-		filename = SvnInfoUtils.relativePathToUrl(filename);
-		filename = SvnInfoUtils.replace(" ", "%20", filename);
+		filename = getProcessor().getInfoProcessor().relativePathToUrl(filename);
+		filename = StringUtils.replace(" ", "%20", filename);
 		svnDiffCommand = "svn diff --old " + filename + "@" + oldRevNr + "  --new " + filename + "@" + newRevNr + "" + SvnCommandHelper.getAuthString();
 		SvnConfigurationOptions.getTaskLogger().log(Thread.currentThread().getName() + " FIRING command line:\n[" + svnDiffCommand + "]");
 		return ProcessUtils.call(svnDiffCommand);
@@ -69,29 +75,17 @@ public final class SvnDiffUtils {
 	 *         non-empty, will return the error stream instead of the default
 	 *         input stream.
 	 */
-	private static synchronized ProcessUtils callSvnDiff(final String newRevNr) throws IOException {
+	protected synchronized ProcessUtils callSvnDiff(final String newRevNr) throws IOException {
 		String svnDiffCommand = null;
-		svnDiffCommand = "svn diff -c " + newRevNr + " " + SvnInfoUtils.getRootUrl() + " " + SvnCommandHelper.getAuthString();
+		svnDiffCommand = "svn diff -c " + newRevNr + " " + getProcessor().getInfoProcessor().getRootUrl() + " " + SvnCommandHelper.getAuthString();
 		SvnConfigurationOptions.getTaskLogger().log(Thread.currentThread().getName() + " FIRING command line:\n[" + svnDiffCommand + "]");
 		return ProcessUtils.call(svnDiffCommand);
 	}
 
-	/**
-	 * Returns line count differences between two revisions of a file.
-	 * 
-	 * @param oldRevNr
-	 *            old revision number
-	 * @param newRevNr
-	 *            new revision number
-	 * @param filename
-	 *            the filename
-	 * @return A int[2] array of [lines added, lines removed] is returned.
-	 * @throws IOException
-	 *             problem parsing the stream
-	 * @throws BinaryDiffException
-	 *             if the error message is due to trying to diff binary files.
-	 */
-	public static int[] getLineDiff(final String oldRevNr, final String newRevNr, final String filename) throws IOException, BinaryDiffException {
+	/* (non-Javadoc)
+     * @see net.sf.statsvn.util.ISvnDiffProcessor#getLineDiff(java.lang.String, java.lang.String, java.lang.String)
+     */
+	public int[] getLineDiff(final String oldRevNr, final String newRevNr, final String filename) throws IOException, BinaryDiffException {
 		int[] lineDiff;
 		ProcessUtils pUtils = null;
 		try {
@@ -117,7 +111,7 @@ public final class SvnDiffUtils {
 	 * @throws IOException problem parsing the stream
 	 * @throws BinaryDiffException if the error message is due to trying to diff binary files.
 	 */
-	private static void verifyOutput(final ProcessUtils pUtils) throws IOException, BinaryDiffException {
+	protected void verifyOutput(final ProcessUtils pUtils) throws IOException, BinaryDiffException {
 		if (pUtils.hasErrorOccured()) {
 			// The binary checking code here might be useless... as it may
 			// be output on the standard out.
@@ -130,18 +124,10 @@ public final class SvnDiffUtils {
 		}
 	}
 
-	/**
-	* Returns line count differences for all files in a particular revision.
-	* 
-	* @param newRevNr
-	*            new revision number
-	* @return A vector of object[3] array of [filename, int[2](lines added, lines removed), isBinary] is returned.
-	* @throws IOException
-	*             problem parsing the stream
-	* @throws BinaryDiffException
-	*             if the error message is due to trying to diff binary files.
-	*/
-	public static Vector getLineDiff(final String newRevNr) throws IOException, BinaryDiffException {
+	/* (non-Javadoc)
+     * @see net.sf.statsvn.util.ISvnDiffProcessor#getLineDiff(java.lang.String)
+     */
+	public Vector getLineDiff(final String newRevNr) throws IOException, BinaryDiffException {
 		final Vector answer = new Vector();
 
 		ProcessUtils pUtils = null;
@@ -191,7 +177,7 @@ public final class SvnDiffUtils {
 	 * @throws BinaryDiffException
 	 *             if the error message is due to trying to diff binary files.
 	 */
-	private static void appendResults(final Vector answer, final String currFile, final StringBuffer sb) throws IOException {
+	protected void appendResults(final Vector answer, final String currFile, final StringBuffer sb) throws IOException {
 		int[] lineDiff;
 		Boolean isBinary = Boolean.FALSE;
 
@@ -219,7 +205,7 @@ public final class SvnDiffUtils {
 	 *            the error message given by ProcessUtils.getErrorMessage();
 	 * @return true if the file is binary
 	 */
-	private static boolean isBinaryErrorMessage(final String msg) {
+	protected boolean isBinaryErrorMessage(final String msg) {
 		/*
 		 * Index: junit.jar
 		 * ===================================================================
@@ -240,7 +226,7 @@ public final class SvnDiffUtils {
 	 * @throws IOException
 	 *             problem parsing the stream
 	 */
-	private static int[] parseDiff(final LookaheadReader diffReader) throws IOException, BinaryDiffException {
+	protected int[] parseDiff(final LookaheadReader diffReader) throws IOException, BinaryDiffException {
 		final int[] lineDiff = { -1, -1 };
 		boolean propertyChange = false;
 		if (!diffReader.hasNextLine()) {
