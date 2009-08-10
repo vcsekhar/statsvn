@@ -27,8 +27,11 @@ import java.io.File;
 import net.sf.statcvs.output.ConfigurationException;
 import net.sf.statcvs.output.ConfigurationOptions;
 import net.sf.statcvs.util.FileUtils;
+import net.sf.statsvn.util.ISvnProcessor;
 import net.sf.statsvn.util.JavaUtilTaskLogger;
+import net.sf.statsvn.util.SvnCommandLineProcessor;
 import net.sf.statsvn.util.TaskLogger;
+import net.sf.statsvn.util.svnkit.SvnKitProcessor;
 
 /**
  * Class for storing all command line parameters. The parameters are set by the
@@ -67,6 +70,10 @@ public final class SvnConfigurationOptions {
 
 	// use the newer diff. will be overridden if this is not possible. 
 	private static boolean useLegacyDiff = false;
+
+	private static ISvnProcessor processor;
+
+    private static boolean useSvnKit = false;
 
 	/**
 	 * A utility class (only static methods) should be final and have a private
@@ -243,6 +250,43 @@ public final class SvnConfigurationOptions {
 	 */
 	public static void setLegacyDiff(final boolean isLegacy) {
 		useLegacyDiff = isLegacy;
+	}
+	
+	 /**
+     * Should we use svnkit to query the repository
+     * 
+     * @return true if we should be using SVN kit.  
+     */
+    public static boolean isUsingSVNKit() {
+        return useSvnKit;
+    }
+
+    /**
+     * Should we use svnkit to query the repository. 
+     * 
+     * @param isSvnKit true if we should use svnkit  
+     */
+    public static void setUsingSvnKit(final boolean isSvnKit) {
+        useSvnKit = isSvnKit;
+    }
+
+	public static ISvnProcessor getProcessor()
+	{
+	    if (processor==null) {
+	        if (isUsingSVNKit()) {
+	            try {
+	            processor = new SvnKitProcessor();
+	            } catch (NoClassDefFoundError ex)
+	            {
+	                getTaskLogger().error("Unable to find svnkit.jar and/or jna.jar in the same folder as statsvn.jar. Please copy these files and try again.");
+	                throw ex;
+	            }
+	        }
+	        else
+	            processor = new SvnCommandLineProcessor();
+	    }
+	    return processor;
+	        
 	}
 
 }

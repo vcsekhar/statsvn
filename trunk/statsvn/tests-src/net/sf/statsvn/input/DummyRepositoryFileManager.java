@@ -31,7 +31,6 @@ import java.util.HashMap;
 import net.sf.statcvs.input.LogSyntaxException;
 import net.sf.statcvs.input.NoLineCountException;
 import net.sf.statsvn.util.ISvnProcessor;
-import net.sf.statsvn.util.ProcessUtils;
 import net.sf.statsvn.util.SvnCommandLineProcessor;
 
 /**
@@ -165,13 +164,7 @@ public class DummyRepositoryFileManager extends RepositoryFileManager {
 	public void loadInfo() throws LogSyntaxException, IOException {
 
 		final FileInputStream stream = new FileInputStream(sSvnInfoUtilPath);
-		final ProcessUtils pUtils = new ProcessUtils();
-		try {
-			pUtils.setInputStream(stream);
-			getProcessor().getInfoProcessor().loadInfo(pUtils);
-		} finally {
-			pUtils.close();
-		}
+		getProcessor().getInfoProcessor().loadInfo(stream);
 	}
 
 	/**

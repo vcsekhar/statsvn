@@ -3,6 +3,13 @@ package net.sf.statsvn.util;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * 
+ * Performs svn propget queries. 
+ * 
+ * @author jkealey
+ *
+ */
 public interface ISvnPropgetProcessor {
 
     /**

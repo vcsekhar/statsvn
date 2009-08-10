@@ -17,7 +17,7 @@ import net.sf.statsvn.output.SvnConfigurationOptions;
  * 
  * @version $Id$
  */
-public final class SvnDiffUtils implements ISvnDiffProcessor {
+public class SvnDiffUtils implements ISvnDiffProcessor {
     public static final int RESULT_SIZE = 3;
 
 	protected static final int PROPERTY_NAME_LINE = 4;
@@ -92,8 +92,7 @@ public final class SvnDiffUtils implements ISvnDiffProcessor {
 			pUtils = callSvnDiff(oldRevNr, newRevNr, filename);
 			final InputStream diffStream = pUtils.getInputStream();
 
-			final LookaheadReader diffReader = new LookaheadReader(new InputStreamReader(diffStream));
-			lineDiff = parseDiff(diffReader);
+			lineDiff = parseSingleDiffStream(diffStream);
 
 			verifyOutput(pUtils);
 		} finally {
@@ -104,6 +103,13 @@ public final class SvnDiffUtils implements ISvnDiffProcessor {
 
 		return lineDiff;
 	}
+
+    protected int[] parseSingleDiffStream(final InputStream diffStream) throws IOException, BinaryDiffException {
+        int[] lineDiff;
+        final LookaheadReader diffReader = new LookaheadReader(new InputStreamReader(diffStream));
+        lineDiff = parseDiff(diffReader);
+        return lineDiff;
+    }
 
 	/**
 	 * Verifies the process error stream. 
@@ -134,28 +140,7 @@ public final class SvnDiffUtils implements ISvnDiffProcessor {
 		try {
 			pUtils = callSvnDiff(newRevNr);
 			final InputStream diffStream = pUtils.getInputStream();
-			final LookaheadReader diffReader = new LookaheadReader(new InputStreamReader(diffStream));
-			String currFile = null;
-			StringBuffer sb = new StringBuffer();
-			while (diffReader.hasNextLine()) {
-				final String currLine = diffReader.nextLine();
-
-				if (currFile == null && currLine.startsWith(INDEX_MARKER)) {
-					currFile = currLine.substring(INDEX_MARKER.length());
-				} else if (currFile != null && currLine.startsWith(INDEX_MARKER)) {
-					appendResults(answer, currFile, sb);
-					sb = new StringBuffer();
-					currFile = currLine.substring(INDEX_MARKER.length());
-				}
-
-				sb.append(currLine);
-				sb.append(System.getProperty("line.separator"));
-			}
-
-            // last file
-            if (currFile!=null) {
-                appendResults(answer, currFile, sb);
-            }
+			parseMultipleDiffStream(answer, diffStream);
 
 			verifyOutput(pUtils);
 		} finally {
@@ -166,6 +151,31 @@ public final class SvnDiffUtils implements ISvnDiffProcessor {
 
 		return answer;
 	}
+
+    protected void parseMultipleDiffStream(final Vector answer, final InputStream diffStream) throws IOException {
+        final LookaheadReader diffReader = new LookaheadReader(new InputStreamReader(diffStream));
+        String currFile = null;
+        StringBuffer sb = new StringBuffer();
+        while (diffReader.hasNextLine()) {
+        	final String currLine = diffReader.nextLine();
+
+        	if (currFile == null && currLine.startsWith(INDEX_MARKER)) {
+        		currFile = currLine.substring(INDEX_MARKER.length());
+        	} else if (currFile != null && currLine.startsWith(INDEX_MARKER)) {
+        		appendResults(answer, currFile, sb);
+        		sb = new StringBuffer();
+        		currFile = currLine.substring(INDEX_MARKER.length());
+        	}
+
+        	sb.append(currLine);
+        	sb.append(System.getProperty("line.separator"));
+        }
+
+        // last file
+        if (currFile!=null) {
+            appendResults(answer, currFile, sb);
+        }
+    }
 
 	/**
 	 * Append results to answer vector.  

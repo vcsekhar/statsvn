@@ -1,5 +1,10 @@
 package net.sf.statsvn.util;
 
+/**
+ * Performs svn version queries. 
+ * @author Administrator
+ *
+ */
 public interface ISvnVersionProcessor {
 
     /**
@@ -12,6 +17,12 @@ public interface ISvnVersionProcessor {
      */
     public abstract String checkSvnVersionSufficient() throws SvnVersionMismatchException;
 
+    /**
+     * Verifies that the given version supports one diff per revision (version>=1.4.0)
+     * 
+     * @param version the current version
+     * @return true if one can do an svn diff per revision
+     */
     public abstract boolean checkDiffPerRevPossible(final String version);
 
 }

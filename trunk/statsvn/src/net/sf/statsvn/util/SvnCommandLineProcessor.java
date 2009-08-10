@@ -1,5 +1,11 @@
 package net.sf.statsvn.util;
 
+
+/**
+ * Base processor that uses the command line svn client. 
+ * @author jkealey
+ *
+ */
 public class SvnCommandLineProcessor implements ISvnProcessor {
 
     

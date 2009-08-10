@@ -17,9 +17,9 @@ import net.sf.statsvn.output.SvnConfigurationOptions;
  * 
  * @version $Id$
  */
-public final class SvnPropgetUtils implements ISvnPropgetProcessor {
+public  class SvnPropgetUtils implements ISvnPropgetProcessor {
 
-	private List binaryFiles;
+	protected List binaryFiles;
 
     protected ISvnProcessor processor;
 
@@ -128,7 +128,6 @@ public final class SvnPropgetUtils implements ISvnPropgetProcessor {
 	 *            stream equivalent to an svn propget command
 	 */
 	protected void loadBinaryFiles(final ProcessUtils pUtils) {
-		// public for tests
 		binaryFiles = new ArrayList();
 		final LookaheadReader mimeReader = new LookaheadReader(new InputStreamReader(pUtils.getInputStream()));
 		try {
