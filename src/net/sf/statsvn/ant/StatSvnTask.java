@@ -47,6 +47,8 @@ public class StatSvnTask extends StatCvsTask {
 	private long thresholdInMsToUseConcurrency;
 
 	private boolean useLegacyDiff = false;
+	
+	private boolean useSvnKit = false;
 
 	/**
 	 * Constructor for StatSvnTask.
@@ -102,6 +104,9 @@ public class StatSvnTask extends StatCvsTask {
 		if (this.useLegacyDiff) { // only override if we don't want it. 
 			SvnConfigurationOptions.setLegacyDiff(true);
 		}
+        if (this.useSvnKit) { // only override if we don't want it. 
+            SvnConfigurationOptions.setUsingSvnKit(true);
+        }		
 		SvnConfigurationOptions.setTaskLogger(new AntTaskLogger(this));
 	}
 
@@ -153,4 +158,13 @@ public class StatSvnTask extends StatCvsTask {
 	public void setLegacyDiff(final boolean isLegacy) {
 		this.useLegacyDiff = isLegacy;
 	}
+	
+    /**
+     * Should we use svn kit to query the repository?
+     * 
+     * @param isSvnKit true if we want to use svnkit.   
+     */
+    public void setSvnKit(final boolean isSvnKit) {
+        this.useSvnKit = isSvnKit;
+    }	
 }

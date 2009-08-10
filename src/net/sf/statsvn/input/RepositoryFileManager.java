@@ -37,7 +37,6 @@ import net.sf.statsvn.util.ISvnInfoProcessor;
 import net.sf.statsvn.util.ISvnProcessor;
 import net.sf.statsvn.util.ISvnPropgetProcessor;
 import net.sf.statsvn.util.ISvnVersionProcessor;
-import net.sf.statsvn.util.SvnCommandLineProcessor;
 
 /**
  * Manages a checked-out repository and provides access to line number counts
@@ -332,7 +331,7 @@ public class RepositoryFileManager {
 	private ISvnProcessor svnProcessor;
 	public ISvnProcessor getProcessor()
 	{
-	    if (svnProcessor==null) svnProcessor = new SvnCommandLineProcessor();
+	    if (svnProcessor==null) svnProcessor = SvnConfigurationOptions.getProcessor();
 	    return svnProcessor;
 	}
 	

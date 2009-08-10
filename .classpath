@@ -7,5 +7,7 @@
 	<classpathentry kind="lib" path="lib/junit.jar"/>
 	<classpathentry kind="lib" path="lib/backport-util-concurrent-3.0.jar"/>
 	<classpathentry kind="lib" path="lib/statcvs-0.6.0.jar" sourcepath="/statcvs"/>
+	<classpathentry kind="lib" path="lib/jna.jar"/>
+	<classpathentry kind="lib" path="lib/svnkit.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

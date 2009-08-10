@@ -3,6 +3,11 @@ package net.sf.statsvn.util;
 import java.io.IOException;
 import java.util.Vector;
 
+/**
+ * Performs svn diff queries. 
+ * @author jkealey
+ *
+ */
 public interface ISvnDiffProcessor {
 
     /**

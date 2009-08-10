@@ -28,12 +28,12 @@ import org.xml.sax.helpers.DefaultHandler;
  * 
  * @version $Id$
  */
-public final class SvnInfoUtils implements ISvnInfoProcessor {
+public class SvnInfoUtils implements ISvnInfoProcessor {
 
     //  HACK: we "should" parse the output and check for a node named root, but this will work well enough
     private static final String SVN_INFO_WITHREPO_LINE_PATTERN = ".*<root>.+</root>.*";
 
-    private static final String SVN_REPO_ROOT_NOTFOUND = "Repository root not available - verify that the project was checked out with svn version "
+    protected static final String SVN_REPO_ROOT_NOTFOUND = "Repository root not available - verify that the project was checked out with svn version "
             + SvnStartupUtils.SVN_MINIMUM_VERSION + " or above.";
 
     
@@ -107,7 +107,7 @@ public final class SvnInfoUtils implements ISvnInfoProcessor {
                     getInfoUtils().HS_DIRECTORIES.add(getInfoUtils().urlToRelativePath(sCurrentUrl));
                 }
             } else if (eName.equals("uuid")) {
-                getInfoUtils().sRepositoryUuid = stringData;
+                getInfoUtils().setRepositoryUuid(stringData);
             } else if (eName.equals("root")) {
                 getInfoUtils().setRepositoryUrl(stringData);
             }
@@ -155,7 +155,7 @@ public final class SvnInfoUtils implements ISvnInfoProcessor {
          *            the xml attributes
          * @return true if is the root folder.
          */
-        protected static boolean isRootFolder(final Attributes attributes) {
+        protected  boolean isRootFolder(final Attributes attributes) {
             return attributes.getValue("path").equals(".") && attributes.getValue("kind").equals("dir");
         }
 
@@ -188,10 +188,10 @@ public final class SvnInfoUtils implements ISvnInfoProcessor {
     private final boolean ENABLE_CACHING = true;
 
     // relative path -> Revision Number
-    private final HashMap HM_REVISIONS = new HashMap();
+    protected final HashMap HM_REVISIONS = new HashMap();
 
     // if HashSet contains relative path, path is a directory.
-    private final HashSet HS_DIRECTORIES = new HashSet();
+    protected final HashSet HS_DIRECTORIES = new HashSet();
 
     // Path of . in repository. Can only be calculated if given an element from
     // the SVN log.
@@ -384,7 +384,12 @@ public final class SvnInfoUtils implements ISvnInfoProcessor {
         ProcessUtils pUtils = null;
         try {
             pUtils = getSvnInfo(bRootOnly);
-            loadInfo(pUtils);
+            loadInfo(pUtils.getInputStream());
+            
+            if (pUtils.hasErrorOccured()) {
+                throw new IOException("svn info: " + pUtils.getErrorMessage());
+            }
+            
         } finally {
             if (pUtils != null) {
                 pUtils.close();
@@ -395,20 +400,14 @@ public final class SvnInfoUtils implements ISvnInfoProcessor {
     /* (non-Javadoc)
      * @see net.sf.statsvn.util.ISvnInfoProcessor#loadInfo(net.sf.statsvn.util.ProcessUtils)
      */
-    public void loadInfo(final ProcessUtils pUtils) throws LogSyntaxException, IOException {
-        // is public for tests
+    public void loadInfo(final InputStream stream) throws LogSyntaxException, IOException {
         if (isQueryNeeded(true)) {
             try {
-                HM_REVISIONS.clear();
-                HS_DIRECTORIES.clear();
+                clearCache();
 
                 final SAXParserFactory factory = SAXParserFactory.newInstance();
                 final SAXParser parser = factory.newSAXParser();
-                parser.parse(pUtils.getInputStream(), new SvnInfoHandler(this));
-
-                if (pUtils.hasErrorOccured()) {
-                    throw new IOException("svn info: " + pUtils.getErrorMessage());
-                }
+                parser.parse(stream, new SvnInfoHandler(this));
 
             } catch (final ParserConfigurationException e) {
                 throw new LogSyntaxException("svn info: " + e.getMessage());
@@ -416,6 +415,11 @@ public final class SvnInfoUtils implements ISvnInfoProcessor {
                 throw new LogSyntaxException("svn info: " + e.getMessage());
             }
         }
+    }
+
+    protected void clearCache() {
+        HM_REVISIONS.clear();
+        HS_DIRECTORIES.clear();
     }
 
     /* (non-Javadoc)
@@ -480,6 +484,12 @@ public final class SvnInfoUtils implements ISvnInfoProcessor {
 
         sModuleName = null;
     }
+    
+
+    protected void setRepositoryUuid(String repositoryUuid) {
+        sRepositoryUuid = repositoryUuid;
+    }
+
     
     /**
      * Verifies that the "svn info" command can return the repository root

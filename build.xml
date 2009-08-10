@@ -129,7 +129,7 @@
 		</java>
 	</target>
 
-	<target name="dist" depends="compile,copyfiles">
+	<target name="dist"  depends="compile,copyfiles">
 		<!-- Creates an executable jar file for the project -->
 		<unjar src="${lib}/${statcvs.jar}" dest="${build}" />
 		<!-- Expand and use the concurrent JAR -->
@@ -143,6 +143,7 @@
 		<jar jarfile="${dist}/${project.jar}" basedir="${build}">
 			<manifest>
 				<attribute name="Main-Class" value="${project.package}.Main" />
+				<attribute name="Class-Path" value="svnkit.jar jna.jar" />
 			</manifest>
 		</jar>
 	</target>

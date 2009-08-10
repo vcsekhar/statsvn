@@ -16,7 +16,7 @@ import net.sf.statsvn.output.SvnConfigurationOptions;
  * 
  * @version $Id$
  */
-public final class SvnStartupUtils implements ISvnVersionProcessor {
+public class SvnStartupUtils implements ISvnVersionProcessor {
 	private static final String SVN_VERSION_COMMAND = "svn --version";
 
 	public static final String SVN_MINIMUM_VERSION = "1.3.0";

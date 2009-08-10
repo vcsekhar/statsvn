@@ -1,9 +1,16 @@
 package net.sf.statsvn.util;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import net.sf.statcvs.input.LogSyntaxException;
 
+/**
+ * Performs svn info queries.
+ *  
+ * @author jkealey
+ *
+ */
 public interface ISvnInfoProcessor {
 
     /**
@@ -132,15 +139,15 @@ public interface ISvnInfoProcessor {
     /**
      * Loads the information from svn info if needed.
      * 
-     * @param pUtils
-     *            the process util that contains the input stream representing 
+     * @param stream
+     *            the input stream representing 
      *            an svn info command.
      * @throws LogSyntaxException
      *             if the format of the svn info is invalid
      * @throws IOException
      *             if we can't read from the response stream.
      */
-    public abstract void loadInfo(final ProcessUtils pUtils) throws LogSyntaxException, IOException;
+    public abstract void loadInfo(final InputStream stream) throws LogSyntaxException, IOException;
 
     /**
      * Initializes our representation of the repository.
