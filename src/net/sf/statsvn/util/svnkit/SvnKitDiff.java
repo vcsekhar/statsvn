@@ -8,6 +8,7 @@ import java.util.Vector;
 
 import net.sf.statsvn.output.SvnConfigurationOptions;
 import net.sf.statsvn.util.BinaryDiffException;
+import net.sf.statsvn.util.StringUtils;
 import net.sf.statsvn.util.SvnDiffUtils;
 
 import org.tmatesoft.svn.core.SVNDepth;
@@ -24,14 +25,15 @@ import org.tmatesoft.svn.core.wc.SVNRevision;
  */
 public class SvnKitDiff extends SvnDiffUtils {
 
-
     /**
      * This method converts absolute paths inside the diff output to relative ones. 
      */
     private static String replaceRelativePathWithinDiffData(File rootDirectory, String diffData) {
         String rootPath = rootDirectory.getAbsoluteFile().getAbsolutePath();
-        rootPath = rootPath.replace(File.separator, "/") + "/";
-        return diffData.replace(rootPath, "");
+        //        rootPath =  rootPath.replace(File.separator, "/") + "/"; // removing dependency to jdk1.5
+        rootPath = StringUtils.replace(File.separator, "/", rootPath);
+        // return diffData.replace(rootPath, "");  // removing dependency to jdk1.5
+        return StringUtils.replace(rootPath, "", diffData);
     }
 
     /**
