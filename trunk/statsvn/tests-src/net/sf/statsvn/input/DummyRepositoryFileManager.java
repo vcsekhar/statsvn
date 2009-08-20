@@ -43,148 +43,156 @@ import net.sf.statsvn.util.SvnCommandLineProcessor;
  */
 public class DummyRepositoryFileManager extends RepositoryFileManager {
 
-	protected HashMap hmFinalLineCounts;
+    protected HashMap hmFinalLineCounts;
 
-	protected String sFinalLineCountsFile;
+    protected String sFinalLineCountsFile;
 
-	protected String sSvnInfoUtilPath;
+    protected String sSvnInfoUtilPath;
 
-	protected String sSvnPropgetPath;
+    protected String sSvnPropgetPath;
 
-	/**
-	 * Only call this constructor if you provide line counts using (@link
-	 * #setLinesOfCode(String, int)) and only use (@link
-	 * #getLinesOfCode(String)) to read them.
-	 * 
-	 */
-	public DummyRepositoryFileManager() {
-		super("foo");
-		hmFinalLineCounts = new HashMap();
-	}
+    /**
+     * Only call this constructor if you provide line counts using (@link
+     * #setLinesOfCode(String, int)) and only use (@link
+     * #getLinesOfCode(String)) to read them.
+     * 
+     */
+    public DummyRepositoryFileManager() {
+        super("foo");
+        hmFinalLineCounts = new HashMap();
+    }
 
-	/**
-	 * Creates a new instance with root at <code>pathName</code>.
-	 * 
-	 * @param checkedOutPath
-	 *            the root of the checked out repository
-	 * @param sSvnInfoUtilPath
-	 *            the path of a saved svn info command.
-	 * @param sSvnPropgetPath
-	 *            the path of a saved svn propget command
-	 * @param sFinalLineCountsFile
-	 *            the path of a saved svn list augmented with linecounts
-	 *            command.
-	 * @throws IOException
-	 */
-	public DummyRepositoryFileManager(final String checkedOutPath, final String sSvnInfoUtilPath, final String sSvnPropgetPath,
-	        final String sFinalLineCountsFile) throws IOException {
-		super(checkedOutPath);
-		this.sSvnInfoUtilPath = sSvnInfoUtilPath;
-		this.sSvnPropgetPath = sSvnPropgetPath;
-		this.sFinalLineCountsFile = sFinalLineCountsFile;
+    /**
+     * Creates a new instance with root at <code>pathName</code>.
+     * 
+     * @param checkedOutPath
+     *            the root of the checked out repository
+     * @param sSvnInfoUtilPath
+     *            the path of a saved svn info command.
+     * @param sSvnPropgetPath
+     *            the path of a saved svn propget command
+     * @param sFinalLineCountsFile
+     *            the path of a saved svn list augmented with linecounts
+     *            command.
+     * @throws IOException
+     */
+    public DummyRepositoryFileManager(final String checkedOutPath, final String sSvnInfoUtilPath, final String sSvnPropgetPath,
+            final String sFinalLineCountsFile) throws IOException {
+        super(checkedOutPath);
+        this.sSvnInfoUtilPath = sSvnInfoUtilPath;
+        this.sSvnPropgetPath = sSvnPropgetPath;
+        this.sFinalLineCountsFile = sFinalLineCountsFile;
 
-		getProcessor().getPropgetProcessor().loadBinaryFiles(sSvnPropgetPath);
+        getProcessor().getPropgetProcessor().loadBinaryFiles(sSvnPropgetPath);
 
-		final FileReader freader = new FileReader(sFinalLineCountsFile);
-		final BufferedReader reader = new BufferedReader(freader);
-		String s;
-		hmFinalLineCounts = new HashMap();
-		while ((s = reader.readLine()) != null) {
-			final String[] vals = s.split(" ");
-			if (vals.length == 1) {
-				continue;
-			}
+        FileReader freader = null;
+        BufferedReader reader = null;
+        try {
+            freader = new FileReader(sFinalLineCountsFile);
+            reader = new BufferedReader(freader);
+            String s;
+            hmFinalLineCounts = new HashMap();
+            while ((s = reader.readLine()) != null) {
+                final String[] vals = s.split(" ");
+                if (vals.length == 1) {
+                    continue;
+                }
 
-			setLinesOfCode(vals[1], Integer.parseInt(vals[0]));
-		}
+                setLinesOfCode(vals[1], Integer.parseInt(vals[0]));
+            }
+        } finally {
+            if (freader != null) {
+                freader.close();
+            }
+            if (reader != null) {
+                reader.close();
+            }
+        }
+    }
 
-		freader.close();
+    /**
+     * Returns line count differences between two revisions of a file.
+     * 
+     * @param oldRevNr
+     *            old revision number
+     * @param newRevNr
+     *            new revision number
+     * @param filename
+     *            the filename
+     * @return A int[2] array of [lines added, lines removed] is returned.
+     * @throws IOException
+     *             problem parsing the stream
+     */
+    public int[] getLineDiff(final String oldRevNr, final String newRevNr, final String filename) throws IOException {
+        // return SvnDiffUtils.getLineDiff(oldRevNr, newRevNr, filename);
+        final int[] lines = new int[2];
+        lines[0] = 0;
+        lines[1] = 0;
+        return lines;
 
-	}
+    }
 
-	/**
-	 * Returns line count differences between two revisions of a file.
-	 * 
-	 * @param oldRevNr
-	 *            old revision number
-	 * @param newRevNr
-	 *            new revision number
-	 * @param filename
-	 *            the filename
-	 * @return A int[2] array of [lines added, lines removed] is returned.
-	 * @throws IOException
-	 *             problem parsing the stream
-	 */
-	public int[] getLineDiff(final String oldRevNr, final String newRevNr, final String filename) throws IOException {
-		// return SvnDiffUtils.getLineDiff(oldRevNr, newRevNr, filename);
-		final int[] lines = new int[2];
-		lines[0] = 0;
-		lines[1] = 0;
-		return lines;
+    /**
+     * @see net.sf.statsvn.input.RepositoryFileManager#getLinesOfCode(String)
+     */
+    public int getLinesOfCode(final String filename) throws NoLineCountException {
+        if (hmFinalLineCounts.containsKey(filename)) {
+            return ((Integer) hmFinalLineCounts.get(filename)).intValue();
+        }
+        throw new NoLineCountException();
+    }
 
-	}
+    public String getRevision(final String filename) throws IOException {
+        if (sSvnInfoUtilPath != null) {
+            return super.getRevision(filename);
+        } else {
+            return "";
+        }
+    }
 
-	/**
-	 * @see net.sf.statsvn.input.RepositoryFileManager#getLinesOfCode(String)
-	 */
-	public int getLinesOfCode(final String filename) throws NoLineCountException {
-		if (hmFinalLineCounts.containsKey(filename)) {
-			return ((Integer) hmFinalLineCounts.get(filename)).intValue();
-		}
-		throw new NoLineCountException();
-	}
+    /**
+     * Is the given path a binary file in the <b>working</b> directory?
+     * 
+     * @param relativePath
+     *            the directory
+     * @return true if it is marked as a binary file
+     */
+    public boolean isBinary(final String relativePath) {
+        return getProcessor().getPropgetProcessor().getBinaryFiles().contains(relativePath);
+    }
 
-	public String getRevision(final String filename) throws IOException {
-		if (sSvnInfoUtilPath != null) {
-			return super.getRevision(filename);
-		} else {
-			return "";
-		}
-	}
+    /**
+     * Initializes our representation of the repository.
+     * 
+     * @throws LogSyntaxException
+     *             if the svn info --xml is malformed
+     * @throws IOException
+     *             if there is an error reading from the stream
+     */
+    public void loadInfo() throws LogSyntaxException, IOException {
 
-	/**
-	 * Is the given path a binary file in the <b>working</b> directory?
-	 * 
-	 * @param relativePath
-	 *            the directory
-	 * @return true if it is marked as a binary file
-	 */
-	public boolean isBinary(final String relativePath) {
-		return getProcessor().getPropgetProcessor().getBinaryFiles().contains(relativePath);
-	}
+        final FileInputStream stream = new FileInputStream(sSvnInfoUtilPath);
+        getProcessor().getInfoProcessor().loadInfo(stream);
+    }
 
-	/**
-	 * Initializes our representation of the repository.
-	 * 
-	 * @throws LogSyntaxException
-	 *             if the svn info --xml is malformed
-	 * @throws IOException
-	 *             if there is an error reading from the stream
-	 */
-	public void loadInfo() throws LogSyntaxException, IOException {
+    /**
+     * Sets the number of lines of code for specified file
+     * 
+     * @param filename
+     *            of file to change
+     * @param lines
+     *            lines of code for specified file
+     */
+    public void setLinesOfCode(final String filename, final int lines) {
+        hmFinalLineCounts.put(filename, new Integer(lines));
+    }
 
-		final FileInputStream stream = new FileInputStream(sSvnInfoUtilPath);
-		getProcessor().getInfoProcessor().loadInfo(stream);
-	}
-
-	/**
-	 * Sets the number of lines of code for specified file
-	 * 
-	 * @param filename
-	 *            of file to change
-	 * @param lines
-	 *            lines of code for specified file
-	 */
-	public void setLinesOfCode(final String filename, final int lines) {
-		hmFinalLineCounts.put(filename, new Integer(lines));
-	}
-	
-	   
     private ISvnProcessor svnProcessor;
-    public ISvnProcessor getProcessor()
-    {
-        if (svnProcessor==null) svnProcessor = new SvnCommandLineProcessor();
+
+    public ISvnProcessor getProcessor() {
+        if (svnProcessor == null)
+            svnProcessor = new SvnCommandLineProcessor();
         return svnProcessor;
     }
-    
+
 }
