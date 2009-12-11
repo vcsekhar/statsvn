@@ -7,6 +7,7 @@
 		<release version="0.6.0" date="in SVN" description="Maintenance">
 			<action dev="benoitx" type="add">Automatic shortening of page URL, using bit.ly javascript for Twitter integration.</action>
 			<action dev="benoitx" type="add">Reduce scope for the Builder (might save some memory).</action>
+			<action dev="jkealey" due-to="Markus Schulte" type="add">Add anonymize to Ant Task.</action>
 		</release>
         <release version="0.5.0" date="2009-05-22" description="Maintenance">
             <action dev="benoitx" type="add">Add new report for 12m Rolling Developer report.</action>

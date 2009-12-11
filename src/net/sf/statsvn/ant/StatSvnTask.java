@@ -36,6 +36,9 @@ import net.sf.statsvn.output.SvnConfigurationOptions;
  * @author Jason Kealey
  */
 public class StatSvnTask extends StatCvsTask {
+
+	private boolean anonymize = false;
+
 	private String cacheDirectory;
 
 	private String svnPassword;
@@ -83,12 +86,15 @@ public class StatSvnTask extends StatCvsTask {
 	 */
 	protected void initProperties() throws ConfigurationException {
 		super.initProperties();
+
+		SvnConfigurationOptions.setAnonymize(this.anonymize);
+
 		if (this.cacheDirectory != null) {
 			SvnConfigurationOptions.setCacheDir(this.cacheDirectory);
 		} else {
 			SvnConfigurationOptions.setCacheDirToDefault();
 		}
-
+		
 		if (this.svnPassword != null) {
 			SvnConfigurationOptions.setSvnPassword(this.svnPassword);
 		}
@@ -108,6 +114,14 @@ public class StatSvnTask extends StatCvsTask {
             SvnConfigurationOptions.setUsingSvnKit(true);
         }		
 		SvnConfigurationOptions.setTaskLogger(new AntTaskLogger(this));
+	}
+
+	/**
+	 * @param anonymize
+	 * 		      Set Stats to be anonym or not.
+	 */
+	public void setAnonymize(final boolean anonymize) {
+		this.anonymize = anonymize;
 	}
 
 	/**
