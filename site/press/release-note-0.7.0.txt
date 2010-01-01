@@ -1,0 +1,55 @@
+The StatSVN Team and Appendium are proud to announce v0.7.0 of StatSVN
+
+If you want to know what happened in your Subversion repository,
+this is the tool for you!
+
+StatSVN retrieves information from a Subversion repository and generates
+various tables and charts describing the project evolution, e.g.
+the lines of code over time, contribution of each developer, the
+evolution of modules, directories, files, the time and days when most
+checkins happen, etc. It also shows the commit logs and integrates 
+out of the box with ViewVc, BugZilla, Chora and others.
+
+StatSVN generates a static suite of HTML or XDoc documents containing 
+tables and chart images.
+
+
+New Features: 
+
+** Inspired by StatCVS-xml, A module mechanism is added to StatCVS whereby it is now possible to define
+   some regular expression to group files into modules and have a dedicated set of statistics per module
+** 2 new command line options: headerUrl and footerUrl the content of which will 
+   be incorporated just after opening body or just before the end of body.
+
+*  Upgrade to StatCVS 0.7.0   
+*  Using Bit.ly instead of tr.im
+*  The latest commit page will always be called commitlog.html Thanks to David Multer
+
+* fix 	Fixing NPE issue and bad link when there are no commits in a repository. Thanks to David Multer
+
+
+StatSVN is available now for download at http://www.statsvn.org
+
+StatSVN is open source software, released under the terms of the LGPL,
+based on StatCVS, it uses JFreeChart and JTreeMap to generate charts.
+
+---
+ 
+ObjectLab is not new to the open-source community having used numerous OS 
+projects, participated in a few and sponsoring:
+- ObjectLab Kit (http://objectlabkit.sourceforge.net), a date calculation 
+  toolkit for business and finance;
+- JTreeMap (http://jtreemap.sourceforge.net) the only open source heatmap 
+  library for Java 
+- QALab (http://qalab.sourceforge.net) QA Statistics for your build (now 
+  also integrated in JBuilder 2007).
+
+We would like to thank our friends and colleagues for their help, reviews 
+and suggestions.
+
+Feel free to pass on to people who may be interested.
+
+Enjoy!!
+
+The StatSVN Team and Appendium.
+
