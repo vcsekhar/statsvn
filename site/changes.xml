@@ -4,11 +4,14 @@
 		<title>StatSVN Changes</title>
 	</properties>
 	<body>
-		<release version="0.6.0" date="in SVN" description="Maintenance">
-			<action dev="benoitx" type="add">Automatic shortening of page URL, using bit.ly javascript for Twitter integration.</action>
-			<action dev="benoitx" type="add">Reduce scope for the Builder (might save some memory).</action>
-			<action dev="jkealey" due-to="Markus Schulte" type="add">Add anonymize to Ant Task.</action>
-		</release>
+	<release version="0.7.0" date="Jan 2010" description="Maintenance">
+		<action dev="benoitx" type="add">Upgrade to StatCVS 0.7.0.</action>
+	</release>
+	<release version="0.6.0" date="Not released" description="Maintenance">
+		<action dev="benoitx" type="add">Automatic shortening of page URL, using bit.ly javascript for Twitter integration.</action>
+		<action dev="benoitx" type="add">Reduce scope for the Builder (might save some memory).</action>
+		<action dev="jkealey" due-to="Markus Schulte" type="add">Add anonymize to Ant Task.</action>
+	</release>
         <release version="0.5.0" date="2009-05-22" description="Maintenance">
             <action dev="benoitx" type="add">Add new report for 12m Rolling Developer report.</action>
             <action dev="benoitx" type="add">
