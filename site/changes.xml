@@ -4,6 +4,9 @@
 		<title>StatSVN Changes</title>
 	</properties>
 	<body>
+	<release version="0.7.1" date="Feb 2010" description="Maintenance">
+		<action dev="jkealey" type="fix" issue="1828117" due-to="Peter Münster, Richard Tolar">Fixed issue with spaces in filenames/paths.</action>
+	</release>
 	<release version="0.7.0" date="Jan 2010" description="Maintenance">
 		<action dev="benoitx" type="add">Upgrade to StatCVS 0.7.0.</action>
 	</release>

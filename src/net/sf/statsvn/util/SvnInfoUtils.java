@@ -102,9 +102,10 @@ public class SvnInfoUtils implements ISvnInfoProcessor {
                             + sCurrentRevision + " url:" + sCurrentUrl + " kind:" + sCurrentKind);
                 }
 
-                getInfoUtils().HM_REVISIONS.put(getInfoUtils().urlToRelativePath(sCurrentUrl), sCurrentRevision);
+                final String path = getInfoUtils().urlToRelativePath(sCurrentUrl);
+                getInfoUtils().HM_REVISIONS.put(path, sCurrentRevision);
                 if (sCurrentKind.equals("dir")) {
-                    getInfoUtils().HS_DIRECTORIES.add(getInfoUtils().urlToRelativePath(sCurrentUrl));
+                    getInfoUtils().HS_DIRECTORIES.add(path);
                 }
             } else if (eName.equals("uuid")) {
                 getInfoUtils().setRepositoryUuid(stringData);
@@ -433,19 +434,31 @@ public class SvnInfoUtils implements ISvnInfoProcessor {
      * @see net.sf.statsvn.util.ISvnInfoProcessor#urlToAbsolutePath(java.lang.String)
      */
     public String urlToAbsolutePath(String url) {
+        String result = url;
         if (url.endsWith("/")) {
             url = url.substring(0, url.length() - 1);
         }
         if (getModuleName().length() <= 1) {
             if (getRootUrl().equals(url)) {
-                return "/";
+                result = "/";
             } else {
-                return url.substring(getRootUrl().length());
+                result = url.substring(getRootUrl().length());
             }
         } else {
             // chop off the repo root from the url
-            return url.substring(getRepositoryUrl().length());
+            result = url.substring(getRepositoryUrl().length());
         }
+        
+        // bugs with spaces in filenames. 
+        String decoded;
+        try {
+            decoded =  URLDecoder.decode(result, "UTF-8");
+        } catch (UnsupportedEncodingException ex)
+        {
+            decoded = result;
+        }
+        
+        return decoded;
     }
 
     /* (non-Javadoc)
