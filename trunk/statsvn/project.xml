@@ -39,12 +39,12 @@
 	</siteDirectory>
 
 	<repository>
-		<url>http://svn.sourceforge.net/statsvn</url>
+		<url>https://statsvn.svn.sourceforge.net/svnroot/statsvn/</url>
 		<connection>
-			scm:svn:https://svn.sourceforge.net/svnroot/statsvn/trunk
+			scm:svn:https://statsvn.svn.sourceforge.net/svnroot/statsvn/trunk
 		</connection>
 		<developerConnection>
-			scm:svn:https://svn.sourceforge.net/svnroot/statsvn/trunk
+			scm:svn:https://statsvn.svn.sourceforge.net/svnroot/statsvn/trunk
 		</developerConnection>
 	</repository>
 

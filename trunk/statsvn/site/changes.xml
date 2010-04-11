@@ -6,6 +6,7 @@
 	<body>
 	<release version="0.7.1" date="Feb 2010" description="Maintenance">
 		<action dev="jkealey" type="fix" issue="1828117" due-to="Peter Münster, Richard Tolar">Fixed issue with spaces in filenames/paths.</action>
+		<action dev="benoitx" type="fix" issue="2984789" due-to="Jevon Wright">Fix SVN link in <a href="scm-usage.html">scm usage page</a>.</action>
 	</release>
 	<release version="0.7.0" date="Jan 2010" description="Maintenance">
 		<action dev="benoitx" type="add">Upgrade to StatCVS 0.7.0.</action>
