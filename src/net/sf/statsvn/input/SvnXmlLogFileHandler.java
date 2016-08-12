@@ -17,10 +17,10 @@ import org.xml.sax.helpers.DefaultHandler;
  * This is the SAX parser for the svn log in xml format. It feeds information to
  * the (@link net.sf.statsvn.input.SvnLogBuilder).
  * 
- * @author Jason Kealey <jkealey@shade.ca>
- * @author Gunter Mussbacher <gunterm@site.uottawa.ca>
+ * @author Jason Kealey &lt;jkealey@shade.ca&gt;
+ * @author Gunter Mussbacher &lt;gunterm@site.uottawa.ca&gt;
  * 
- * @version $Id$
+ * @version $Id: SvnXmlLogFileHandler.java 351 2008-03-28 18:46:26Z benoitx $
  */
 public class SvnXmlLogFileHandler extends DefaultHandler {
 

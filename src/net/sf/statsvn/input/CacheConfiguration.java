@@ -3,7 +3,7 @@ package net.sf.statsvn.input;
 /**
  * Class for storing all constants required for reading the cache xml file.
  *  
- * @author Gunter Mussbacher <gunterm@site.uottawa.ca>
+ * @author Gunter Mussbacher &lt;gunterm@site.uottawa.ca&gt;
  *
  */
 public class CacheConfiguration {

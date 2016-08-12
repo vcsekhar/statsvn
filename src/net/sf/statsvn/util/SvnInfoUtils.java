@@ -24,9 +24,9 @@ import org.xml.sax.helpers.DefaultHandler;
  * Utilities class that manages calls to svn info. Used to find repository
  * information, latest revision numbers, and directories.
  * 
- * @author Jason Kealey <jkealey@shade.ca>
+ * @author Jason Kealey &lt;jkealey@shade.ca&gt;
  * 
- * @version $Id$
+ * @version $Id: SvnInfoUtils.java 394 2009-08-10 20:08:46Z jkealey $
  */
 public class SvnInfoUtils implements ISvnInfoProcessor {
 
@@ -102,10 +102,9 @@ public class SvnInfoUtils implements ISvnInfoProcessor {
                             + sCurrentRevision + " url:" + sCurrentUrl + " kind:" + sCurrentKind);
                 }
 
-                final String path = getInfoUtils().urlToRelativePath(sCurrentUrl);
-                getInfoUtils().HM_REVISIONS.put(path, sCurrentRevision);
+                getInfoUtils().HM_REVISIONS.put(getInfoUtils().urlToRelativePath(sCurrentUrl), sCurrentRevision);
                 if (sCurrentKind.equals("dir")) {
-                    getInfoUtils().HS_DIRECTORIES.add(path);
+                    getInfoUtils().HS_DIRECTORIES.add(getInfoUtils().urlToRelativePath(sCurrentUrl));
                 }
             } else if (eName.equals("uuid")) {
                 getInfoUtils().setRepositoryUuid(stringData);
@@ -506,7 +505,7 @@ public class SvnInfoUtils implements ISvnInfoProcessor {
     
     /**
      * Verifies that the "svn info" command can return the repository root
-     * (info available in svn >= 1.3.0)
+     * (info available in svn &gt;= 1.3.0)
      * 
      * @throws SvnVersionMismatchException
      *             if <tt>svn info</tt> failed to provide a non-empty repository root

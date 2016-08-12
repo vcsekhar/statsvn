@@ -24,7 +24,7 @@ public class JavaUtilTaskLogger implements TaskLogger {
 	/**
 	 * log text to the logger.severe().
 	 * 
-	 * @param text
+	 * @param arg
 	 *            the text to log.
 	 */
 	public void error(final String arg) {
@@ -34,7 +34,7 @@ public class JavaUtilTaskLogger implements TaskLogger {
 	/**
 	 * log text to the logger.info().
 	 * 
-	 * @param text
+	 * @param arg
 	 *            the text to log.
 	 */
 	public void info(final String arg) {

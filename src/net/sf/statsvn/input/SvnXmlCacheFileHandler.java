@@ -10,9 +10,9 @@ import org.xml.sax.helpers.DefaultHandler;
 /**
  * This is the SAX parser for the our line count persistence mechanism. It feeds information to (@link net.sf.statsvn.input.LineCountsBuilder).
  * 
- * @author Gunter Mussbacher <gunterm@site.uottawa.ca>
+ * @author Gunter Mussbacher &lt;gunterm@site.uottawa.ca&gt;
  * 
- * @version $Id$
+ * @version $Id: SvnXmlCacheFileHandler.java 351 2008-03-28 18:46:26Z benoitx $
  */
 public class SvnXmlCacheFileHandler extends DefaultHandler {
 	private static final String FATAL_ERROR_MESSAGE = "Invalid StatSVN cache file.";

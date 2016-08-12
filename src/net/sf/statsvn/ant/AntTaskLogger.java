@@ -47,7 +47,7 @@ public final class AntTaskLogger implements TaskLogger {
 	/**
 	 * Uses the Ant mechanism to log the text.
 	 * 
-	 * @param text
+	 * @param arg
 	 *            to be logged.
 	 */
 	public void error(final String arg) {
@@ -57,7 +57,7 @@ public final class AntTaskLogger implements TaskLogger {
 	/**
 	 * Uses the Ant mechanism to log the text.
 	 * 
-	 * @param text
+	 * @param arg
 	 *            to be logged.
 	 */
 	public void info(final String arg) {

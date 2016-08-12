@@ -12,9 +12,9 @@ import net.sf.statsvn.output.SvnConfigurationOptions;
 /**
  * Utility class that verifies if the correct version of subversion is used.
  * 
- * @author Jean-Philippe Daigle <jpdaigle@softwareengineering.ca>
+ * @author Jean-Philippe Daigle &lt;jpdaigle@softwareengineering.ca&gt;
  * 
- * @version $Id$
+ * @version $Id: SvnStartupUtils.java 394 2009-08-10 20:08:46Z jkealey $
  */
 public class SvnStartupUtils implements ISvnVersionProcessor {
 	private static final String SVN_VERSION_COMMAND = "svn --version";

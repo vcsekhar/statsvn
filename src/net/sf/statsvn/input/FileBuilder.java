@@ -1,6 +1,6 @@
 /*
  StatCvs - CVS statistics generation 
- Copyright (C) 2002  Lukasz Pekacki <lukasz@pekacki.de>
+ Copyright (C) 2002  Lukasz Pekacki &lt;lukasz@pekacki.de&gt;
  http://statcvs.sf.net/
  
  This library is free software; you can redistribute it and/or
@@ -62,11 +62,11 @@ import net.sf.statsvn.output.SvnConfigurationOptions;
  * not.
  * </p>
  * 
- * @author Richard Cyganiak <richard@cyganiak.de>
+ * @author Richard Cyganiak &lt;richard@cyganiak.de&gt;
  * @author Tammo van Lessen
- * @author Jason Kealey <jkealey@shade.ca>
- * @author Gunter Mussbacher <gunterm@site.uottawa.ca>
- * @version $Id$
+ * @author Jason Kealey &lt;jkealey@shade.ca&gt;
+ * @author Gunter Mussbacher &lt;gunterm@site.uottawa.ca&gt;
+ * @version $Id: FileBuilder.java 351 2008-03-28 18:46:26Z benoitx $
  */
 public class FileBuilder {
 	private static final int ONE_SECOND = 1000;
@@ -95,7 +95,7 @@ public class FileBuilder {
 	 *            and directory instances and line counts.
 	 * @param name
 	 *            the filename
-	 * @param binary
+	 * @param isBinary
 	 *            Is this a binary file or not?
 	 */
 	public FileBuilder(final Builder builder, final String name, final boolean isBinary, final Map revBySymnames, final Map dateBySymnames) {
@@ -501,7 +501,7 @@ public class FileBuilder {
 	 * 
 	 * @todo Beef up this interface to better encapsulate the data structure.
 	 * 
-	 * @param binary
+	 * @param isBinary
 	 *            is the file binary?
 	 */
 	public synchronized void setBinary(final boolean isBinary) {

@@ -1,6 +1,6 @@
 /*
  StatCvs - CVS statistics generation 
- Copyright (C) 2002  Lukasz Pekacki <lukasz@pekacki.de>
+ Copyright (C) 2002  Lukasz Pekacki &lt;lukasz@pekacki.de&gt;
  http://statcvs.sf.net/
  
  This library is free software; you can redistribute it and/or
@@ -59,10 +59,10 @@ import edu.emory.mathcs.backport.java.util.concurrent.TimeUnit;
  * Parses a Subversion logfile and does post-parse processing. A {@link Builder}
  * must be specified which does the construction work.
  * 
- * @author Jason Kealey <jkealey@shade.ca>
- * @author Gunter Mussbacher <gunterm@site.uottawa.ca>
+ * @author Jason Kealey &lt;jkealey@shade.ca&gt;
+ * @author Gunter Mussbacher &lt;gunterm@site.uottawa.ca&gt;
  * 
- * @version $Id$
+ * @version $Id: SvnLogfileParser.java 368 2008-06-25 21:23:46Z benoitx $
  */
 public class SvnLogfileParser {
     private static final int INTERMEDIARY_SAVE_INTERVAL_MS = 120000;

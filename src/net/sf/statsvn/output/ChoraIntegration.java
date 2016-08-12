@@ -1,6 +1,6 @@
 /*
  StatCvs - CVS statistics generation 
- Copyright (C) 2002  Lukasz Pekacki <lukasz@pekacki.de>
+ Copyright (C) 2002  Lukasz Pekacki &lt;lukasz@pekacki.de&gt;
  http://statcvs.sf.net/
  
  This library is free software; you can redistribute it and/or
@@ -51,21 +51,21 @@ public class ChoraIntegration implements WebRepositoryIntegration {
 	}
 
 	/**
-	 * @see net.sf.statsvn.output.WebRepositoryIntegration#getName
+	 * @see <a href="http://statcvs.sourceforge.net/apidocs/net/sf/statcvs/output/WebRepositoryIntegration.html#getName()"> http://statcvs.sourceforge.net/apidocs/net/sf/statcvs/output/WebRepositoryIntegration.html#getName()  </a>
 	 */
 	public String getName() {
 		return "Chora";
 	}
 
 	/**
-	 * @see net.sf.statsvn.output.WebRepositoryIntegration#getDirectoryUrl
+	 * @see <a href="http://statcvs.sourceforge.net/apidocs/net/sf/statcvs/output/WebRepositoryIntegration.html#getDirectoryUrl(net.sf.statcvs.model.Directory)"> http://statcvs.sourceforge.net/apidocs/net/sf/statcvs/output/WebRepositoryIntegration.html#getDirectoryUrl(net.sf.statcvs.model.Directory) </a>
 	 */
 	public String getDirectoryUrl(final Directory directory) {
 		return baseURL + "/?f=" + directory.getPath();
 	}
 
 	/**
-	 * @see net.sf.statsvn.output.WebRepositoryIntegration#getFileHistoryUrl
+	 * @see <a href="http://statcvs.sourceforge.net/apidocs/net/sf/statcvs/output/WebRepositoryIntegration.html#getFileHistoryUrl(net.sf.statcvs.model.VersionedFile)"> http://statcvs.sourceforge.net/apidocs/net/sf/statcvs/output/WebRepositoryIntegration.html#getFileHistoryUrl(net.sf.statcvs.model.VersionedFile)  </a>
 	 */
 	public String getFileHistoryUrl(final VersionedFile file) {
 		// chora doesn't seem to support deleted files for subversion
@@ -83,21 +83,21 @@ public class ChoraIntegration implements WebRepositoryIntegration {
 	}
 
 	/**
-	 * @see net.sf.statsvn.output.WebRepositoryIntegration#getFileViewUrl(VersionedFile)
+	 * @see <a href="http://statcvs.sourceforge.net/apidocs/net/sf/statcvs/output/WebRepositoryIntegration.html#getFileViewUrl(net.sf.statcvs.model.Revision)"> http://statcvs.sourceforge.net/apidocs/net/sf/statcvs/output/WebRepositoryIntegration.html#getFileViewUrl(net.sf.statcvs.model.Revision)  </a>
 	 */
 	public String getFileViewUrl(final VersionedFile file) {
 		return getFileViewBaseUrl(file) + "&r=HEAD";
 	}
 
 	/**
-	 * @see net.sf.statsvn.output.WebRepositoryIntegration#getFileViewUrl(VersionedFile)
+	 * @see <a href="http://statcvs.sourceforge.net/apidocs/net/sf/statcvs/output/WebRepositoryIntegration.html#getFileViewUrl(net.sf.statcvs.model.Revision)"> http://statcvs.sourceforge.net/apidocs/net/sf/statcvs/output/WebRepositoryIntegration.html#getFileViewUrl(net.sf.statcvs.model.Revision)  </a>
 	 */
 	public String getFileViewUrl(final Revision revision) {
 		return getFileViewBaseUrl(revision.getFile()) + "&r=" + revision.getRevisionNumber();
 	}
 
 	/**
-	 * @see net.sf.statsvn.output.WebRepositoryIntegration#getDiffUrl
+	 * @see <a href="http://statcvs.sourceforge.net/apidocs/net/sf/statcvs/output/WebRepositoryIntegration.html#getDiffUrl(net.sf.statcvs.model.Revision, net.sf.statcvs.model.Revision)"> http://statcvs.sourceforge.net/apidocs/net/sf/statcvs/output/WebRepositoryIntegration.html#getDiffUrl(net.sf.statcvs.model.Revision, net.sf.statcvs.model.Revision)  </a>
 	 */
 	public String getDiffUrl(final Revision oldRevision, final Revision newRevision) {
 		if (!oldRevision.getFile().equals(newRevision.getFile())) {
@@ -109,12 +109,15 @@ public class ChoraIntegration implements WebRepositoryIntegration {
 	}
 
 	/**
-	 * @see net.sf.statsvn.output.WebRepositoryIntegration#setAtticFileNames(java.util.Set)
+	 * @see <a href="http://statcvs.sourceforge.net/xref/net/sf/statcvs/output/WebRepositoryIntegration.html#setAtticFileNames(java.util.Set)"> http://statcvs.sourceforge.net/xref/net/sf/statcvs/output/WebRepositoryIntegration.html#setAtticFileNames(java.util.Set) </a>
 	 */
 	public void setAtticFileNames(final Set atticFileNames) {
 		//		this.atticFileNames = atticFileNames;
 	}
 
+	/**
+	 * @see <a href="http://statcvs.sourceforge.net/apidocs/net/sf/statcvs/output/WebRepositoryIntegration.html#getBaseUrl()"> http://statcvs.sourceforge.net/apidocs/net/sf/statcvs/output/WebRepositoryIntegration.html#getBaseUrl() </a>
+	 */	
 	public String getBaseUrl() {
 		return baseURL;
 	}

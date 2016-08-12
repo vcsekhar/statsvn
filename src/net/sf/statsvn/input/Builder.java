@@ -1,6 +1,6 @@
 /*
  StatCvs - CVS statistics generation 
- Copyright (C) 2002  Lukasz Pekacki <lukasz@pekacki.de>
+ Copyright (C) 2002  Lukasz Pekacki &lt;lukasz@pekacki.de&gt;
  http://statcvs.sf.net/
  
  This library is free software; you can redistribute it and/or
@@ -52,20 +52,20 @@ import net.sf.statsvn.output.SvnConfigurationOptions;
 
 /**
  * <p>
- * Helps building the {@link net.sf.statsvn.model.Repository} from a SVN log. The <tt>Builder</tt> is fed by some SVN history data source, for example a SVN
+ * Helps building the {@link net.sf.statsvn.input.SvnLogBuilder} from a SVN log. The <tt>Builder</tt> is fed by some SVN history data source, for example a SVN
  * log parser. The <tt>Repository</tt> can be retrieved using the {@link #createRepository} method.
  * </p>
  * 
  * <p>
- * The class also takes care of the creation of <tt>Author</tt> and </tt>Directory</tt> objects and makes sure that there's only one of these for each
+ * The class also takes care of the creation of <tt>Author</tt> and <tt>Directory</tt> objects and makes sure that there's only one of these for each
  * author name and path. It also provides LOC count services.
  * </p>
  * 
- * @author Richard Cyganiak <richard@cyganiak.de>
- * @author Jason Kealey <jkealey@shade.ca>
- * @author Gunter Mussbacher <gunterm@site.uottawa.ca>
+ * @author Richard Cyganiak &lt;richard@cyganiak.de&gt;
+ * @author Jason Kealey &lt;jkealey@shade.ca&gt;
+ * @author Gunter Mussbacher &lt;gunterm@site.uottawa.ca&gt;
  * 
- * @version $Id$
+ * @version $Id: Builder.java 389 2009-05-27 18:17:59Z benoitx $
  * 
  */
 public class Builder implements SvnLogBuilder {
@@ -110,6 +110,8 @@ public class Builder implements SvnLogBuilder {
      *            a list of Ant-style wildcard patterns, seperated by : or ;
      * @param excludePattern
      *            a list of Ant-style wildcard patterns, seperated by : or ;
+	* @param tagsPattern
+     *            Pattern of tags
      */
     public Builder(final RepositoryFileManager repositoryFileManager, final FilePatternMatcher includePattern, final FilePatternMatcher excludePattern,
             final Pattern tagsPattern) {

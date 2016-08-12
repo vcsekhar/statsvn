@@ -42,6 +42,7 @@
 	</target>
 
 	<target name="init">
+		<echo message="ant run time=${ant.version}" />
 		<!-- Create the build directory structure used by compile -->
 		<mkdir dir="${build}" />
 	</target>

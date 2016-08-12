@@ -1,6 +1,6 @@
 /*
  StatCvs - CVS statistics generation 
- Copyright (C) 2002  Lukasz Pekacki <lukasz@pekacki.de>
+ Copyright (C) 2002  Lukasz Pekacki &lt;lukasz@pekacki.de&gt;
  http://statcvs.sf.net/
  
  This library is free software; you can redistribute it and/or
@@ -27,11 +27,11 @@ import java.util.Date;
 /**
  * Container for all information contained in one SVN revision.
  * 
- * @author Richard Cyganiak <richard@cyganiak.de> *
- * @author Gunter Mussbacher <gunterm@site.uottawa.ca>
- * @author Jason Kealey <jkealey@shade.ca>
+ * @author Richard Cyganiak &lt;richard@cyganiak.de&gt; *
+ * @author Gunter Mussbacher &lt;gunterm@site.uottawa.ca&gt;
+ * @author Jason Kealey &lt;jkealey@shade.ca&gt;
  * 
- * @version $Id$
+ * @version $Id: RevisionData.java 351 2008-03-28 18:46:26Z benoitx $
  */
 public class RevisionData {
 	private String revisionNumber;

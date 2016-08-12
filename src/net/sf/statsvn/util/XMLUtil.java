@@ -27,10 +27,10 @@ import org.w3c.dom.Document;
  * 
  * Utilities class to faciliate XML management.
  * 
- * @author Jason Kealey <jkealey@shade.ca>
- * @author Gunter Mussbacher <gunterm@site.uottawa.ca>
+ * @author Jason Kealey &lt;jkealey@shade.ca&gt;
+ * @author Gunter Mussbacher &lt;gunterm@site.uottawa.ca&gt;
  * 
- * @version $Id$
+ * @version $Id: XMLUtil.java 351 2008-03-28 18:46:26Z benoitx $
  */
 public final class XMLUtil {
 	private static final int ONE_SEC_IN_MILLISECS = 1000;

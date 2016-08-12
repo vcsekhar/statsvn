@@ -63,8 +63,6 @@ public class StatSvnTask extends StatCvsTask {
 	/**
 	 * Runs the task
 	 * 
-	 * @throws buildException
-	 *             if an IO Error occurs
 	 */
 	public void execute() {
 		try {
@@ -78,6 +76,7 @@ public class StatSvnTask extends StatCvsTask {
 			Main.generate();
 		} catch (final Exception e) {
 			SvnConfigurationOptions.getTaskLogger().error(Main.printStackTrace(e));
+			
 		}
 	}
 
@@ -125,7 +124,7 @@ public class StatSvnTask extends StatCvsTask {
 	}
 
 	/**
-	 * @param cacheDirectory
+	 * @param cacheDir
 	 *            String representing the cache directory of the program
 	 */
 	public void setCacheDir(final String cacheDir) {
@@ -157,7 +156,7 @@ public class StatSvnTask extends StatCvsTask {
 	}
 
 	/**
-	 * @param thresholdInMsToUseConcurrency
+	 * @param thresholdToUseConcurrency
 	 *            the thresholdInMsToUseConcurrency to set
 	 */
 	public void setConcurrencyThreshold(final long thresholdToUseConcurrency) {

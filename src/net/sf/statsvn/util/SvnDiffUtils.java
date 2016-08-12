@@ -12,10 +12,10 @@ import net.sf.statsvn.output.SvnConfigurationOptions;
 /**
  * Utilities class that manages calls to svn diff.
  * 
- * @author Jason Kealey <jkealey@shade.ca>
- * @author Gunter Mussbacher <gunterm@site.uottawa.ca>
+ * @author Jason Kealey &lt;&gt;
+ * @author Gunter Mussbacher &lt;gunterm@site.uottawa.ca&gt;
  * 
- * @version $Id$
+ * @version $Id: SvnDiffUtils.java 394 2009-08-10 20:08:46Z jkealey $
  */
 public class SvnDiffUtils implements ISvnDiffProcessor {
     public static final int RESULT_SIZE = 3;
@@ -152,7 +152,7 @@ public class SvnDiffUtils implements ISvnDiffProcessor {
 		return answer;
 	}
 
-    protected void parseMultipleDiffStream(final Vector answer, final InputStream diffStream) throws IOException {
+    protected void parseMultipleDiffStream(final Vector answer, final InputStream diffStream) throws IOException, BinaryDiffException {
         final LookaheadReader diffReader = new LookaheadReader(new InputStreamReader(diffStream));
         String currFile = null;
         StringBuffer sb = new StringBuffer();
@@ -187,7 +187,7 @@ public class SvnDiffUtils implements ISvnDiffProcessor {
 	 * @throws BinaryDiffException
 	 *             if the error message is due to trying to diff binary files.
 	 */
-	protected void appendResults(final Vector answer, final String currFile, final StringBuffer sb) throws IOException {
+	protected void appendResults(final Vector answer, final String currFile, final StringBuffer sb) throws IOException, BinaryDiffException {
 		int[] lineDiff;
 		Boolean isBinary = Boolean.FALSE;
 

@@ -221,7 +221,7 @@ public final class Main {
     }
 
     /**
-     * Generates HTML report. {@link net.sf.statsvn.output.ConfigurationOptions}
+     * Generates HTML report. {@link net.sf.statsvn.output.SvnConfigurationOptions}
      * must be initialized before calling this method.
      * 
      * @throws LogSyntaxException
@@ -240,10 +240,10 @@ public final class Main {
     }
 
     /**
-     * Generates HTML report. {@link net.sf.statsvn.output.ConfigurationOptions}
+     * Generates HTML report. {@link net.sf.statsvn.output.SvnConfigurationOptions}
      * must be initialized before calling this method.
      * 
-     * @param externalRepositoryFileManager
+     * @param repFileMan
      *            RepositoryFileManager which is used to access the files in the
      *            repository.
      * 

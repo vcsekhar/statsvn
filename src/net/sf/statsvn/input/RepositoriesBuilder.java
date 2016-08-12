@@ -17,9 +17,9 @@ import org.w3c.dom.NodeList;
  * It then allows to retrieve the line counts XML file name for a given repository.
  * </p>
  * 
- * @author Gunter Mussbacher <gunterm@site.uottawa.ca>
+ * @author Gunter Mussbacher &lt;gunterm@site.uottawa.ca&gt;
  * 
- * @version $Id$
+ * @version $Id: RepositoriesBuilder.java 351 2008-03-28 18:46:26Z benoitx $
  * 
  */
 public class RepositoriesBuilder {

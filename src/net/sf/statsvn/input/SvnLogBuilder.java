@@ -1,6 +1,6 @@
 /*
  StatCvs - CVS statistics generation 
- Copyright (C) 2002  Lukasz Pekacki <lukasz@pekacki.de>
+ Copyright (C) 2002  Lukasz Pekacki &lt;lukasz@pekacki.de&gt;
  http://statcvs.sf.net/
  
  This library is free software; you can redistribute it and/or
@@ -42,9 +42,9 @@ import java.util.Map;
  * by time, beginning with the <em>most recent</em>.
  * </p>
  * 
- * @author Richard Cyganiak <richard@cyganiak.de>
+ * @author Richard Cyganiak &lt;richard@cyganiak.de&gt;
  * @author Tammo van Lessen
- * @version $Id$
+ * @version $Id: SvnLogBuilder.java 351 2008-03-28 18:46:26Z benoitx $
  */
 public interface SvnLogBuilder {
 

@@ -12,9 +12,9 @@ import org.xml.sax.helpers.DefaultHandler;
  * identifies the line counts xml files for all repositories for which 
  * SVN stats have been compiled.
  * 
- * @author Gunter Mussbacher <gunterm@site.uottawa.ca>
+ * @author Gunter Mussbacher &lt;gunterm@site.uottawa.ca&gt;
  * 
- * @version $Id$
+ * @version $Id: SvnXmlRepositoriesFileHandler.java 351 2008-03-28 18:46:26Z benoitx $
  */
 public class SvnXmlRepositoriesFileHandler extends DefaultHandler {
 

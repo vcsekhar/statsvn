@@ -13,9 +13,9 @@ import net.sf.statsvn.output.SvnConfigurationOptions;
 /**
  * Utilities class that manages calls to svn propget. Used to find binary files.
  * 
- * @author Jason Kealey <jkealey@shade.ca>
+ * @author Jason Kealey &lt;jkealey@shade.ca&gt;
  * 
- * @version $Id$
+ * @version $Id: SvnPropgetUtils.java 394 2009-08-10 20:08:46Z jkealey $
  */
 public  class SvnPropgetUtils implements ISvnPropgetProcessor {
 
@@ -124,8 +124,8 @@ public  class SvnPropgetUtils implements ISvnPropgetProcessor {
 	 * Loads the list of binary files from the input stream equivalent to an svn
 	 * propget command.
 	 * 
-	 * @param stream
-	 *            stream equivalent to an svn propget command
+	 * @param pUtils
+	 *            Send the ProcessUtils inputstream 
 	 */
 	protected void loadBinaryFiles(final ProcessUtils pUtils) {
 		binaryFiles = new ArrayList();

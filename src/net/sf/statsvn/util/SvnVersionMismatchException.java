@@ -7,9 +7,9 @@ package net.sf.statsvn.util;
  * 
  * @see net.sf.statsvn.util.SvnStartupUtils
  * 
- * @author Jean-Philippe Daigle <jpdaigle@softwareengineering.ca>
+ * @author Jean-Philippe Daigle &lt;jpdaigle@softwareengineering.ca&gt;
  * 
- * @version $Id$
+ * @version $Id: SvnVersionMismatchException.java 351 2008-03-28 18:46:26Z benoitx $
  */
 public class SvnVersionMismatchException extends Exception {
 	private static final long serialVersionUID = 1L;

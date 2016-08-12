@@ -18,7 +18,7 @@ public interface ISvnVersionProcessor {
     public abstract String checkSvnVersionSufficient() throws SvnVersionMismatchException;
 
     /**
-     * Verifies that the given version supports one diff per revision (version>=1.4.0)
+     * Verifies that the given version supports one diff per revision (version&gt;=1.4.0)
      * 
      * @param version the current version
      * @return true if one can do an svn diff per revision

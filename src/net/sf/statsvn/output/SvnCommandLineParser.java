@@ -1,6 +1,6 @@
 /*
  StatCvs - CVS statistics generation 
- Copyright (C) 2002  Lukasz Pekacki <lukasz@pekacki.de>
+ Copyright (C) 2002  Lukasz Pekacki &lt;&gt;
  http://statcvs.sf.net/
  
  This library is free software; you can redistribute it and/or
@@ -36,7 +36,7 @@ import net.sf.statcvs.output.WebRepositoryIntegration;
  * Takes a command line, like given to the {@link net.sf.statsvn.Main#main}
  * method, and turns it into a {@link ConfigurationOptions} object.
  * 
- * @author Richard Cyganiak <rcyg@gmx.de>
+ * @author Richard Cyganiak &lt;&gt;
  * @version $Id: SvnCommandLineParser.java,v 1.16 2005/03/20 19:12:25 squig Exp $
  */
 public class SvnCommandLineParser extends CommandLineParser {

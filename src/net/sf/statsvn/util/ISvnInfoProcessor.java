@@ -182,7 +182,7 @@ public interface ISvnInfoProcessor {
     
     /**
      * Verifies that the "svn info" command can return the repository root
-     * (info available in svn >= 1.3.0)
+     * (info available in svn &gt;= 1.3.0)
      * 
      * @throws SvnVersionMismatchException
      *             if <tt>svn info</tt> failed to provide a non-empty repository root

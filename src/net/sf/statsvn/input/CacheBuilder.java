@@ -31,8 +31,8 @@ import org.w3c.dom.NodeList;
  * appropriate (@link net.sf.statsvn.input.FileBuilder).
  * </p>
  * 
- * @author Gunter Mussbacher <gunterm@site.uottawa.ca>
- * @version $Id$
+ * @author Gunter Mussbacher &lt;gunterm@site.uottawa.ca&gt;
+ * @version $Id: CacheBuilder.java 351 2008-03-28 18:46:26Z benoitx $
  */
 public class CacheBuilder {
 	private final SvnLogBuilder builder;
@@ -261,14 +261,10 @@ public class CacheBuilder {
 	 * Updates all paths in the DOM structure with the latest binary status
 	 * information from the working folder.
 	 * 
-	 * @param name
-	 *            the filename
-	 * @param number
+	 * @param fileBuilders
+	 *            the collection of fileBuilders
+	 * @param revisionNumber
 	 *            the revision number
-	 * @param added
-	 *            the number of lines added
-	 * @param removed
-	 *            the number of lines removed
 	 */
 	public void updateBinaryStatus(final Collection fileBuilders, final String revisionNumber) {
 		// change data structure to a more appropriate one for lookup

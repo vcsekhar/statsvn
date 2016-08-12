@@ -17,7 +17,7 @@ import net.sf.statsvn.output.SvnConfigurationOptions;
  * We should be launching two threads with readers for both, but we are lazy.
  * http://www.javaworld.com/javaworld/jw-12-2000/jw-1229-traps_p.html
  * 
- * @author jkealey <jkealey@shade.ca>
+ * @author jkealey &lt;&gt;
  * 
  */
 public final class ProcessUtils {

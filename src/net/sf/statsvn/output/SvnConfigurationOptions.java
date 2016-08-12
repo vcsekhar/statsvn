@@ -192,7 +192,7 @@ public final class SvnConfigurationOptions {
 	}
 
 	/**
-	 * @param thresholdInMsToUseConcurrency
+	 * @param thresholdToUseConcurrency
 	 *            the thresholdInMsToUseConcurrency to set
 	 */
 	public static void setThresholdInMsToUseConcurrency(final long thresholdToUseConcurrency) {

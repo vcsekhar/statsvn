@@ -1,6 +1,6 @@
 /*
  StatCvs - CVS statistics generation 
- Copyright (C) 2002  Lukasz Pekacki <lukasz@pekacki.de>
+ Copyright (C) 2002  Lukasz Pekacki &lt;lukasz@pekacki.de&gt;
  http://statcvs.sf.net/
  
  This library is free software; you can redistribute it and/or
@@ -49,9 +49,9 @@ import net.sf.statsvn.util.ISvnVersionProcessor;
  * 
  * @author Manuel Schulze
  * @author Steffen Pingel
- * @author Jason Kealey <jkealey@shade.ca>
+ * @author Jason Kealey &lt;jkealey@shade.ca&gt;
  * 
- * @version $Id$
+ * @version $Id: RepositoryFileManager.java 394 2009-08-10 20:08:46Z jkealey $
  */
 public class RepositoryFileManager {
 	private final String path;
@@ -84,7 +84,7 @@ public class RepositoryFileManager {
 	 * 
 	 * Will return null if absolute path does not start with getModuleName();
 	 * 
-	 * @param absolute
+	 * @param stringData
 	 *            Example (assume getModuleName() returns /trunk/statsvn)
 	 *            /trunk/statsvn/package.html
 	 * @return Example: package.html
